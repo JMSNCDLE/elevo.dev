@@ -1,4 +1,4 @@
-import { getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON } from './client'
+import { createMessage, getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON } from './client'
 
 export interface ROASInput {
   campaigns: Array<{
@@ -72,7 +72,7 @@ export async function runROASAnalysis(input: ROASInput, locale: string): Promise
   const totalSpend = input.campaigns.reduce((sum, c) => sum + c.spend, 0)
   const totalRevenue = input.campaigns.reduce((sum, c) => sum + c.revenue, 0)
 
-  const response = await client.messages.create({
+  const response = await createMessage({
     model: MODELS.ORCHESTRATOR,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: buildThinkingConfig(),

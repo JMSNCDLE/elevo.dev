@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect } from 'react'
 import { Loader2 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
@@ -10,7 +12,8 @@ import type { BusinessProfile, MarketResearchReport } from '@/lib/agents/types'
 
 type Status = 'idle' | 'thinking' | 'generating' | 'done' | 'error'
 
-export default function ResearchPage({ params }: { params: { locale: string } }) {
+export default function ResearchPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [plan, setPlan] = useState('trial')
   const [bp, setBp] = useState<BusinessProfile | null>(null)
@@ -37,7 +40,7 @@ export default function ResearchPage({ params }: { params: { locale: string } })
     load()
   }, [])
 
-  if (plan === 'trial' || plan === 'launch') return <UpgradePrompt locale={params.locale} feature="Market Research" />
+  if (plan === 'trial' || plan === 'launch') return <UpgradePrompt locale={locale} feature="Market Research" />
 
   const handleGenerate = async () => {
     if (!bp || !researchFocus.trim()) return

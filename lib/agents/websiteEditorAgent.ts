@@ -1,4 +1,4 @@
-import { getClient, MODELS, MAX_TOKENS, WEB_SEARCH_TOOL, extractText, parseJSON } from './client'
+import { createMessage, getClient, MODELS, MAX_TOKENS, WEB_SEARCH_TOOL, extractText, parseJSON } from './client'
 
 // ─── Types ─────────────────────────────────────────────────────────────────
 
@@ -92,7 +92,7 @@ Return a JSON object matching this exact structure:
 
 Language/locale context: ${locale}`
 
-  const response = await client.messages.create({
+  const response = await createMessage({
     model: MODELS.ORCHESTRATOR,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: { type: 'adaptive' },
@@ -144,7 +144,7 @@ Generate 5-8 specific, implementable changes. Return a JSON array:
 
 Locale: ${locale}`
 
-  const response = await client.messages.create({
+  const response = await createMessage({
     model: MODELS.SPECIALIST,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: { type: 'adaptive' },
@@ -187,7 +187,7 @@ Write compelling, conversion-focused copy for the ${pageType} page. Include:
 
 Format as clean HTML sections with semantic tags. Locale: ${locale}`
 
-  const response = await client.messages.create({
+  const response = await createMessage({
     model: MODELS.SPECIALIST,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: { type: 'adaptive' },

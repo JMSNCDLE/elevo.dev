@@ -34,13 +34,15 @@ export async function POST(request: Request) {
   try {
     const cleanedData = await parseRawData(parsed.data.rawData, 'financial')
 
+    const typedBp = bp as BusinessProfile
     const data = {
       rawData: parsed.data.rawData,
       cleanedData,
       dataType: parsed.data.dataType,
       period: parsed.data.period,
       currency: parsed.data.currency,
-      businessProfile: bp as BusinessProfile,
+      businessName: typedBp.business_name,
+      businessCategory: typedBp.category,
     }
 
     const result = await runFinancialIntelligence(data, parsed.data.locale)

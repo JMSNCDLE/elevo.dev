@@ -29,10 +29,12 @@ export async function POST(request: Request) {
   if (!bp) return NextResponse.json({ error: 'Business profile not found' }, { status: 404 })
 
   try {
+    const typedBp = bp as BusinessProfile
     const input = {
-      campaigns: parsed.data.campaigns,
+      campaigns: parsed.data.campaigns as Parameters<typeof runROASAnalysis>[0]['campaigns'],
       currency: parsed.data.currency,
-      businessProfile: bp as BusinessProfile,
+      businessName: typedBp.business_name,
+      businessCategory: typedBp.category,
     }
 
     const result = await runROASAnalysis(input, parsed.data.locale)

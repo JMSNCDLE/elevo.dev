@@ -48,7 +48,8 @@ const PLANS = [
   { name: 'Galaxy', price: '£149/mo', credits: '999 credits/mo', features: ['Everything in Orbit', 'Team members (up to 5)', 'White-label reports', 'Priority support', 'API access'] },
 ]
 
-export default function LandingPage({ params }: { params: { locale: string } }) {
+export default async function LandingPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   return (
     <>
       {/* ── SECTION 1: HERO ──────────────────────────────────────── */}
@@ -72,13 +73,13 @@ export default function LandingPage({ params }: { params: { locale: string } }) 
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
             <Link
-              href={`/${params.locale}/signup`}
+              href={`/${locale}/signup`}
               className="px-8 py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-colors text-lg shadow-lg shadow-indigo-200"
             >
               Start free — 7 days, no card
             </Link>
             <Link
-              href={`/${params.locale}/pricing`}
+              href={`/${locale}/pricing`}
               className="px-8 py-4 border border-gray-300 text-gray-700 font-semibold rounded-xl hover:border-indigo-400 hover:text-indigo-600 transition-colors text-lg"
             >
               See ELEVO working →
@@ -130,7 +131,7 @@ export default function LandingPage({ params }: { params: { locale: string } }) 
               </div>
             ))}
             <div className="bg-indigo-50 rounded-2xl border border-indigo-100 p-5 flex items-center justify-center">
-              <Link href={`/${params.locale}/signup`} className="text-indigo-600 font-semibold text-sm hover:underline">
+              <Link href={`/${locale}/signup`} className="text-indigo-600 font-semibold text-sm hover:underline">
                 See all 21 agents →
               </Link>
             </div>
@@ -166,7 +167,7 @@ export default function LandingPage({ params }: { params: { locale: string } }) 
 
           <div className="block">
             <Link
-              href={`/${params.locale}/signup`}
+              href={`/${locale}/signup`}
               className="px-8 py-4 bg-white text-indigo-600 font-bold rounded-xl hover:bg-indigo-50 transition-colors text-lg inline-block"
             >
               Run My ROAS Analysis Free →
@@ -252,7 +253,7 @@ export default function LandingPage({ params }: { params: { locale: string } }) 
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Try ELEVO on your actual business.</h2>
           <p className="text-gray-500 mb-8 text-lg">See what your Google profile looks like to ELEVO in 60 seconds. No signup required.</p>
           <Link
-            href={`/${params.locale}/signup`}
+            href={`/${locale}/signup`}
             className="px-8 py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-colors text-lg inline-block shadow-lg shadow-indigo-200"
           >
             Generate My First Post Free →
@@ -296,7 +297,7 @@ export default function LandingPage({ params }: { params: { locale: string } }) 
             ))}
           </div>
           <div className="text-center mt-8">
-            <Link href={`/${params.locale}/pricing`} className="text-indigo-600 font-medium hover:underline text-sm">
+            <Link href={`/${locale}/pricing`} className="text-indigo-600 font-medium hover:underline text-sm">
               See full plan details →
             </Link>
           </div>
@@ -313,7 +314,7 @@ export default function LandingPage({ params }: { params: { locale: string } }) 
             Every day without ELEVO is a day they rank higher than you.
           </p>
           <Link
-            href={`/${params.locale}/signup`}
+            href={`/${locale}/signup`}
             className="px-10 py-4 bg-white text-indigo-600 font-bold rounded-xl hover:bg-indigo-50 transition-colors text-lg inline-block shadow-lg"
           >
             Start your free 7-day trial →

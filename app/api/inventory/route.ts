@@ -51,10 +51,12 @@ export async function POST(request: Request) {
       }
     }
 
+    const typedBp = bp as BusinessProfile
     const data = {
       items: resolvedItems,
       currency: parsed.data.currency,
-      businessProfile: bp as BusinessProfile,
+      businessName: typedBp.business_name,
+      businessCategory: typedBp.category,
     }
 
     const result = await runInventoryAnalysis(data, parsed.data.locale)

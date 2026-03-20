@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect } from 'react'
 import { Loader2 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
@@ -21,7 +23,8 @@ const docTypes = [
   { value: 'redundancy_letter_outline', label: 'Redundancy Outline' },
 ]
 
-export default function ManagementPage({ params }: { params: { locale: string } }) {
+export default function ManagementPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [plan, setPlan] = useState('trial')
   const [bp, setBp] = useState<BusinessProfile | null>(null)
@@ -46,7 +49,7 @@ export default function ManagementPage({ params }: { params: { locale: string } 
     load()
   }, [])
 
-  if (plan === 'trial' || plan === 'launch') return <UpgradePrompt locale={params.locale} feature="Management & HR" />
+  if (plan === 'trial' || plan === 'launch') return <UpgradePrompt locale={locale} feature="Management & HR" />
 
   const handleGenerate = async () => {
     if (!bp || !specificContext.trim()) return

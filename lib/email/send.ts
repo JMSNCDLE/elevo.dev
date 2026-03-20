@@ -1,7 +1,12 @@
 import { Resend } from 'resend'
 import { EMAIL_SEQUENCES, type SequenceKey } from './sequences'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Lazy init — avoids build-time error when RESEND_API_KEY is not set
+let _resend: Resend | null = null
+function getResend(): Resend {
+  if (!_resend) _resend = new Resend(process.env.RESEND_API_KEY ?? 'placeholder')
+  return _resend
+}
 
 const FROM_EMAIL = process.env.FROM_EMAIL ?? 'hello@elevo.ai'
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.ai'
@@ -20,7 +25,7 @@ export async function sendEmail(params: SendEmailParams): Promise<{ success: boo
       .replace(/\[(.+?)\s*→\]\s*(https?:\/\/\S+)/g, '<a href="$2" style="color:#6366F1;font-weight:600;">$1 →</a>')
       .replace(/\[(.+?)\s*→\]/g, '<a href="#" style="color:#6366F1;font-weight:600;">$1 →</a>')
 
-    const { data, error } = await resend.emails.send({
+    const { data, error } = await getResend().emails.send({
       from: params.from ?? FROM_EMAIL,
       to: params.to,
       subject: params.subject,

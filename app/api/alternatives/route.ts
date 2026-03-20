@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createServerClient } from '@/lib/supabase/server'
 import { findAlternatives } from '@/lib/agents/alternativesAgent'
+import type { AlternativeRequest } from '@/lib/agents/alternativesAgent'
 import type { BusinessProfile } from '@/lib/agents/types'
 
 const Schema = z.object({
@@ -31,7 +32,7 @@ export async function POST(request: Request) {
   try {
     const result = await findAlternatives({
       situation: parsed.data.situation,
-      category: parsed.data.category,
+      category: parsed.data.category as AlternativeRequest['category'],
       currentCost: parsed.data.currentCost,
       businessProfile: bp as BusinessProfile,
       locale: parsed.data.locale,

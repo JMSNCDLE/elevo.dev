@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect } from 'react'
 import { Loader2, Zap, TrendingDown, AlertCircle, ChevronRight, ExternalLink, CheckCircle2, XCircle, Clock, Wrench } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
@@ -27,7 +29,8 @@ const EFFORT_CONFIG: Record<string, { label: string; color: string }> = {
   hard: { label: 'Hard', color: 'text-red-400 bg-red-400/10' },
 }
 
-export default function AlternativesPage({ params }: { params: { locale: string } }) {
+export default function AlternativesPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [plan, setPlan] = useState<string>('trial')
   const [bp, setBp] = useState<BusinessProfile | null>(null)
@@ -72,7 +75,7 @@ export default function AlternativesPage({ params }: { params: { locale: string 
           situation,
           category,
           currentCost: currentCost ? parseFloat(currentCost) : undefined,
-          locale: params.locale,
+          locale: locale,
         }),
       })
       setStatus('generating')

@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect } from 'react'
 import { Star } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
@@ -8,7 +10,8 @@ import type { GenerationOutput, BusinessProfile } from '@/lib/agents/types'
 
 type Status = 'idle' | 'thinking' | 'generating' | 'done' | 'error'
 
-export default function ReviewsPage({ params }: { params: { locale: string } }) {
+export default function ReviewsPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [bp, setBp] = useState<BusinessProfile | null>(null)
   const [starRating, setStarRating] = useState(5)

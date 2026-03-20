@@ -275,7 +275,7 @@ export default function WebsitePage() {
                     <span className="text-xs text-dashMuted">{change.changeType} · {change.pageUrl}</span>
                   </div>
                   <button
-                    onClick={() => setDismissedChanges(prev => new Set([...prev, change.id]))}
+                    onClick={() => setDismissedChanges(prev => new Set(Array.from(prev).concat(change.id)))}
                     className="text-xs text-dashMuted hover:text-dashText"
                   >
                     Dismiss

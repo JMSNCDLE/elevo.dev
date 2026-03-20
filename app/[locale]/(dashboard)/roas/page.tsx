@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect } from 'react'
 import { Loader2, TrendingUp, TrendingDown, AlertTriangle, PlusCircle, Trash2, BarChart3, Minus } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
@@ -52,7 +54,8 @@ function effortBadge(effort: string) {
   return 'bg-red-500/10 text-red-400'
 }
 
-export default function ROASPage({ params }: { params: { locale: string } }) {
+export default function ROASPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [plan, setPlan] = useState<string>('trial')
   const [bp, setBp] = useState<BusinessProfile | null>(null)
@@ -77,7 +80,7 @@ export default function ROASPage({ params }: { params: { locale: string } }) {
   }, [])
 
   if (plan === 'trial' || plan === 'launch') {
-    return <UpgradePrompt locale={params.locale} feature="ROAS Dashboard" />
+    return <UpgradePrompt locale={locale} feature="ROAS Dashboard" />
   }
 
   const sym = CURRENCY_SYMBOLS[currency] || '£'
@@ -112,7 +115,7 @@ export default function ROASPage({ params }: { params: { locale: string } }) {
             revenue: parseFloat(c.revenue) || 0,
           })),
           currency,
-          locale: params.locale,
+          locale: locale,
         }),
       })
       setStatus('generating')

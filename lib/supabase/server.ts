@@ -1,6 +1,8 @@
 import { createServerClient as _createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
+type CookieOption = { name: string; value: string; options?: Record<string, unknown> }
+
 export async function createClient() {
   const cookieStore = await cookies()
 
@@ -12,13 +14,12 @@ export async function createClient() {
         getAll() {
           return cookieStore.getAll()
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: CookieOption[]) {
           try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            )
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options as any))
           } catch {
-            // Server component - cookies can't be set
+            // Server component — cookies can't be set
           }
         },
       },
@@ -37,11 +38,10 @@ export async function createServiceClient() {
         getAll() {
           return cookieStore.getAll()
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: CookieOption[]) {
           try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            )
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options as any))
           } catch {}
         },
       },

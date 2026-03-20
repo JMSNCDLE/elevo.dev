@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect } from 'react'
 import {
   Loader2,
@@ -83,7 +85,8 @@ function getFieldFixRoute(key: string) {
   return null
 }
 
-export default function GoogleOptimisationPage({ params }: { params: { locale: string } }) {
+export default function GoogleOptimisationPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [bp, setBp] = useState<BusinessProfile | null>(null)
   const [report, setReport] = useState<GoogleOptReport | null>(null)
@@ -216,7 +219,7 @@ export default function GoogleOptimisationPage({ params }: { params: { locale: s
                       <p className="text-xs text-dashText truncate">{field.label}</p>
                       {!isComplete && fixRoute && (
                         <Link
-                          href={`/${params.locale}${fixRoute}`}
+                          href={`/${locale}${fixRoute}`}
                           className="text-xs text-accent hover:underline flex items-center gap-0.5 mt-0.5"
                         >
                           Fix <ExternalLink size={9} />
@@ -278,7 +281,7 @@ export default function GoogleOptimisationPage({ params }: { params: { locale: s
                       </div>
                       {factor.contentToCreate && (
                         <Link
-                          href={`/${params.locale}/dashboard/content/gbp-posts`}
+                          href={`/${locale}/dashboard/content/gbp-posts`}
                           className="shrink-0 flex items-center gap-1 text-xs text-accent hover:underline whitespace-nowrap"
                         >
                           Create with ELEVO <ExternalLink size={10} />
@@ -422,7 +425,7 @@ export default function GoogleOptimisationPage({ params }: { params: { locale: s
                   <p className="text-sm text-dashText">{report.googlePostsStrategy.nextPostSuggestion}</p>
                 </div>
                 <Link
-                  href={`/${params.locale}/dashboard/content/gbp-posts`}
+                  href={`/${locale}/dashboard/content/gbp-posts`}
                   className="shrink-0 flex items-center gap-1 text-xs bg-accent text-white px-3 py-2 rounded-lg hover:bg-accentLight transition-colors min-h-[44px]"
                 >
                   Generate Post <ExternalLink size={10} />

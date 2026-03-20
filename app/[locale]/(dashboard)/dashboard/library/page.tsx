@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect } from 'react'
 import { Library, Trash2 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
@@ -30,7 +32,8 @@ const typeColors: Record<string, string> = {
 
 const allTypes = ['all', 'gbp_post', 'blog', 'social_caption', 'review_response', 'email', 'seo']
 
-export default function LibraryPage({ params }: { params: { locale: string } }) {
+export default function LibraryPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [generations, setGenerations] = useState<Generation[]>([])
   const [loading, setLoading] = useState(true)

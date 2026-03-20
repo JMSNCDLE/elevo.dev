@@ -1,10 +1,10 @@
-import { getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON } from './client'
+import { createMessage, getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON } from './client'
 import type { GenerationOutput, ValidationResult, BusinessProfile } from './types'
 
 export async function runValidator(output: GenerationOutput, business: BusinessProfile): Promise<ValidationResult> {
   const client = getClient()
 
-  const response = await client.messages.create({
+  const response = await createMessage({
     model: MODELS.SPECIALIST,
     max_tokens: MAX_TOKENS.MEDIUM,
     thinking: buildThinkingConfig(),

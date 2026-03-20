@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createServerClient } from '@/lib/supabase/server'
 import { generateSingleMessage } from '@/lib/agents/conversationAgent'
+import type { ConversationChannel } from '@/lib/agents/conversationAgent'
 import type { BusinessProfile } from '@/lib/agents/types'
 
 const Schema = z.object({
@@ -34,7 +35,7 @@ export async function POST(request: Request) {
   try {
     const message = await generateSingleMessage(
       {
-        channel: parsed.data.channel,
+        channel: parsed.data.channel as ConversationChannel,
         purpose: parsed.data.purpose,
         contactName: parsed.data.contactName,
         businessProfile: bp as BusinessProfile,

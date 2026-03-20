@@ -6,7 +6,11 @@ import { createServerClient } from '@/lib/supabase/server'
 import { getPriceId } from '@/lib/stripe/pricing'
 import { getAffiliateRef } from '@/lib/cookies'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' })
+let _stripe: Stripe | null = null
+function getStripe(): Stripe {
+  if (!_stripe) _stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? 'placeholder', { apiVersion: '2025-02-24.acacia' })
+  return _stripe
+}
 
 const Schema = z.object({
   planId: z.enum(['launch', 'orbit', 'galaxy']),
@@ -34,7 +38,7 @@ export async function POST(request: NextRequest) {
   let customerId = profile?.stripe_customer_id
 
   if (!customerId) {
-    const customer = await stripe.customers.create({
+    const customer = await getStripe().customers.create({
       email: user.email ?? profile?.email,
       metadata: { supabase_user_id: user.id },
     })
@@ -45,7 +49,7 @@ export async function POST(request: NextRequest) {
   // Read affiliate code from cookie
   const affiliateCode = getAffiliateRef(request)
 
-  const session = await stripe.checkout.sessions.create({
+  const session = await getStripe().checkout.sessions.create({
     customer: customerId,
     mode: 'subscription',
     payment_method_types: ['card'],

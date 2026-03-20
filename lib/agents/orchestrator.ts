@@ -1,4 +1,4 @@
-import { getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON } from './client'
+import { createMessage, getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON } from './client'
 import type { GenerationInput, GenerationOutput, GrowthType } from './types'
 import { runContentWriter } from './contentWriter'
 import { runValidator } from './validator'
@@ -9,7 +9,7 @@ export async function runOrchestrator(input: GenerationInput): Promise<Generatio
   const client = getClient()
 
   // Get high-level strategy from Opus
-  const strategyResponse = await client.messages.create({
+  const strategyResponse = await createMessage({
     model: MODELS.ORCHESTRATOR,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: buildThinkingConfig(),

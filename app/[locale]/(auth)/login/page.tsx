@@ -1,12 +1,15 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Eye, EyeOff, Loader2 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
 
-export default function LoginPage({ params }: { params: { locale: string } }) {
+export default function LoginPage({}: {  }) {
+  const locale = useLocale()
   const router = useRouter()
   const supabase = createBrowserClient()
   const [email, setEmail] = useState('')
@@ -28,7 +31,7 @@ export default function LoginPage({ params }: { params: { locale: string } }) {
       return
     }
 
-    router.push(`/${params.locale}/dashboard`)
+    router.push(`/${locale}/dashboard`)
   }
 
   return (
@@ -98,7 +101,7 @@ export default function LoginPage({ params }: { params: { locale: string } }) {
 
       <p className="mt-6 text-center text-sm text-gray-500">
         Don&apos;t have an account?{' '}
-        <Link href={`/${params.locale}/signup`} className="text-indigo-600 font-medium hover:underline">
+        <Link href={`/${locale}/signup`} className="text-indigo-600 font-medium hover:underline">
           Sign up free
         </Link>
       </p>

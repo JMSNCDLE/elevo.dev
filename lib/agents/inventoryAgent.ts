@@ -1,4 +1,4 @@
-import { getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON, WEB_SEARCH_TOOL } from './client'
+import { createMessage, getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON, WEB_SEARCH_TOOL } from './client'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -94,7 +94,7 @@ export async function runInventoryAnalysis(data: InventoryData, locale: string):
     )
     .join('\n')
 
-  const response = await client.messages.create({
+  const response = await createMessage({
     model: MODELS.SPECIALIST,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: buildThinkingConfig(),

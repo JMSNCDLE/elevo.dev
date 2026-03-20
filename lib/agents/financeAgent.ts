@@ -1,4 +1,4 @@
-import { getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON } from './client'
+import { createMessage, getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON } from './client'
 
 export interface FinancialData {
   rawData: string
@@ -73,7 +73,7 @@ export interface FinancialReport {
 export async function runFinancialIntelligence(data: FinancialData, locale: string): Promise<FinancialReport> {
   const client = getClient()
 
-  const response = await client.messages.create({
+  const response = await createMessage({
     model: MODELS.ORCHESTRATOR,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: buildThinkingConfig(),

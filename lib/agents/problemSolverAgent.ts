@@ -1,4 +1,4 @@
-import { getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON } from './client'
+import { createMessage, getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON } from './client'
 import type { BusinessProfile, ProblemSolverResponse } from './types'
 
 export async function runProblemSolver(
@@ -8,7 +8,7 @@ export async function runProblemSolver(
 ): Promise<ProblemSolverResponse> {
   const client = getClient()
 
-  const response = await client.messages.create({
+  const response = await createMessage({
     model: MODELS.PROBLEM_SOLVER,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: buildThinkingConfig(),

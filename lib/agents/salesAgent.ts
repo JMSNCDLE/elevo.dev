@@ -1,4 +1,4 @@
-import { getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON } from './client'
+import { createMessage, getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON } from './client'
 import type { BusinessProfile, SalesProposal } from './types'
 
 export async function runSalesAgent(
@@ -14,7 +14,7 @@ export async function runSalesAgent(
 ): Promise<SalesProposal> {
   const client = getClient()
 
-  const response = await client.messages.create({
+  const response = await createMessage({
     model: MODELS.SPECIALIST,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: buildThinkingConfig(),

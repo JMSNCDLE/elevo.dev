@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk'
+import type { APIPromise } from '@anthropic-ai/sdk/core'
 
 // ─── Singleton Client ─────────────────────────────────────────────────────────
 
@@ -27,6 +28,22 @@ export const MAX_TOKENS = {
   LOW: 3000,
 } as const
 
+// ─── Extended Message Params (thinking + effort not yet in SDK types) ─────────
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ExtendedParams = Record<string, any>
+
+/**
+ * Wrapper around client.messages.create that:
+ * 1. Always uses the non-streaming overload (returns Message, not Stream)
+ * 2. Supports extended params (thinking, effort) not yet typed in SDK 0.32
+ */
+export function createMessage(params: ExtendedParams): APIPromise<Anthropic.Message> {
+  const client = getClient()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (client.messages as any).create({ stream: false, ...params }) as APIPromise<Anthropic.Message>
+}
+
 // ─── Thinking Config ──────────────────────────────────────────────────────────
 
 export function buildThinkingConfig() {
@@ -41,9 +58,11 @@ export function buildEffortConfig(effort: 'low' | 'medium' | 'high' | 'max') {
 
 // ─── Tool: Web Search ─────────────────────────────────────────────────────────
 
-export const WEB_SEARCH_TOOL = {
-  type: 'web_search_20250305' as const,
-  name: 'web_search' as const,
+// Cast to any so it's accepted in tools[] without requiring input_schema
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const WEB_SEARCH_TOOL: any = {
+  type: 'web_search_20250305',
+  name: 'web_search',
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────

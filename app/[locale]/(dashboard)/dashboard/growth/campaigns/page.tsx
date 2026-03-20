@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect } from 'react'
 import { Loader2 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
@@ -12,7 +14,8 @@ type Status = 'idle' | 'thinking' | 'generating' | 'done' | 'error'
 
 const channelOptions = ['Google Business Profile', 'Instagram', 'Facebook', 'Email', 'WhatsApp', 'Leaflets / Local', 'LinkedIn']
 
-export default function CampaignsPage({ params }: { params: { locale: string } }) {
+export default function CampaignsPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [plan, setPlan] = useState('trial')
   const [bp, setBp] = useState<BusinessProfile | null>(null)
@@ -40,7 +43,7 @@ export default function CampaignsPage({ params }: { params: { locale: string } }
     load()
   }, [])
 
-  if (plan === 'trial' || plan === 'launch') return <UpgradePrompt locale={params.locale} feature="Campaign Planning" />
+  if (plan === 'trial' || plan === 'launch') return <UpgradePrompt locale={locale} feature="Campaign Planning" />
 
   const toggleChannel = (c: string) => setSelectedChannels(prev => prev.includes(c) ? prev.filter(x => x !== c) : [...prev, c])
 

@@ -1,4 +1,4 @@
-import { getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig } from './client'
+import { createMessage, getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig } from './client'
 import type { BusinessProfile, AssistantMessage } from './types'
 
 export async function runLiveAssistant(
@@ -28,7 +28,7 @@ Guidelines:
     content: m.content,
   }))
 
-  const response = await client.messages.create({
+  const response = await createMessage({
     model: MODELS.SPECIALIST,
     max_tokens: MAX_TOKENS.MEDIUM,
     thinking: buildThinkingConfig(),

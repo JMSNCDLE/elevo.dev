@@ -1,4 +1,4 @@
-import { getClient, MODELS, MAX_TOKENS, extractText, parseJSON } from './client'
+import { createMessage, getClient, MODELS, MAX_TOKENS, extractText, parseJSON } from './client'
 
 // ─── Checklist ──────────────────────────────────────────────────────────────
 
@@ -76,7 +76,7 @@ Respond with a JSON object:
 
 Locale hint: ${locale ?? 'en'}`
 
-  const response = await client.messages.create({
+  const response = await createMessage({
     model: MODELS.SPECIALIST,
     max_tokens: MAX_TOKENS.MEDIUM,
     thinking: { type: 'adaptive' },

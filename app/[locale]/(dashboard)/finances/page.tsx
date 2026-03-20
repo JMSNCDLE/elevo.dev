@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect } from 'react'
 import {
   Loader2,
@@ -83,7 +85,8 @@ function fmt(sym: string, value: number) {
   return `${sym}${value.toLocaleString()}`
 }
 
-export default function FinancesPage({ params }: { params: { locale: string } }) {
+export default function FinancesPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [plan, setPlan] = useState<string>('trial')
   const [bp, setBp] = useState<BusinessProfile | null>(null)
@@ -110,7 +113,7 @@ export default function FinancesPage({ params }: { params: { locale: string } })
   }, [])
 
   if (plan === 'trial' || plan === 'launch') {
-    return <UpgradePrompt locale={params.locale} feature="Financial Intelligence" />
+    return <UpgradePrompt locale={locale} feature="Financial Intelligence" />
   }
 
   const sym = CURRENCY_SYMBOLS[currency] || '£'
@@ -130,7 +133,7 @@ export default function FinancesPage({ params }: { params: { locale: string } })
           dataType,
           period,
           currency,
-          locale: params.locale,
+          locale: locale,
         }),
       })
       setStatus('generating')

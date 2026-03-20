@@ -1,4 +1,3 @@
-import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 export const COOKIE_NAMES = {
@@ -52,12 +51,6 @@ export const COOKIE_OPTIONS = {
     path: '/',
   },
 } as const
-
-// Server-side: read cookie using next/headers
-export async function getCookieValue(name: string): Promise<string | undefined> {
-  const cookieStore = await cookies()
-  return cookieStore.get(name)?.value
-}
 
 // Set a cookie on a NextResponse
 export function setResponseCookie(

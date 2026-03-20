@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect } from 'react'
 import { Loader2, Download } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
@@ -10,7 +12,8 @@ import type { BusinessProfile, SalesProposal } from '@/lib/agents/types'
 
 type Status = 'idle' | 'thinking' | 'generating' | 'done' | 'error'
 
-export default function SalesPage({ params }: { params: { locale: string } }) {
+export default function SalesPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [plan, setPlan] = useState<string>('trial')
   const [bp, setBp] = useState<BusinessProfile | null>(null)
@@ -39,7 +42,7 @@ export default function SalesPage({ params }: { params: { locale: string } }) {
   }, [])
 
   if (plan === 'trial' || plan === 'launch') {
-    return <UpgradePrompt locale={params.locale} feature="Sales & Proposals" />
+    return <UpgradePrompt locale={locale} feature="Sales & Proposals" />
   }
 
   const toggleService = (s: string) => {

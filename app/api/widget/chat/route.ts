@@ -88,10 +88,8 @@ export async function POST(request: Request) {
         .update({ messages: updatedMessages })
         .eq('id', currentSessionId)
 
-      // Increment widget session count
-      await supabase.rpc('increment_widget_sessions', { widget_id: widgetId }).catch(() => {
-        // RPC may not exist — ignore
-      })
+      // Increment widget session count (ignore if RPC doesn't exist)
+      void supabase.rpc('increment_widget_sessions', { widget_id: widgetId })
     }
 
     return NextResponse.json({ reply, sessionId: currentSessionId })

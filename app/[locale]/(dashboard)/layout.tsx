@@ -8,14 +8,15 @@ export default async function DashboardLayout({
   params,
 }: {
   children: React.ReactNode
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }) {
+  const { locale } = await params
   const supabase = await createServerClient()
 
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    redirect(`/${params.locale}/login`)
+    redirect(`/${locale}/login`)
   }
 
   const { data: profile } = await supabase
@@ -24,7 +25,7 @@ export default async function DashboardLayout({
     .eq('id', user.id)
     .single()
 
-  if (!profile) redirect(`/${params.locale}/login`)
+  if (!profile) redirect(`/${locale}/login`)
 
   const { data: primaryBp } = await supabase
     .from('business_profiles')
@@ -35,16 +36,16 @@ export default async function DashboardLayout({
 
   // Redirect to onboarding if not complete
   if (!primaryBp?.onboarding_complete) {
-    const { pathname } = new URL(`http://x/${params.locale}/dashboard`)
+    const { pathname } = new URL(`http://x/${locale}/dashboard`)
     if (!pathname.includes('onboarding')) {
-      redirect(`/${params.locale}/onboarding`)
+      redirect(`/${locale}/onboarding`)
     }
   }
 
   return (
     <div data-theme="dark" className="flex min-h-screen bg-dashBg">
       <Sidebar
-        locale={params.locale}
+        locale={locale}
         plan={profile.plan}
         creditsUsed={profile.credits_used}
         creditsLimit={profile.credits_limit}

@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import { Rocket, CheckCircle2 } from 'lucide-react'
 
-export default function UpgradePage({ params }: { params: { locale: string } }) {
+export default async function UpgradePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   return (
     <div className="p-8 max-w-2xl mx-auto text-center">
       <div className="w-16 h-16 bg-accentDim rounded-2xl flex items-center justify-center mx-auto mb-5">
@@ -27,10 +28,10 @@ export default function UpgradePage({ params }: { params: { locale: string } }) 
         ))}
       </div>
       <div className="flex gap-3 justify-center">
-        <Link href={`/${params.locale}/pricing`} className="px-6 py-2.5 bg-accent text-white font-semibold rounded-lg hover:bg-accentLight transition-colors">
+        <Link href={`/${locale}/pricing`} className="px-6 py-2.5 bg-accent text-white font-semibold rounded-lg hover:bg-accentLight transition-colors">
           View plans
         </Link>
-        <Link href={`/${params.locale}/dashboard`} className="px-6 py-2.5 border border-dashSurface2 text-dashMuted rounded-lg hover:text-dashText transition-colors">
+        <Link href={`/${locale}/dashboard`} className="px-6 py-2.5 border border-dashSurface2 text-dashMuted rounded-lg hover:text-dashText transition-colors">
           Maybe later
         </Link>
       </div>

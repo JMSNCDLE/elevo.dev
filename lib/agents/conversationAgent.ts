@@ -1,4 +1,4 @@
-import { getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON } from './client'
+import { createMessage, getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON } from './client'
 import type { BusinessProfile } from './types'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -54,7 +54,7 @@ export async function buildConversationFlow(flow: ConversationFlow): Promise<Con
 
   const channelConstraints = CHANNEL_CONSTRAINTS[flow.channel]
 
-  const response = await client.messages.create({
+  const response = await createMessage({
     model: MODELS.SPECIALIST,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: buildThinkingConfig(),
@@ -178,7 +178,7 @@ export async function generateSingleMessage(
 
   const channelConstraints = CHANNEL_CONSTRAINTS[context.channel]
 
-  const response = await client.messages.create({
+  const response = await createMessage({
     model: MODELS.SPECIALIST,
     max_tokens: MAX_TOKENS.MEDIUM,
     thinking: buildThinkingConfig(),

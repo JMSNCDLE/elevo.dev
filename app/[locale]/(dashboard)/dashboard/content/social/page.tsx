@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect } from 'react'
 import { createBrowserClient } from '@/lib/supabase/client'
 import GeneratorShell from '@/components/generators/GeneratorShell'
@@ -10,7 +12,8 @@ type Status = 'idle' | 'thinking' | 'generating' | 'done' | 'error'
 const platforms = ['Instagram', 'Facebook', 'LinkedIn', 'X (Twitter)', 'TikTok']
 const angles = ['Behind the scenes', 'Customer result', 'Tips & advice', 'Promotion / offer', 'Brand story', 'Before & after']
 
-export default function SocialPage({ params }: { params: { locale: string } }) {
+export default function SocialPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [bp, setBp] = useState<BusinessProfile | null>(null)
   const [platform, setPlatform] = useState('Instagram')

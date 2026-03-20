@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState } from 'react'
 import Link from 'next/link'
 import { Eye, EyeOff, Loader2, CheckCircle2 } from 'lucide-react'
@@ -12,7 +14,8 @@ const benefits = [
   'Growth tools: research, strategy & sales',
 ]
 
-export default function SignupPage({ params }: { params: { locale: string } }) {
+export default function SignupPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -30,7 +33,7 @@ export default function SignupPage({ params }: { params: { locale: string } }) {
       email,
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/${params.locale}/auth/callback`,
+        emailRedirectTo: `${window.location.origin}/${locale}/auth/callback`,
       },
     })
 
@@ -137,7 +140,7 @@ export default function SignupPage({ params }: { params: { locale: string } }) {
 
       <p className="mt-6 text-center text-sm text-gray-500">
         Already have an account?{' '}
-        <Link href={`/${params.locale}/login`} className="text-indigo-600 font-medium hover:underline">
+        <Link href={`/${locale}/login`} className="text-indigo-600 font-medium hover:underline">
           Sign in
         </Link>
       </p>

@@ -1,12 +1,20 @@
 import Link from 'next/link'
 
-export default function MarketingLayout({ children, params }: { children: React.ReactNode; params: { locale: string } }) {
+export default async function MarketingLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+
   return (
     <div className="min-h-screen bg-white flex flex-col">
       {/* Nav */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href={`/${params.locale}`} className="flex items-center gap-2">
+          <Link href={`/${locale}`} className="flex items-center gap-2">
             <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">E</span>
             </div>
@@ -14,9 +22,9 @@ export default function MarketingLayout({ children, params }: { children: React.
           </Link>
 
           <nav className="hidden md:flex items-center gap-6 text-sm text-gray-600">
-            <Link href={`/${params.locale}/pricing`} className="hover:text-gray-900 transition-colors">Pricing</Link>
-            <Link href={`/${params.locale}/login`} className="hover:text-gray-900 transition-colors">Sign in</Link>
-            <Link href={`/${params.locale}/signup`} className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors">
+            <Link href={`/${locale}/pricing`} className="hover:text-gray-900 transition-colors">Pricing</Link>
+            <Link href={`/${locale}/login`} className="hover:text-gray-900 transition-colors">Sign in</Link>
+            <Link href={`/${locale}/signup`} className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors">
               Start free trial
             </Link>
           </nav>

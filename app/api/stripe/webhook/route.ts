@@ -4,7 +4,11 @@ import { createServiceClient } from '@/lib/supabase/server'
 import { sendSequenceEmail } from '@/lib/email/send'
 import { calculateCommission } from '@/lib/affiliate'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' })
+let _stripe: Stripe | null = null
+function getStripe(): Stripe {
+  if (!_stripe) _stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? 'placeholder', { apiVersion: '2025-02-24.acacia' })
+  return _stripe
+}
 
 const PLAN_CREDITS: Record<string, { credits_limit: number }> = {
   launch: { credits_limit: 100 },
@@ -24,7 +28,7 @@ export async function POST(request: Request) {
 
   let event: Stripe.Event
   try {
-    event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!)
+    event = getStripe().webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!)
   } catch (err) {
     console.error('Webhook signature failed:', err)
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
@@ -33,7 +37,7 @@ export async function POST(request: Request) {
   const supabase = await createServiceClient()
 
   if (event.type === 'checkout.session.completed') {
-    const session = event.data.object as Stripe.CheckoutSession
+    const session = event.data.object as Stripe.Checkout.Session
     const userId = session.metadata?.supabase_user_id
     const planId = session.metadata?.plan_id
     const affiliateCode = session.metadata?.affiliate_code

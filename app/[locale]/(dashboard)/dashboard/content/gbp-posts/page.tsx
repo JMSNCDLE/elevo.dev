@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect } from 'react'
 import { createBrowserClient } from '@/lib/supabase/client'
 import GeneratorShell from '@/components/generators/GeneratorShell'
@@ -7,7 +9,8 @@ import type { GenerationOutput, BusinessProfile } from '@/lib/agents/types'
 
 type Status = 'idle' | 'thinking' | 'generating' | 'done' | 'error'
 
-export default function GBPPostsPage({ params }: { params: { locale: string } }) {
+export default function GBPPostsPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [bp, setBp] = useState<BusinessProfile | null>(null)
   const [topic, setTopic] = useState('')

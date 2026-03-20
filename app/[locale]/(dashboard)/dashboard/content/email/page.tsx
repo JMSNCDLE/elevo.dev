@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect } from 'react'
 import { createBrowserClient } from '@/lib/supabase/client'
 import GeneratorShell from '@/components/generators/GeneratorShell'
@@ -16,7 +18,8 @@ const goals = [
   { value: 'review_request', label: 'Review request' },
 ]
 
-export default function EmailPage({ params }: { params: { locale: string } }) {
+export default function EmailPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [bp, setBp] = useState<BusinessProfile | null>(null)
   const [goal, setGoal] = useState('newsletter')

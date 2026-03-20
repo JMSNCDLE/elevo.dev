@@ -1,4 +1,4 @@
-import { getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON } from './client'
+import { createMessage, getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON } from './client'
 import type { BusinessProfile, Contact, CRMBrief, MessageDraft } from './types'
 
 export async function runCRMBriefing(
@@ -16,7 +16,7 @@ export async function runCRMBriefing(
 ): Promise<CRMBrief> {
   const client = getClient()
 
-  const response = await client.messages.create({
+  const response = await createMessage({
     model: MODELS.SPECIALIST,
     max_tokens: MAX_TOKENS.MEDIUM,
     thinking: buildThinkingConfig(),
@@ -70,7 +70,7 @@ export async function draftContactMessage(
   const client = getClient()
   const firstName = contact.full_name.split(' ')[0]
 
-  const response = await client.messages.create({
+  const response = await createMessage({
     model: MODELS.SPECIALIST,
     max_tokens: MAX_TOKENS.MEDIUM,
     thinking: buildThinkingConfig(),
@@ -120,7 +120,7 @@ export async function enrichContact(
 ): Promise<{ tags: string[] }> {
   const client = getClient()
 
-  const response = await client.messages.create({
+  const response = await createMessage({
     model: MODELS.SPECIALIST,
     max_tokens: MAX_TOKENS.LOW,
     thinking: buildThinkingConfig(),

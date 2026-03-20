@@ -1,4 +1,4 @@
-import { getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON, WEB_SEARCH_TOOL } from './client'
+import { createMessage, getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON, WEB_SEARCH_TOOL } from './client'
 import type { BusinessProfile } from './types'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -95,7 +95,7 @@ export async function runGoogleOptimisation(businessProfile: BusinessProfile, lo
   const hasServices = businessProfile.services && businessProfile.services.length > 0
   const hasUSPs = businessProfile.unique_selling_points && businessProfile.unique_selling_points.length > 0
 
-  const response = await client.messages.create({
+  const response = await createMessage({
     model: MODELS.SPECIALIST,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: buildThinkingConfig(),

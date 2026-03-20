@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect } from 'react'
 import {
   Loader2,
@@ -84,7 +86,8 @@ function fmt(sym: string, value: number) {
   return `${sym}${value.toLocaleString()}`
 }
 
-export default function InventoryPage({ params }: { params: { locale: string } }) {
+export default function InventoryPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [plan, setPlan] = useState<string>('trial')
   const [bp, setBp] = useState<BusinessProfile | null>(null)
@@ -111,7 +114,7 @@ export default function InventoryPage({ params }: { params: { locale: string } }
   }, [])
 
   if (plan === 'trial' || plan === 'launch') {
-    return <UpgradePrompt locale={params.locale} feature="Inventory & Supply" />
+    return <UpgradePrompt locale={locale} feature="Inventory & Supply" />
   }
 
   const sym = CURRENCY_SYMBOLS[currency] || '£'
@@ -136,7 +139,7 @@ export default function InventoryPage({ params }: { params: { locale: string } }
       const body: Record<string, unknown> = {
         businessProfileId: bp.id,
         currency,
-        locale: params.locale,
+        locale: locale,
       }
       if (inputMode === 'paste') {
         body.rawData = rawData

@@ -4,11 +4,12 @@ import { createServerClient } from '@/lib/supabase/server'
 import { FileText, BookOpen, Share2, Star, Mail, Search, Zap, Users, TrendingUp } from 'lucide-react'
 import { formatCurrency, timeAgo } from '@/lib/utils'
 
-export default async function MissionControlPage({ params }: { params: { locale: string } }) {
+export default async function MissionControlPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   const supabase = await createServerClient()
 
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect(`/${params.locale}/login`)
+  if (!user) redirect(`/${locale}/login`)
 
   const [{ data: profile }, { data: bp }, { data: recentGens }, { data: crmStats }] = await Promise.all([
     supabase.from('profiles').select('plan, credits_used, credits_limit').eq('id', user.id).single(),
@@ -17,7 +18,7 @@ export default async function MissionControlPage({ params }: { params: { locale:
     supabase.from('contacts').select('id, status').eq('user_id', user.id),
   ])
 
-  if (!profile) redirect(`/${params.locale}/login`)
+  if (!profile) redirect(`/${locale}/login`)
 
   const now = new Date()
   const hour = now.getHours()
@@ -28,12 +29,12 @@ export default async function MissionControlPage({ params }: { params: { locale:
   const creditsRemaining = (profile.credits_limit ?? 20) - (profile.credits_used ?? 0)
 
   const quickActions = [
-    { href: `/${params.locale}/dashboard/content/gbp-posts`, label: 'GBP Post', icon: FileText, color: 'text-blue-400' },
-    { href: `/${params.locale}/dashboard/content/blog`, label: 'Blog Post', icon: BookOpen, color: 'text-purple-400' },
-    { href: `/${params.locale}/dashboard/content/social`, label: 'Social Caption', icon: Share2, color: 'text-pink-400' },
-    { href: `/${params.locale}/dashboard/content/reviews`, label: 'Review Response', icon: Star, color: 'text-amber-400' },
-    { href: `/${params.locale}/dashboard/content/email`, label: 'Email', icon: Mail, color: 'text-green-400' },
-    { href: `/${params.locale}/dashboard/content/seo`, label: 'SEO Copy', icon: Search, color: 'text-cyan-400' },
+    { href: `/${locale}/dashboard/content/gbp-posts`, label: 'GBP Post', icon: FileText, color: 'text-blue-400' },
+    { href: `/${locale}/dashboard/content/blog`, label: 'Blog Post', icon: BookOpen, color: 'text-purple-400' },
+    { href: `/${locale}/dashboard/content/social`, label: 'Social Caption', icon: Share2, color: 'text-pink-400' },
+    { href: `/${locale}/dashboard/content/reviews`, label: 'Review Response', icon: Star, color: 'text-amber-400' },
+    { href: `/${locale}/dashboard/content/email`, label: 'Email', icon: Mail, color: 'text-green-400' },
+    { href: `/${locale}/dashboard/content/seo`, label: 'SEO Copy', icon: Search, color: 'text-cyan-400' },
   ]
 
   const typeLabel: Record<string, string> = {
@@ -99,7 +100,7 @@ export default async function MissionControlPage({ params }: { params: { locale:
 
           {/* Problem solver CTA */}
           <Link
-            href={`/${params.locale}/dashboard/advisor`}
+            href={`/${locale}/dashboard/advisor`}
             className="mt-4 flex items-center gap-3 p-4 rounded-xl bg-accentDim border border-accent/20 hover:border-accent/40 transition-all"
           >
             <div className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center shrink-0">
@@ -118,7 +119,7 @@ export default async function MissionControlPage({ params }: { params: { locale:
           <div className="bg-dashCard rounded-xl border border-dashSurface2 p-5">
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-sm font-semibold text-dashText uppercase tracking-wide">Recent</h2>
-              <Link href={`/${params.locale}/dashboard/library`} className="text-xs text-accent hover:underline">View all</Link>
+              <Link href={`/${locale}/dashboard/library`} className="text-xs text-accent hover:underline">View all</Link>
             </div>
             {recentGens && recentGens.length > 0 ? (
               <ul className="space-y-2">
@@ -142,7 +143,7 @@ export default async function MissionControlPage({ params }: { params: { locale:
           {/* CRM nudge */}
           {lapsedCount > 0 && (
             <Link
-              href={`/${params.locale}/dashboard/customers`}
+              href={`/${locale}/dashboard/customers`}
               className="block bg-dashCard rounded-xl border border-amber-500/20 p-5 hover:border-amber-500/40 transition-all"
             >
               <div className="flex items-start gap-3">
@@ -158,7 +159,7 @@ export default async function MissionControlPage({ params }: { params: { locale:
           {/* Upgrade nudge for trial */}
           {profile.plan === 'trial' && (
             <Link
-              href={`/${params.locale}/pricing`}
+              href={`/${locale}/pricing`}
               className="block bg-accentDim rounded-xl border border-accent/20 p-5 hover:border-accent/40 transition-all"
             >
               <div className="flex items-start gap-3">

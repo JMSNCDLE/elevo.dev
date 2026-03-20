@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { Plus, Search, User, Phone, Mail, Clock } from 'lucide-react'
@@ -14,7 +16,8 @@ const statusColors = {
   at_risk: 'text-red-400 bg-red-400/10',
 }
 
-export default function CustomersPage({ params }: { params: { locale: string } }) {
+export default function CustomersPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [contacts, setContacts] = useState<Contact[]>([])
   const [loading, setLoading] = useState(true)
@@ -51,7 +54,7 @@ export default function CustomersPage({ params }: { params: { locale: string } }
           <h1 className="text-2xl font-bold text-dashText">Contacts</h1>
           <p className="text-dashMuted text-sm mt-1">Manage your customer relationships</p>
         </div>
-        <Link href={`/${params.locale}/dashboard/customers/new`} className="flex items-center gap-2 px-4 py-2.5 bg-accent text-white font-semibold rounded-lg hover:bg-accentLight transition-colors text-sm">
+        <Link href={`/${locale}/dashboard/customers/new`} className="flex items-center gap-2 px-4 py-2.5 bg-accent text-white font-semibold rounded-lg hover:bg-accentLight transition-colors text-sm">
           <Plus size={16} />
           Add contact
         </Link>
@@ -108,7 +111,7 @@ export default function CustomersPage({ params }: { params: { locale: string } }
           {contacts.map(contact => (
             <Link
               key={contact.id}
-              href={`/${params.locale}/dashboard/customers/${contact.id}`}
+              href={`/${locale}/dashboard/customers/${contact.id}`}
               className="flex items-center gap-4 bg-dashCard rounded-xl border border-dashSurface2 p-4 hover:border-accent/30 transition-all"
             >
               {/* Avatar */}

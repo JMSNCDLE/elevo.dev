@@ -1,4 +1,4 @@
-import { getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON } from './client'
+import { createMessage, getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON } from './client'
 import type { BusinessProfile, HRDocument } from './types'
 
 export type HRDocumentType =
@@ -34,7 +34,7 @@ export async function runManagementAgent(
     redundancy_letter_outline: 'Redundancy Letter Outline',
   }
 
-  const response = await client.messages.create({
+  const response = await createMessage({
     model: MODELS.SPECIALIST,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: buildThinkingConfig(),

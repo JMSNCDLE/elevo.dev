@@ -14,7 +14,8 @@ const UpdateSchema = z.object({
   status: z.enum(['active', 'lapsed', 'at_risk', 'vip']).optional(),
 })
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const supabase = await createServerClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
@@ -22,7 +23,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
   const { data: contact, error } = await supabase
     .from('contacts')
     .select('*')
-    .eq('id', params.id)
+    .eq('id', id)
     .eq('user_id', user.id)
     .single()
 
@@ -31,14 +32,15 @@ export async function GET(request: Request, { params }: { params: { id: string }
   const { data: interactions } = await supabase
     .from('interactions')
     .select('*')
-    .eq('contact_id', params.id)
+    .eq('contact_id', id)
     .order('created_at', { ascending: false })
     .limit(20)
 
   return NextResponse.json({ contact, interactions: interactions ?? [] })
 }
 
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const supabase = await createServerClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
@@ -58,19 +60,20 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   if (parsed.data.source !== undefined) updates.source = parsed.data.source || null
   if (parsed.data.status !== undefined) updates.status = parsed.data.status
 
-  const { data: contact, error } = await supabase.from('contacts').update(updates).eq('id', params.id).eq('user_id', user.id).select().single()
+  const { data: contact, error } = await supabase.from('contacts').update(updates).eq('id', id).eq('user_id', user.id).select().single()
 
   if (error) return NextResponse.json({ error: 'Failed to update contact' }, { status: 500 })
 
   return NextResponse.json({ contact })
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const supabase = await createServerClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const { error } = await supabase.from('contacts').delete().eq('id', params.id).eq('user_id', user.id)
+  const { error } = await supabase.from('contacts').delete().eq('id', id).eq('user_id', user.id)
 
   if (error) return NextResponse.json({ error: 'Failed to delete' }, { status: 500 })
 

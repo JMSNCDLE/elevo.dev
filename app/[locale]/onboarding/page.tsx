@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2, Send, Sparkles } from 'lucide-react'
@@ -50,7 +52,8 @@ interface ChatMessage {
   content: string
 }
 
-export default function OnboardingPage({ params }: { params: { locale: string } }) {
+export default function OnboardingPage({}: {  }) {
+  const locale = useLocale()
   const router = useRouter()
   const supabase = createBrowserClient()
   const [currentStep, setCurrentStep] = useState(0)
@@ -110,7 +113,7 @@ export default function OnboardingPage({ params }: { params: { locale: string } 
         country: 'United Kingdom',
         services,
         uniqueSellingPoints: usps,
-        locale: params.locale,
+        locale: locale,
       }),
     })
 
@@ -119,7 +122,7 @@ export default function OnboardingPage({ params }: { params: { locale: string } 
         ...prev,
         { role: 'assistant', content: `You're all set! Welcome to ELEVO AI, ${allAnswers.business_name}. Taking you to Mission Control...` },
       ])
-      setTimeout(() => router.push(`/${params.locale}/dashboard`), 2000)
+      setTimeout(() => router.push(`/${locale}/dashboard`), 2000)
     } else {
       setMessages(prev => [...prev, { role: 'assistant', content: "Something went wrong. Please try again." }])
       setSubmitting(false)

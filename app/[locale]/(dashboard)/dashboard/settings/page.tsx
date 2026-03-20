@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect } from 'react'
 import { Loader2, Save, Plus, X } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
@@ -8,7 +10,8 @@ import type { BusinessProfile } from '@/lib/agents/types'
 
 const toneOptions = ['Professional and friendly', 'Casual and approachable', 'Expert and authoritative', 'Warm and personal', 'Bold and energetic', 'Calm and reassuring']
 
-export default function SettingsPage({ params }: { params: { locale: string } }) {
+export default function SettingsPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [bp, setBp] = useState<BusinessProfile | null>(null)
   const [form, setForm] = useState({

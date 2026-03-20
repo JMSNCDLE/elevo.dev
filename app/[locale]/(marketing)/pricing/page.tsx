@@ -3,8 +3,9 @@ import { CheckCircle2 } from 'lucide-react'
 import { PLANS } from '@/lib/stripe/pricing'
 import { getCurrencyFromLocale } from '@/lib/i18n/routing'
 
-export default function PricingPage({ params }: { params: { locale: string } }) {
-  const currency = getCurrencyFromLocale(params.locale)
+export default async function PricingPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const currency = getCurrencyFromLocale(locale)
   const currencySymbol = currency === 'USD' ? '$' : currency === 'EUR' ? '€' : '£'
 
   const faqs = [
@@ -54,7 +55,7 @@ export default function PricingPage({ params }: { params: { locale: string } }) 
                 </ul>
 
                 <Link
-                  href={`/${params.locale}/signup`}
+                  href={`/${locale}/signup`}
                   className={`block text-center py-2.5 rounded-xl font-semibold text-sm transition-colors ${plan.highlight ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'border border-gray-300 text-gray-700 hover:border-indigo-400 hover:text-indigo-600'}`}
                 >
                   Get started
@@ -68,7 +69,7 @@ export default function PricingPage({ params }: { params: { locale: string } }) 
         <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200 mb-16 text-center">
           <h3 className="text-lg font-bold text-gray-900 mb-1">Start with a free trial</h3>
           <p className="text-gray-500 text-sm mb-4">20 credits. All features. No credit card required.</p>
-          <Link href={`/${params.locale}/signup`} className="inline-block px-6 py-2.5 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors">
+          <Link href={`/${locale}/signup`} className="inline-block px-6 py-2.5 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors">
             Create free account
           </Link>
         </div>

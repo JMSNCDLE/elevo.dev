@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect } from 'react'
 import { createBrowserClient } from '@/lib/supabase/client'
 import GeneratorShell from '@/components/generators/GeneratorShell'
@@ -10,7 +12,8 @@ type Status = 'idle' | 'thinking' | 'generating' | 'done' | 'error'
 const intentOptions = ['Informational', 'How-to guide', 'Local SEO', 'Lead generation', 'Seasonal']
 const wordCountOptions = [400, 600, 800, 1000, 1500, 2000]
 
-export default function BlogPage({ params }: { params: { locale: string } }) {
+export default function BlogPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [bp, setBp] = useState<BusinessProfile | null>(null)
   const [topic, setTopic] = useState('')

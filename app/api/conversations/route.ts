@@ -29,7 +29,7 @@ export async function POST(request: Request) {
   if (!bp) return NextResponse.json({ error: 'Business profile not found' }, { status: 404 })
 
   try {
-    const flow = parsed.data.flow as ConversationFlow
+    const flow = parsed.data.flow as unknown as ConversationFlow
     const result = await buildConversationFlow(flow)
 
     await supabase.from('campaigns').insert({

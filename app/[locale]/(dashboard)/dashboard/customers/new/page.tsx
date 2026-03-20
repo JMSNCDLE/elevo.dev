@@ -1,11 +1,14 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Loader2 } from 'lucide-react'
 
-export default function NewContactPage({ params }: { params: { locale: string } }) {
+export default function NewContactPage({}: {  }) {
+  const locale = useLocale()
   const router = useRouter()
   const [form, setForm] = useState({ fullName: '', email: '', phone: '', address: '', postcode: '', notes: '' })
   const [loading, setLoading] = useState(false)
@@ -27,7 +30,7 @@ export default function NewContactPage({ params }: { params: { locale: string } 
 
     if (res.ok) {
       const data = await res.json()
-      router.push(`/${params.locale}/dashboard/customers/${data.contact.id}`)
+      router.push(`/${locale}/dashboard/customers/${data.contact.id}`)
     } else {
       const err = await res.json()
       setError(err.error || 'Failed to create contact')
@@ -37,7 +40,7 @@ export default function NewContactPage({ params }: { params: { locale: string } 
 
   return (
     <div className="p-8 max-w-xl mx-auto">
-      <Link href={`/${params.locale}/dashboard/customers`} className="flex items-center gap-1.5 text-dashMuted hover:text-dashText text-sm mb-6 transition-colors">
+      <Link href={`/${locale}/dashboard/customers`} className="flex items-center gap-1.5 text-dashMuted hover:text-dashText text-sm mb-6 transition-colors">
         <ArrowLeft size={15} /> Back to contacts
       </Link>
 

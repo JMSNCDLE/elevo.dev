@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect } from 'react'
 import { createBrowserClient } from '@/lib/supabase/client'
 import GeneratorShell from '@/components/generators/GeneratorShell'
@@ -9,7 +11,8 @@ type Status = 'idle' | 'thinking' | 'generating' | 'done' | 'error'
 
 const schemaTypes = ['Service page', 'Homepage', 'Location page', 'Blog post', 'FAQ page', 'About page']
 
-export default function SEOPage({ params }: { params: { locale: string } }) {
+export default function SEOPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [bp, setBp] = useState<BusinessProfile | null>(null)
   const [schemaType, setSchemaType] = useState('Service page')

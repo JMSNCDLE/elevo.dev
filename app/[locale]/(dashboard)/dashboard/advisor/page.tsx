@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Loader2, Zap, Clock, AlertTriangle, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react'
@@ -27,7 +29,8 @@ const exampleProblems = [
   "I want to raise my prices but I'm worried about losing clients",
 ]
 
-export default function AdvisorPage({ params }: { params: { locale: string } }) {
+export default function AdvisorPage({}: {  }) {
+  const locale = useLocale()
   const searchParams = useSearchParams()
   const supabase = createBrowserClient()
   const [bp, setBp] = useState<BusinessProfile | null>(null)

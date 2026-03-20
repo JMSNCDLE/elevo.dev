@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { createServiceClient } from '@/lib/supabase/server'
 import { validateApiKey } from '@/lib/api-auth'
-import { getClient, MODELS, MAX_TOKENS, extractText } from '@/lib/agents/client'
+import { createMessage, MODELS, MAX_TOKENS, extractText } from '@/lib/agents/client'
 
 const AVAILABLE_AGENTS = [
   'content', 'strategy', 'research', 'sales', 'financial',
@@ -71,10 +71,8 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  const client = getClient()
-
   try {
-    const response = await client.messages.create({
+    const response = await createMessage({
       model: MODELS.SPECIALIST,
       max_tokens: MAX_TOKENS.HIGH,
       thinking: { type: 'adaptive' },

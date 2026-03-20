@@ -1,4 +1,4 @@
-import { getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON, WEB_SEARCH_TOOL } from './client'
+import { createMessage, getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON, WEB_SEARCH_TOOL } from './client'
 import type { BusinessProfile } from './types'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -84,7 +84,7 @@ export async function runCustomerTrendsAnalysis(
     .map(([tag, count]) => `${tag} (${count})`)
     .join(', ')
 
-  const response = await client.messages.create({
+  const response = await createMessage({
     model: MODELS.SPECIALIST,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: buildThinkingConfig(),

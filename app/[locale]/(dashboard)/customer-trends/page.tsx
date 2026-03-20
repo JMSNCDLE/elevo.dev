@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocale } from 'next-intl'
+
 import { useState, useEffect } from 'react'
 import {
   Loader2,
@@ -56,7 +58,8 @@ function contentTypeToRoute(contentType: string, locale: string) {
   return `/${locale}/dashboard/content/social`
 }
 
-export default function CustomerTrendsPage({ params }: { params: { locale: string } }) {
+export default function CustomerTrendsPage({}: {  }) {
+  const locale = useLocale()
   const supabase = createBrowserClient()
   const [plan, setPlan] = useState<string>('trial')
   const [bp, setBp] = useState<BusinessProfile | null>(null)
@@ -79,7 +82,7 @@ export default function CustomerTrendsPage({ params }: { params: { locale: strin
   }, [])
 
   if (plan === 'trial' || plan === 'launch') {
-    return <UpgradePrompt locale={params.locale} feature="Customer Trends" />
+    return <UpgradePrompt locale={locale} feature="Customer Trends" />
   }
 
   const handleAnalyse = async () => {
@@ -319,7 +322,7 @@ export default function CustomerTrendsPage({ params }: { params: { locale: strin
                         <td className="py-3 pr-4 text-xs text-dashMuted">{item.rationale}</td>
                         <td className="py-3">
                           <Link
-                            href={contentTypeToRoute(item.contentType, params.locale)}
+                            href={contentTypeToRoute(item.contentType, locale)}
                             className="flex items-center gap-1 text-xs text-accent hover:underline whitespace-nowrap"
                           >
                             Generate <ExternalLink size={11} />
