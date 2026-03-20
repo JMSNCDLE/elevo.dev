@@ -142,3 +142,60 @@ _Add items here as James specifies them_
 3. New branches: `claude/<feature-name>-<session-id>`
 4. Schema is canonical — never add columns that don't exist in `supabase/schema.sql`
 5. Check this file at the start of every session for current state
+
+---
+
+## Phase 3 Complete (2026-03-20)
+
+### Files added in Phase 3
+
+- `lib/email/sequences.ts` — 7 email sequences (welcome, day2, day4, trialEnd, upgraded, monthlyReview, winBack)
+- `lib/email/send.ts` — Resend API wrapper with `sendEmail` + `sendSequenceEmail` + template interpolation
+- `app/api/email/send/route.ts` — POST endpoint, service-role protected
+- `app/api/cron/market-intel/route.ts` — Weekly market intel refresh (Mon 6am)
+- `app/api/cron/coach-brief/route.ts` — Weekly coach brief + email (Mon 7am)
+- `app/api/cron/credit-reset/route.ts` — Monthly credit reset (1st of month)
+- `app/api/cron/trial-reminders/route.ts` — Daily trial ending email check
+- `vercel.json` — Cron schedule configuration
+- `marketing/producthunt/LAUNCH_ASSETS.md` — Full PH launch pack
+- `marketing/campaigns/REDDIT_STRATEGY.md` — 3 post templates + subreddit priority list
+- `marketing/campaigns/FACEBOOK_GROUPS_STRATEGY.md` — Screenshot method + content calendar
+- `marketing/campaigns/COLD_EMAIL_AGENCY.md` — Agency outreach with value calculator
+- `marketing/REVENUE_PLAN.md` — Conservative projections M1–M12 + unit economics
+- `DEPLOYMENT_CHECKLIST.md` — Full 10-section launch checklist
+- `app/[locale]/(marketing)/page.tsx` — Complete 10-section landing page rewrite
+
+### Intelligence pages added (Phase 2/3 overlap)
+
+- `/roas` — ROAS Analysis (Leo)
+- `/finances` — Financial Intelligence (Flora)
+- `/inventory` — Inventory Management (Rex)
+- `/customer-trends` — Customer Trends (Maya)
+- `/google-optimisation` — Google Optimisation (Geo)
+- `/alternatives` — Find Alternatives (Hugo)
+- `/conversations` — Conversation Flows (Echo)
+- `/agents` — All Agents directory (21 agents, searchable)
+
+### Full feature list (all 3 phases)
+
+- **CONTENT (Pillar 1):** GBP Posts, Blog, Reviews, Social, Email, SEO
+- **GROWTH (Pillar 2):** Sales, Research, Strategy, Financial Health, HR, Campaigns
+- **INTELLIGENCE (Pillar 3):** ROAS, Finance Analysis, Inventory, Customer Trends, Google Opt, Alternatives
+- **CUSTOMERS (Pillar 4):** CRM, Follow-ups, Review Requests, Reactivation, Conversations
+- **ADVISOR (Pillar 5):** Problem Solver, Live Assistant, All Agents directory
+
+**Total agents:** 21 named agents + Master Orchestrator
+**Total pages:** 40+ dashboard pages
+**Total API routes:** 35+
+**Languages:** 12 locales
+**Email sequences:** 7
+
+### What James needs to do next
+
+1. Run `supabase/schema.sql` in Supabase SQL Editor
+2. Set up Stripe products and copy price IDs to `.env.local`
+3. Set `ANTHROPIC_API_KEY` in `.env.local`
+4. Set `RESEND_API_KEY` in `.env.local`
+5. Deploy to Vercel
+6. Complete `DEPLOYMENT_CHECKLIST.md`
+7. Run launch marketing (start with `marketing/campaigns/REDDIT_STRATEGY.md`)
