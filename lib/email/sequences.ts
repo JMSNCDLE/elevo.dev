@@ -174,6 +174,31 @@ We've also added 3 new agents since you left:
 
 ELEVO Team`,
   },
+  // Sequence 8 — Onboarding Bot (sent on first paid invoice)
+  onboardingBot: {
+    subject: 'Meet Mira — she\'ll show you around ELEVO',
+    preview: 'Your personal onboarding guide is ready',
+    body: `Hi {{first_name}},
+
+Welcome to ELEVO AI!
+
+I'm Mira, your personal guide. I'll help you get the most out of ELEVO in the next few days.
+
+Here's your quick-start checklist:
+
+✅ Complete your business profile → /settings
+✅ Generate your first piece of content → /dashboard/content/gbp-posts
+✅ Add your first customer → /dashboard/customers/new
+✅ Explore a Growth tool → /dashboard/growth/strategy
+✅ Try the Problem Solver → /dashboard/advisor
+
+Each one takes just a few minutes and will immediately start delivering value for {{business_name}}.
+
+[Start here →] {{dashboard_url}}/onboarding-guide
+
+I'm here if you need anything,
+Mira from ELEVO AI`,
+  },
 } as const
 
 export type SequenceKey = keyof typeof EMAIL_SEQUENCES

@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 import { z } from 'zod'
 import Stripe from 'stripe'
 import { createServerClient } from '@/lib/supabase/server'
 import { getPriceId } from '@/lib/stripe/pricing'
+import { getAffiliateRef } from '@/lib/cookies'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' })
 
@@ -12,7 +14,7 @@ const Schema = z.object({
   annual: z.boolean().default(false),
 })
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const supabase = await createServerClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
@@ -40,6 +42,9 @@ export async function POST(request: Request) {
     await supabase.from('profiles').update({ stripe_customer_id: customerId }).eq('id', user.id)
   }
 
+  // Read affiliate code from cookie
+  const affiliateCode = getAffiliateRef(request)
+
   const session = await stripe.checkout.sessions.create({
     customer: customerId,
     mode: 'subscription',
@@ -47,7 +52,11 @@ export async function POST(request: Request) {
     line_items: [{ price: priceId, quantity: 1 }],
     success_url: `${process.env.NEXT_PUBLIC_APP_URL}/en/dashboard?upgraded=true`,
     cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/en/pricing`,
-    metadata: { supabase_user_id: user.id, plan_id: planId },
+    metadata: {
+      supabase_user_id: user.id,
+      plan_id: planId,
+      affiliate_code: affiliateCode ?? '',
+    },
   })
 
   return NextResponse.json({ url: session.url })

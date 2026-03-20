@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { createServerClient } from '@/lib/supabase/server'
 import { runOrchestrator } from '@/lib/agents/orchestrator'
 import type { BusinessProfile, GenerationInput } from '@/lib/agents/types'
+import { checkDemoLimit, incrementDemoCount } from '@/lib/cookies'
 
 const PostSchema = z.object({
   type: z.enum(['gbp_post', 'blog', 'social_caption', 'review_response', 'email', 'seo', 'repurposed']),
@@ -27,11 +29,45 @@ const PostSchema = z.object({
   reviewText: z.string().optional(),
 })
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   // Auth
   const supabase = await createServerClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+
+  // Guest / demo mode — check demo limit
+  if (!user) {
+    const { allowed, remaining, count } = checkDemoLimit(request)
+    if (!allowed) {
+      return NextResponse.json(
+        { error: 'Demo limit reached. Create a free account to continue.', demoLimitReached: true },
+        { status: 429 }
+      )
+    }
+
+    // Validate
+    const body = await request.json()
+    const parsed = PostSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'Invalid input', details: parsed.error.flatten() }, { status: 400 })
+    }
+
+    const { businessProfileId, type, ...rest } = parsed.data
+
+    // Load business profile (guest can only access profiles without user_id restriction in demo mode)
+    const { data: bp } = await supabase.from('business_profiles').select('*').eq('id', businessProfileId).single()
+    if (!bp) return NextResponse.json({ error: 'Business profile not found' }, { status: 404 })
+
+    const input: GenerationInput = { type, businessProfile: bp as BusinessProfile, ...rest }
+
+    try {
+      const output = await runOrchestrator(input)
+      const response = NextResponse.json({ output, demoRemaining: remaining - 1 })
+      return incrementDemoCount(response, count)
+    } catch (err) {
+      console.error('Generation error (guest):', err)
+      return NextResponse.json({ error: 'Generation failed. Please try again.' }, { status: 500 })
+    }
+  }
 
   // Validate
   const body = await request.json()

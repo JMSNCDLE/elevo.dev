@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { Toaster } from 'react-hot-toast'
+import CookieConsent from '@/components/shared/CookieConsent'
 import '../globals.css'
 
 const locales = ['en', 'es', 'fr', 'de', 'it', 'pt', 'nl', 'pl', 'sv', 'ja', 'en-US', 'en-AU']
@@ -41,6 +42,7 @@ export default async function RootLocaleLayout({
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
+          <CookieConsent />
           <Toaster
             position="bottom-right"
             toastOptions={{
