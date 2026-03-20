@@ -5,7 +5,8 @@ import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, FileText, BookOpen, Share2, Star, Mail, Search,
   TrendingUp, Briefcase, BarChart2, Target, DollarSign, Users2, Megaphone,
-  UserSquare2, Zap, Library, Settings, ChevronRight, Rocket
+  UserSquare2, Zap, Library, Settings, ChevronRight, Rocket,
+  BarChart3, Package, TrendingDown, MapPin, Repeat2, MessageSquare, Bot
 } from 'lucide-react'
 
 interface SidebarProps {
@@ -64,15 +65,28 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       ],
     },
     {
+      title: 'Intelligence',
+      items: [
+        { href: `/${locale}/roas`, label: 'ROAS Analysis', icon: BarChart3, orbitOnly: true },
+        { href: `/${locale}/finances`, label: 'Finances', icon: TrendingDown, orbitOnly: true },
+        { href: `/${locale}/inventory`, label: 'Inventory', icon: Package, orbitOnly: true },
+        { href: `/${locale}/customer-trends`, label: 'Customer Trends', icon: TrendingUp, orbitOnly: true },
+        { href: `/${locale}/google-optimisation`, label: 'Google Optimisation', icon: MapPin },
+        { href: `/${locale}/alternatives`, label: 'Find Alternatives', icon: Repeat2, orbitOnly: true },
+      ],
+    },
+    {
       title: 'Customers',
       items: [
         { href: `/${locale}/dashboard/customers`, label: 'Contacts', icon: UserSquare2 },
+        { href: `/${locale}/conversations`, label: 'Conversations', icon: MessageSquare, orbitOnly: true },
       ],
     },
     {
       title: 'Tools',
       items: [
         { href: `/${locale}/dashboard/advisor`, label: 'Problem Solver', icon: Zap },
+        { href: `/${locale}/agents`, label: 'All Agents', icon: Bot },
         { href: `/${locale}/dashboard/library`, label: 'Library', icon: Library },
         { href: `/${locale}/dashboard/settings`, label: 'Settings', icon: Settings },
       ],
