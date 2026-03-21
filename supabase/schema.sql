@@ -283,3 +283,86 @@ create trigger set_contacts_updated_at
 create trigger set_campaigns_updated_at
   before update on public.campaigns
   for each row execute procedure public.set_updated_at();
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- PHASE 5: ANALYTICS TABLES
+-- ─────────────────────────────────────────────────────────────────────────────
+
+CREATE TABLE IF NOT EXISTS analytics_events (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  business_profile_id UUID REFERENCES business_profiles(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+  event_type TEXT NOT NULL CHECK (event_type IN (
+    'page_view','session_start','session_end',
+    'content_generated','roas_viewed','problem_solved',
+    'contact_added','review_requested','campaign_sent',
+    'upgrade_clicked','feature_used','agent_chat'
+  )),
+  page TEXT,
+  agent_name TEXT,
+  feature TEXT,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS revenue_snapshots (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  business_profile_id UUID REFERENCES business_profiles(id),
+  snapshot_date DATE NOT NULL,
+  total_revenue NUMERIC(12,2) DEFAULT 0,
+  total_jobs INTEGER DEFAULT 0,
+  new_customers INTEGER DEFAULT 0,
+  returning_customers INTEGER DEFAULT 0,
+  avg_job_value NUMERIC(10,2) DEFAULT 0,
+  reviews_received INTEGER DEFAULT 0,
+  content_published INTEGER DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(user_id, business_profile_id, snapshot_date)
+);
+
+CREATE TABLE IF NOT EXISTS website_analytics (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  business_profile_id UUID NOT NULL REFERENCES business_profiles(id) ON DELETE CASCADE,
+  date DATE NOT NULL,
+  page_views INTEGER DEFAULT 0,
+  unique_visitors INTEGER DEFAULT 0,
+  sessions INTEGER DEFAULT 0,
+  bounce_rate NUMERIC(5,2) DEFAULT 0,
+  avg_session_duration INTEGER DEFAULT 0,
+  top_pages JSONB DEFAULT '[]',
+  traffic_sources JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(business_profile_id, date)
+);
+
+CREATE TABLE IF NOT EXISTS ad_performance (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  business_profile_id UUID NOT NULL REFERENCES business_profiles(id) ON DELETE CASCADE,
+  date DATE NOT NULL,
+  platform TEXT NOT NULL,
+  impressions INTEGER DEFAULT 0,
+  clicks INTEGER DEFAULT 0,
+  spend NUMERIC(10,2) DEFAULT 0,
+  revenue NUMERIC(10,2) DEFAULT 0,
+  cpm NUMERIC(10,4) DEFAULT 0,
+  cpc NUMERIC(10,4) DEFAULT 0,
+  ctr NUMERIC(5,4) DEFAULT 0,
+  roas NUMERIC(8,2) DEFAULT 0,
+  conversions INTEGER DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE analytics_events ENABLE ROW LEVEL SECURITY;
+ALTER TABLE revenue_snapshots ENABLE ROW LEVEL SECURITY;
+ALTER TABLE website_analytics ENABLE ROW LEVEL SECURITY;
+ALTER TABLE ad_performance ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "own analytics" ON analytics_events FOR ALL USING (auth.uid() = user_id);
+CREATE POLICY "own revenue" ON revenue_snapshots FOR ALL USING (auth.uid() = user_id);
+CREATE POLICY "own web_analytics" ON website_analytics FOR ALL USING (business_profile_id IN (SELECT id FROM business_profiles WHERE user_id = auth.uid()));
+CREATE POLICY "own ad_perf" ON ad_performance FOR ALL USING (business_profile_id IN (SELECT id FROM business_profiles WHERE user_id = auth.uid()));
+
+CREATE INDEX IF NOT EXISTS idx_analytics_events_bp ON analytics_events(business_profile_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_revenue_date ON revenue_snapshots(user_id, snapshot_date DESC);
+CREATE INDEX IF NOT EXISTS idx_ad_perf_date ON ad_performance(business_profile_id, date DESC);
