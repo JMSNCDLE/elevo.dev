@@ -1,5 +1,23 @@
 import { createMessage, getClient, MODELS, MAX_TOKENS, buildThinkingConfig, buildEffortConfig, extractText, parseJSON } from './client'
 
+export interface AdRow {
+  date: string
+  platform: string
+  impressions: number
+  clicks: number
+  spend: number
+  revenue: number
+  conversions: number
+}
+
+export interface ParsedAdData {
+  rows: AdRow[]
+  detectedPlatform: string
+  rowCount: number
+  warnings: string[]
+  confidence: number
+}
+
 export interface ParsedDataResult {
   cleanedData: string
   detectedFormat: string
@@ -77,6 +95,58 @@ Return ONLY valid JSON:
       detectedColumns: [],
       rowCount: 0,
       warnings: ['Could not parse input data. Please check the format and try again.'],
+      confidence: 0,
+    }
+  }
+}
+
+/**
+ * Parse advertising CSV data from Google Ads or Meta Ads exports
+ * Recognises Google Ads columns: Campaign, Impressions, Clicks, Cost, Conversions, Revenue
+ * Recognises Meta Ads columns: Campaign name, Reach, Impressions, Clicks, Amount spent, Results
+ */
+export async function parseAdvertisingData(rawInput: string): Promise<ParsedAdData> {
+  const response = await createMessage({
+    model: MODELS.SPECIALIST,
+    max_tokens: MAX_TOKENS.MEDIUM,
+    thinking: buildThinkingConfig(),
+    ...buildEffortConfig('medium'),
+    system: `You are ELEVO's advertising data parser — Dex. You specialise in parsing Google Ads and Meta Ads CSV exports.
+
+Google Ads columns to look for: Campaign, Date, Impressions, Clicks, Cost/Spend, Conversions, Conv. value/Revenue
+Meta Ads columns to look for: Campaign name, Date, Reach, Impressions, Clicks (all), Amount spent, Results
+
+Map all data to a standardised format. Detect the platform automatically.
+If "Date" column is missing, use today's date (YYYY-MM-DD format) for each row.
+Ensure spend/cost values are numeric (remove currency symbols).
+Revenue from Google Ads = "Conv. value". Revenue from Meta = try "Purchase value" or "Result value" or 0 if not present.
+
+Return ONLY valid JSON:
+{
+  "rows": [
+    { "date": "YYYY-MM-DD", "platform": "<Google Ads|Meta Ads|Unknown>", "impressions": 0, "clicks": 0, "spend": 0.00, "revenue": 0.00, "conversions": 0 }
+  ],
+  "detectedPlatform": "<Google Ads|Meta Ads|Unknown>",
+  "rowCount": 0,
+  "warnings": [],
+  "confidence": 0.0
+}`,
+    messages: [
+      {
+        role: 'user',
+        content: `Parse this advertising data:\n\n${rawInput.slice(0, 5000)}${rawInput.length > 5000 ? '\n[truncated]' : ''}`,
+      },
+    ],
+  })
+
+  try {
+    return parseJSON<ParsedAdData>(extractText(response))
+  } catch {
+    return {
+      rows: [],
+      detectedPlatform: 'Unknown',
+      rowCount: 0,
+      warnings: ['Could not parse advertising data. Please check the format and try again.'],
       confidence: 0,
     }
   }

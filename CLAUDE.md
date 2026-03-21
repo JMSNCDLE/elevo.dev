@@ -199,3 +199,50 @@ _Add items here as James specifies them_
 5. Deploy to Vercel
 6. Complete `DEPLOYMENT_CHECKLIST.md`
 7. Run launch marketing (start with `marketing/campaigns/REDDIT_STRATEGY.md`)
+
+---
+
+## Phase 5 Complete (2026-03-21)
+
+### Files added in Phase 5
+
+**5A — Analytics:**
+- `supabase/schema.sql` — analytics_events, revenue_snapshots, website_analytics, ad_performance tables + RLS + indexes
+- `lib/analytics.ts` — AnalyticsEventType, trackEvent(), AnalyticsSummary, AdPerformanceSummary interfaces
+- `app/api/analytics/track/route.ts` — POST fire-and-forget event tracking (service role)
+- `app/api/analytics/summary/route.ts` — GET authenticated summary with period + % change
+- `app/api/analytics/ads/route.ts` — GET Orbit+ ad performance summary grouped by platform
+- `app/api/analytics/revenue/route.ts` — POST revenue snapshot upsert
+- `app/api/analytics/ads/import/route.ts` — POST bulk ad data import with derived metrics
+- `app/[locale]/(dashboard)/analytics/page.tsx` — Full Shopify-style analytics dashboard (recharts)
+
+**5B — Conversational Task Interface:**
+- `lib/agents/conversationalTaskAgent.ts` — Opus orchestrated intent classifier + task executor
+- `app/[locale]/(dashboard)/chat/page.tsx` — Full-page chat with voice input, content cards, suggestions
+- `app/api/chat/route.ts` — POST 1-credit conversational task endpoint
+
+**5C — Spanish:**
+- `messages/es.json` — Complete Spanish translation (all keys from en.json)
+
+**5D — Trust + Polish:**
+- `components/shared/TrustBar.tsx` — SSL/GDPR/Stripe/rating trust signals row
+- `components/shared/LiveCounters.tsx` — Animated business counter + last signup timer
+- `components/shared/LanguageSwitcher.tsx` — EN|ES toggle with cookie persistence
+
+**5E — Analytics Event Tracking:**
+- `components/dashboard/AnalyticsTracker.tsx` — Client component tracking session_start/page_view
+- Updated `app/api/generate/route.ts` — tracks content_generated after generation
+- Updated `app/api/roas/route.ts` — tracks roas_viewed after analysis
+- Updated `app/api/problem-solver/route.ts` — tracks problem_solved after solve
+- Updated `app/api/crm/contacts/route.ts` — tracks contact_added on POST
+
+**5F — Ad Data Import:**
+- Updated `lib/agents/dataIngestionAgent.ts` — Added parseAdvertisingData() for Google Ads/Meta Ads CSV
+
+**Updated components/pages:**
+- `components/dashboard/Sidebar.tsx` — Added "Chat with ELEVO" (NEW badge, first item) + "Analytics"
+- `app/[locale]/(dashboard)/layout.tsx` — Added AnalyticsTracker component
+- `app/[locale]/(dashboard)/dashboard/page.tsx` — Mini analytics strip (revenue/jobs/credits/ROAS) at top
+- `app/[locale]/(marketing)/page.tsx` — Spanish hero copy, TrustBar, LiveCounters
+- `app/[locale]/(marketing)/pricing/page.tsx` — Money-back guarantee + Enterprise CTA
+- `middleware.ts` — Spanish Accept-Language redirect

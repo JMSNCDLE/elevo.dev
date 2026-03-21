@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { createServerClient } from '@/lib/supabase/server'
 import Sidebar from '@/components/dashboard/Sidebar'
 import LiveAssistantPanel from '@/components/dashboard/LiveAssistantPanel'
+import AnalyticsTracker from '@/components/dashboard/AnalyticsTracker'
 
 export default async function DashboardLayout({
   children,
@@ -57,6 +58,7 @@ export default async function DashboardLayout({
       </main>
 
       <LiveAssistantPanel businessProfileId={primaryBp?.id} />
+      <AnalyticsTracker businessProfileId={primaryBp?.id} />
     </div>
   )
 }

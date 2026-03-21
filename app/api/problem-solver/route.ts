@@ -63,6 +63,16 @@ export async function POST(request: Request) {
     // Deduct 2 credits
     await supabase.from('profiles').update({ credits_used: profile.credits_used + 2 }).eq('id', user.id)
 
+    // Track analytics event
+    await supabase.from('analytics_events').insert({
+      user_id: user.id,
+      business_profile_id: bp.id,
+      event_type: 'problem_solved',
+      agent_name: 'Max',
+      feature: 'problem_solver',
+      metadata: { urgency: result.urgency },
+    })
+
     return NextResponse.json({ result })
   } catch (err) {
     console.error('Problem solver error:', err)

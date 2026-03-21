@@ -22,6 +22,7 @@ interface NavItem {
   label: string
   icon: React.ElementType
   orbitOnly?: boolean
+  badge?: string
 }
 
 interface NavSection {
@@ -39,7 +40,9 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
     {
       title: 'Overview',
       items: [
+        { href: `/${locale}/chat`, label: 'Chat with ELEVO', icon: MessageSquare, badge: 'NEW' },
         { href: `/${locale}/dashboard`, label: 'Mission Control', icon: LayoutDashboard },
+        { href: `/${locale}/analytics`, label: 'Analytics', icon: BarChart2 },
       ],
     },
     {
@@ -141,7 +144,12 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
                           Orbit+
                         </span>
                       )}
-                      {active && !locked && (
+                      {!locked && item.badge && (
+                        <span className="text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded font-medium">
+                          {item.badge}
+                        </span>
+                      )}
+                      {active && !locked && !item.badge && (
                         <ChevronRight size={14} className="text-accent" />
                       )}
                     </Link>

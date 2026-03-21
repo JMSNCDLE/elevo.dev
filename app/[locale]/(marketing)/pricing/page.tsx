@@ -75,7 +75,7 @@ export default async function PricingPage({ params }: { params: Promise<{ locale
         </div>
 
         {/* FAQ */}
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-2xl mx-auto mb-16">
           <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Frequently asked questions</h2>
           <div className="space-y-4">
             {faqs.map(faq => (
@@ -85,6 +85,31 @@ export default async function PricingPage({ params }: { params: Promise<{ locale
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Money-back guarantee */}
+        <div className="bg-green-50 border border-green-200 rounded-2xl p-6 mb-8 max-w-2xl mx-auto text-center">
+          <div className="text-2xl mb-2">🛡️</div>
+          <h3 className="text-lg font-bold text-gray-900 mb-1">14-day money-back guarantee</h3>
+          <p className="text-gray-500 text-sm leading-relaxed">
+            Not happy in your first 14 days? We&apos;ll refund you in full, no questions asked.
+            Just email <span className="font-medium text-gray-700">hello@elevo.ai</span> and we&apos;ll sort it immediately.
+          </p>
+        </div>
+
+        {/* Enterprise CTA */}
+        <div className="bg-gray-900 rounded-2xl p-8 text-center max-w-2xl mx-auto">
+          <h3 className="text-xl font-bold text-white mb-2">Need more than Galaxy?</h3>
+          <p className="text-gray-400 text-sm mb-4 leading-relaxed">
+            For agencies, franchises, and multi-location businesses. Custom agent training, white-label portal,
+            dedicated account manager, and unlimited everything.
+          </p>
+          <a
+            href="mailto:hello@elevo.ai?subject=Enterprise enquiry"
+            className="inline-block px-6 py-3 bg-white text-gray-900 font-semibold rounded-xl hover:bg-gray-100 transition-colors text-sm"
+          >
+            Talk to us about Enterprise →
+          </a>
         </div>
       </div>
     </div>

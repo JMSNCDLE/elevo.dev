@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { CheckCircle2, Zap, BarChart3, MapPin, FileText, Users, TrendingUp, Package, Repeat2 } from 'lucide-react'
+import TrustBar from '@/components/shared/TrustBar'
+import LiveCounters from '@/components/shared/LiveCounters'
 
 const AGENTS = [
   { emoji: '📊', name: 'Leo', role: 'ROAS & Ad Analyst', desc: 'Knows if every £1 of ad spend is working.' },
@@ -50,6 +52,7 @@ const PLANS = [
 
 export default async function LandingPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
+  const isSpanish = locale === 'es'
   return (
     <>
       {/* ── SECTION 1: HERO ──────────────────────────────────────── */}
@@ -57,26 +60,39 @@ export default async function LandingPage({ params }: { params: Promise<{ locale
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-8">
             <Zap size={14} />
-            21 AI agents. All working for your business.
+            {isSpanish ? '21 agentes IA. Todos trabajando para tu negocio.' : '21 AI agents. All working for your business.'}
           </div>
 
-          <h1 className="text-5xl sm:text-6xl font-extrabold text-gray-900 leading-[1.1] mb-6 tracking-tight">
-            Your competitor is showing up<br className="hidden sm:block" /> on Google.{' '}
-            <span className="text-indigo-600">You&apos;re not.</span>
-          </h1>
-
-          <p className="text-xl text-gray-500 max-w-2xl mx-auto mb-10 leading-relaxed">
-            ELEVO is 21 AI agents working for your business — writing your content, analysing your finances,
-            tracking your ad spend, managing your customers, and solving any business problem you describe.
-            In seconds.
-          </p>
+          {isSpanish ? (
+            <>
+              <h1 className="text-5xl sm:text-6xl font-extrabold text-gray-900 leading-[1.1] mb-6 tracking-tight">
+                Tu competidor aparece en Google.{' '}
+                <span className="text-indigo-600">Tú no.</span>
+              </h1>
+              <p className="text-xl text-gray-500 max-w-2xl mx-auto mb-10 leading-relaxed">
+                ELEVO es tu equipo de 21 agentes IA — escribe tu contenido, analiza tus finanzas, gestiona tus clientes y resuelve cualquier problema de tu negocio. En segundos.
+              </p>
+            </>
+          ) : (
+            <>
+              <h1 className="text-5xl sm:text-6xl font-extrabold text-gray-900 leading-[1.1] mb-6 tracking-tight">
+                Your competitor is showing up<br className="hidden sm:block" /> on Google.{' '}
+                <span className="text-indigo-600">You&apos;re not.</span>
+              </h1>
+              <p className="text-xl text-gray-500 max-w-2xl mx-auto mb-10 leading-relaxed">
+                ELEVO is 21 AI agents working for your business — writing your content, analysing your finances,
+                tracking your ad spend, managing your customers, and solving any business problem you describe.
+                In seconds.
+              </p>
+            </>
+          )}
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
             <Link
               href={`/${locale}/signup`}
               className="px-8 py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-colors text-lg shadow-lg shadow-indigo-200"
             >
-              Start free — 7 days, no card
+              {isSpanish ? 'Prueba gratis — 7 días' : 'Start free — 7 days, no card'}
             </Link>
             <Link
               href={`/${locale}/pricing`}
@@ -87,13 +103,17 @@ export default async function LandingPage({ params }: { params: Promise<{ locale
           </div>
 
           {/* Social proof */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center text-sm text-gray-500">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center text-sm text-gray-500 mb-6">
             <span>★★★★★ &ldquo;Saved me £2,400/mo in wasted ad spend&rdquo; — Mario, Plumber, Manchester</span>
             <span className="hidden sm:block text-gray-300">|</span>
             <span>★★★★★ &ldquo;Page 3 to top 3 in 6 weeks&rdquo; — Sarah, Salon, Dublin</span>
           </div>
+          <LiveCounters />
         </div>
       </section>
+
+      {/* Trust bar */}
+      <TrustBar />
 
       {/* ── SECTION 2: THE PAIN ──────────────────────────────────── */}
       <section className="py-24 px-6 bg-white">

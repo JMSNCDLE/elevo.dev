@@ -54,6 +54,18 @@ export async function middleware(request: NextRequest) {
     return response
   }
 
+  // Detect Spanish from Accept-Language and redirect root/unlocalized paths
+  const isRootOrUnlocalized =
+    pathname === '/' ||
+    !locales.some(l => pathname.startsWith(`/${l}/`) || pathname === `/${l}`)
+
+  if (isRootOrUnlocalized && pathname === '/') {
+    const acceptLang = request.headers.get('accept-language') ?? ''
+    if (acceptLang.toLowerCase().startsWith('es')) {
+      return NextResponse.redirect(new URL('/es', request.url))
+    }
+  }
+
   // Update Supabase session
   const supabaseResponse = await updateSession(request)
   if (supabaseResponse) return supabaseResponse

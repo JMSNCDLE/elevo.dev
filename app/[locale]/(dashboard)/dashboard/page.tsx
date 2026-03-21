@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { createServerClient } from '@/lib/supabase/server'
-import { FileText, BookOpen, Share2, Star, Mail, Search, Zap, Users, TrendingUp } from 'lucide-react'
+import { FileText, BookOpen, Share2, Star, Mail, Search, Zap, Users, TrendingUp, BarChart2 } from 'lucide-react'
 import { formatCurrency, timeAgo } from '@/lib/utils'
 
 export default async function MissionControlPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -11,16 +11,22 @@ export default async function MissionControlPage({ params }: { params: Promise<{
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect(`/${locale}/login`)
 
-  const [{ data: profile }, { data: bp }, { data: recentGens }, { data: crmStats }] = await Promise.all([
+  const now = new Date()
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().slice(0, 10)
+
+  const [{ data: profile }, { data: bp }, { data: recentGens }, { data: crmStats }, { data: revenueData }] = await Promise.all([
     supabase.from('profiles').select('plan, credits_used, credits_limit').eq('id', user.id).single(),
     supabase.from('business_profiles').select('*').eq('user_id', user.id).eq('is_primary', true).single(),
     supabase.from('saved_generations').select('id, type, content, created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(5),
     supabase.from('contacts').select('id, status').eq('user_id', user.id),
+    supabase.from('revenue_snapshots').select('total_revenue, total_jobs').eq('user_id', user.id).gte('snapshot_date', monthStart),
   ])
 
   if (!profile) redirect(`/${locale}/login`)
 
-  const now = new Date()
+  const revenueThisMonth = (revenueData ?? []).reduce((s, r) => s + (r.total_revenue ?? 0), 0)
+  const jobsThisMonth = (revenueData ?? []).reduce((s, r) => s + (r.total_jobs ?? 0), 0)
+
   const hour = now.getHours()
   const timeOfDay = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'
 
@@ -44,6 +50,40 @@ export default async function MissionControlPage({ params }: { params: Promise<{
 
   return (
     <div className="p-8 max-w-6xl mx-auto">
+      {/* Mini analytics strip */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+        <Link href={`/${locale}/analytics`} className="bg-dashCard border border-dashSurface2 rounded-xl p-3 hover:border-accent/30 transition-colors group">
+          <p className="text-xs text-dashMuted mb-0.5">Revenue this month</p>
+          <p className="text-xl font-bold text-dashText">£{revenueThisMonth.toFixed(0)}</p>
+          <p className="text-xs text-accent group-hover:underline mt-0.5 flex items-center gap-0.5">
+            <BarChart2 size={10} /> View analytics
+          </p>
+        </Link>
+        <Link href={`/${locale}/analytics`} className="bg-dashCard border border-dashSurface2 rounded-xl p-3 hover:border-accent/30 transition-colors group">
+          <p className="text-xs text-dashMuted mb-0.5">Jobs this month</p>
+          <p className="text-xl font-bold text-dashText">{jobsThisMonth}</p>
+          <p className="text-xs text-accent group-hover:underline mt-0.5 flex items-center gap-0.5">
+            <BarChart2 size={10} /> View analytics
+          </p>
+        </Link>
+        <Link href={`/${locale}/analytics`} className="bg-dashCard border border-dashSurface2 rounded-xl p-3 hover:border-accent/30 transition-colors group">
+          <p className="text-xs text-dashMuted mb-0.5">Credits used</p>
+          <p className="text-xl font-bold text-dashText">
+            {profile.credits_used}/{profile.credits_limit}
+          </p>
+          <p className="text-xs text-accent group-hover:underline mt-0.5 flex items-center gap-0.5">
+            <BarChart2 size={10} /> View analytics
+          </p>
+        </Link>
+        <Link href={`/${locale}/analytics`} className="bg-dashCard border border-dashSurface2 rounded-xl p-3 hover:border-accent/30 transition-colors group">
+          <p className="text-xs text-dashMuted mb-0.5">ROAS</p>
+          <p className="text-xl font-bold text-dashText">—</p>
+          <p className="text-xs text-accent group-hover:underline mt-0.5 flex items-center gap-0.5">
+            <BarChart2 size={10} /> Import ad data
+          </p>
+        </Link>
+      </div>
+
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-dashText">Mission Control</h1>

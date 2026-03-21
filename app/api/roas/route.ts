@@ -49,6 +49,16 @@ export async function POST(request: Request) {
     })
     await supabase.from('profiles').update({ credits_used: profile.credits_used + 3 }).eq('id', user.id)
 
+    // Track analytics event
+    await supabase.from('analytics_events').insert({
+      user_id: user.id,
+      business_profile_id: bp.id,
+      event_type: 'roas_viewed',
+      agent_name: 'Leo',
+      feature: 'roas_analysis',
+      metadata: { campaignCount: parsed.data.campaigns.length },
+    })
+
     return NextResponse.json({ result })
   } catch (err) {
     console.error('ROAS agent error:', err)

@@ -95,5 +95,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Failed to create contact' }, { status: 500 })
   }
 
+  // Track analytics event
+  await supabase.from('analytics_events').insert({
+    user_id: user.id,
+    business_profile_id: businessProfileId ?? null,
+    event_type: 'contact_added',
+    feature: 'crm',
+    metadata: { source: parsed.data.source ?? null },
+  })
+
   return NextResponse.json({ contact }, { status: 201 })
 }

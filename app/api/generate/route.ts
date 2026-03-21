@@ -108,6 +108,16 @@ export async function POST(request: NextRequest) {
     // Deduct credit
     await supabase.from('profiles').update({ credits_used: profile.credits_used + 1 }).eq('id', user.id)
 
+    // Track analytics event
+    await supabase.from('analytics_events').insert({
+      user_id: user.id,
+      business_profile_id: businessProfileId,
+      event_type: 'content_generated',
+      feature: type,
+      agent_name: 'Sol',
+      metadata: { contentType: type },
+    })
+
     return NextResponse.json({ output })
   } catch (err) {
     console.error('Generation error:', err)
