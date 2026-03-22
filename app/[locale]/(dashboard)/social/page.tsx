@@ -51,10 +51,12 @@ export default function SocialPage() {
   const [togglingId, setTogglingId] = useState<string | null>(null)
   const [publishingId, setPublishingId] = useState<string | null>(null)
 
-  // Check for OAuth success in URL
-  const connectedPlatform = typeof window !== 'undefined'
-    ? new URLSearchParams(window.location.search).get('connected')
-    : null
+  // Check for OAuth success in URL (useEffect to avoid hydration mismatch)
+  const [connectedPlatform, setConnectedPlatform] = useState<string | null>(null)
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search).get('connected')
+    setConnectedPlatform(p)
+  }, [])
 
   const fetchData = useCallback(async () => {
     setLoading(true)

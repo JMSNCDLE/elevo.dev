@@ -1,117 +1,462 @@
-import Link from 'next/link'
-import { CheckCircle2 } from 'lucide-react'
-import { PLANS } from '@/lib/stripe/pricing'
-import { getCurrencyFromLocale } from '@/lib/i18n/routing'
+'use client';
 
-export default async function PricingPage({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params
-  const currency = getCurrencyFromLocale(locale)
-  const currencySymbol = currency === 'USD' ? '$' : currency === 'EUR' ? '€' : '£'
+import { useState } from 'react';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
+import { Check, Minus, ChevronDown, ChevronUp, Star, Zap } from 'lucide-react';
 
-  const faqs = [
-    { q: 'What counts as a credit?', a: 'One credit = one AI generation. Most content types cost 1 credit. The Problem Solver costs 2 credits because it uses Claude Opus, our most powerful model.' },
-    { q: 'What happens when I run out of credits?', a: 'Credits reset at the start of each billing cycle. If you run out early, you can upgrade to a higher plan or wait for the reset.' },
-    { q: 'Can I cancel anytime?', a: 'Yes. Cancel from your account settings and you\'ll retain access until the end of your billing period.' },
-    { q: 'Is there a free trial?', a: 'Yes — every new account starts with 20 free credits. No credit card required.' },
-    { q: 'What is the Orbit plan?', a: 'Orbit unlocks all Growth tools: sales proposals, market research, SWOT strategy, financial health reports, HR documents, and campaign planning — plus unlimited contacts.' },
-  ]
+interface Plan {
+  id: string;
+  name: string;
+  badge?: string;
+  description: string;
+  monthlyPrice: number;
+  annualPrice: number;
+  credits: string;
+  highlighted: boolean;
+  features: string[];
+  ctaVariant: 'outline' | 'filled';
+}
+
+interface FeatureRow {
+  feature: string;
+  launch: boolean | string;
+  orbit: boolean | string;
+  galaxy: boolean | string;
+}
+
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+const PLANS: Plan[] = [
+  {
+    id: 'launch',
+    name: 'Launch',
+    description: 'For businesses just getting started',
+    monthlyPrice: 39,
+    annualPrice: 32,
+    credits: '100 credits/month',
+    highlighted: false,
+    ctaVariant: 'outline',
+    features: [
+      'All content generators (GBP posts, blog, social, email, SEO)',
+      'CRM (up to 100 contacts)',
+      'Google Business Profile optimisation',
+      'Email support',
+      '1 business profile',
+    ],
+  },
+  {
+    id: 'orbit',
+    name: 'Orbit',
+    badge: 'Most popular',
+    description: 'For growing businesses ready to scale',
+    monthlyPrice: 79,
+    annualPrice: 65,
+    credits: '300 credits/month',
+    highlighted: true,
+    ctaVariant: 'filled',
+    features: [
+      'Everything in Launch',
+      'ROAS & ad spend analysis (ELEVO Ads Pro™)',
+      'Financial health intelligence (ELEVO Flora™)',
+      'Social Media Hub with auto-posting',
+      'ELEVO Connect™ (DM automation, replaces ManyChat)',
+      'Customer Trends & churn prediction',
+      '3 business profiles',
+      'Priority support',
+    ],
+  },
+  {
+    id: 'galaxy',
+    name: 'Galaxy',
+    description: 'For agencies and power users',
+    monthlyPrice: 149,
+    annualPrice: 124,
+    credits: '999 credits/month',
+    highlighted: false,
+    ctaVariant: 'outline',
+    features: [
+      'Everything in Orbit',
+      '15 business profiles',
+      "White-label (your brand, not ELEVO's)",
+      'API access',
+      'Embeddable widgets for client sites',
+      'Team member access (up to 5)',
+      'Custom subdomain',
+      'Dedicated account manager',
+    ],
+  },
+];
+
+const FEATURE_ROWS: FeatureRow[] = [
+  { feature: 'AI credits/month', launch: '100', orbit: '300', galaxy: '999' },
+  { feature: 'Business profiles', launch: '1', orbit: '3', galaxy: '15' },
+  { feature: 'GBP post generator', launch: true, orbit: true, galaxy: true },
+  { feature: 'Blog generator', launch: true, orbit: true, galaxy: true },
+  { feature: 'Social captions', launch: true, orbit: true, galaxy: true },
+  { feature: 'Email generator', launch: true, orbit: true, galaxy: true },
+  { feature: 'SEO copy', launch: true, orbit: true, galaxy: true },
+  { feature: 'Review responses', launch: true, orbit: true, galaxy: true },
+  { feature: 'CRM contacts', launch: '100', orbit: 'Unlimited', galaxy: 'Unlimited' },
+  { feature: 'Problem Solver (AI advisor)', launch: true, orbit: true, galaxy: true },
+  { feature: 'Live Assistant', launch: true, orbit: true, galaxy: true },
+  { feature: 'ROAS & ad spend analysis', launch: false, orbit: true, galaxy: true },
+  { feature: 'Financial health intelligence', launch: false, orbit: true, galaxy: true },
+  { feature: 'Social Hub with auto-posting', launch: false, orbit: true, galaxy: true },
+  { feature: 'ELEVO Connect™ (DM automation)', launch: false, orbit: true, galaxy: true },
+  { feature: 'Customer Trends & churn prediction', launch: false, orbit: true, galaxy: true },
+  { feature: 'Market research', launch: false, orbit: true, galaxy: true },
+  { feature: 'Campaign planning', launch: false, orbit: true, galaxy: true },
+  { feature: 'White-label', launch: false, orbit: false, galaxy: true },
+  { feature: 'API access', launch: false, orbit: false, galaxy: true },
+  { feature: 'Embeddable widgets', launch: false, orbit: false, galaxy: true },
+  { feature: 'Team member access', launch: false, orbit: false, galaxy: 'Up to 5' },
+  { feature: 'Custom subdomain', launch: false, orbit: false, galaxy: true },
+  { feature: 'Support', launch: 'Email', orbit: 'Priority', galaxy: 'Dedicated manager' },
+];
+
+const FAQS: FaqItem[] = [
+  {
+    question: 'Is there really no card required for the trial?',
+    answer:
+      "Correct. 7 days free, no payment details needed. Add a card when you're ready to upgrade.",
+  },
+  {
+    question: 'Can I cancel anytime?',
+    answer: 'Yes. Cancel from your account settings — no calls, no forms, instant.',
+  },
+  {
+    question: 'What counts as a credit?',
+    answer:
+      'One credit = one AI generation. Most content types cost 1 credit. The Problem Solver costs 2 credits.',
+  },
+  {
+    question: 'What happens when I run out of credits?',
+    answer: 'Credits reset monthly. Upgrade or wait for the reset.',
+  },
+  {
+    question: 'Does it work for my type of business?',
+    answer:
+      'ELEVO works for any local or service business — restaurants, trades, salons, dentists, consultants, agencies.',
+  },
+  {
+    question: 'What happens to my data if I cancel?',
+    answer: 'Your data is yours. Export everything before you leave.',
+  },
+  {
+    question: 'Is ELEVO available in Spanish?',
+    answer: 'Yes — fully available in English and Spanish, with more languages coming.',
+  },
+  {
+    question: 'Is there a money-back guarantee?',
+    answer:
+      'Not happy after your first payment? Email us within 48 hours for a full refund.',
+  },
+];
+
+function FeatureCell({ value }: { value: boolean | string }) {
+  if (value === true) {
+    return <Check className="w-5 h-5 text-indigo-600 mx-auto" aria-label="Included" />;
+  }
+  if (value === false) {
+    return <Minus className="w-5 h-5 text-gray-300 mx-auto" aria-label="Not included" />;
+  }
+  return (
+    <span className="text-sm text-gray-700 text-center block">{value}</span>
+  );
+}
+
+export default function PricingPage() {
+  const params = useParams();
+  const locale = (params?.locale as string) ?? 'en';
+
+  const [annual, setAnnual] = useState<boolean>(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [tableExpanded, setTableExpanded] = useState<boolean>(false);
+
+  const signupHref = `/${locale}/signup`;
+  const visibleRows = tableExpanded ? FEATURE_ROWS : FEATURE_ROWS.slice(0, 10);
 
   return (
-    <div className="py-20 px-6">
-      <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-3">Pricing</h1>
-          <p className="text-gray-500">Start free. Upgrade when you need more.</p>
+    <main className="bg-white min-h-screen">
+      {/* ── 1. Header ── */}
+      <section className="pt-20 pb-10 px-4 text-center">
+        <div className="max-w-3xl mx-auto">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">
+            Simple, honest pricing.
+          </h1>
+          <p className="mt-4 text-lg text-gray-500">
+            Start free for 7 days. No card required. Cancel anytime.
+          </p>
+
+          {/* Monthly / Annual toggle */}
+          <div className="mt-8 inline-flex items-center gap-3 flex-wrap justify-center">
+            <span
+              className={`text-sm font-medium transition-colors ${
+                !annual ? 'text-gray-900' : 'text-gray-400'
+              }`}
+            >
+              Monthly
+            </span>
+            <button
+              type="button"
+              onClick={() => setAnnual((v) => !v)}
+              className={`relative inline-flex h-7 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
+                annual ? 'bg-indigo-600' : 'bg-gray-200'
+              }`}
+              aria-label="Toggle annual billing"
+              aria-checked={annual}
+              role="switch"
+            >
+              <span
+                className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform ${
+                  annual ? 'translate-x-8' : 'translate-x-1'
+                }`}
+              />
+            </button>
+            <span
+              className={`text-sm font-medium transition-colors ${
+                annual ? 'text-gray-900' : 'text-gray-400'
+              }`}
+            >
+              Annual
+            </span>
+            {annual && (
+              <span className="rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-green-700">
+                2 months free — 17% off
+              </span>
+            )}
+          </div>
         </div>
+      </section>
 
-        {/* Plans */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-          {PLANS.map(plan => {
-            const price = currency === 'USD' ? plan.prices.usd : currency === 'EUR' ? plan.prices.eur : plan.prices.gbp
-            const annualPrice = currency === 'USD' ? plan.annualPrices.usd : currency === 'EUR' ? plan.annualPrices.eur : plan.annualPrices.gbp
-
-            return (
-              <div key={plan.id} className={`rounded-2xl p-6 border ${plan.highlight ? 'border-indigo-500 ring-2 ring-indigo-500/20 relative' : 'border-gray-200'}`}>
-                {plan.badge && (
-                  <div className={`absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold ${plan.highlight ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'}`}>
+      {/* ── 2. Plan cards ── */}
+      <section className="pb-12 px-4">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+          {PLANS.map((plan) => (
+            <div
+              key={plan.id}
+              className={`relative rounded-2xl border p-8 flex flex-col ${
+                plan.highlighted
+                  ? 'border-indigo-500 shadow-xl shadow-indigo-100 ring-2 ring-indigo-500'
+                  : 'border-gray-200 shadow-sm'
+              }`}
+            >
+              {/* Badge */}
+              {plan.badge && (
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-indigo-600 px-3 py-1 text-xs font-semibold text-white shadow">
+                    <Star className="w-3 h-3" />
                     {plan.badge}
-                  </div>
-                )}
-                <h2 className="text-xl font-bold text-gray-900 mb-1">{plan.name}</h2>
-                <div className="mb-1">
-                  <span className="text-3xl font-bold text-gray-900">{currencySymbol}{price}</span>
-                  <span className="text-gray-500 text-sm">/month</span>
+                  </span>
                 </div>
-                <p className="text-xs text-gray-400 mb-1">or {currencySymbol}{annualPrice}/year (save ~16%)</p>
-                <p className="text-sm text-indigo-600 font-medium mb-4">{plan.credits === 999 ? '999 credits/month' : `${plan.credits} credits/month`}</p>
+              )}
 
-                <ul className="space-y-2 mb-6">
-                  {plan.features.map(f => (
-                    <li key={f} className="flex items-start gap-2 text-sm text-gray-600">
-                      <CheckCircle2 size={15} className="text-indigo-500 mt-0.5 shrink-0" />
-                      {f}
+              <div className="flex-1">
+                <h2 className="text-xl font-bold text-gray-900">{plan.name}</h2>
+                <p className="mt-1 text-sm text-gray-500">{plan.description}</p>
+
+                {/* Price */}
+                <div className="mt-5 flex items-end gap-1">
+                  <span className="text-4xl font-extrabold text-gray-900">
+                    £{annual ? plan.annualPrice : plan.monthlyPrice}
+                  </span>
+                  <span className="mb-1 text-sm text-gray-400">/month</span>
+                </div>
+                {annual && (
+                  <p className="mt-1 text-xs text-gray-400">
+                    Billed annually (£{plan.annualPrice * 12}/yr)
+                  </p>
+                )}
+
+                {/* Credits pill */}
+                <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-indigo-50 px-3 py-1">
+                  <Zap className="w-3.5 h-3.5 text-indigo-500" />
+                  <span className="text-xs font-medium text-indigo-700">{plan.credits}</span>
+                </div>
+
+                {/* Feature list */}
+                <ul className="mt-6 space-y-3">
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-2.5 text-sm text-gray-700">
+                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-indigo-500" />
+                      {feature}
                     </li>
                   ))}
                 </ul>
+              </div>
 
+              {/* CTA */}
+              <div className="mt-8">
                 <Link
-                  href={`/${locale}/signup`}
-                  className={`block text-center py-2.5 rounded-xl font-semibold text-sm transition-colors ${plan.highlight ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'border border-gray-300 text-gray-700 hover:border-indigo-400 hover:text-indigo-600'}`}
+                  href={signupHref}
+                  className={`block w-full rounded-xl px-5 text-center font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
+                    plan.ctaVariant === 'filled'
+                      ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-md shadow-indigo-200 text-base py-3.5'
+                      : 'border border-indigo-600 text-indigo-600 hover:bg-indigo-50 text-sm py-3'
+                  }`}
                 >
-                  Get started
+                  Start free trial →
                 </Link>
               </div>
-            )
-          })}
+            </div>
+          ))}
         </div>
+      </section>
 
-        {/* Trial */}
-        <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200 mb-16 text-center">
-          <h3 className="text-lg font-bold text-gray-900 mb-1">Start with a free trial</h3>
-          <p className="text-gray-500 text-sm mb-4">20 credits. All features. No credit card required.</p>
-          <Link href={`/${locale}/signup`} className="inline-block px-6 py-2.5 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors">
-            Create free account
-          </Link>
+      {/* ── 3. Add-on box ── */}
+      <section className="pb-12 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="rounded-2xl border border-dashed border-indigo-300 bg-indigo-50 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <h3 className="text-base font-semibold text-gray-900">
+                ELEVO Studio™ Add-on —{' '}
+                <span className="text-indigo-600">£29.99/month</span>
+              </h3>
+              <p className="mt-1 text-sm text-gray-600">
+                Avatar ads, URL-to-video, voiceovers — included when added to any plan.
+              </p>
+            </div>
+            <Link
+              href={signupHref}
+              className="shrink-0 rounded-xl border border-indigo-600 px-5 py-2.5 text-sm font-semibold text-indigo-600 hover:bg-indigo-100 transition-colors whitespace-nowrap"
+            >
+              Add to plan →
+            </Link>
+          </div>
         </div>
+      </section>
 
-        {/* FAQ */}
-        <div className="max-w-2xl mx-auto mb-16">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Frequently asked questions</h2>
-          <div className="space-y-4">
-            {faqs.map(faq => (
-              <div key={faq.q} className="border border-gray-200 rounded-xl p-5">
-                <h3 className="font-semibold text-gray-900 mb-2">{faq.q}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{faq.a}</p>
+      {/* ── 4. Feature comparison table ── */}
+      <section className="pb-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">
+            Full feature comparison
+          </h2>
+
+          <div className="overflow-x-auto rounded-2xl border border-gray-200 shadow-sm">
+            <table className="w-full min-w-[600px] text-sm">
+              <thead>
+                <tr className="border-b border-gray-200 bg-gray-50">
+                  <th className="py-4 px-5 text-left font-semibold text-gray-600 w-1/2">
+                    Feature
+                  </th>
+                  <th className="py-4 px-5 text-center font-semibold text-gray-700">
+                    Launch
+                  </th>
+                  <th className="py-4 px-5 text-center font-bold text-indigo-700 bg-indigo-50/60">
+                    Orbit ★
+                  </th>
+                  <th className="py-4 px-5 text-center font-semibold text-gray-700">
+                    Galaxy
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {visibleRows.map((row, i) => (
+                  <tr
+                    key={row.feature}
+                    className={`border-b border-gray-100 ${
+                      i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'
+                    }`}
+                  >
+                    <td className="py-3 px-5 text-gray-700">{row.feature}</td>
+                    <td className="py-3 px-5">
+                      <FeatureCell value={row.launch} />
+                    </td>
+                    <td className="py-3 px-5 bg-indigo-50/30">
+                      <FeatureCell value={row.orbit} />
+                    </td>
+                    <td className="py-3 px-5">
+                      <FeatureCell value={row.galaxy} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Expand / collapse */}
+          <div className="mt-4 text-center">
+            <button
+              type="button"
+              onClick={() => setTableExpanded((v) => !v)}
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors"
+            >
+              {tableExpanded ? (
+                <>
+                  <ChevronUp className="w-4 h-4" />
+                  Show less
+                </>
+              ) : (
+                <>
+                  <ChevronDown className="w-4 h-4" />
+                  Show all {FEATURE_ROWS.length} features
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 5. FAQ Accordion ── */}
+      <section className="pb-20 px-4 bg-gray-50">
+        <div className="max-w-2xl mx-auto pt-16">
+          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">
+            Frequently asked questions
+          </h2>
+          <div className="space-y-3">
+            {FAQS.map((faq, i) => (
+              <div
+                key={i}
+                className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden"
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full flex items-center justify-between px-5 py-4 text-left focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                  aria-expanded={openFaq === i}
+                >
+                  <span className="text-sm font-semibold text-gray-900 pr-4">
+                    {faq.question}
+                  </span>
+                  {openFaq === i ? (
+                    <ChevronUp className="shrink-0 w-4 h-4 text-gray-400" />
+                  ) : (
+                    <ChevronDown className="shrink-0 w-4 h-4 text-gray-400" />
+                  )}
+                </button>
+                {openFaq === i && (
+                  <div className="px-5 pb-4">
+                    <p className="text-sm text-gray-600 leading-relaxed">{faq.answer}</p>
+                  </div>
+                )}
               </div>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* Money-back guarantee */}
-        <div className="bg-green-50 border border-green-200 rounded-2xl p-6 mb-8 max-w-2xl mx-auto text-center">
-          <div className="text-2xl mb-2">🛡️</div>
-          <h3 className="text-lg font-bold text-gray-900 mb-1">14-day money-back guarantee</h3>
-          <p className="text-gray-500 text-sm leading-relaxed">
-            Not happy in your first 14 days? We&apos;ll refund you in full, no questions asked.
-            Just email <span className="font-medium text-gray-700">hello@elevo.ai</span> and we&apos;ll sort it immediately.
+      {/* ── 6. Final CTA row ── */}
+      <section className="py-20 px-4 bg-white border-t border-gray-100">
+        <div className="max-w-xl mx-auto text-center">
+          <p className="text-sm text-gray-500 mb-6">
+            Not happy? Email us within 48 hours of your first payment for a full refund.
           </p>
-        </div>
-
-        {/* Enterprise CTA */}
-        <div className="bg-gray-900 rounded-2xl p-8 text-center max-w-2xl mx-auto">
-          <h3 className="text-xl font-bold text-white mb-2">Need more than Galaxy?</h3>
-          <p className="text-gray-400 text-sm mb-4 leading-relaxed">
-            For agencies, franchises, and multi-location businesses. Custom agent training, white-label portal,
-            dedicated account manager, and unlimited everything.
-          </p>
-          <a
-            href="mailto:hello@elevo.ai?subject=Enterprise enquiry"
-            className="inline-block px-6 py-3 bg-white text-gray-900 font-semibold rounded-xl hover:bg-gray-100 transition-colors text-sm"
+          <Link
+            href={signupHref}
+            className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
-            Talk to us about Enterprise →
-          </a>
+            Start free trial — no card needed
+          </Link>
+          <p className="mt-4 text-xs text-gray-400">
+            7-day free trial · Cancel anytime · ELEVO AI™
+          </p>
         </div>
-      </div>
-    </div>
-  )
+      </section>
+    </main>
+  );
 }
