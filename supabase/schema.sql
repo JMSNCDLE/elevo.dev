@@ -296,7 +296,9 @@ CREATE TABLE IF NOT EXISTS analytics_events (
     'page_view','session_start','session_end',
     'content_generated','roas_viewed','problem_solved',
     'contact_added','review_requested','campaign_sent',
-    'upgrade_clicked','feature_used','agent_chat'
+    'upgrade_clicked','feature_used','agent_chat',
+    'lead_captured_social','conversation_converted',
+    'dm_flow_triggered','template_sent','video_created'
   )),
   page TEXT,
   agent_name TEXT,
@@ -366,3 +368,144 @@ CREATE POLICY "own ad_perf" ON ad_performance FOR ALL USING (business_profile_id
 CREATE INDEX IF NOT EXISTS idx_analytics_events_bp ON analytics_events(business_profile_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_revenue_date ON revenue_snapshots(user_id, snapshot_date DESC);
 CREATE INDEX IF NOT EXISTS idx_ad_perf_date ON ad_performance(business_profile_id, date DESC);
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- Phase 8 Tables
+-- ─────────────────────────────────────────────────────────────────────────────
+
+CREATE TABLE IF NOT EXISTS social_accounts (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  business_profile_id UUID REFERENCES business_profiles(id),
+  platform TEXT NOT NULL CHECK (platform IN ('instagram','facebook','linkedin','twitter','tiktok','google')),
+  platform_user_id TEXT NOT NULL,
+  platform_username TEXT,
+  page_id TEXT,
+  page_name TEXT,
+  access_token TEXT NOT NULL,
+  refresh_token TEXT,
+  token_expires_at TIMESTAMPTZ,
+  follower_count INTEGER DEFAULT 0,
+  auto_post_enabled BOOLEAN DEFAULT false,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(user_id, platform, platform_user_id)
+);
+ALTER TABLE social_accounts ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_social_accounts" ON social_accounts FOR ALL USING (auth.uid() = user_id);
+
+CREATE TABLE IF NOT EXISTS scheduled_posts (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  business_profile_id UUID REFERENCES business_profiles(id),
+  social_account_id UUID REFERENCES social_accounts(id),
+  platform TEXT NOT NULL,
+  content TEXT NOT NULL,
+  media_url TEXT,
+  media_type TEXT DEFAULT 'IMAGE',
+  scheduled_for TIMESTAMPTZ NOT NULL,
+  status TEXT DEFAULT 'scheduled' CHECK (status IN ('scheduled','published','failed','cancelled')),
+  published_at TIMESTAMPTZ,
+  platform_post_id TEXT,
+  error_message TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE scheduled_posts ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_scheduled_posts" ON scheduled_posts FOR ALL USING (auth.uid() = user_id);
+CREATE INDEX IF NOT EXISTS idx_scheduled_posts_due ON scheduled_posts(status, scheduled_for) WHERE status = 'scheduled';
+
+CREATE TABLE IF NOT EXISTS ai_videos (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  business_profile_id UUID REFERENCES business_profiles(id),
+  title TEXT NOT NULL,
+  video_type TEXT NOT NULL CHECK (video_type IN (
+    'avatar_ad','product_url_ad','voiceover_ugc',
+    'cinematic_ugc','talking_head','slideshow_ad','hook_video'
+  )),
+  platform TEXT NOT NULL,
+  script TEXT,
+  voice_style TEXT,
+  visual_style TEXT,
+  product_url TEXT,
+  status TEXT DEFAULT 'brief_ready' CHECK (status IN (
+    'brief_ready','prompts_generated','producing',
+    'review','approved','published','archived'
+  )),
+  ai_prompts JSONB DEFAULT '{}',
+  production_notes TEXT,
+  video_url TEXT,
+  thumbnail_url TEXT,
+  scheduled_post_id UUID REFERENCES scheduled_posts(id),
+  duration_seconds INTEGER,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE ai_videos ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_ai_videos" ON ai_videos FOR ALL USING (auth.uid() = user_id);
+CREATE INDEX IF NOT EXISTS idx_ai_videos_user ON ai_videos(user_id, created_at DESC);
+
+CREATE TABLE IF NOT EXISTS conversation_flows (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  business_profile_id UUID REFERENCES business_profiles(id),
+  name TEXT NOT NULL,
+  trigger_type TEXT NOT NULL CHECK (trigger_type IN (
+    'comment_keyword','dm_keyword','story_reply','new_follower',
+    'post_reaction','link_click','form_submit','missed_call',
+    'review_left','appointment_booked','payment_received','manual'
+  )),
+  trigger_config JSONB DEFAULT '{}',
+  platform TEXT NOT NULL,
+  channel TEXT NOT NULL CHECK (channel IN (
+    'instagram_dm','facebook_dm','whatsapp','sms','email','all'
+  )),
+  flow_steps JSONB DEFAULT '[]',
+  is_active BOOLEAN DEFAULT false,
+  total_triggered INTEGER DEFAULT 0,
+  total_converted INTEGER DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE conversation_flows ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_flows" ON conversation_flows FOR ALL USING (auth.uid() = user_id);
+
+CREATE TABLE IF NOT EXISTS live_conversations (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  contact_id UUID REFERENCES contacts(id),
+  business_profile_id UUID REFERENCES business_profiles(id),
+  platform TEXT NOT NULL,
+  channel TEXT NOT NULL,
+  external_thread_id TEXT,
+  status TEXT DEFAULT 'active' CHECK (status IN ('active','resolved','escalated','spam')),
+  ai_handling BOOLEAN DEFAULT true,
+  messages JSONB DEFAULT '[]',
+  intent TEXT,
+  sentiment TEXT,
+  conversion_achieved BOOLEAN DEFAULT false,
+  conversion_type TEXT,
+  assigned_to TEXT DEFAULT 'ai',
+  last_message_at TIMESTAMPTZ DEFAULT NOW(),
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE live_conversations ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_live_conversations" ON live_conversations FOR ALL USING (auth.uid() = user_id);
+CREATE INDEX IF NOT EXISTS idx_live_conv_status ON live_conversations(user_id, status, last_message_at DESC);
+
+CREATE TABLE IF NOT EXISTS conversation_templates (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  business_profile_id UUID REFERENCES business_profiles(id),
+  name TEXT NOT NULL,
+  category TEXT NOT NULL CHECK (category IN (
+    'welcome','booking','quote','follow_up','review_request',
+    'reactivation','objection_handling','faq','promo','custom'
+  )),
+  platform TEXT,
+  message TEXT NOT NULL,
+  quick_replies JSONB DEFAULT '[]',
+  variables JSONB DEFAULT '[]',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE conversation_templates ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_conv_templates" ON conversation_templates FOR ALL USING (auth.uid() = user_id);

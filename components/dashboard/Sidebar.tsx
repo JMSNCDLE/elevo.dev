@@ -6,7 +6,8 @@ import {
   LayoutDashboard, FileText, BookOpen, Share2, Star, Mail, Search,
   TrendingUp, Briefcase, BarChart2, Target, DollarSign, Users2, Megaphone,
   UserSquare2, Zap, Library, Settings, ChevronRight, Rocket,
-  BarChart3, Package, TrendingDown, MapPin, Repeat2, MessageSquare, Bot
+  BarChart3, Package, TrendingDown, MapPin, Repeat2, MessageSquare, Bot,
+  Film, Video, UserCheck, Megaphone as Campaign
 } from 'lucide-react'
 
 interface SidebarProps {
@@ -79,10 +80,22 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       ],
     },
     {
+      title: 'Social & Video',
+      items: [
+        { href: `/${locale}/social`, label: 'Social Hub', icon: Share2, orbitOnly: true },
+        { href: `/${locale}/video-studio`, label: 'Video Studio', icon: Film, orbitOnly: true },
+        { href: `/${locale}/ugc`, label: 'UGC Pipeline', icon: Video, orbitOnly: true },
+        { href: `/${locale}/conversations`, label: 'Conversations', icon: MessageSquare, orbitOnly: true },
+        { href: `/${locale}/social/profiles`, label: 'Profile Generator', icon: UserCheck },
+      ],
+    },
+    {
       title: 'Customers',
       items: [
-        { href: `/${locale}/dashboard/customers`, label: 'Contacts', icon: UserSquare2 },
-        { href: `/${locale}/conversations`, label: 'Conversations', icon: MessageSquare, orbitOnly: true },
+        { href: `/${locale}/dashboard/customers`, label: 'All Contacts', icon: UserSquare2 },
+        { href: `/${locale}/dashboard/customers/pipeline`, label: 'Sales Pipeline', icon: BarChart2, orbitOnly: true },
+        { href: `/${locale}/dashboard/customers/review-requests`, label: 'Review Requests', icon: Star },
+        { href: `/${locale}/dashboard/customers/campaigns`, label: 'Campaigns', icon: Campaign, orbitOnly: true },
       ],
     },
     {

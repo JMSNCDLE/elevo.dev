@@ -246,3 +246,66 @@ _Add items here as James specifies them_
 - `app/[locale]/(marketing)/page.tsx` — Spanish hero copy, TrustBar, LiveCounters
 - `app/[locale]/(marketing)/pricing/page.tsx` — Money-back guarantee + Enterprise CTA
 - `middleware.ts` — Spanish Accept-Language redirect
+
+---
+
+## Phase 8 Complete (2026-03-22)
+
+### Files added in Phase 8
+
+**8A — Performance:**
+- `next.config.ts` — compress, poweredByHeader off, optimizeCss, optimizePackageImports, security headers, cache headers
+- `app/globals.css` — font smoothing + content-visibility
+- `app/api/health/route.ts` — GET health check endpoint
+- `app/[locale]/(dashboard)/[route]/loading.tsx` — 10 skeleton loading states (dashboard, social, ugc, analytics, roas, finances, customers, advisor, agents, automations)
+
+**8B — Auto-posting (real social API publishing):**
+- `lib/social/publisher.ts` — Instagram, Facebook, LinkedIn, Twitter/X, Google Business publishers
+- `lib/social/oauth.ts` — OAuth URL generators + code exchangers for 6 platforms
+- `app/api/social/oauth/[platform]/route.ts` — Redirect to platform OAuth
+- `app/api/social/callback/[platform]/route.ts` — Token exchange + save to social_accounts
+- `app/api/social/publish/route.ts` — Publish one post immediately
+- `app/api/cron/publish-scheduled/route.ts` — Every 15min: publish due posts
+- `app/[locale]/(dashboard)/social/page.tsx` — Full Social Hub with OAuth connect, follower count, auto-post toggle
+- `.env.local.example` — All env vars including 12 social OAuth keys
+- `vercel.json` — Added */15 * * * * publish-scheduled cron
+
+**8C — AI Video Studio (Arcads + Creatify + ElevenLabs in one):**
+- `lib/agents/videoStudioAgent.ts` — Vega agent: generateAvatarAdScript, generateProductVideoFromUrl, generateVoiceoverScript
+- `app/[locale]/(dashboard)/video-studio/page.tsx` — 4-mode studio (Avatar/Product URL/Voiceover/Cinematic) with comparison table
+- `app/api/video-studio/avatar/route.ts` — 2 credits, Opus-powered
+- `app/api/video-studio/product-url/route.ts` — 2 credits
+- `app/api/video-studio/voiceover/route.ts` — 1 credit
+
+**8D — ManyChat-level CRM (Sage supercharged):**
+- `lib/agents/crmConversationAgent.ts` — Sage: handleIncomingMessage, buildConversationFlow, generateTemplateLibrary
+- `app/[locale]/(dashboard)/conversations/page.tsx` — Full ManyChat UI: Live Inbox + Flow Builder + Template Library
+- `app/api/conversations/inbox/route.ts` — GET (paginated/filtered) + PATCH
+- `app/api/conversations/reply/route.ts` — Sage handles message + auto-CRM + analytics
+- `app/api/conversations/flows/route.ts` — GET + POST (build flow) + PATCH (toggle)
+- `app/api/conversations/templates/route.ts` — GET + POST (generate)
+
+**8E — Social→CRM Pipeline:**
+- `app/api/conversations/reply/route.ts` — auto-upserts contacts when Sage collects info, tracks analytics
+- `supabase/schema.sql` — analytics_events extended with lead_captured_social, conversation_converted, dm_flow_triggered, template_sent, video_created
+
+**8F — Landing page:**
+- `app/[locale]/(marketing)/page.tsx` — Added Video Studio comparison table section + ManyChat DM automation section with flow diagram
+
+**8G — Sidebar:**
+- `components/dashboard/Sidebar.tsx` — New "Social & Video" section (Social Hub, Video Studio, UGC Pipeline, Conversations, Profile Generator). Customers section cleaned up.
+
+**Schema tables added:**
+- `social_accounts` — OAuth tokens per platform per user
+- `scheduled_posts` — Content scheduled for publishing
+- `ai_videos` — Video briefs + AI prompts
+- `conversation_flows` — ManyChat-style automation flows
+- `live_conversations` — Real-time message threads
+- `conversation_templates` — Reusable message templates
+
+### What James needs to do
+
+1. Add social OAuth app credentials to `.env.local` (see `.env.local.example`)
+2. Run updated `supabase/schema.sql` in Supabase SQL Editor (Phase 8 tables at bottom)
+3. Set `CRON_SECRET` env var in Vercel for cron authentication
+4. Create Instagram/Facebook App at developers.facebook.com, LinkedIn App, Twitter Developer App, TikTok Developer App, Google Cloud OAuth credentials

@@ -324,6 +324,120 @@ export default async function LandingPage({ params }: { params: Promise<{ locale
         </div>
       </section>
 
+      {/* ── SECTION: VIDEO STUDIO ────────────────────────────────── */}
+      <section className="py-24 px-6 bg-white">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14">
+            <span className="text-indigo-600 text-sm font-semibold uppercase tracking-widest">Video Studio</span>
+            <h2 className="text-4xl font-extrabold text-gray-900 mt-3 mb-4">
+              Every AI video tool. One subscription.
+            </h2>
+            <p className="text-gray-500 text-lg max-w-2xl mx-auto">
+              Arcads-style avatar ads. Creatify-style URL-to-video. ElevenLabs-style voiceovers.
+              Higgsfield cinematic UGC. All in ELEVO Video Studio — <strong className="text-indigo-600">£29.99/month add-on</strong>.
+            </p>
+          </div>
+
+          {/* Comparison table */}
+          <div className="overflow-x-auto rounded-2xl border border-gray-200 shadow-sm">
+            <table className="w-full text-sm">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="text-left px-6 py-4 text-gray-500 font-medium">Feature</th>
+                  <th className="text-center px-5 py-4 text-gray-500 font-medium">Arcads</th>
+                  <th className="text-center px-5 py-4 text-gray-500 font-medium">Creatify</th>
+                  <th className="text-center px-5 py-4 text-gray-500 font-medium">ElevenLabs</th>
+                  <th className="text-center px-5 py-4 text-indigo-600 font-bold bg-indigo-50">ELEVO</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { feature: 'Avatar ad scripts', arcads: '✓', creatify: '—', el: '—', elevo: '✓' },
+                  { feature: 'URL to video', arcads: '—', creatify: '✓', el: '—', elevo: '✓' },
+                  { feature: 'AI voiceover', arcads: '—', creatify: '—', el: '✓', elevo: '✓' },
+                  { feature: 'Cinematic UGC', arcads: '—', creatify: '—', el: '—', elevo: '✓' },
+                  { feature: 'CRM integration', arcads: '—', creatify: '—', el: '—', elevo: '✓' },
+                  { feature: 'Auto-schedule to social', arcads: '—', creatify: '—', el: '—', elevo: '✓' },
+                  { feature: 'Price', arcads: '£99+/mo', creatify: '£99+/mo', el: '£22+/mo', elevo: '£29.99/mo' },
+                ].map(row => (
+                  <tr key={row.feature} className="border-t border-gray-100">
+                    <td className="px-6 py-3.5 text-gray-700">{row.feature}</td>
+                    <td className="text-center px-5 py-3.5 text-gray-400">{row.arcads}</td>
+                    <td className="text-center px-5 py-3.5 text-gray-400">{row.creatify}</td>
+                    <td className="text-center px-5 py-3.5 text-gray-400">{row.el}</td>
+                    <td className="text-center px-5 py-3.5 text-indigo-600 font-semibold bg-indigo-50/60">{row.elevo}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <p className="text-center text-gray-500 mt-6 text-sm font-medium">
+            ELEVO replaces all three. At a fraction of the price.
+          </p>
+
+          <div className="flex justify-center mt-8">
+            <Link href={`/${locale}/signup`}
+              className="px-8 py-3 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition-colors">
+              Try Video Studio free →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SECTION: MANYCHAT ────────────────────────────────────── */}
+      <section className="py-24 px-6 bg-gray-50">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-14">
+            <span className="text-indigo-600 text-sm font-semibold uppercase tracking-widest">Conversations</span>
+            <h2 className="text-4xl font-extrabold text-gray-900 mt-3 mb-4">
+              Your Instagram DMs are a goldmine.<br className="hidden md:block" /> You&apos;re not using them.
+            </h2>
+            <p className="text-gray-500 text-lg max-w-2xl mx-auto">
+              Someone comments on your post → Sage sends them a personalised DM → they reply →
+              Sage books the appointment → contact added to your CRM. All automatic. All night.
+            </p>
+          </div>
+
+          {/* Flow diagram */}
+          <div className="flex items-center justify-center gap-2 md:gap-4 mb-14 flex-wrap">
+            {[
+              { label: 'Comment', icon: '💬' },
+              { label: 'Auto DM', icon: '📨' },
+              { label: 'Sage replies', icon: '🤖' },
+              { label: 'Booked', icon: '📅' },
+              { label: 'CRM ✓', icon: '✅' },
+            ].map((step, i) => (
+              <div key={step.label} className="flex items-center gap-2 md:gap-4">
+                <div className="bg-white border border-gray-200 rounded-xl px-4 py-3 text-center shadow-sm min-w-[80px]">
+                  <div className="text-2xl mb-1">{step.icon}</div>
+                  <p className="text-xs font-semibold text-gray-700">{step.label}</p>
+                </div>
+                {i < 4 && <span className="text-gray-300 text-xl hidden sm:block">→</span>}
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm text-center max-w-2xl mx-auto">
+            <p className="text-gray-600 text-base mb-4">
+              ManyChat costs <strong className="text-red-500">£99/month</strong> and needs hours of setup.
+              ELEVO does this in 2 minutes and it&apos;s{' '}
+              <strong className="text-indigo-600">included in Orbit</strong>.
+            </p>
+            <div className="flex items-center justify-center gap-6 text-sm text-gray-500 mb-6">
+              <span>✓ Instagram DMs</span>
+              <span>✓ WhatsApp</span>
+              <span>✓ SMS</span>
+              <span>✓ Email</span>
+            </div>
+            <Link href={`/${locale}/signup`}
+              className="inline-block px-8 py-3 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition-colors">
+              Automate your DMs →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ── SECTION 10: FINAL CTA ─────────────────────────────────── */}
       <section className="py-24 px-6 bg-indigo-600">
         <div className="max-w-2xl mx-auto text-center">
