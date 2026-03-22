@@ -371,3 +371,59 @@ _Add items here as James specifies them_
 3. Register domain variants: elevo.com, getelevo.com, tryelevo.com
 4. Run `supabase/schema.sql` (Phase 9 additions: blog_posts, ad_campaigns tables)
 5. Set up Google Alerts for "elevo ai", "elevoai"
+
+---
+
+## Phase 12 Complete (2026-03-22)
+
+### What was built in Phase 12
+
+**12 FIX 1 — Hydration errors fixed:**
+- `components/shared/LiveCounters.tsx` — mounted pattern, lastSignup randomised in useEffect only
+- `app/[locale]/layout.tsx` — suppressHydrationWarning on html + body
+- `components/shared/FadeInWhenVisible.tsx` — framer-motion scroll-triggered fade component
+- `components/marketing/LogoScroll.tsx` — CSS-only infinite logo scroll (no hydration risk)
+- `components/marketing/Nav.tsx` — warm off-white scrolled bg rgba(255,252,248,0.95), gradient E logo
+- `lib/ip-locale.ts` — 3-tier locale detection (cookie → Vercel geo → Accept-Language)
+- `middleware.ts` — root path `/` redirects to detected locale
+- `app/[locale]/(marketing)/layout.tsx` — SmoothScrollProvider + CookieConsent + ExitIntentPopup + ScrollTriggerPopup
+
+**12A — Receipt + Invoice email system:**
+- `lib/email/invoice-template.ts` — Beautiful HTML invoice email with anniversary billing date
+- `app/api/stripe/webhook/route.ts` — invoice.payment_succeeded handler: generate invoice number, insert to DB, send email
+- `app/api/invoices/route.ts` — GET user invoice history
+- `app/[locale]/(dashboard)/settings/billing/page.tsx` — Invoice table + next billing date + Stripe portal links
+- `supabase/schema.sql` — invoices table + billing_anchor_day on profiles
+
+**12B — Countdown timer + discount codes:**
+- `components/pricing/CountdownBanner.tsx` — 7-minute session-based countdown, expired state shows email unlock
+- `components/pricing/PersonalCodeBanner.tsx` — Shows saved personal code with expiry countdown
+- `app/api/discount/generate/route.ts` — POST: generate/reuse 50% discount code, send email
+- `app/api/discount/validate/route.ts` — POST: validate code before checkout
+- `app/api/stripe/checkout/route.ts` — Updated to accept + apply discount codes
+- `supabase/schema.sql` — discount_codes table
+
+**12C — Sales funnel CTA consistency:**
+- `app/[locale]/(marketing)/page.tsx` — Complete rewrite with FadeInWhenVisible animations, warm white #FFFEF9 bg, consistent "Start free trial" CTA language
+
+**12D — ELEVO Spy™ competitor intelligence:**
+- `lib/agents/competitorSpyAgent.ts` — Opus + web_search, CompetitorIntelReport interface (10 sections), monitorCompetitor()
+- `app/[locale]/(dashboard)/spy/page.tsx` — Full spy dashboard: form, threat level, 6 tabs (overview/content/ads/seo/sentiment/battleplan), monitoring panel
+- `app/api/spy/analyse/route.ts` — POST 1/3/5 credits (quick/deep/full), Orbit+ only
+- `app/api/spy/saved/route.ts` — GET saved competitors
+- `app/api/cron/spy-monitor/route.ts` — Weekly Monday 8am competitor change detection
+- `app/api/business-profiles/route.ts` — GET user's business profiles
+- `vercel.json` — Added spy-monitor cron (Mondays 8am)
+- `supabase/schema.sql` — competitor_intel table
+- `components/dashboard/Sidebar.tsx` — ELEVO Spy™ added to Intelligence section (Orbit+, NEW badge)
+
+**12E — Landing page spy section:**
+- `app/[locale]/(marketing)/page.tsx` — ELEVO Spy™ dark section between agents and testimonials
+
+### Sidebar: ELEVO Spy™ is under Intelligence section (Orbit+, NEW badge)
+### Credits: quick=1, deep=3, full=5
+
+### What James needs to do next
+
+1. Run `supabase/schema.sql` (Phase 12 additions: invoices, discount_codes, competitor_intel tables + billing_anchor_day column)
+2. No new env vars required for Phase 12

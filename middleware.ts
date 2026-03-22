@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { updateSession } from '@/lib/supabase/middleware'
 import { COOKIE_NAMES, COOKIE_OPTIONS } from '@/lib/cookies'
+import { detectLocaleFromRequest } from '@/lib/ip-locale'
 
 const locales = ['en', 'es', 'fr', 'de', 'it', 'pt', 'nl', 'pl', 'sv', 'ja', 'en-US', 'en-AU']
 const defaultLocale = 'en'
@@ -54,16 +55,10 @@ export async function middleware(request: NextRequest) {
     return response
   }
 
-  // Detect Spanish from Accept-Language and redirect root/unlocalized paths
-  const isRootOrUnlocalized =
-    pathname === '/' ||
-    !locales.some(l => pathname.startsWith(`/${l}/`) || pathname === `/${l}`)
-
-  if (isRootOrUnlocalized && pathname === '/') {
-    const acceptLang = request.headers.get('accept-language') ?? ''
-    if (acceptLang.toLowerCase().startsWith('es')) {
-      return NextResponse.redirect(new URL('/es', request.url))
-    }
+  // Detect locale from IP/cookie/Accept-Language and redirect root path visits
+  if (pathname === '/') {
+    const detectedLocale = detectLocaleFromRequest(request)
+    return NextResponse.redirect(new URL(`/${detectedLocale}`, request.url))
   }
 
   // Update Supabase session

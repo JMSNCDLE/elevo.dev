@@ -14,13 +14,29 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.ai'
 export interface SendEmailParams {
   to: string
   subject: string
-  body: string
+  body?: string
+  html?: string
   from?: string
 }
 
 export async function sendEmail(params: SendEmailParams): Promise<{ success: boolean; id?: string }> {
   try {
-    const html = params.body
+    // If raw HTML provided, send it directly without wrapping
+    if (params.html) {
+      const { data, error } = await getResend().emails.send({
+        from: params.from ?? FROM_EMAIL,
+        to: params.to,
+        subject: params.subject,
+        html: params.html,
+      })
+      if (error) {
+        console.error('Resend error:', error)
+        return { success: false }
+      }
+      return { success: true, id: data?.id }
+    }
+
+    const html = (params.body ?? '')
       .replace(/\n/g, '<br>')
       .replace(/\[(.+?)\s*→\]\s*(https?:\/\/\S+)/g, '<a href="$2" style="color:#6366F1;font-weight:600;">$1 →</a>')
       .replace(/\[(.+?)\s*→\]/g, '<a href="#" style="color:#6366F1;font-weight:600;">$1 →</a>')

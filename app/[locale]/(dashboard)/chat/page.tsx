@@ -109,12 +109,10 @@ export default function ChatPage() {
   const recognitionRef = useRef<any>(null)
 
   useEffect(() => {
-    // Check speech support
-    if (typeof window !== 'undefined') {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
-      setHasSpeechSupport(!!SR)
-    }
+    // Check speech support (safe: always runs client-side inside useEffect)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+    setHasSpeechSupport(!!SR)
 
     // Load profile
     async function loadProfile() {

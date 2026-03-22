@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Nav from '@/components/marketing/Nav'
+import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider'
+import ClientPopups from '@/components/marketing/ClientPopups'
 
 export async function generateMetadata({
   params,
@@ -154,6 +156,7 @@ export default async function MarketingLayout({
   const { locale } = await params
 
   return (
+    <SmoothScrollProvider>
     <div className="min-h-screen bg-white flex flex-col">
       <JsonLd />
       <Nav locale={locale} />
@@ -224,6 +227,8 @@ export default async function MarketingLayout({
           </div>
         </div>
       </footer>
+      <ClientPopups />
     </div>
+    </SmoothScrollProvider>
   )
 }

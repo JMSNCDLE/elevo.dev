@@ -7,7 +7,7 @@ import {
   TrendingUp, Briefcase, BarChart2, Target, DollarSign, Users2, Megaphone,
   UserSquare2, Zap, Library, Settings, ChevronRight, Rocket,
   BarChart3, Package, TrendingDown, MapPin, Repeat2, MessageSquare, Bot,
-  Film, Video, UserCheck, Megaphone as Campaign
+  Film, Video, UserCheck, Megaphone as Campaign, Eye,
 } from 'lucide-react'
 
 interface SidebarProps {
@@ -77,6 +77,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
         { href: `/${locale}/customer-trends`, label: 'Customer Trends', icon: TrendingUp, orbitOnly: true },
         { href: `/${locale}/google-optimisation`, label: 'Google Optimisation', icon: MapPin },
         { href: `/${locale}/alternatives`, label: 'Find Alternatives', icon: Repeat2, orbitOnly: true },
+        { href: `/${locale}/spy`, label: 'ELEVO Spy™', icon: Eye, orbitOnly: true, badge: 'NEW' },
       ],
     },
     {

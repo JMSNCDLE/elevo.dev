@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { z } from 'zod'
 import Stripe from 'stripe'
-import { createServerClient } from '@/lib/supabase/server'
+import { createServerClient, createServiceClient } from '@/lib/supabase/server'
 import { getPriceId } from '@/lib/stripe/pricing'
 import { getAffiliateRef } from '@/lib/cookies'
 
@@ -16,6 +16,7 @@ const Schema = z.object({
   planId: z.enum(['launch', 'orbit', 'galaxy']),
   currency: z.enum(['gbp', 'usd', 'eur']).default('gbp'),
   annual: z.boolean().default(false),
+  discountCode: z.string().optional(),
 })
 
 export async function POST(request: NextRequest) {
@@ -27,7 +28,7 @@ export async function POST(request: NextRequest) {
   const parsed = Schema.safeParse(body)
   if (!parsed.success) return NextResponse.json({ error: 'Invalid input' }, { status: 400 })
 
-  const { planId, currency, annual } = parsed.data
+  const { planId, currency, annual, discountCode } = parsed.data
   const priceId = getPriceId(planId, currency, annual)
 
   if (!priceId) return NextResponse.json({ error: 'Invalid plan or price ID not configured' }, { status: 400 })
@@ -49,7 +50,32 @@ export async function POST(request: NextRequest) {
   // Read affiliate code from cookie
   const affiliateCode = getAffiliateRef(request)
 
-  const session = await getStripe().checkout.sessions.create({
+  // Validate and apply discount code if provided
+  let discounts: { coupon: string }[] = []
+  let discountDbId: string | null = null
+
+  if (discountCode) {
+    const serviceSupabase = await createServiceClient()
+    const { data: dc } = await serviceSupabase
+      .from('discount_codes')
+      .select('id, discount_percent, used, expires_at')
+      .eq('code', discountCode.toUpperCase())
+      .eq('used', false)
+      .gt('expires_at', new Date().toISOString())
+      .single()
+
+    if (dc) {
+      const coupon = await getStripe().coupons.create({
+        percent_off: dc.discount_percent,
+        duration: 'once',
+        metadata: { elevo_code: discountCode, discount_id: dc.id },
+      })
+      discounts = [{ coupon: coupon.id }]
+      discountDbId = dc.id
+    }
+  }
+
+  const sessionParams: Stripe.Checkout.SessionCreateParams = {
     customer: customerId,
     mode: 'subscription',
     payment_method_types: ['card'],
@@ -60,8 +86,15 @@ export async function POST(request: NextRequest) {
       supabase_user_id: user.id,
       plan_id: planId,
       affiliate_code: affiliateCode ?? '',
+      discount_db_id: discountDbId ?? '',
     },
-  })
+  }
+
+  if (discounts.length > 0) {
+    sessionParams.discounts = discounts
+  }
+
+  const session = await getStripe().checkout.sessions.create(sessionParams)
 
   return NextResponse.json({ url: session.url })
 }

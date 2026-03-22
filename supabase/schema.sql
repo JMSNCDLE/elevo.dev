@@ -552,3 +552,61 @@ CREATE TABLE IF NOT EXISTS ad_campaigns (
 );
 ALTER TABLE ad_campaigns ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "own_ad_campaigns" ON ad_campaigns FOR ALL USING (auth.uid() = user_id);
+
+-- ─── Phase 12 additions ────────────────────────────────────────────────────────
+
+CREATE TABLE IF NOT EXISTS invoices (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  stripe_payment_intent_id TEXT UNIQUE,
+  stripe_invoice_id TEXT,
+  invoice_number TEXT NOT NULL UNIQUE,
+  amount NUMERIC(10,2) NOT NULL,
+  currency TEXT NOT NULL DEFAULT 'gbp',
+  plan TEXT NOT NULL,
+  billing_period_start DATE,
+  billing_period_end DATE,
+  status TEXT DEFAULT 'paid' CHECK (status IN ('paid','refunded','void')),
+  pdf_url TEXT,
+  sent_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE invoices ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_invoices" ON invoices FOR ALL USING (auth.uid() = user_id);
+CREATE INDEX IF NOT EXISTS idx_invoices_user_created ON invoices(user_id, created_at DESC);
+
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS billing_anchor_day INTEGER;
+
+CREATE TABLE IF NOT EXISTS discount_codes (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  code TEXT UNIQUE NOT NULL,
+  email TEXT NOT NULL,
+  discount_percent INTEGER NOT NULL DEFAULT 50,
+  valid_for_plan TEXT,
+  used BOOLEAN DEFAULT false,
+  used_at TIMESTAMPTZ,
+  expires_at TIMESTAMPTZ NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_discount_codes_email ON discount_codes(email);
+CREATE INDEX IF NOT EXISTS idx_discount_codes_code ON discount_codes(code);
+
+CREATE TABLE IF NOT EXISTS competitor_intel (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  business_profile_id UUID REFERENCES business_profiles(id),
+  competitor_name TEXT NOT NULL,
+  competitor_website TEXT,
+  competitor_instagram TEXT,
+  report JSONB NOT NULL,
+  threat_level TEXT,
+  analysis_depth TEXT,
+  alert_enabled BOOLEAN DEFAULT true,
+  last_refreshed_at TIMESTAMPTZ DEFAULT NOW(),
+  next_refresh_at TIMESTAMPTZ DEFAULT (NOW() + INTERVAL '7 days'),
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE competitor_intel ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_competitor_intel" ON competitor_intel FOR ALL USING (auth.uid() = user_id);
+CREATE INDEX IF NOT EXISTS idx_competitor_intel_user ON competitor_intel(user_id);
+CREATE INDEX IF NOT EXISTS idx_competitor_intel_next_refresh ON competitor_intel(next_refresh_at) WHERE alert_enabled = true;
