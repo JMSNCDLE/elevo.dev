@@ -3,32 +3,34 @@
 import { useState, useEffect } from 'react'
 import { Bot, Lock, ExternalLink, Search } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
-import { AGENTS } from '@/lib/agents/agentPersonas'
+import { AGENT_PERSONAS } from '@/lib/agents/agentPersonas'
 import type { AgentPersona } from '@/lib/agents/agentPersonas'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
 const AGENT_ROUTES: Record<string, string> = {
-  leo: '/roas',
-  flora: '/finances',
-  rex: '/inventory',
-  maya: '/customer-trends',
-  geo: '/google-optimisation',
-  sol: '/dashboard/content/blog',
-  val: '/dashboard/content/gbp-posts',
-  nova: '/dashboard/growth/strategy',
-  ava: '/dashboard/growth/sales',
-  clio: '/dashboard/growth/campaigns',
-  aria: '/dashboard/growth/research',
-  zara: '/dashboard/growth/financial',
-  finn: '/dashboard/growth/management',
-  sage: '/dashboard/customers',
-  echo: '/conversations',
-  max: '/dashboard/advisor',
-  iris: '/dashboard',
-  hunter: '/dashboard/growth/research',
-  hugo: '/alternatives',
+  Leo: '/roas',
+  Flora: '/finances',
+  Rex: '/inventory',
+  Maya: '/customer-trends',
+  Geo: '/google-optimisation',
+  Sol: '/dashboard/content/blog',
+  Val: '/dashboard/content/gbp-posts',
+  Nova: '/dashboard/growth/strategy',
+  Ava: '/dashboard/growth/sales',
+  Clio: '/dashboard/growth/campaigns',
+  Aria: '/dashboard/growth/research',
+  Zara: '/dashboard/growth/financial',
+  Finn: '/dashboard/growth/management',
+  Sage: '/dashboard/customers',
+  Echo: '/conversations',
+  Max: '/dashboard/advisor',
+  Iris: '/dashboard',
+  Hunter: '/dashboard/growth/research',
+  Hugo: '/alternatives',
+  Vega: '/video-studio',
+  Rank: '/seo',
 }
 
 const PLAN_ORDER = ['trial', 'launch', 'orbit', 'galaxy']
@@ -36,17 +38,14 @@ const PLAN_ORDER = ['trial', 'launch', 'orbit', 'galaxy']
 function planLabel(plan: string) {
   if (plan === 'trial') return 'Free'
   if (plan === 'launch') return 'Launch'
-  if (plan === 'orbit') return 'Orbit+'
+  if (plan === 'orbit') return 'Orbit'
   return 'Galaxy'
 }
 
 function isAgentAvailable(agent: AgentPersona, userPlan: string): boolean {
-  return agent.availableOn.includes(userPlan as never)
-}
-
-function minPlanRequired(agent: AgentPersona): string {
-  const idx = Math.min(...agent.availableOn.map(p => PLAN_ORDER.indexOf(p)))
-  return PLAN_ORDER[idx] ?? 'trial'
+  const agentIdx = PLAN_ORDER.indexOf(agent.availableFrom)
+  const userIdx = PLAN_ORDER.indexOf(userPlan)
+  return userIdx >= agentIdx
 }
 
 export default function AgentsPage() {
@@ -64,14 +63,14 @@ export default function AgentsPage() {
     })
   }, [])
 
-  const filtered = AGENTS.filter(agent => {
+  const filtered = AGENT_PERSONAS.filter(agent => {
     if (!search.trim()) return true
     const q = search.toLowerCase()
     return (
-      agent.name.toLowerCase().includes(q) ||
-      agent.role.toLowerCase().includes(q) ||
+      agent.characterName.toLowerCase().includes(q) ||
+      agent.brandName.toLowerCase().includes(q) ||
       agent.description.toLowerCase().includes(q) ||
-      agent.specialties.some(s => s.toLowerCase().includes(q))
+      agent.capabilities.some(s => s.toLowerCase().includes(q))
     )
   })
 
@@ -97,7 +96,7 @@ export default function AgentsPage() {
           <input
             value={search}
             onChange={e => setSearch(e.target.value)}
-            placeholder="Search agents by name, role or specialty…"
+            placeholder="Search agents by name, role or capability…"
             className="w-full bg-dashCard border border-dashSurface2 rounded-xl pl-9 pr-4 py-2.5 text-sm text-dashText placeholder-dashMuted focus:outline-none focus:border-accent"
           />
         </div>
@@ -106,12 +105,12 @@ export default function AgentsPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map(agent => {
             const available = isAgentAvailable(agent, plan)
-            const route = AGENT_ROUTES[agent.id]
+            const route = AGENT_ROUTES[agent.characterName]
             const href = route ? `/${locale}${route}` : null
 
             return (
               <div
-                key={agent.id}
+                key={agent.characterName}
                 className={cn(
                   'bg-dashCard border rounded-2xl p-5 flex flex-col gap-3 transition-all',
                   available
@@ -124,19 +123,19 @@ export default function AgentsPage() {
                   <div className="flex items-center gap-2.5">
                     <span className="text-2xl">{agent.emoji}</span>
                     <div>
-                      <p className="font-semibold text-dashText text-sm">{agent.name}</p>
-                      <p className="text-xs text-dashMuted">{agent.role}</p>
+                      <p className="font-semibold text-dashText text-sm">{agent.brandName}™</p>
+                      <p className="text-xs text-dashMuted">{agent.characterName} · {agent.tagline}</p>
                     </div>
                   </div>
                   {!available && (
                     <div className="flex items-center gap-1 bg-accent/10 text-accent text-xs px-2 py-0.5 rounded-full shrink-0">
                       <Lock size={10} />
-                      {planLabel(minPlanRequired(agent))}+
+                      {planLabel(agent.availableFrom)}+
                     </div>
                   )}
-                  {available && agent.creditCost > 0 && (
+                  {available && agent.creditsPerUse > 0 && (
                     <div className="text-xs text-dashMuted bg-dashSurface px-2 py-0.5 rounded-full shrink-0">
-                      {agent.creditCost} cr
+                      {agent.creditsPerUse} cr
                     </div>
                   )}
                 </div>
@@ -144,9 +143,9 @@ export default function AgentsPage() {
                 {/* Description */}
                 <p className="text-xs text-dashMuted leading-relaxed flex-1">{agent.description}</p>
 
-                {/* Specialties */}
+                {/* Capabilities */}
                 <div className="flex flex-wrap gap-1.5">
-                  {agent.specialties.slice(0, 3).map(s => (
+                  {agent.capabilities.slice(0, 3).map(s => (
                     <span key={s} className="text-xs bg-dashSurface text-dashMuted px-2 py-0.5 rounded-full">{s}</span>
                   ))}
                 </div>
@@ -157,7 +156,7 @@ export default function AgentsPage() {
                     href={href}
                     className="flex items-center justify-center gap-1.5 py-2 bg-accent/10 text-accent text-xs font-semibold rounded-lg hover:bg-accent/20 transition-colors"
                   >
-                    Open {agent.name}
+                    Open {agent.characterName}
                     <ExternalLink size={11} />
                   </Link>
                 )}

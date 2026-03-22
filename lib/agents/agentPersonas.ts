@@ -1,276 +1,327 @@
-// ─── Types ────────────────────────────────────────────────────────────────────
+// ─── ELEVO AI — Agent Brand Names ─────────────────────────────────────────────
+// Every ELEVO agent has both a character name and a product brand name.
+// Marketing pages show brand names only.
+// Dashboard and agent directory show both.
 
 export interface AgentPersona {
-  id: string
-  name: string
+  characterName: string
+  brandName: string
+  tagline: string
+  pillar: 'visibility' | 'growth' | 'customers' | 'intelligence' | 'media' | 'support'
   emoji: string
-  role: string
   description: string
-  specialties: string[]
-  agentFile: string
-  availableOn: Array<'trial' | 'launch' | 'orbit' | 'galaxy'>
-  creditCost: number
+  capabilities: string[]
+  creditsPerUse: number
+  availableFrom: 'trial' | 'launch' | 'orbit' | 'galaxy'
 }
 
-// ─── Agent Registry ───────────────────────────────────────────────────────────
-
-export const AGENTS: AgentPersona[] = [
+export const AGENT_PERSONAS: AgentPersona[] = [
+  // ── VISIBILITY PILLAR ──────────────────────────────────────────────────────
   {
-    id: 'leo',
-    name: 'Leo',
-    emoji: '📊',
-    role: 'ROAS & Advertising Analyst',
-    description:
-      'Knows ad spend inside out. Leo calculates your exact ROAS per channel, hunts down wasted budget, and tells you precisely where to move every pound for maximum return. No fluff — just numbers and action.',
-    specialties: ['ROAS calculation', 'Campaign analysis', 'Budget reallocation', 'Ad performance benchmarking'],
-    agentFile: 'roasAgent',
-    availableOn: ['orbit', 'galaxy'],
-    creditCost: 3,
-  },
-  {
-    id: 'flora',
-    name: 'Flora',
-    emoji: '💰',
-    role: 'Financial Intelligence Officer',
-    description:
-      'Your on-call CFO. Flora parses any financial data — P&L statements, bank statements, Xero exports — and turns numbers into clarity. She spots cost leaks, surfaces growth levers, and forecasts what comes next.',
-    specialties: ['P&L analysis', 'Cash flow intelligence', 'Expense benchmarking', 'Financial forecasting', 'Cost reduction'],
-    agentFile: 'financeAgent',
-    availableOn: ['orbit', 'galaxy'],
-    creditCost: 3,
-  },
-  {
-    id: 'rex',
-    name: 'Rex',
-    emoji: '📦',
-    role: 'Inventory & Supply Chain Specialist',
-    description:
-      'Keeps your shelves right and your costs tight. Rex monitors stock levels, spots dead inventory, finds cheaper suppliers, and builds restocking plans before you run out of your best sellers.',
-    specialties: ['Stock level analysis', 'Demand forecasting', 'Supplier sourcing', 'Supply risk assessment', 'Restock planning'],
-    agentFile: 'inventoryAgent',
-    availableOn: ['orbit', 'galaxy'],
-    creditCost: 2,
-  },
-  {
-    id: 'maya',
-    name: 'Maya',
-    emoji: '👥',
-    role: 'Customer Trends Analyst',
-    description:
-      'Reads your customer base like a book. Maya segments your contacts, identifies who is about to churn, spots seasonal patterns, and builds content calendars targeted at the right people at the right time.',
-    specialties: ['Customer segmentation', 'Churn prediction', 'Behavioural analysis', 'LTV optimisation', 'Seasonal planning'],
-    agentFile: 'customerTrendsAgent',
-    availableOn: ['orbit', 'galaxy'],
-    creditCost: 2,
-  },
-  {
-    id: 'geo',
-    name: 'Geo',
-    emoji: '📍',
-    role: 'Google & Local Search Expert',
-    description:
-      'Gets your business found. Geo audits your Google Business Profile, finds keywords you should be ranking for, builds a 30-day Maps optimisation plan, and keeps you ahead in AI search results.',
-    specialties: ['GBP optimisation', 'Local SEO', 'Google Maps ranking', 'Review strategy', 'AI search visibility'],
-    agentFile: 'googleOptAgent',
-    availableOn: ['trial', 'launch', 'orbit', 'galaxy'],
-    creditCost: 1,
-  },
-  {
-    id: 'sol',
-    name: 'Sol',
+    characterName: 'Sol',
+    brandName: 'ELEVO Write',
+    tagline: 'Content that ranks and converts',
+    pillar: 'visibility',
     emoji: '✍️',
-    role: 'Content Writer',
-    description:
-      'Writes content that actually sounds like you. Sol crafts GBP posts, blog articles, social captions, email campaigns, SEO copy, and review responses — all in your brand voice, all optimised for results.',
-    specialties: ['GBP posts', 'Blog writing', 'Social captions', 'Email campaigns', 'SEO copy', 'Review responses'],
-    agentFile: 'contentWriter',
-    availableOn: ['trial', 'launch', 'orbit', 'galaxy'],
-    creditCost: 1,
+    description: 'Creates GBP posts, blogs, social captions, review responses, email campaigns, and SEO copy — all in your brand voice.',
+    capabilities: ['GBP Posts', 'Blog articles', 'Social captions', 'Review responses', 'Email campaigns', 'SEO copy'],
+    creditsPerUse: 1,
+    availableFrom: 'trial',
   },
   {
-    id: 'val',
-    name: 'Val',
+    characterName: 'Val',
+    brandName: 'ELEVO Check',
+    tagline: 'Quality guaranteed, every time',
+    pillar: 'visibility',
     emoji: '✅',
-    role: 'Quality & SEO Auditor',
-    description:
-      'The last line of defence before your content goes live. Val checks every piece for clarity, accuracy, SEO compliance, brand consistency, and factual integrity — so nothing embarrassing slips through.',
-    specialties: ['Content QA', 'SEO scoring', 'Brand consistency', 'Readability analysis', 'Fact checking'],
-    agentFile: 'validator',
-    availableOn: ['trial', 'launch', 'orbit', 'galaxy'],
-    creditCost: 1,
+    description: 'Runs a 10-point quality check on every piece of content — grammar, tone, SEO, brand voice.',
+    capabilities: ['10-point quality audit', 'SEO validation', 'Tone of voice check', 'Brand consistency'],
+    creditsPerUse: 0,
+    availableFrom: 'trial',
   },
   {
-    id: 'nova',
-    name: 'Nova',
-    emoji: '🚀',
-    role: 'Business Strategist',
-    description:
-      'Thinks three moves ahead. Nova runs deep SWOT analysis, builds strategic roadmaps, and turns your strengths into a competitive advantage. She is the strategic brain behind your next phase of growth.',
-    specialties: ['SWOT analysis', 'Strategic planning', 'Competitive positioning', 'Growth roadmaps', 'Market positioning'],
-    agentFile: 'strategyAgent',
-    availableOn: ['orbit', 'galaxy'],
-    creditCost: 2,
+    characterName: 'Geo',
+    brandName: 'ELEVO Local',
+    tagline: 'Dominate your local search results',
+    pillar: 'visibility',
+    emoji: '📍',
+    description: 'Optimises your Google Business Profile, improves local rankings, and finds everything your competitors rank for that you don\'t.',
+    capabilities: ['GBP optimisation', 'Local SEO audit', 'Competitor gap analysis', 'Review strategy', 'Maps ranking'],
+    creditsPerUse: 1,
+    availableFrom: 'launch',
   },
   {
-    id: 'ava',
-    name: 'Ava',
-    emoji: '🤝',
-    role: 'Sales Intelligence Director',
-    description:
-      'Closes more deals without the cringe. Ava builds compelling sales proposals, scripts, and materials tailored to each prospect — so you walk in confident and walk out with the contract signed.',
-    specialties: ['Sales proposals', 'Prospect research', 'Pricing strategy', 'Objection handling', 'Deal structuring'],
-    agentFile: 'salesAgent',
-    availableOn: ['orbit', 'galaxy'],
-    creditCost: 2,
+    characterName: 'Leo',
+    brandName: 'ELEVO Ads',
+    tagline: 'Know exactly where every pound goes',
+    pillar: 'visibility',
+    emoji: '📊',
+    description: 'Analyses your ad spend across every platform. Finds wasted budget, identifies top performers, and tells you exactly what to do next.',
+    capabilities: ['ROAS analysis', 'Ad spend audit', 'Platform comparison', 'Budget optimisation', 'Creative performance'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
   },
   {
-    id: 'clio',
-    name: 'Clio',
-    emoji: '📣',
-    role: 'Marketing Campaign Architect',
-    description:
-      'Builds campaigns that move people. Clio designs full multi-channel marketing campaigns with content calendars, messaging frameworks, channel strategies, and KPI targets — from concept to launch-ready.',
-    specialties: ['Campaign planning', 'Content calendars', 'Channel strategy', 'Messaging frameworks', 'Launch planning'],
-    agentFile: 'campaignAgent',
-    availableOn: ['orbit', 'galaxy'],
-    creditCost: 2,
-  },
-  {
-    id: 'aria',
-    name: 'Aria',
+    characterName: 'Rank',
+    brandName: 'ELEVO Rank',
+    tagline: 'Rank #1 for your best keywords',
+    pillar: 'visibility',
     emoji: '🔍',
-    role: 'Research Analyst',
-    description:
-      'Turns the internet into your intelligence department. Aria scours the web for market data, competitor intel, industry trends, and consumer behaviour — then distils it into actionable insight you can use today.',
-    specialties: ['Market research', 'Competitor analysis', 'Industry trends', 'Consumer behaviour', 'Opportunity mapping'],
-    agentFile: 'researchAgent',
-    availableOn: ['orbit', 'galaxy'],
-    creditCost: 2,
+    description: 'Audits your SEO, identifies content gaps, generates SEO-optimised blog posts, and builds your 90-day ranking plan.',
+    capabilities: ['SEO audit', 'Keyword research', 'Blog generation', 'Technical SEO', 'Backlink strategy'],
+    creditsPerUse: 1,
+    availableFrom: 'launch',
+  },
+
+  // ── GROWTH PILLAR ──────────────────────────────────────────────────────────
+  {
+    characterName: 'Ava',
+    brandName: 'ELEVO Sales',
+    tagline: 'Close more deals, faster',
+    pillar: 'growth',
+    emoji: '🤝',
+    description: 'Builds tailored sales proposals, scripts, and follow-up sequences that convert prospects into paying customers.',
+    capabilities: ['Sales proposals', 'Pitch decks', 'Follow-up scripts', 'Objection handling', 'Quote templates'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
   },
   {
-    id: 'zara',
-    name: 'Zara',
-    emoji: '📈',
-    role: 'Financial Health Advisor',
-    description:
-      'Gives your finances a full health check without the accountant fees. Zara reviews your revenue streams, identifies cost pressures, benchmarks your margins, and builds an action plan to improve profitability.',
-    specialties: ['Revenue analysis', 'Margin benchmarking', 'Cash flow health', 'KPI tracking', 'Profitability improvement'],
-    agentFile: 'financialAgent',
-    availableOn: ['orbit', 'galaxy'],
-    creditCost: 2,
+    characterName: 'Aria',
+    brandName: 'ELEVO Research',
+    tagline: 'Know your market before your competitors do',
+    pillar: 'growth',
+    emoji: '🔬',
+    description: 'Deep market research powered by real-time web search. Competitor intelligence, market sizing, trend analysis.',
+    capabilities: ['Market research', 'Competitor analysis', 'Trend identification', 'Opportunity mapping'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
   },
   {
-    id: 'finn',
-    name: 'Finn',
-    emoji: '👔',
-    role: 'HR & Management Consultant',
-    description:
-      'Handles the people side so you can focus on the business side. Finn drafts employment contracts, job descriptions, performance review frameworks, HR policies, and management documents — all legally considered and ready to use.',
-    specialties: ['HR documents', 'Employment contracts', 'Job descriptions', 'Performance frameworks', 'Staff policies'],
-    agentFile: 'managementAgent',
-    availableOn: ['orbit', 'galaxy'],
-    creditCost: 2,
+    characterName: 'Nova',
+    brandName: 'ELEVO Strategy',
+    tagline: 'A clear plan for where you\'re going',
+    pillar: 'growth',
+    emoji: '🚀',
+    description: 'Builds full SWOT analyses and 12-month growth strategies tailored to your business, market, and goals.',
+    capabilities: ['SWOT analysis', '12-month strategy', 'Goal setting', 'Growth roadmap', 'KPI framework'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
   },
   {
-    id: 'sage',
-    name: 'Sage',
+    characterName: 'Zara',
+    brandName: 'ELEVO Money',
+    tagline: 'Your P&L, finally making sense',
+    pillar: 'growth',
+    emoji: '💰',
+    description: 'Analyses your financial health, forecasts cash flow, identifies cost-cutting opportunities, and models growth scenarios.',
+    capabilities: ['Financial health report', 'Cash flow forecast', 'Cost optimisation', 'Revenue modelling', 'Break-even analysis'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
+  },
+  {
+    characterName: 'Finn',
+    brandName: 'ELEVO People',
+    tagline: 'HR done right, without the HR team',
+    pillar: 'growth',
+    emoji: '👥',
+    description: 'Generates employment contracts, staff handbooks, performance frameworks, and hiring documents for your business.',
+    capabilities: ['Employment contracts', 'Staff handbooks', 'Performance reviews', 'Hiring templates', 'Disciplinary procedures'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
+  },
+  {
+    characterName: 'AdsP',
+    brandName: 'ELEVO Ads Pro',
+    tagline: 'Run Meta, Google, TikTok ads like an agency',
+    pillar: 'growth',
+    emoji: '🎯',
+    description: 'Builds complete ad campaigns with targeting, copy variations, creative briefs, and performance predictions — ready to launch.',
+    capabilities: ['Meta Ads', 'Google Ads', 'TikTok Ads', 'LinkedIn Ads', 'Audience targeting', 'A/B copy', 'Creative briefs'],
+    creditsPerUse: 3,
+    availableFrom: 'orbit',
+  },
+
+  // ── CUSTOMERS PILLAR ───────────────────────────────────────────────────────
+  {
+    characterName: 'Sage',
+    brandName: 'ELEVO Connect',
+    tagline: 'Every conversation, handled beautifully',
+    pillar: 'customers',
     emoji: '💬',
-    role: 'CRM & Customer Relations Manager',
-    description:
-      'Keeps your customer relationships alive. Sage analyses your contact base, identifies who needs attention, drafts personalised messages, and tells you exactly who to call, email, or visit this week.',
-    specialties: ['CRM briefings', 'Contact prioritisation', 'Message drafting', 'Relationship scoring', 'Follow-up planning'],
-    agentFile: 'crmAgent',
-    availableOn: ['trial', 'launch', 'orbit', 'galaxy'],
-    creditCost: 1,
+    description: 'Powers your CRM conversations across Instagram, WhatsApp, SMS, and email. Books appointments, captures leads automatically.',
+    capabilities: ['DM automation', 'Lead capture', 'Appointment booking', 'Follow-up sequences', 'CRM sync'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
   },
   {
-    id: 'echo',
-    name: 'Echo',
+    characterName: 'Echo',
+    brandName: 'ELEVO Flow',
+    tagline: 'Automated flows that close',
+    pillar: 'customers',
     emoji: '⚡',
-    role: 'Conversational Automation Specialist',
-    description:
-      'Automates your conversations without killing the human touch. Echo builds multi-message flows for WhatsApp, SMS, email, and DMs — triggered by leads, reviews, appointments, reactivations, and more.',
-    specialties: ['Conversation flows', 'WhatsApp automation', 'SMS sequences', 'Lead nurturing', 'Review requests', 'Reactivation campaigns'],
-    agentFile: 'conversationAgent',
-    availableOn: ['orbit', 'galaxy'],
-    creditCost: 2,
+    description: 'Builds ManyChat-style message flows triggered by comments, follows, payments, and more — powered by Claude.',
+    capabilities: ['Comment triggers', 'DM flows', 'Review requests', 'Win-back sequences', 'Booking confirmations'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
   },
   {
-    id: 'max',
-    name: 'Max',
+    characterName: 'Maya',
+    brandName: 'ELEVO Insight',
+    tagline: 'Understand your customers deeply',
+    pillar: 'customers',
     emoji: '🧠',
-    role: 'Problem Solver',
-    description:
-      'Your senior business consultant, on call 24/7. Max diagnoses the real root cause of your toughest business problems, builds an urgent action plan, and generates content or scripts you can deploy the same day.',
-    specialties: ['Problem diagnosis', 'Root cause analysis', 'Action planning', 'Content generation', 'Crisis response'],
-    agentFile: 'problemSolverAgent',
-    availableOn: ['trial', 'launch', 'orbit', 'galaxy'],
-    creditCost: 2,
+    description: 'Analyses customer behaviour, segments your audience, identifies your best customers, and predicts who\'s about to churn.',
+    capabilities: ['Customer segmentation', 'Churn prediction', 'Lifetime value analysis', 'Trend identification'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
   },
   {
-    id: 'iris',
-    name: 'Iris',
-    emoji: '💡',
-    role: 'Live Assistant',
-    description:
-      'Always in your corner. Iris is your always-on chat assistant — answering questions about your account, explaining features, helping you use ELEVO AI to its full potential, and guiding you when you are unsure what to do next.',
-    specialties: ['Platform guidance', 'Feature explanation', 'Quick answers', 'Onboarding support', 'General advice'],
-    agentFile: 'liveAssistant',
-    availableOn: ['trial', 'launch', 'orbit', 'galaxy'],
-    creditCost: 0,
+    characterName: 'Clio',
+    brandName: 'ELEVO Social',
+    tagline: 'A full-time social media manager',
+    pillar: 'customers',
+    emoji: '📱',
+    description: 'Manages your entire social presence — strategy, content calendar, scheduling, auto-posting, and performance analysis.',
+    capabilities: ['Social strategy', 'Content calendar', 'Auto-posting', 'Performance analysis', 'Profile optimisation'],
+    creditsPerUse: 1,
+    availableFrom: 'launch',
   },
   {
-    id: 'atlas',
-    name: 'Atlas',
+    characterName: 'Prof',
+    brandName: 'ELEVO Profile',
+    tagline: 'Social profiles that stop the scroll',
+    pillar: 'customers',
+    emoji: '✨',
+    description: 'Creates optimised social media profiles with 30-day content calendars, hashtag strategies, and viral content ideas.',
+    capabilities: ['Profile optimisation', '30-day calendar', 'Hashtag strategy', 'Bio variations', 'Viral content ideas'],
+    creditsPerUse: 1,
+    availableFrom: 'launch',
+  },
+
+  // ── INTELLIGENCE PILLAR ────────────────────────────────────────────────────
+  {
+    characterName: 'Max',
+    brandName: 'ELEVO Solve',
+    tagline: 'Your smartest advisor, on demand',
+    pillar: 'intelligence',
+    emoji: '🧩',
+    description: 'Powered by Claude Opus — the most capable AI model. Diagnoses complex business problems and builds step-by-step action plans.',
+    capabilities: ['Problem analysis', 'Root cause identification', 'Action planning', 'Decision frameworks'],
+    creditsPerUse: 2,
+    availableFrom: 'launch',
+  },
+  {
+    characterName: 'Iris',
+    brandName: 'ELEVO Live',
+    tagline: 'Always on, always ready',
+    pillar: 'intelligence',
+    emoji: '💫',
+    description: 'The live assistant panel across your entire dashboard. Quick answers, instant content, real-time guidance.',
+    capabilities: ['Instant answers', 'Quick content', 'Dashboard assistant', 'Context-aware help'],
+    creditsPerUse: 0,
+    availableFrom: 'trial',
+  },
+  {
+    characterName: 'Atlas',
+    brandName: 'ELEVO Intel',
+    tagline: 'Market intelligence at your fingertips',
+    pillar: 'intelligence',
     emoji: '🌍',
-    role: 'Market Intelligence Agent',
-    description:
-      'Maps your entire market landscape. Atlas goes deep on competitor research, market sizing, consumer sentiment, and emerging opportunities — giving you a complete picture of where your industry is heading.',
-    specialties: ['Market sizing', 'Competitor deep-dives', 'Consumer sentiment', 'Emerging opportunities', 'Industry reports'],
-    agentFile: 'researchAgent',
-    availableOn: ['orbit', 'galaxy'],
-    creditCost: 2,
+    description: 'Monitors your market in real time. Tracks competitor moves, industry trends, and emerging opportunities.',
+    capabilities: ['Market monitoring', 'Competitor tracking', 'Trend alerts', 'Opportunity scoring'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
   },
   {
-    id: 'dex',
-    name: 'Dex',
-    emoji: '🗂️',
-    role: 'Data Import & Analysis Specialist',
-    description:
-      'Speaks every data format fluently. Dex cleans and normalises raw data from CSV exports, Xero, QuickBooks, bank statements, or plain text — so other agents can work with it accurately and immediately.',
-    specialties: ['CSV parsing', 'Xero imports', 'QuickBooks exports', 'Data normalisation', 'Format detection'],
-    agentFile: 'dataIngestionAgent',
-    availableOn: ['orbit', 'galaxy'],
-    creditCost: 1,
-  },
-  {
-    id: 'mira',
-    name: 'Mira',
-    emoji: '🌟',
-    role: 'Onboarding Guide',
-    description:
-      'Makes sure you hit the ground running. Mira walks you through setting up your business profile, explains which agents will help you most, and ensures ELEVO AI is properly configured from day one.',
-    specialties: ['Business profile setup', 'Platform orientation', 'Agent recommendations', 'First-use guidance', 'Goal setting'],
-    agentFile: 'orchestrator',
-    availableOn: ['trial', 'launch', 'orbit', 'galaxy'],
-    creditCost: 0,
-  },
-  {
-    id: 'hugo',
-    name: 'Hugo',
+    characterName: 'Hugo',
+    brandName: 'ELEVO Switch',
+    tagline: 'Cut costs without cutting quality',
+    pillar: 'intelligence',
     emoji: '🔄',
-    role: 'Alternative Solutions Finder',
-    description:
-      'Finds a better way for everything you overpay for or underperform with. Hugo searches the web for real alternatives to your current tools, suppliers, processes, and approaches — with honest pros, cons, and a migration plan.',
-    specialties: ['Software alternatives', 'Supplier sourcing', 'Cost reduction', 'Process improvement', 'Migration planning'],
-    agentFile: 'alternativesAgent',
-    availableOn: ['orbit', 'galaxy'],
-    creditCost: 2,
+    description: 'Finds better, cheaper alternatives to every tool, supplier, and service you currently use.',
+    capabilities: ['Tool alternatives', 'Supplier sourcing', 'Cost comparison', 'Vendor analysis'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
+  },
+  {
+    characterName: 'Guard',
+    brandName: 'ELEVO Guard',
+    tagline: 'Protect your brand like a legal team',
+    pillar: 'intelligence',
+    emoji: '🛡️',
+    description: 'Checks trademark availability, recommends filing classes, builds your IP protection strategy.',
+    capabilities: ['Trademark availability', 'Class recommendations', 'IP strategy', 'Brand monitoring'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
+  },
+
+  // ── MEDIA PILLAR ───────────────────────────────────────────────────────────
+  {
+    characterName: 'Vega',
+    brandName: 'ELEVO Studio',
+    tagline: 'Every AI video tool, one studio',
+    pillar: 'media',
+    emoji: '🎬',
+    description: 'Creates avatar ads, product videos, voiceovers, and cinematic UGC. Your complete video production studio.',
+    capabilities: ['Avatar ads', 'Product URL videos', 'AI voiceovers', 'Cinematic UGC', 'D-ID prompts', 'HeyGen prompts'],
+    creditsPerUse: 2,
+    availableFrom: 'orbit',
+  },
+  {
+    characterName: 'Dex',
+    brandName: 'ELEVO Import',
+    tagline: 'All your data, in one place',
+    pillar: 'media',
+    emoji: '📥',
+    description: 'Imports and parses advertising data from Google Ads, Meta Ads, and other platforms.',
+    capabilities: ['Google Ads import', 'Meta Ads import', 'CSV parsing', 'Data normalisation'],
+    creditsPerUse: 0,
+    availableFrom: 'orbit',
+  },
+
+  // ── SUPPORT ────────────────────────────────────────────────────────────────
+  {
+    characterName: 'Mira',
+    brandName: 'ELEVO Guide',
+    tagline: 'Up and running in 5 minutes',
+    pillar: 'support',
+    emoji: '🗺️',
+    description: 'Guides new users through onboarding with a conversational 5-step wizard that sets up their entire business profile.',
+    capabilities: ['Business profile setup', 'Guided onboarding', 'First content generation'],
+    creditsPerUse: 0,
+    availableFrom: 'trial',
+  },
+  {
+    characterName: 'Wren',
+    brandName: 'ELEVO Site',
+    tagline: 'Your website, always fresh',
+    pillar: 'support',
+    emoji: '🌐',
+    description: 'Analyses your website, suggests improvements, generates new pages, and keeps your content up to date.',
+    capabilities: ['Website audit', 'Page generation', 'Content refresh', 'SEO recommendations'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
   },
 ]
 
-// ─── Helper ───────────────────────────────────────────────────────────────────
+// ─── Lookup helpers ────────────────────────────────────────────────────────────
 
-export function getAgentById(id: string): AgentPersona | undefined {
-  return AGENTS.find((agent) => agent.id === id)
+export function getAgentByCharacter(characterName: string): AgentPersona | undefined {
+  return AGENT_PERSONAS.find(a => a.characterName === characterName)
 }
+
+export function getAgentByBrand(brandName: string): AgentPersona | undefined {
+  return AGENT_PERSONAS.find(a => a.brandName === brandName)
+}
+
+export function getAgentsByPillar(pillar: AgentPersona['pillar']): AgentPersona[] {
+  return AGENT_PERSONAS.filter(a => a.pillar === pillar)
+}
+
+export const PILLARS = [
+  { key: 'visibility' as const, label: 'Visibility', emoji: '👁️', description: 'Content, local SEO, ads analysis, and rankings' },
+  { key: 'growth' as const, label: 'Growth', emoji: '📈', description: 'Sales, research, strategy, finance, HR, and ad campaigns' },
+  { key: 'customers' as const, label: 'Customers', emoji: '🤝', description: 'CRM, conversations, flows, social, and profiles' },
+  { key: 'intelligence' as const, label: 'Intelligence', emoji: '🧠', description: 'Problem solving, market intel, trends, and brand protection' },
+  { key: 'media' as const, label: 'Media', emoji: '🎬', description: 'AI video studio and data import' },
+]

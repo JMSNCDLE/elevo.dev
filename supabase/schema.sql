@@ -509,3 +509,46 @@ CREATE TABLE IF NOT EXISTS conversation_templates (
 );
 ALTER TABLE conversation_templates ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "own_conv_templates" ON conversation_templates FOR ALL USING (auth.uid() = user_id);
+
+-- Phase 9 Tables
+CREATE TABLE IF NOT EXISTS blog_posts (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  slug TEXT UNIQUE NOT NULL,
+  locale TEXT NOT NULL DEFAULT 'en',
+  title TEXT NOT NULL,
+  meta_title TEXT,
+  meta_description TEXT,
+  content TEXT NOT NULL,
+  excerpt TEXT,
+  target_keyword TEXT,
+  category TEXT,
+  reading_time INTEGER DEFAULT 5,
+  published BOOLEAN DEFAULT false,
+  published_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_blog_posts_locale_slug ON blog_posts(locale, slug) WHERE published = true;
+CREATE INDEX IF NOT EXISTS idx_blog_posts_published ON blog_posts(published_at DESC) WHERE published = true;
+
+CREATE TABLE IF NOT EXISTS ad_campaigns (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  business_profile_id UUID REFERENCES business_profiles(id),
+  name TEXT NOT NULL,
+  platform TEXT NOT NULL,
+  objective TEXT NOT NULL,
+  daily_budget NUMERIC NOT NULL,
+  currency TEXT DEFAULT 'GBP',
+  target_location TEXT,
+  campaign_duration TEXT,
+  product_or_service TEXT,
+  status TEXT DEFAULT 'draft' CHECK (status IN ('draft','active','paused','ended')),
+  output JSONB DEFAULT '{}',
+  actual_spend NUMERIC DEFAULT 0,
+  actual_roas NUMERIC,
+  leads_generated INTEGER DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE ad_campaigns ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_ad_campaigns" ON ad_campaigns FOR ALL USING (auth.uid() = user_id);

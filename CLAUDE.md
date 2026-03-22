@@ -309,3 +309,65 @@ _Add items here as James specifies them_
 2. Run updated `supabase/schema.sql` in Supabase SQL Editor (Phase 8 tables at bottom)
 3. Set `CRON_SECRET` env var in Vercel for cron authentication
 4. Create Instagram/Facebook App at developers.facebook.com, LinkedIn App, Twitter Developer App, TikTok Developer App, Google Cloud OAuth credentials
+
+---
+
+## Phase 9 Complete (2026-03-22)
+
+### Files added in Phase 9
+
+**9A — Agent Rebrand:**
+- `lib/agents/agentPersonas.ts` — Complete rewrite with `AgentPersona` interface: characterName, brandName, tagline, pillar, emoji, description, capabilities[], creditsPerUse, availableFrom. 25 agents total. Exports `AGENT_PERSONAS[]`, `getAgentByCharacter()`, `getAgentByBrand()`, `getAgentsByPillar()`, `PILLARS[]`.
+- `app/[locale]/(dashboard)/agents/page.tsx` — Updated to use AGENT_PERSONAS, new schema fields
+
+**9B — SEO Domination:**
+- `lib/agents/seoAgent.ts` — ELEVO Rank™: `runSEOAudit()` + `generateSEOBlogPost()` (both use WEB_SEARCH_TOOL)
+- `app/[locale]/(marketing)/blog/page.tsx` — Blog listing page, server component
+- `app/[locale]/(marketing)/blog/[slug]/page.tsx` — Blog post with Article JSON-LD + generateMetadata
+- `app/api/seo/audit/route.ts` — POST SEO audit (authenticated)
+- `app/api/seo/generate-post/route.ts` — POST generate + save blog post (admin only)
+- `app/[locale]/(dashboard)/seo/page.tsx` — ELEVO Rank™ dashboard: domain + keywords → 5-tab results
+- `app/[locale]/(marketing)/sitemap.xml/route.ts` — Dynamic sitemap per locale with hreflang
+- `public/robots.txt` — Allow all, Disallow /api/ /dashboard/
+
+**9C — Ad Campaigns:**
+- `lib/agents/adCampaignAgent.ts` — ELEVO Ads Pro™: `buildAdCampaign()` + `generateELEVOOwnAds()`
+- `app/[locale]/(dashboard)/ads/page.tsx` — Full ads dashboard: Campaign Builder / My Campaigns / ELEVO's Own Ads
+- `app/api/ads/build/route.ts` — POST 3 credits, Orbit+ only
+- `app/api/ads/elevo-own/route.ts` — POST admin only
+
+**9D — Social Profiles:**
+- `lib/agents/socialProfileAgent.ts` — ELEVO Profile™: `generateSocialProfileKit()` with 30-day calendar + viral ideas
+- `app/[locale]/(dashboard)/social/profiles/page.tsx` — Profile generator with 5-tab results
+- `app/api/social/profile-kit/route.ts` — POST 1 credit
+- `marketing/social/ELEVO_OWN_PROFILES_SETUP.md` — ELEVO's own social profile guide
+
+**9E — Trademark:**
+- `lib/agents/trademarkAgent.ts` — ELEVO Guard™: `runTrademarkCheck()` scanning UK/EU/US/AU/CA
+- `app/[locale]/(dashboard)/settings/trademark/page.tsx` — Admin-only trademark dashboard with 5-tab report
+- `app/api/trademark/check/route.ts` — POST admin-only
+- `marketing/legal/TRADEMARK_STRATEGY.md` — Full filing strategy, costs, timelines, monitoring
+
+**9F — Landing Page Overhaul:**
+- `app/[locale]/(marketing)/page.tsx` — Complete rewrite: H1 "The AI operating system™ for local businesses", stats bar (400+ | £1.2M | 21 agents | 99.9%), 10 sections with ELEVO brand names throughout, ™ on all mentions, stronger conversion copy
+
+**9G — JSON-LD + Metadata:**
+- `app/[locale]/(marketing)/layout.tsx` — Added `generateMetadata()`, SoftwareApplication schema, Organization schema, FAQ schema (5 Q&A), updated nav with Blog link, improved footer with TM notice
+
+**9H — Dynamic OG Images:**
+- `app/api/og/route.tsx` — Edge runtime, `ImageResponse` 1200×630, dark indigo gradient bg, grid pattern, glow effects, ELEVO branding, dynamic ?title= + ?subtitle= params, stats bar at bottom
+
+**Sidebar update:**
+- `components/dashboard/Sidebar.tsx` — Added "Ad Campaigns → /ads [Orbit+]" and "SEO & Rankings → /seo" to Social & Video section
+
+**supabase/schema.sql additions:**
+- `blog_posts` table (slug UNIQUE, locale, title, meta_title, meta_description, content, target_keyword, published)
+- `ad_campaigns` table (platform, objective, daily_budget, currency, status, output JSONB, actual_spend, actual_roas)
+
+### What James needs to do next
+
+1. File UK trademark application at https://www.gov.uk/apply-for-trademark (Classes 35 + 42, ~£400)
+2. Use ™ symbol on all ELEVO AI branding immediately
+3. Register domain variants: elevo.com, getelevo.com, tryelevo.com
+4. Run `supabase/schema.sql` (Phase 9 additions: blog_posts, ad_campaigns tables)
+5. Set up Google Alerts for "elevo ai", "elevoai"

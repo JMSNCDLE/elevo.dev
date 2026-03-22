@@ -87,6 +87,8 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
         { href: `/${locale}/ugc`, label: 'UGC Pipeline', icon: Video, orbitOnly: true },
         { href: `/${locale}/conversations`, label: 'Conversations', icon: MessageSquare, orbitOnly: true },
         { href: `/${locale}/social/profiles`, label: 'Profile Generator', icon: UserCheck },
+        { href: `/${locale}/ads`, label: 'Ad Campaigns', icon: Target, orbitOnly: true },
+        { href: `/${locale}/seo`, label: 'SEO & Rankings', icon: Search },
       ],
     },
     {
