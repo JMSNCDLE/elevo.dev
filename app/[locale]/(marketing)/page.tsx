@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { CheckCircle2, Sparkles, Eye, ChevronRight, Crown, Shield, TrendingUp, Zap, Users, BarChart2, Share2, Bot } from 'lucide-react'
+import { CheckCircle2, Sparkles, Eye, ChevronRight, Crown, Shield, TrendingUp, Zap, Users, BarChart2, Share2, Bot, Search } from 'lucide-react'
 import { FadeInWhenVisible } from '@/components/shared/FadeInWhenVisible'
 import { LogoScroll } from '@/components/marketing/LogoScroll'
 import TrustBar from '@/components/shared/TrustBar'
@@ -319,6 +319,119 @@ export default function HomePage({ params: _params }: PageProps) {
             >
               <Bot size={16} /> View all 21 agents <ChevronRight size={14} />
             </Link>
+          </div>
+        </section>
+      </FadeInWhenVisible>
+
+      {/* ── SECTION 4b: Agent Search — dark ─────────────────────────────────── */}
+      <FadeInWhenVisible>
+        <section className="bg-[#080C14] py-24 px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest block mb-4">Command + K</span>
+              <h2 className="text-5xl font-black text-white tracking-tighter mb-4">
+                Every tool.<br />One search.
+              </h2>
+              <p className="text-lg text-gray-400 max-w-xl mx-auto">
+                Press ⌘K anywhere in the dashboard to instantly find and launch any of 21+ ELEVO agents.
+              </p>
+            </div>
+
+            {/* Mock search bar */}
+            <div className="max-w-xl mx-auto bg-[#141B24] border border-[#1E2A3A] rounded-2xl overflow-hidden shadow-2xl">
+              <div className="flex items-center gap-3 px-4 py-3 border-b border-[#1E2A3A]">
+                <Search size={18} className="text-gray-500" />
+                <span className="text-gray-400 text-sm flex-1">Search ELEVO agents...</span>
+                <kbd className="text-xs bg-[#0D1219] text-gray-500 px-1.5 py-0.5 rounded border border-[#1E2A3A]">⌘K</kbd>
+              </div>
+              <div className="py-2">
+                {[
+                  { emoji: '🕵️', name: 'ELEVO Spy™', desc: 'Competitor intelligence', query: 'competitor', badge: 'Orbit+', color: 'text-red-400' },
+                  { emoji: '📊', name: 'ELEVO Ads', desc: 'ROAS & ad performance', query: 'ROAS', badge: 'Available', color: 'text-green-400' },
+                  { emoji: '🎬', name: 'ELEVO Studio', desc: 'AI video creation', query: 'video', badge: 'Orbit+', color: 'text-amber-400' },
+                  { emoji: '✍️', name: 'ELEVO Write Pro™', desc: 'Humanise AI text', query: 'human', badge: 'Available', color: 'text-green-400' },
+                ].map((item, i) => (
+                  <div key={i} className={`flex items-center gap-3 px-4 py-3 ${i === 1 ? 'bg-indigo-500/10' : 'hover:bg-[#1A2332]'} transition-colors`}>
+                    <span className="text-xl">{item.emoji}</span>
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-white">{item.name}</p>
+                      <p className="text-xs text-gray-500">{item.desc}</p>
+                    </div>
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${item.badge === 'Available' ? 'bg-green-500/20 text-green-400' : 'bg-amber-500/20 text-amber-400'}`}>
+                      {item.badge}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <div className="px-4 py-2 border-t border-[#1E2A3A] flex gap-4 text-xs text-gray-600">
+                <span><kbd className="bg-[#0D1219] px-1 rounded">↑↓</kbd> navigate</span>
+                <span><kbd className="bg-[#0D1219] px-1 rounded">↵</kbd> select</span>
+                <span><kbd className="bg-[#0D1219] px-1 rounded">esc</kbd> close</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </FadeInWhenVisible>
+
+      {/* ── SECTION 4c: WhatsApp — light ─────────────────────────────────────── */}
+      <FadeInWhenVisible>
+        <section className="bg-[#FFFEF9] py-24 px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+              <div>
+                <span className="text-xs font-bold text-green-600 uppercase tracking-widest block mb-4">ELEVO Connect™</span>
+                <h2 className="text-5xl font-black text-gray-900 tracking-tighter mb-6">
+                  Your customers.<br />On WhatsApp.
+                </h2>
+                <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+                  ELEVO Connect™ sends your customers WhatsApp messages automatically.
+                  Review requests. Appointment reminders. Win-back campaigns. All from one dashboard.
+                </p>
+                <ul className="space-y-3 mb-8">
+                  {[
+                    'Review requests sent 24h after a job',
+                    'Appointment confirmations + reminders',
+                    'Win-back campaigns for lapsed customers',
+                    'AI-drafted messages in your brand voice',
+                  ].map(f => (
+                    <li key={f} className="flex items-center gap-2.5 text-sm text-gray-700">
+                      <CheckCircle2 size={16} className="text-green-500 shrink-0" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href="/en/signup"
+                  className="inline-flex items-center gap-2 bg-green-500 text-white px-6 py-3 rounded-xl font-semibold text-sm hover:bg-green-600 transition-colors"
+                >
+                  Start sending →
+                </Link>
+              </div>
+
+              {/* WhatsApp mock */}
+              <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
+                <div className="bg-green-500 px-4 py-3 flex items-center gap-3">
+                  <div className="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center text-sm font-bold text-white">E</div>
+                  <div>
+                    <p className="text-sm font-semibold text-white">ELEVO AI</p>
+                    <p className="text-xs text-green-100">Business account</p>
+                  </div>
+                </div>
+                <div className="p-4 bg-[#ECE5DD] space-y-3 min-h-[220px]">
+                  {[
+                    { from: 'elevo', text: 'Hi Sarah! Thanks for choosing us yesterday. How did we do? Leave a quick Google review and get 10% off your next visit! ⭐' },
+                    { from: 'user', text: '5 stars! Great service as always 😊' },
+                    { from: 'elevo', text: 'Amazing, thank you! Your discount code: SARAH10 — valid for 30 days 🎉' },
+                  ].map((msg, i) => (
+                    <div key={i} className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`max-w-[80%] rounded-xl px-3 py-2 text-xs ${msg.from === 'user' ? 'bg-[#DCF8C6] text-gray-800' : 'bg-white text-gray-800'}`}>
+                        {msg.text}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </FadeInWhenVisible>

@@ -7,7 +7,7 @@ export interface AgentPersona {
   characterName: string
   brandName: string
   tagline: string
-  pillar: 'visibility' | 'growth' | 'customers' | 'intelligence' | 'media' | 'support' | 'ecommerce' | 'admin' | 'marketing' | 'design'
+  pillar: 'visibility' | 'growth' | 'customers' | 'intelligence' | 'media' | 'support' | 'ecommerce' | 'admin' | 'marketing' | 'design' | 'tools'
   emoji: string
   description: string
   capabilities: string[]
@@ -415,6 +415,41 @@ export const AGENT_PERSONAS: AgentPersona[] = [
     creditsPerUse: 2,
     availableFrom: 'orbit',
   },
+
+  // ── TOOLS PILLAR ──────────────────────────────────────────────────────────
+  {
+    characterName: 'Route',
+    brandName: 'ELEVO Route™',
+    tagline: 'Intelligent prompt routing to the best agent',
+    pillar: 'tools',
+    emoji: '🧭',
+    description: 'Analyzes your prompt and routes it to the perfect ELEVO agent for maximum results.',
+    capabilities: ['Intent detection', 'Agent matching', 'Prompt optimization', 'Multi-agent suggestions'],
+    creditsPerUse: 0,
+    availableFrom: 'trial',
+  },
+  {
+    characterName: 'Pro',
+    brandName: 'ELEVO Write Pro™',
+    tagline: 'Make AI text sound naturally human',
+    pillar: 'tools',
+    emoji: '✍️',
+    description: 'Rewrites AI-generated content to sound authentic, engaging and human.',
+    capabilities: ['Tone matching', 'Readability scoring', 'Human score analysis', 'Multiple alternatives', 'Brand voice training'],
+    creditsPerUse: 1,
+    availableFrom: 'trial',
+  },
+  {
+    characterName: 'Deep',
+    brandName: 'ELEVO Deep™',
+    tagline: 'Complex multi-step business execution',
+    pillar: 'tools',
+    emoji: '🧠',
+    description: 'Handles your most complex business tasks with multi-step AI execution.',
+    capabilities: ['Business plan creation', 'Multi-section documents', 'Downloadable reports', 'Strategic analysis', 'Deep research'],
+    creditsPerUse: 10,
+    availableFrom: 'galaxy',
+  },
 ]
 
 // ─── Lookup helpers ────────────────────────────────────────────────────────────
@@ -442,4 +477,5 @@ export const PILLARS = [
   { key: 'admin' as const, label: 'Admin', emoji: '🤖', description: 'Platform health, daily summaries, and engineering automation' },
   { key: 'marketing' as const, label: 'Marketing', emoji: '⚡', description: 'Complete marketing missions, content calendars, and autonomous daily execution' },
   { key: 'design' as const, label: 'Design', emoji: '✏️', description: 'AI web design studio — components, site analysis, and full website generation' },
+  { key: 'tools' as const, label: 'Tools', emoji: '🔧', description: 'Utility agents — prompt routing, text humanisation, and complex task execution' },
 ]

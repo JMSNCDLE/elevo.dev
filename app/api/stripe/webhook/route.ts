@@ -3,6 +3,7 @@ import Stripe from 'stripe'
 import { createServiceClient } from '@/lib/supabase/server'
 import { sendSequenceEmail } from '@/lib/email/send'
 import { calculateCommission } from '@/lib/affiliate'
+import { sendWhatsAppToJames, JAMES_ALERTS } from '@/lib/notifications/whatsapp'
 
 let _stripe: Stripe | null = null
 function getStripe(): Stripe {
@@ -52,6 +53,12 @@ export async function POST(request: Request) {
         stripe_subscription_id: session.subscription as string,
         billing_anchor_day: anchorDay,
       }).eq('id', userId)
+
+      // WhatsApp notification to James
+      const { data: { user: buyerUser } } = await supabase.auth.admin.getUserById(userId)
+      const buyerEmail = buyerUser?.email ?? 'unknown'
+      const amountTotal = session.amount_total ? `£${(session.amount_total / 100).toFixed(2)}` : '£0'
+      sendWhatsAppToJames(JAMES_ALERTS.newSale(planId, amountTotal, buyerEmail)).catch(console.error)
 
       // Mark discount code as used if one was applied
       const discountDbId = session.metadata?.discount_db_id
@@ -208,6 +215,34 @@ export async function POST(request: Request) {
           })
         }
       }
+    }
+  }
+
+  if (event.type === 'invoice.payment_failed') {
+    const invoice = event.data.object as Stripe.Invoice
+    const subscriptionId = typeof invoice.subscription === 'string' ? invoice.subscription : (invoice.subscription as Stripe.Subscription | null)?.id
+    if (subscriptionId) {
+      const stripe = getStripe()
+      const subscription = await stripe.subscriptions.retrieve(subscriptionId)
+      const customerId = typeof subscription.customer === 'string' ? subscription.customer : (subscription.customer as Stripe.Customer).id
+      const { data: failedProfile } = await supabase.from('profiles').select('id').eq('stripe_customer_id', customerId).single()
+      if (failedProfile) {
+        const { data: { user: failedUser } } = await supabase.auth.admin.getUserById(failedProfile.id)
+        const failedEmail = failedUser?.email ?? 'unknown'
+        const failedAmount = invoice.amount_due ? `£${(invoice.amount_due / 100).toFixed(2)}` : '£0'
+        sendWhatsAppToJames(JAMES_ALERTS.paymentFailed(failedEmail, failedAmount)).catch(console.error)
+      }
+    }
+  }
+
+  if (event.type === 'customer.subscription.created') {
+    const sub = event.data.object as Stripe.Subscription
+    const customerId = sub.customer as string
+    const { data: newSubProfile } = await supabase.from('profiles').select('id').eq('stripe_customer_id', customerId).single()
+    if (newSubProfile) {
+      const { data: { user: newUser } } = await supabase.auth.admin.getUserById(newSubProfile.id)
+      const newEmail = newUser?.email ?? 'unknown'
+      sendWhatsAppToJames(JAMES_ALERTS.newUser(newEmail, 'UK')).catch(console.error)
     }
   }
 

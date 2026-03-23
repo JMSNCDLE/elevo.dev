@@ -2,7 +2,10 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { createServerClient } from '@/lib/supabase/server'
 import { FileText, BookOpen, Share2, Star, Mail, Search, Zap, Users, TrendingUp, BarChart2 } from 'lucide-react'
-import { formatCurrency, timeAgo } from '@/lib/utils'
+import { timeAgo } from '@/lib/utils'
+import ReturnBriefingComponent from '@/components/dashboard/ReturnBriefing'
+import { generateReturnBriefing } from '@/lib/agents/projectMemoryAgent'
+import type { ReturnBriefing } from '@/lib/agents/projectMemoryAgent'
 
 export default async function MissionControlPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -14,15 +17,42 @@ export default async function MissionControlPage({ params }: { params: Promise<{
   const now = new Date()
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().slice(0, 10)
 
-  const [{ data: profile }, { data: bp }, { data: recentGens }, { data: crmStats }, { data: revenueData }] = await Promise.all([
+  const [{ data: profile }, { data: bp }, { data: recentGens }, { data: crmStats }, { data: revenueData }, { data: lastSession }, { data: profileData }] = await Promise.all([
     supabase.from('profiles').select('plan, credits_used, credits_limit').eq('id', user.id).single(),
     supabase.from('business_profiles').select('*').eq('user_id', user.id).eq('is_primary', true).single(),
-    supabase.from('saved_generations').select('id, type, content, created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(5),
+    supabase.from('saved_generations').select('id, type, content, created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(10),
     supabase.from('contacts').select('id, status').eq('user_id', user.id),
     supabase.from('revenue_snapshots').select('total_revenue, total_jobs').eq('user_id', user.id).gte('snapshot_date', monthStart),
+    supabase.from('user_sessions').select('*').eq('user_id', user.id).single(),
+    supabase.from('profiles').select('full_name').eq('id', user.id).single(),
   ])
 
   if (!profile) redirect(`/${locale}/login`)
+
+  // Calculate return briefing
+  let returnBriefing: ReturnBriefing | null = null
+  let showBriefing = false
+  let userName = (profileData?.full_name as string | null)?.split(' ')[0] ?? 'there'
+
+  if (lastSession?.last_session_at) {
+    const lastActive = new Date(lastSession.last_session_at as string)
+    const daysSince = Math.floor((now.getTime() - lastActive.getTime()) / (1000 * 60 * 60 * 24))
+    if (daysSince > 1) {
+      showBriefing = true
+      try {
+        returnBriefing = await generateReturnBriefing({
+          userId: user.id,
+          businessProfile: (bp ?? {}) as Record<string, unknown>,
+          lastSession: (lastSession ?? {}) as Record<string, unknown>,
+          recentGenerations: (recentGens ?? []) as Record<string, unknown>[],
+          daysSinceLastLogin: daysSince,
+          locale,
+        })
+      } catch {
+        // silently skip briefing on error
+      }
+    }
+  }
 
   const revenueThisMonth = (revenueData ?? []).reduce((s, r) => s + (r.total_revenue ?? 0), 0)
   const jobsThisMonth = (revenueData ?? []).reduce((s, r) => s + (r.total_jobs ?? 0), 0)
@@ -50,6 +80,11 @@ export default async function MissionControlPage({ params }: { params: Promise<{
 
   return (
     <div className="p-8 max-w-6xl mx-auto">
+      {/* Return briefing */}
+      {showBriefing && returnBriefing && (
+        <ReturnBriefingComponent briefing={returnBriefing} userName={userName} />
+      )}
+
       {/* Mini analytics strip */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         <Link href={`/${locale}/analytics`} className="bg-dashCard border border-dashSurface2 rounded-xl p-3 hover:border-accent/30 transition-colors group">

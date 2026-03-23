@@ -825,3 +825,38 @@ CREATE POLICY "own_stitch" ON stitch_designs FOR ALL USING (auth.uid() = user_id
 -- ─── Phase 19: SMM Auto-pilot ─────────────────────────────────────────────────
 
 ALTER TABLE profiles ADD COLUMN IF NOT EXISTS auto_smm_enabled BOOLEAN DEFAULT false;
+
+-- ─── Phase 21: Project Memory ─────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS user_sessions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  business_profile_id UUID REFERENCES business_profiles(id),
+  last_active_page TEXT,
+  last_active_agent TEXT,
+  last_generation_id UUID,
+  current_project TEXT,
+  project_context JSONB DEFAULT '{}',
+  next_recommended_action TEXT,
+  weekly_summary TEXT,
+  session_count INTEGER DEFAULT 0,
+  last_session_at TIMESTAMPTZ DEFAULT NOW(),
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE user_sessions ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_sessions" ON user_sessions FOR ALL USING (auth.uid() = user_id);
+
+CREATE TABLE IF NOT EXISTS project_snapshots (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  business_profile_id UUID REFERENCES business_profiles(id),
+  snapshot_type TEXT NOT NULL,
+  title TEXT NOT NULL,
+  summary TEXT NOT NULL,
+  agents_used TEXT[] DEFAULT '{}',
+  content_generated INTEGER DEFAULT 0,
+  key_results JSONB DEFAULT '[]',
+  next_actions JSONB DEFAULT '[]',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE project_snapshots ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_snapshots" ON project_snapshots FOR ALL USING (auth.uid() = user_id);

@@ -9,7 +9,10 @@ import {
   BarChart3, Package, TrendingDown, MapPin, Repeat2, MessageSquare, Bot,
   Film, Video, UserCheck, Megaphone as Campaign, Eye, Palette,
   ShoppingCart, Store, Scissors, Shield, RefreshCw, Globe, Crown, Paintbrush,
+  PenLine, Brain,
 } from 'lucide-react'
+import { useAgentSearch } from '@/hooks/useAgentSearch'
+import AgentSearch from './AgentSearch'
 
 interface SidebarProps {
   locale: string
@@ -40,6 +43,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
   const isGalaxy = plan === 'galaxy'
   const creditsRemaining = creditsLimit - creditsUsed
   const creditsPct = Math.max(0, (creditsRemaining / creditsLimit) * 100)
+  const { open: openSearch } = useAgentSearch()
 
   const sections: NavSection[] = [
     {
@@ -131,6 +135,8 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       title: 'Tools',
       items: [
         { href: `/${locale}/dashboard/advisor`, label: 'Problem Solver', icon: Zap },
+        { href: `/${locale}/write-pro`, label: 'ELEVO Write Pro™', icon: PenLine, badge: 'NEW' },
+        { href: `/${locale}/deep`, label: 'ELEVO Deep™', icon: Brain, galaxyOnly: true, badge: 'NEW' },
         { href: `/${locale}/agents`, label: 'All Agents', icon: Bot },
         { href: `/${locale}/dashboard/library`, label: 'Library', icon: Library },
         { href: `/${locale}/dashboard/settings`, label: 'Settings', icon: Settings },
@@ -161,7 +167,19 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
         {businessName && (
           <p className="text-xs text-dashMuted mt-1 truncate">{businessName}</p>
         )}
+        {/* Agent search bar */}
+        <button
+          onClick={openSearch}
+          className="flex items-center gap-2 w-full px-3 py-2 rounded-lg bg-dashCard text-dashMuted text-sm hover:bg-dashSurface2 transition-colors mt-3"
+        >
+          <Search className="w-4 h-4" />
+          <span>Search agents...</span>
+          <kbd className="ml-auto text-xs bg-[#0D1219] px-1.5 py-0.5 rounded border border-dashSurface2">⌘K</kbd>
+        </button>
       </div>
+
+      {/* Agent Search Modal */}
+      <AgentSearch userPlan={plan} locale={locale} />
 
       {/* Nav */}
       <nav className="flex-1 px-3 py-4 space-y-5">

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { runHealthCheck } from '@/lib/agents/paEngineerAgent'
 import { sendEmail } from '@/lib/email/send'
+import { sendWhatsAppToJames, JAMES_ALERTS } from '@/lib/notifications/whatsapp'
 
 export async function GET(request: Request) {
   const secret = request.headers.get('x-cron-secret')
@@ -25,8 +26,12 @@ export async function GET(request: Request) {
       critical_count: criticalCount,
     })
 
-    // Email James only if critical
+    // WhatsApp + Email James only if critical
     if (result.overallHealth === 'critical' || criticalCount > 0) {
+      const firstCritical = result.issues.find(i => i.severity === 'critical')
+      if (firstCritical) {
+        sendWhatsAppToJames(JAMES_ALERTS.criticalError(firstCritical.description, firstCritical.affectedFile ?? 'unknown')).catch(console.error)
+      }
       const adminEmail = process.env.ELEVO_ADMIN_EMAIL ?? 'james@elevo.ai'
       const criticalIssues = result.issues
         .filter(i => i.severity === 'critical')

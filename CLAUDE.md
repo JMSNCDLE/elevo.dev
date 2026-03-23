@@ -672,3 +672,67 @@ _Add items here as James specifies them_
 ### What James needs to do next
 1. Run `supabase/schema.sql` (Phase 17 additions: marketing_missions + mission_executions tables)
 2. No new env vars required for Phase 17
+
+---
+
+## Phase 21 Complete (2026-03-23)
+
+### What was built in Phase 21
+
+**21A — WhatsApp Notifications (Twilio):**
+- `lib/notifications/whatsapp.ts` — sendWhatsAppToJames(), sendWhatsAppToUser(), JAMES_ALERTS (newSale/newUser/trialExpiring/paymentFailed/criticalError/dailySummary/competitorAlert)
+- `app/api/whatsapp/notify/route.ts` — POST admin-only endpoint to send any JAMES_ALERTS type
+- Updated `app/api/stripe/webhook/route.ts` — WhatsApp on checkout.session.completed, customer.subscription.created, invoice.payment_failed
+- Updated `app/api/cron/health-check/route.ts` — WhatsApp on critical issues
+- Updated `app/api/cron/daily-summary/route.ts` — WhatsApp daily summary
+- `docs/WHATSAPP_SETUP.md` — Full Twilio setup guide (already existed, verified complete)
+
+**21B — Agent Search (Command+K):**
+- `hooks/useAgentSearch.ts` — Ctrl/Cmd+K keyboard shortcut hook
+- `components/dashboard/AgentSearch.tsx` — Full-screen overlay search with plan gating, keyboard nav, route mapping for all 28 agents
+- `components/dashboard/AgentDetailModal.tsx` — Locked agent detail with upgrade CTA
+- Updated `components/dashboard/Sidebar.tsx` — Search bar below logo, AgentSearch modal, Write Pro + Deep in Tools section
+
+**21C — Project Memory (Return Briefing):**
+- `lib/agents/projectMemoryAgent.ts` — generateReturnBriefing() (Sonnet), updateProjectContext() (Supabase upsert)
+- `components/dashboard/ReturnBriefing.tsx` — Welcome back card shown after 24+ hour absence
+- `components/dashboard/SessionTracker.tsx` — Client component, tracks page changes via POST /api/project/session
+- `app/api/project/session/route.ts` — GET (return briefing) + POST (update session)
+- `app/api/project/snapshot/route.ts` — GET + POST project snapshots
+- Updated `app/[locale]/(dashboard)/dashboard/page.tsx` — Renders ReturnBriefing when user away 1+ day
+- Updated `app/[locale]/(dashboard)/layout.tsx` — SessionTracker added
+
+**21D — New Agents:**
+- `lib/agents/modelRouterAgent.ts` — ELEVO Route™: routePrompt() (Sonnet, low effort)
+- `lib/agents/humanCopyAgent.ts` — ELEVO Write Pro™: humaniseText() (Opus, high effort)
+- `lib/agents/deepExecutionAgent.ts` — ELEVO Deep™: runDeepExecution() (Opus, max effort)
+
+**21E — New Dashboard Pages:**
+- `app/[locale]/(dashboard)/write-pro/page.tsx` — ELEVO Write Pro™ (all plans, 1 credit)
+- `app/[locale]/(dashboard)/deep/page.tsx` — ELEVO Deep™ (Galaxy only, 10 credits)
+
+**21F — New API Routes:**
+- `app/api/write-pro/humanise/route.ts` — POST, 1 credit, saves to saved_generations
+- `app/api/deep/execute/route.ts` — POST, Galaxy only, 10 credits, saves to saved_generations
+
+**21G — Schema:**
+- `supabase/schema.sql` — user_sessions + project_snapshots tables
+
+**21H — Agent Personas:**
+- Updated `lib/agents/agentPersonas.ts` — Added 'tools' pillar, ELEVO Route™/Write Pro™/Deep™ agents
+
+**21I — Admin PA page:**
+- Updated `/admin/pa` — WhatsApp notifications panel: configured number, event toggles, send test button
+
+**21J — Marketing page:**
+- Added Agent Search section (mock ⌘K UI showing example queries)
+- Added WhatsApp/ELEVO Connect™ section (mock conversation UI)
+
+### What James needs to do next
+1. npm install (twilio is already in package.json)
+2. Run `supabase/schema.sql` (Phase 21: user_sessions + project_snapshots tables)
+3. Add Twilio credentials to `.env.local`:
+   - TWILIO_ACCOUNT_SID
+   - TWILIO_AUTH_TOKEN
+   - TWILIO_WHATSAPP_NUMBER (sandbox: +14155238886)
+4. Join the Twilio WhatsApp sandbox from +34 679 444 783 (send "join [word]" to +1 415 523 8886)

@@ -7,7 +7,7 @@ import {
   Bot, RefreshCw, Loader2, CheckCircle2, AlertTriangle,
   AlertCircle, Info, Shield, Database, Zap, CreditCard,
   TrendingUp, Clock, Users, DollarSign, Activity,
-  Plus, ChevronRight, X,
+  Plus, ChevronRight, X, MessageCircle, Phone,
 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
@@ -65,6 +65,8 @@ export default function PAPage() {
   const locale = useLocale()
   const router = useRouter()
   const supabase = createBrowserClient()
+
+  const [waTestStatus, setWaTestStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
   const [healthStatus, setHealthStatus] = useState<HealthStatus>('idle')
   const [health, setHealth] = useState<HealthCheckResult | null>(null)
@@ -160,6 +162,27 @@ export default function PAPage() {
       })
     } catch {
       loadTasks()
+    }
+  }
+
+  async function sendTestWhatsApp() {
+    setWaTestStatus('sending')
+    try {
+      const res = await fetch('/api/whatsapp/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'criticalError', data: { error: 'Test notification from ELEVO PA™', page: '/admin/pa' } }),
+      })
+      if (res.ok) {
+        setWaTestStatus('sent')
+        setTimeout(() => setWaTestStatus('idle'), 3000)
+      } else {
+        setWaTestStatus('error')
+        setTimeout(() => setWaTestStatus('idle'), 3000)
+      }
+    } catch {
+      setWaTestStatus('error')
+      setTimeout(() => setWaTestStatus('idle'), 3000)
     }
   }
 
@@ -615,6 +638,64 @@ export default function PAPage() {
               />
             </div>
           )}
+        </div>
+
+        {/* ─── SECTION 4: WHATSAPP NOTIFICATIONS ───────────────────────── */}
+        <div className="space-y-4">
+          <h2 className="text-lg font-semibold text-dashText flex items-center gap-2">
+            <MessageCircle size={18} className="text-accent" />
+            WhatsApp Notifications
+          </h2>
+
+          <div className="bg-dashCard rounded-xl border border-dashSurface2 p-5">
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <Phone size={16} className="text-green-400" />
+                  <span className="text-sm font-medium text-dashText">+34 679 444 783</span>
+                  <span className="text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded-full">Configured</span>
+                </div>
+                <p className="text-xs text-dashMuted">James receives WhatsApp alerts for all critical events</p>
+              </div>
+              <button
+                onClick={sendTestWhatsApp}
+                disabled={waTestStatus === 'sending'}
+                className={cn(
+                  'flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+                  waTestStatus === 'sent'
+                    ? 'bg-green-500/20 text-green-400'
+                    : waTestStatus === 'error'
+                    ? 'bg-red-500/20 text-red-400'
+                    : 'bg-accent/10 text-accent hover:bg-accent/20'
+                )}
+              >
+                {waTestStatus === 'sending' && <Loader2 size={13} className="animate-spin" />}
+                {waTestStatus === 'sent' && <CheckCircle2 size={13} />}
+                {waTestStatus === 'idle' || waTestStatus === 'error'
+                  ? 'Send Test WhatsApp'
+                  : waTestStatus === 'sending'
+                  ? 'Sending...'
+                  : 'Sent!'
+                }
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+              {[
+                { label: 'New Sale', event: 'newSale', color: 'text-green-400' },
+                { label: 'New Signup', event: 'newUser', color: 'text-blue-400' },
+                { label: 'Payment Failed', event: 'paymentFailed', color: 'text-red-400' },
+                { label: 'Critical Error', event: 'criticalError', color: 'text-orange-400' },
+                { label: 'Daily Summary', event: 'dailySummary', color: 'text-purple-400' },
+                { label: 'Competitor Alert', event: 'competitorAlert', color: 'text-yellow-400' },
+              ].map(ev => (
+                <div key={ev.event} className="flex items-center gap-2 bg-dashSurface2/40 rounded-lg px-3 py-2">
+                  <div className="w-2 h-2 rounded-full bg-green-500 shrink-0" />
+                  <span className={cn('text-xs font-medium', ev.color)}>{ev.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
       </div>
