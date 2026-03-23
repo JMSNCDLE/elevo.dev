@@ -318,6 +318,19 @@ export const AGENT_PERSONAS: AgentPersona[] = [
     availableFrom: 'orbit',
   },
 
+  // ── CREATOR ────────────────────────────────────────────────────────────────
+  {
+    characterName: 'Reel',
+    brandName: 'ELEVO Creator™',
+    tagline: 'Your creator business strategist',
+    pillar: 'media',
+    emoji: '🎬',
+    description: 'Optimises titles for maximum virality, generates thumbnail concepts, builds editing briefs better than CapCut AI, audits YouTube and TikTok channels, and manages content traffic strategy.',
+    capabilities: ['Title optimisation', 'Thumbnail AI', 'Editing briefs', 'CapCut guide', 'Channel audit', 'YouTube SEO', 'TikTok algorithm', 'Traffic strategy'],
+    creditsPerUse: 2,
+    availableFrom: 'orbit',
+  },
+
   // ── ECOMMERCE PILLAR ───────────────────────────────────────────────────────
   {
     characterName: 'Drake',

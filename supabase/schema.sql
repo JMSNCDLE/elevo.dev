@@ -695,3 +695,21 @@ ALTER TABLE store_analytics_daily ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "own_store_analytics" ON store_analytics_daily FOR ALL USING (
   integration_id IN (SELECT id FROM store_integrations WHERE user_id = auth.uid())
 );
+
+-- ================================================
+-- PHASE 16: Creator Profiles
+-- ================================================
+CREATE TABLE IF NOT EXISTS creator_profiles (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  platform TEXT NOT NULL,
+  channel_handle TEXT NOT NULL,
+  channel_name TEXT,
+  niche TEXT,
+  subscriber_count INTEGER DEFAULT 0,
+  avg_views INTEGER DEFAULT 0,
+  monetised BOOLEAN DEFAULT false,
+  connected_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE creator_profiles ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_creator" ON creator_profiles FOR ALL USING (auth.uid() = user_id);

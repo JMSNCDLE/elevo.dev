@@ -565,3 +565,34 @@ _Add items here as James specifies them_
 1. Run `supabase/schema.sql` (Phase 15 additions: dropship_products, store_integrations, store_analytics_daily tables)
 2. No new env vars required for Phase 15 (store access tokens stored in DB)
 3. Add `ELEVO_ADMIN_EMAIL` and `ELEVO_ADMIN_USER_ID` to `.env.local` for the ai-landscape cron email
+
+---
+
+## Phase 16 Complete (2026-03-23)
+
+### What was built in Phase 16
+
+**16A — 404 Page Audit:**
+- Verified all Phase 14+15 dashboard pages exist (create, drop, clip, store, viral, spy, prospect, ads, seo, video-studio)
+- ELEVO Create™ placeholder page created
+
+**16B — ELEVO Creator™:**
+- `lib/agents/creatorStudioAgent.ts` — Reel agent: optimiseTitle(), generateThumbnailBrief(), generateEditingBrief(), auditChannel(), generateTrafficStrategy()
+- `app/api/creator/title/route.ts` — POST, Orbit+, 1 credit
+- `app/api/creator/thumbnail/route.ts` — POST, Orbit+, 1 credit
+- `app/api/creator/editing/route.ts` — POST, Orbit+, 2 credits
+- `app/api/creator/audit/route.ts` — POST, Orbit+, 3 credits (web search)
+- `app/api/creator/traffic/route.ts` — POST, Orbit+, 2 credits
+- `app/[locale]/(dashboard)/creator/page.tsx` — Full 6-tab creator dashboard (Title Optimizer, Thumbnail Maker, Editing Brief, Channel Audit, Traffic Manager, Content Calendar)
+- `supabase/schema.sql` — creator_profiles table
+
+**16C — Landing page:**
+- `app/[locale]/(marketing)/page.tsx` — ELEVO Creator™ section added
+
+**16D — Sidebar + Personas:**
+- `components/dashboard/Sidebar.tsx` — ELEVO Creator™ added under Content section (Orbit+, 🎬 NEW badge)
+- `lib/agents/agentPersonas.ts` — Reel/ELEVO Creator™ added (media pillar, orbit+, 2 credits)
+
+### What James needs to do next
+1. Run `supabase/schema.sql` (Phase 16: creator_profiles table)
+2. No new env vars required (CREATOR_ADDON_PRICE_ID optional for future monetisation)

@@ -476,6 +476,45 @@ export default function LandingPage({ params }: { params: Promise<{ locale: stri
         </section>
       </FadeInWhenVisible>
 
+      {/* ELEVO Creator™ section */}
+      <FadeInWhenVisible delay={0} y={40}>
+        <section className="py-24 bg-[#0A0D14]">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-16">
+              <span className="text-sm font-semibold text-indigo-400 uppercase tracking-widest">ELEVO Creator™</span>
+              <h2 className="mt-3 text-4xl font-bold text-white">Built for YouTubers, TikTokers, and Influencers</h2>
+            </div>
+            <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+              <div className="bg-[#1A2332] rounded-2xl border border-white/5 p-8">
+                <h3 className="text-xl font-bold text-red-400 mb-4">The problem</h3>
+                <p className="text-gray-300 text-lg leading-relaxed">You spend 3 hours editing. Your thumbnail gets 4% CTR. Your title was a guess. Your analytics tab is open but not helping.</p>
+              </div>
+              <div className="bg-[#1A2332] rounded-2xl border border-white/5 p-8">
+                <h3 className="text-xl font-bold text-green-400 mb-4">ELEVO Creator™ in 60 seconds</h3>
+                <ul className="space-y-3 text-gray-300">
+                  {['Title virality score — know before you publish','Thumbnail concepts with Midjourney prompts','Editing brief — every cut, every transition, planned','Channel audit — why you\'re not growing and how to fix it','Traffic strategy — YouTube + TikTok algorithm decoded'].map((item) => (
+                    <li key={item} className="flex items-start gap-3"><span className="text-green-400 mt-1">✓</span><span>{item}</span></li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className="flex justify-center gap-8 mb-12 flex-wrap">
+              {['YouTube','TikTok','Instagram','LinkedIn','Podcast'].map((p) => (
+                <span key={p} className="text-gray-400 font-medium text-sm px-3 py-1 rounded-full border border-white/10">{p}</span>
+              ))}
+            </div>
+            <div className="max-w-2xl mx-auto bg-[#1A2332] rounded-2xl border border-white/5 p-8 text-center mb-10">
+              <p className="text-gray-300 italic text-lg mb-4">&ldquo;I used to spend Sunday planning my week. Now I paste my idea into ELEVO Creator and have 5 title options, 3 thumbnail concepts, and a full editing brief in 4 minutes.&rdquo;</p>
+              <p className="text-sm text-gray-500">— Anonymous, 180k YouTube Subscriber</p>
+              <div className="flex justify-center gap-1 mt-3">{'★★★★★'.split('').map((s,i) => <span key={i} className="text-yellow-400">{s}</span>)}</div>
+            </div>
+            <div className="text-center">
+              <a href={`/${locale}/signup`} className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-8 py-4 rounded-xl text-lg transition-colors">Start growing your channel free →</a>
+            </div>
+          </div>
+        </section>
+      </FadeInWhenVisible>
+
       {/* TESTIMONIALS */}
       <FadeInWhenVisible delay={0} y={32}>
         <section className="py-20 px-6">

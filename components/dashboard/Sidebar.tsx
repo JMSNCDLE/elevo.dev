@@ -58,6 +58,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
         { href: `/${locale}/dashboard/content/reviews`, label: 'Reviews', icon: Star },
         { href: `/${locale}/dashboard/content/email`, label: 'Email', icon: Mail },
         { href: `/${locale}/dashboard/content/seo`, label: 'SEO', icon: Search },
+        { href: `/${locale}/creator`, label: 'ELEVO Creator™', icon: Video, orbitOnly: true, badge: '🎬 NEW' },
       ],
     },
     {
