@@ -588,6 +588,7 @@ CREATE TABLE IF NOT EXISTS discount_codes (
   expires_at TIMESTAMPTZ NOT NULL,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
+ALTER TABLE discount_codes ADD COLUMN IF NOT EXISTS used_by_user_id UUID REFERENCES profiles(id);
 CREATE INDEX IF NOT EXISTS idx_discount_codes_email ON discount_codes(email);
 CREATE INDEX IF NOT EXISTS idx_discount_codes_code ON discount_codes(code);
 
