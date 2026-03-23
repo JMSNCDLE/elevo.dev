@@ -7,12 +7,12 @@ export interface AgentPersona {
   characterName: string
   brandName: string
   tagline: string
-  pillar: 'visibility' | 'growth' | 'customers' | 'intelligence' | 'media' | 'support'
+  pillar: 'visibility' | 'growth' | 'customers' | 'intelligence' | 'media' | 'support' | 'ecommerce'
   emoji: string
   description: string
   capabilities: string[]
   creditsPerUse: number
-  availableFrom: 'trial' | 'launch' | 'orbit' | 'galaxy'
+  availableFrom: 'trial' | 'launch' | 'orbit' | 'galaxy' | 'admin'
 }
 
 export const AGENT_PERSONAS: AgentPersona[] = [
@@ -292,6 +292,19 @@ export const AGENT_PERSONAS: AgentPersona[] = [
     availableFrom: 'orbit',
   },
 
+  // ── MEDIA: CLIP ────────────────────────────────────────────────────────────
+  {
+    characterName: 'Snap',
+    brandName: 'ELEVO Clip™',
+    tagline: 'Turn any long content into viral clips.',
+    pillar: 'media',
+    emoji: '✂️',
+    description: 'Identifies the 3-5 best moments in any video or transcript, writes captions, hashtags, hooks, and subtitle overlays for each clip — ready to post on TikTok, Instagram, YouTube Shorts, and LinkedIn.',
+    capabilities: ['Clip identification', 'Platform-specific captions', 'Viral hook writing', 'Posting schedule', 'ELEVO Create™ integration'],
+    creditsPerUse: 2,
+    availableFrom: 'orbit',
+  },
+
   // ── VIRAL / SOCIAL ─────────────────────────────────────────────────────────
   {
     characterName: 'ELEVO Viral™',
@@ -303,6 +316,19 @@ export const AGENT_PERSONAS: AgentPersona[] = [
     capabilities: ['TikTok virality', 'Instagram Reels strategy', 'Hook writing', 'Viral calendars', 'Organic growth', 'Trend riding'],
     creditsPerUse: 5,
     availableFrom: 'orbit',
+  },
+
+  // ── ECOMMERCE PILLAR ───────────────────────────────────────────────────────
+  {
+    characterName: 'Drake',
+    brandName: 'ELEVO Drop™',
+    tagline: 'Find winning products. Build stores. Scale fast.',
+    pillar: 'ecommerce',
+    emoji: '📦',
+    description: 'Your complete dropshipping suite. Finds trending products with high margins, sources the best suppliers, builds Shopify-ready store content, and creates ad campaigns — all in one command centre.',
+    capabilities: ['Product trend research', 'Supplier comparison', 'Shopify store content', 'Ad campaign creation', 'Profit projections'],
+    creditsPerUse: 5,
+    availableFrom: 'galaxy',
   },
 
   // ── SUPPORT ────────────────────────────────────────────────────────────────
@@ -349,5 +375,7 @@ export const PILLARS = [
   { key: 'growth' as const, label: 'Growth', emoji: '📈', description: 'Sales, research, strategy, finance, HR, and ad campaigns' },
   { key: 'customers' as const, label: 'Customers', emoji: '🤝', description: 'CRM, conversations, flows, social, and profiles' },
   { key: 'intelligence' as const, label: 'Intelligence', emoji: '🧠', description: 'Problem solving, market intel, trends, and brand protection' },
-  { key: 'media' as const, label: 'Media', emoji: '🎬', description: 'AI video studio and data import' },
+  { key: 'media' as const, label: 'Media', emoji: '🎬', description: 'AI video studio, content clips, and data import' },
+  { key: 'ecommerce' as const, label: 'Ecommerce', emoji: '📦', description: 'Dropshipping product research, suppliers, and store building' },
+  { key: 'support' as const, label: 'Support', emoji: '🗺️', description: 'Onboarding, guidance, and website tools' },
 ]

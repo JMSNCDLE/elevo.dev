@@ -509,3 +509,59 @@ _Add items here as James specifies them_
 1. Run `supabase/schema.sql` (Phase 14 additions: creative_projects + creative_tokens tables)
 2. Add Stripe price IDs for creative credit packs: `STRIPE_CREATE_PACK_100_ID` (£9.99 one-time) and `STRIPE_CREATE_PACK_500_ID` (£39.99 one-time)
 3. Build the `/create` dashboard page (app/[locale]/(dashboard)/create/page.tsx)
+
+---
+
+## Phase 15 Complete (2026-03-23)
+
+### What was built in Phase 15
+
+**15A — ELEVO Drop™ (Dropshipping Suite):**
+- `lib/agents/dropshippingAgent.ts` — Already existed; verified complete with findWinningProducts(), analyseProduct(), findSuppliers(), buildShopifyContent()
+- `app/api/drop/find/route.ts` — POST, Galaxy only, 5 credits
+- `app/api/drop/analyse/route.ts` — POST, Galaxy only, 2 credits
+- `app/api/drop/suppliers/route.ts` — POST, Galaxy only, 2 credits
+- `app/api/drop/store-content/route.ts` — POST, Galaxy only, 1 credit
+- `app/[locale]/(dashboard)/drop/page.tsx` — Full 5-tab dropshipping command centre (Product Finder, Supplier Finder, Store Builder, Ad Creator, My Products)
+
+**15B — Shopify Integration:**
+- `lib/integrations/shopify.ts` — Already existed; verified complete with getShopifyAnalytics(), getShopifyProducts(), createShopifyProduct(), getShopifyOrders()
+- `app/api/store/connect/route.ts` — POST store connection with live Shopify test
+- `app/api/store/analytics/route.ts` — GET analytics with daily cache
+- `app/[locale]/(dashboard)/store/page.tsx` — Connect + analytics dashboard with recharts, top products, traffic sources
+
+**15C — ELEVO Update™ (AI Landscape Monitor):**
+- `lib/agents/aiUpdateAgent.ts` — Pulse: scanAILandscape() (Opus + web_search), monitors new models/tools/trends/competitors, recommends next phase
+- `app/api/admin/updates/scan/route.ts` — POST, admin only, no credit cost
+- `app/api/cron/ai-landscape/route.ts` — Monday 6am cron, saves report + emails James
+- `app/[locale]/(dashboard)/admin/updates/page.tsx` — Admin-only dashboard: 6 tabs (models/tools/trends/competitors/phase/agents)
+
+**15D — ELEVO Clip™ (Content Clipping):**
+- `lib/agents/contentClipAgent.ts` — Snap: clipContent() (Sonnet + web_search), fetchYouTubeTranscript() (no API key, HTML parsing)
+- `app/api/clip/analyse/route.ts` — POST, Orbit+, 2 credits, saves to saved_generations
+- `app/[locale]/(dashboard)/clip/page.tsx` — URL/transcript input, platform checkboxes, per-clip captions/hooks/hashtags/schedule
+
+**15E — Crons:**
+- `app/api/cron/store-sync/route.ts` — Hourly Shopify sync for all active integrations
+- `vercel.json` — Added store-sync (hourly) + ai-landscape (Monday 6am)
+
+**15F — Schema:**
+- `supabase/schema.sql` — Phase 15: dropship_products, store_integrations, store_analytics_daily tables
+
+**15G — Agent Personas:**
+- `lib/agents/agentPersonas.ts` — Added Drake (ELEVO Drop™, galaxy), Snap (ELEVO Clip™, orbit), Pulse (ELEVO Update™, admin). Added 'ecommerce' pillar.
+
+**15H — Sidebar:**
+- `components/dashboard/Sidebar.tsx` — New "Ecommerce" section (ELEVO Drop™ [Galaxy], Store Analytics [Galaxy]). Added ELEVO Clip™ to Social & Video section. Added galaxyOnly prop support.
+
+### New pages in Phase 15
+- `/drop` — ELEVO Drop™ command centre (Galaxy)
+- `/store` — Store Analytics (Galaxy)
+- `/clip` — ELEVO Clip™ (Orbit+)
+- `/admin/updates` — ELEVO Update™ AI landscape (Admin only)
+
+### What James needs to do next
+
+1. Run `supabase/schema.sql` (Phase 15 additions: dropship_products, store_integrations, store_analytics_daily tables)
+2. No new env vars required for Phase 15 (store access tokens stored in DB)
+3. Add `ELEVO_ADMIN_EMAIL` and `ELEVO_ADMIN_USER_ID` to `.env.local` for the ai-landscape cron email

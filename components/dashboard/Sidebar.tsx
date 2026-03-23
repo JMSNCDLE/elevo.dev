@@ -8,6 +8,7 @@ import {
   UserSquare2, Zap, Library, Settings, ChevronRight, Rocket,
   BarChart3, Package, TrendingDown, MapPin, Repeat2, MessageSquare, Bot,
   Film, Video, UserCheck, Megaphone as Campaign, Eye, Palette,
+  ShoppingCart, Store, Scissors,
 } from 'lucide-react'
 
 interface SidebarProps {
@@ -23,6 +24,7 @@ interface NavItem {
   label: string
   icon: React.ElementType
   orbitOnly?: boolean
+  galaxyOnly?: boolean
   badge?: string
 }
 
@@ -34,6 +36,7 @@ interface NavSection {
 export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, businessName }: SidebarProps) {
   const pathname = usePathname()
   const isOrbit = plan === 'orbit' || plan === 'galaxy'
+  const isGalaxy = plan === 'galaxy'
   const creditsRemaining = creditsLimit - creditsUsed
   const creditsPct = Math.max(0, (creditsRemaining / creditsLimit) * 100)
 
@@ -69,6 +72,13 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       ],
     },
     {
+      title: 'Ecommerce',
+      items: [
+        { href: `/${locale}/drop`, label: 'ELEVO Drop™', icon: ShoppingCart, galaxyOnly: true, badge: 'NEW' },
+        { href: `/${locale}/store`, label: 'Store Analytics', icon: Store, galaxyOnly: true },
+      ],
+    },
+    {
       title: 'Intelligence',
       items: [
         { href: `/${locale}/roas`, label: 'ROAS Analysis', icon: BarChart3, orbitOnly: true },
@@ -84,6 +94,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       title: 'Social & Video',
       items: [
         { href: `/${locale}/create`, label: 'ELEVO Create™', icon: Palette, orbitOnly: true, badge: '✨ NEW' },
+        { href: `/${locale}/clip`, label: 'ELEVO Clip™', icon: Scissors, orbitOnly: true },
         { href: `/${locale}/social`, label: 'Social Hub', icon: Share2, orbitOnly: true },
         { href: `/${locale}/video-studio`, label: 'Video Studio', icon: Film, orbitOnly: true },
         { href: `/${locale}/ugc`, label: 'UGC Pipeline', icon: Video, orbitOnly: true },
@@ -141,7 +152,8 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
             <ul className="space-y-0.5">
               {section.items.map(item => {
                 const active = isActive(item.href)
-                const locked = item.orbitOnly && !isOrbit
+                const locked = (item.orbitOnly && !isOrbit) || (item.galaxyOnly && !isGalaxy)
+                const lockLabel = item.galaxyOnly && !isGalaxy ? 'Galaxy' : 'Orbit+'
 
                 return (
                   <li key={item.href}>
@@ -159,7 +171,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
                       <span className="flex-1">{item.label}</span>
                       {locked && (
                         <span className="text-xs bg-accent/20 text-accent px-1.5 py-0.5 rounded font-medium">
-                          Orbit+
+                          {lockLabel}
                         </span>
                       )}
                       {!locked && item.badge && (

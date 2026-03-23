@@ -641,3 +641,57 @@ CREATE TABLE IF NOT EXISTS creative_tokens (
 );
 ALTER TABLE creative_tokens ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "own_tokens" ON creative_tokens FOR ALL USING (auth.uid() = user_id);
+
+-- ─── Phase 15: Dropshipping + Store Integrations ──────────────────────────────
+
+CREATE TABLE IF NOT EXISTS dropship_products (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  business_profile_id UUID REFERENCES business_profiles(id),
+  product_name TEXT NOT NULL,
+  niche TEXT,
+  status TEXT DEFAULT 'researching' CHECK (status IN ('researching','testing','scaling','paused','killed')),
+  product_data JSONB NOT NULL DEFAULT '{}',
+  shopify_product_id TEXT,
+  shopify_store_url TEXT,
+  monthly_revenue NUMERIC(10,2) DEFAULT 0,
+  monthly_spend NUMERIC(10,2) DEFAULT 0,
+  roas NUMERIC(6,2) DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE dropship_products ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_dropship" ON dropship_products FOR ALL USING (auth.uid() = user_id);
+
+CREATE TABLE IF NOT EXISTS store_integrations (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  business_profile_id UUID REFERENCES business_profiles(id),
+  platform TEXT NOT NULL CHECK (platform IN ('shopify','woocommerce','wix','squarespace','custom')),
+  store_url TEXT NOT NULL,
+  access_token TEXT,
+  shop_id TEXT,
+  is_active BOOLEAN DEFAULT true,
+  last_synced_at TIMESTAMPTZ,
+  connected_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE store_integrations ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_integrations" ON store_integrations FOR ALL USING (auth.uid() = user_id);
+
+CREATE TABLE IF NOT EXISTS store_analytics_daily (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  integration_id UUID NOT NULL REFERENCES store_integrations(id) ON DELETE CASCADE,
+  date DATE NOT NULL,
+  revenue NUMERIC(10,2) DEFAULT 0,
+  orders INTEGER DEFAULT 0,
+  sessions INTEGER DEFAULT 0,
+  conversion_rate NUMERIC(6,4) DEFAULT 0,
+  avg_order_value NUMERIC(10,2) DEFAULT 0,
+  top_products JSONB DEFAULT '[]',
+  traffic_sources JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(integration_id, date)
+);
+ALTER TABLE store_analytics_daily ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_store_analytics" ON store_analytics_daily FOR ALL USING (
+  integration_id IN (SELECT id FROM store_integrations WHERE user_id = auth.uid())
+);
