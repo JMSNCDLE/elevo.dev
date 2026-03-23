@@ -1,134 +1,76 @@
-# Supabase Email Confirmation Setup
+# ELEVO AI — How to Make Confirmation Emails Work
 
-This guide explains how to configure (and optionally disable) email confirmation for your ELEVO AI development and production environments.
+## OPTION A — For immediate testing (use this now)
 
----
+1. Go to supabase.com → your ELEVO AI project
+2. Click **Authentication** in the left menu
+3. Click **Settings**
+4. Scroll to **SMTP Settings**
+5. Toggle ON **Enable Custom SMTP**
+6. Fill in:
+   - Host: `smtp.resend.com`
+   - Port: `465`
+   - Username: `resend`
+   - Password: `[paste your RESEND_API_KEY from .env.local — starts with re_]`
+   - Sender name: `ELEVO AI`
+   - Sender email: `onboarding@resend.dev`
+7. Click **Save**
+8. Go to **Email Templates → Confirmation** → click **Save**
+9. Sign up again — the confirmation email will now arrive
 
-## Development: Disable Email Confirmation
+## OPTION B — After connecting elevo.ai domain (production)
 
-When developing locally, email confirmation is often a friction point. You can disable it in the Supabase dashboard:
+1. Go to resend.com → Domains → Add Domain → enter `elevo.ai`
+2. Add the DNS records shown to your Cloudflare account
+3. Verify the domain in Resend
+4. Change Sender email to: `hello@elevo.ai`
+5. All emails now send from your branded domain
 
-### Steps
+## Email Confirmation HTML Template
 
-1. Go to your Supabase project: **Authentication → Providers → Email**
-2. Toggle **"Confirm email"** to **OFF**
-3. Save
-
-Users will now be able to sign in immediately after signup without confirming their email.
-
-> ⚠️ Only do this in your development/staging project. Always keep email confirmation enabled in production.
-
----
-
-## Production: Keep Confirmation Enabled + Customise the Email
-
-### 1. Customise the confirmation email
-
-Go to **Authentication → Email Templates → Confirm signup**.
-
-Replace the default template with the ELEVO AI branded version:
+Paste this into Supabase → Authentication → Email Templates → Confirmation:
 
 ```html
-<h2>Welcome to ELEVO AI™</h2>
-<p>Hi there,</p>
-<p>You're one click away from launching your AI-powered business operations.</p>
-<p>
-  <a href="{{ .ConfirmationURL }}" style="
-    background-color: #6366F1;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    display: inline-block;
-  ">
-    Confirm your email →
-  </a>
-</p>
-<p>If you didn't create an ELEVO AI account, you can safely ignore this email.</p>
-<p>— The ELEVO AI Team</p>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Confirm your ELEVO AI account</title>
+</head>
+<body style="margin:0;padding:0;background:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <table width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+      <td align="center" style="padding:40px 20px">
+        <table width="520" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08)">
+          <tr>
+            <td style="background:linear-gradient(135deg,#4F46E5,#7C3AED);padding:40px;text-align:center">
+              <div style="font-size:28px;font-weight:800;color:#ffffff;letter-spacing:-0.5px">ELEVO AI™</div>
+              <div style="font-size:14px;color:rgba(255,255,255,0.8);margin-top:4px">The AI operating system for local businesses</div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:48px 40px">
+              <h1 style="font-size:24px;font-weight:700;color:#0F172A;margin:0 0 12px">You're almost in.</h1>
+              <p style="font-size:16px;color:#475569;line-height:1.6;margin:0 0 32px">
+                Click the button below to confirm your email address and activate your ELEVO AI account. Your 7-day free trial starts the moment you confirm.
+              </p>
+              <a href="{{ .ConfirmationURL }}" style="display:inline-block;background:linear-gradient(135deg,#4F46E5,#7C3AED);color:#ffffff;font-size:16px;font-weight:600;text-decoration:none;padding:16px 40px;border-radius:10px">
+                Confirm my account →
+              </a>
+              <p style="font-size:13px;color:#94A3B8;margin:32px 0 0">
+                This link expires in 24 hours. If you didn't sign up for ELEVO AI, you can safely ignore this email.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:24px 40px;border-top:1px solid #F1F5F9;text-align:center">
+              <p style="font-size:12px;color:#94A3B8;margin:0">© 2026 ELEVO AI Ltd™ · hello@elevo.ai</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
 ```
-
-### 2. Set the redirect URL
-
-In **Authentication → URL Configuration**, set:
-
-- **Site URL**: `https://yourdomain.com`
-- **Redirect URLs**: `https://yourdomain.com/en/auth/callback`
-
-This ensures users land on the correct callback route after confirming.
-
----
-
-## Resend Confirmation Email
-
-If a user doesn't receive their confirmation email, they can request a new one via the `/api/auth/resend-confirmation` endpoint.
-
-### API Usage
-
-```bash
-POST /api/auth/resend-confirmation
-Content-Type: application/json
-
-{
-  "email": "user@example.com"
-}
-```
-
-This calls `supabase.auth.resend({ type: 'signup', email })` and sends a fresh confirmation link.
-
-### From the frontend
-
-The signup page already has a "Resend confirmation" button that calls this endpoint automatically after the initial signup.
-
----
-
-## SMTP Configuration (Optional — for custom sender)
-
-By default, Supabase uses its own SMTP to send emails. To use your own (e.g. Resend, SendGrid, Postmark):
-
-1. Go to **Project Settings → Auth → SMTP Settings**
-2. Enable custom SMTP
-3. Enter your SMTP credentials:
-   - **Host**: `smtp.resend.com` (or your provider)
-   - **Port**: `465`
-   - **User**: `resend` (or your username)
-   - **Password**: Your SMTP API key
-   - **Sender name**: `ELEVO AI`
-   - **Sender email**: `hello@elevoai.com`
-
----
-
-## Environment Variables
-
-No additional environment variables are required for email confirmation. The Supabase client automatically uses the project's anon key and service role key from:
-
-```
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
-SUPABASE_SERVICE_ROLE_KEY=
-```
-
-These are already set in `.env.local`.
-
----
-
-## Testing Locally with Supabase CLI
-
-If you're using `supabase start` (local development):
-
-1. Email confirmation is **disabled by default** in local Supabase
-2. Emails are captured by **Inbucket** at `http://localhost:54324`
-3. You can view all sent emails there without needing real SMTP
-
----
-
-## Common Issues
-
-| Issue | Solution |
-|-------|----------|
-| User can't log in after signup | Check email confirmation is off in dev, or confirm the email in prod |
-| Confirmation link expired | Links expire after 24 hours. Use the resend endpoint |
-| Email going to spam | Set up DMARC/SPF/DKIM records for your sending domain |
-| Wrong redirect URL | Ensure `Site URL` in Supabase matches your deployed domain exactly |
-| `auth/callback` 404 | Verify `app/[locale]/auth/callback/route.ts` exists and handles the code exchange |
