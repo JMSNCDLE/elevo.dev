@@ -79,6 +79,13 @@ export default function CEOPage() {
   const [stage, setStage] = useState('Pre-seed')
   const [askAmount, setAskAmount] = useState('')
 
+  // Quick Decision state
+  const [qdStatus, setQdStatus] = useState<Status>('idle')
+  const [qdError, setQdError] = useState('')
+  const [qdResult, setQdResult] = useState<{ recommendation: string; reasoning: string; nextStep: string } | null>(null)
+  const [qdQuestion, setQdQuestion] = useState('')
+  const [qdContext, setQdContext] = useState('')
+
   useEffect(() => {
     async function load() {
       const { data: { user } } = await supabase.auth.getUser()
@@ -155,6 +162,27 @@ export default function CEOPage() {
     }
   }
 
+  async function runQuickDecision() {
+    if (!qdQuestion.trim()) return
+    setQdStatus('loading')
+    setQdError('')
+    setQdResult(null)
+    try {
+      const res = await fetch(`/${locale}/api/ceo/quick-decision`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: qdQuestion, context: qdContext }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Failed')
+      setQdResult(data.result)
+      setQdStatus('done')
+    } catch (e: unknown) {
+      setQdError(e instanceof Error ? e.message : 'Something went wrong')
+      setQdStatus('error')
+    }
+  }
+
   async function runInvestor() {
     if (!askAmount || !selectedProfile) return
     setInvestorStatus('loading')
@@ -212,6 +240,30 @@ export default function CEOPage() {
           </select>
         </div>
       )}
+
+      {/* Daily Briefing */}
+      <div className="mb-6 bg-dashCard rounded-xl border border-dashSurface2 p-5">
+        <div className="flex items-center gap-2 mb-3">
+          <Star size={16} className="text-yellow-400" />
+          <span className="text-sm font-semibold text-dashText">
+            Good {new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 17 ? 'afternoon' : 'evening'}.
+          </span>
+        </div>
+        <div className="grid grid-cols-3 gap-3">
+          <div className="bg-red-500/5 border border-red-500/20 rounded-lg p-3">
+            <p className="text-xs font-bold text-red-400 mb-1">URGENT</p>
+            <p className="text-xs text-dashMuted">Set your first CEO session to unlock daily briefings</p>
+          </div>
+          <div className="bg-yellow-500/5 border border-yellow-500/20 rounded-lg p-3">
+            <p className="text-xs font-bold text-yellow-400 mb-1">OPPORTUNITY</p>
+            <p className="text-xs text-dashMuted">Run a Growth Strategy to surface opportunities</p>
+          </div>
+          <div className="bg-blue-500/5 border border-blue-500/20 rounded-lg p-3">
+            <p className="text-xs font-bold text-blue-400 mb-1">WATCH</p>
+            <p className="text-xs text-dashMuted">Complete your business profile for personalised insights</p>
+          </div>
+        </div>
+      </div>
 
       {/* Tabs */}
       <div className="flex gap-1 mb-6 bg-dashSurface rounded-xl p-1 w-fit">
@@ -379,6 +431,69 @@ export default function CEOPage() {
               <ActionExplanation
                 description="This CEO analysis uses Opus 4.6 with web search and adaptive thinking to deliver Fortune 500-level strategic advice tailored to your business context and market."
               />
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ── Quick Decision ── */}
+      {tab === 'session' && (
+        <div className="mt-6 bg-dashCard rounded-xl border border-dashSurface2 p-6">
+          <h3 className="font-semibold text-dashText mb-1">Quick Decision</h3>
+          <p className="text-xs text-dashMuted mb-4">Need a fast answer? Ask a quick question and get an instant CEO-level decision. — 2 credits</p>
+          <div className="space-y-3">
+            <div>
+              <label className="text-xs text-dashMuted block mb-1">Quick question</label>
+              <input
+                type="text"
+                value={qdQuestion}
+                onChange={e => setQdQuestion(e.target.value)}
+                placeholder="Should I..."
+                className="w-full bg-dashSurface border border-dashSurface2 rounded-lg px-3 py-2 text-dashText text-sm focus:outline-none focus:border-accent"
+              />
+            </div>
+            <div>
+              <label className="text-xs text-dashMuted block mb-1">Context (optional)</label>
+              <textarea
+                value={qdContext}
+                onChange={e => setQdContext(e.target.value)}
+                rows={2}
+                placeholder="Any relevant context..."
+                className="w-full bg-dashSurface border border-dashSurface2 rounded-lg px-3 py-2 text-dashText text-sm resize-none focus:outline-none focus:border-accent"
+              />
+            </div>
+            <button
+              onClick={runQuickDecision}
+              disabled={qdStatus === 'loading' || !qdQuestion.trim()}
+              className="flex items-center gap-2 px-5 py-2.5 bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 rounded-lg font-semibold text-sm hover:bg-yellow-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              {qdStatus === 'loading' ? <Loader2 size={14} className="animate-spin" /> : <Lightbulb size={14} />}
+              {qdStatus === 'loading' ? 'CEO is thinking…' : 'Quick Decision →'}
+            </button>
+          </div>
+
+          {qdStatus === 'loading' && (
+            <div className="mt-3 flex items-center gap-2 text-sm text-yellow-400">
+              <Loader2 size={14} className="animate-spin" />
+              <span className="animate-pulse">ELEVO CEO is thinking about your decision…</span>
+            </div>
+          )}
+          {qdError && <p className="mt-3 text-xs text-red-400">{qdError}</p>}
+
+          {qdResult && qdStatus === 'done' && (
+            <div className="mt-4 space-y-3">
+              <div className="bg-accent/5 border border-accent/20 rounded-lg p-4">
+                <p className="text-xs font-bold text-accent mb-1">RECOMMENDATION</p>
+                <p className="text-sm text-dashText">{qdResult.recommendation}</p>
+              </div>
+              <div className="bg-dashSurface rounded-lg p-4">
+                <p className="text-xs font-bold text-dashMuted mb-1">REASONING</p>
+                <p className="text-sm text-dashMuted">{qdResult.reasoning}</p>
+              </div>
+              <div className="bg-green-500/5 border border-green-500/20 rounded-lg p-4">
+                <p className="text-xs font-bold text-green-400 mb-1">NEXT STEP</p>
+                <p className="text-sm text-dashText">{qdResult.nextStep}</p>
+              </div>
             </div>
           )}
         </div>

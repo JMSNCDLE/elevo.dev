@@ -18,7 +18,7 @@ import type {
   DesignStyle,
 } from '@/lib/agents/stitchDesignAgent'
 
-type Tab = 'component' | 'analyse' | 'website' | 'preview'
+type Tab = 'component' | 'analyse' | 'website' | 'preview' | 'library'
 type Status = 'idle' | 'loading' | 'done' | 'error'
 
 const COMPONENT_TYPES: ComponentType[] = [
@@ -178,6 +178,7 @@ export default function StitchPage() {
           { key: 'analyse', label: 'Analyse Site', icon: Globe },
           { key: 'website', label: 'Full Website', icon: Wand2 },
           { key: 'preview', label: 'Preview', icon: Eye },
+          { key: 'library', label: 'Component Library', icon: Code },
         ] as const).map(t => (
           <button
             key={t.key}
@@ -610,6 +611,182 @@ export default function StitchPage() {
               <p className="text-sm">Generate a component or website to preview it here</p>
             </div>
           )}
+        </div>
+      )}
+
+      {/* ── Component Library Tab ── */}
+      {tab === 'library' && (
+        <div className="space-y-6">
+          <p className="text-sm text-dashMuted">Pre-built ELEVO-branded components ready to copy and use.</p>
+
+          {[
+            {
+              category: 'Hero Sections',
+              items: [
+                {
+                  name: 'Hero — Dark',
+                  description: 'Bold dark hero with pill badge and gradient headline',
+                  html: `<section class="bg-gray-900 py-24 px-6 text-center">
+  <div class="max-w-4xl mx-auto">
+    <span class="inline-block text-xs font-semibold text-indigo-400 bg-indigo-400/10 border border-indigo-400/20 px-3 py-1 rounded-full mb-6 uppercase tracking-widest">New</span>
+    <h1 class="text-6xl font-black text-white tracking-tighter mb-6 leading-tight">The headline that<br/>changes everything.</h1>
+    <p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">One powerful sentence about what you do and who you do it for.</p>
+    <a href="#" class="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-indigo-700 transition-colors">Get started free →</a>
+  </div>
+</section>`,
+                },
+                {
+                  name: 'Hero — Light Minimal',
+                  description: 'Clean white hero with left-aligned copy and dashboard mockup',
+                  html: `<section class="bg-white py-24 px-6">
+  <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    <div>
+      <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-4 block">Trusted by 400+ businesses</span>
+      <h1 class="text-5xl font-black text-gray-900 tracking-tighter mb-6 leading-tight">Your business.<br/>Supercharged.</h1>
+      <p class="text-lg text-gray-600 mb-8">Everything your team needs to grow, in one beautifully simple platform.</p>
+      <div class="flex gap-3">
+        <a href="#" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-indigo-700 transition-colors">Start free trial</a>
+        <a href="#" class="text-gray-600 px-6 py-3 rounded-xl font-semibold border border-gray-200 hover:bg-gray-50 transition-colors">See how it works →</a>
+      </div>
+    </div>
+    <div class="bg-gray-900 rounded-2xl p-6 shadow-2xl">
+      <div class="space-y-3">
+        <div class="flex items-center gap-3 bg-white/5 rounded-lg p-3"><div class="w-2 h-2 rounded-full bg-green-400"></div><span class="text-white text-sm">Revenue this month: £12,400</span></div>
+        <div class="flex items-center gap-3 bg-white/5 rounded-lg p-3"><div class="w-2 h-2 rounded-full bg-indigo-400"></div><span class="text-white text-sm">42 new leads generated</span></div>
+        <div class="flex items-center gap-3 bg-white/5 rounded-lg p-3"><div class="w-2 h-2 rounded-full bg-yellow-400"></div><span class="text-white text-sm">AI running 12 tasks today</span></div>
+      </div>
+    </div>
+  </div>
+</section>`,
+                },
+                {
+                  name: 'Hero — Bold Gradient',
+                  description: 'Vibrant gradient background with animated CTA',
+                  html: `<section class="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 py-24 px-6 text-center">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-7xl font-black text-white tracking-tighter mb-6 leading-none">Do more.<br/>Earn more.</h1>
+    <p class="text-xl text-white/80 mb-10">The AI platform that works while you sleep. Join 400+ businesses already growing faster.</p>
+    <a href="#" class="inline-flex items-center gap-2 bg-white text-indigo-600 px-8 py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl transition-all hover:-translate-y-0.5">Start free — no card needed →</a>
+    <p class="text-white/60 text-sm mt-4">7-day free trial · Cancel anytime</p>
+  </div>
+</section>`,
+                },
+              ],
+            },
+            {
+              category: 'Feature Cards',
+              items: [
+                {
+                  name: 'Feature Grid — Dark',
+                  description: '3-column feature grid with icons on dark background',
+                  html: `<section class="bg-gray-900 py-20 px-6">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-4xl font-black text-white text-center mb-3">Everything you need.</h2>
+    <p class="text-gray-400 text-center mb-12">One platform. 21 AI agents. Infinite possibilities.</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div class="w-10 h-10 bg-indigo-500/20 rounded-xl flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <h3 class="text-white font-bold mb-2">Lightning Fast</h3>
+        <p class="text-gray-400 text-sm">Generate content in seconds. Not hours.</p>
+      </div>
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div class="w-10 h-10 bg-purple-500/20 rounded-xl flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        </div>
+        <h3 class="text-white font-bold mb-2">Data-Driven</h3>
+        <p class="text-gray-400 text-sm">Real insights from real market research.</p>
+      </div>
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div class="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <h3 class="text-white font-bold mb-2">Always On</h3>
+        <p class="text-gray-400 text-sm">Your AI team works 24/7, even weekends.</p>
+      </div>
+    </div>
+  </div>
+</section>`,
+                },
+                {
+                  name: 'Feature List — Light',
+                  description: 'Simple feature list with checkmarks on white background',
+                  html: `<section class="bg-white py-20 px-6">
+  <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+    <div>
+      <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3 block">Features</span>
+      <h2 class="text-4xl font-black text-gray-900 mb-6">Built for businesses that want to win.</h2>
+      <p class="text-gray-600 mb-8">Stop juggling 10 tools. Get everything in one place.</p>
+      <a href="#" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold inline-block hover:bg-indigo-700 transition-colors">Get started →</a>
+    </div>
+    <div class="space-y-4">
+      ${['AI content generation', 'CRM & customer management', 'Sales proposals', 'Market research', 'Competitor intelligence', 'Social media automation'].map(f => `<div class="flex items-center gap-3"><div class="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0"><svg class="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></div><span class="text-gray-700">${f}</span></div>`).join('')}
+    </div>
+  </div>
+</section>`,
+                },
+              ],
+            },
+            {
+              category: 'CTA Sections',
+              items: [
+                {
+                  name: 'CTA — Dark with stats',
+                  description: 'Dark CTA section with social proof stats',
+                  html: `<section class="bg-gray-900 py-20 px-6 text-center">
+  <div class="max-w-3xl mx-auto">
+    <div class="flex justify-center gap-8 mb-10">
+      <div><p class="text-3xl font-black text-white">400+</p><p class="text-gray-400 text-sm">Businesses</p></div>
+      <div><p class="text-3xl font-black text-white">£1.2M</p><p class="text-gray-400 text-sm">Revenue driven</p></div>
+      <div><p class="text-3xl font-black text-white">21</p><p class="text-gray-400 text-sm">AI agents</p></div>
+    </div>
+    <h2 class="text-5xl font-black text-white mb-6">Ready to grow?</h2>
+    <p class="text-xl text-gray-400 mb-8">Join hundreds of businesses already using ELEVO to work smarter, not harder.</p>
+    <a href="#" class="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 transition-colors">Start your free trial →</a>
+    <p class="text-gray-500 text-sm mt-4">No credit card required · Cancel anytime</p>
+  </div>
+</section>`,
+                },
+                {
+                  name: 'CTA — Light minimal',
+                  description: 'Clean light CTA with border emphasis',
+                  html: `<section class="bg-gray-50 py-20 px-6">
+  <div class="max-w-2xl mx-auto text-center border border-gray-200 bg-white rounded-3xl p-12 shadow-sm">
+    <h2 class="text-4xl font-black text-gray-900 mb-4">The last tool you'll ever need.</h2>
+    <p class="text-gray-600 mb-8">Start your 7-day free trial. No credit card. No commitment. Just results.</p>
+    <a href="#" class="bg-gray-900 text-white px-8 py-4 rounded-xl font-bold text-lg inline-block hover:bg-gray-800 transition-colors">Start free today</a>
+  </div>
+</section>`,
+                },
+              ],
+            },
+          ].map(category => (
+            <div key={category.category}>
+              <h3 className="text-sm font-bold text-dashMuted uppercase tracking-wider mb-3">{category.category}</h3>
+              <div className="space-y-3">
+                {category.items.map(item => (
+                  <div key={item.name} className="bg-dashCard rounded-xl border border-dashSurface2 p-5">
+                    <div className="flex items-center justify-between mb-2">
+                      <div>
+                        <p className="font-semibold text-dashText text-sm">{item.name}</p>
+                        <p className="text-xs text-dashMuted mt-0.5">{item.description}</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => { setPreviewHtml(item.html); setTab('preview') }}
+                          className="flex items-center gap-1.5 px-3 py-1.5 bg-dashSurface text-dashMuted rounded-lg text-xs hover:text-dashText transition-colors"
+                        >
+                          <Eye size={11} /> Preview
+                        </button>
+                        <CopyButton text={item.html} />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>

@@ -821,3 +821,7 @@ CREATE TABLE IF NOT EXISTS stitch_designs (
 );
 ALTER TABLE stitch_designs ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "own_stitch" ON stitch_designs FOR ALL USING (auth.uid() = user_id);
+
+-- ─── Phase 19: SMM Auto-pilot ─────────────────────────────────────────────────
+
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS auto_smm_enabled BOOLEAN DEFAULT false;

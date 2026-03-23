@@ -43,18 +43,19 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
 
   const sections: NavSection[] = [
     {
-      title: 'Marketing',
-      items: [
-        { href: `/${locale}/market`, label: 'ELEVO Market™', icon: Zap, orbitOnly: true, badge: 'SUPER' },
-        { href: `/${locale}/market/setup`, label: 'Social Setup', icon: Globe },
-      ],
-    },
-    {
       title: 'Overview',
       items: [
         { href: `/${locale}/chat`, label: 'Chat with ELEVO', icon: MessageSquare, badge: 'NEW' },
         { href: `/${locale}/dashboard`, label: 'Mission Control', icon: LayoutDashboard },
         { href: `/${locale}/analytics`, label: 'Analytics', icon: BarChart2 },
+      ],
+    },
+    {
+      title: 'Marketing',
+      items: [
+        { href: `/${locale}/market`, label: 'ELEVO Market™', icon: Zap, orbitOnly: true, badge: 'SUPER' },
+        { href: `/${locale}/smm`, label: 'ELEVO SMM™', icon: Share2, orbitOnly: true, badge: 'NEW' },
+        { href: `/${locale}/market/setup`, label: 'Social Setup', icon: Globe },
       ],
     },
     {
@@ -65,8 +66,32 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
         { href: `/${locale}/dashboard/content/social`, label: 'Social', icon: Share2 },
         { href: `/${locale}/dashboard/content/reviews`, label: 'Reviews', icon: Star },
         { href: `/${locale}/dashboard/content/email`, label: 'Email', icon: Mail },
-        { href: `/${locale}/dashboard/content/seo`, label: 'SEO', icon: Search },
-        { href: `/${locale}/creator`, label: 'ELEVO Creator™', icon: Video, orbitOnly: true, badge: '🎬 NEW' },
+        { href: `/${locale}/dashboard/content/seo`, label: 'SEO Copy', icon: Search },
+        { href: `/${locale}/creator`, label: 'ELEVO Creator™', icon: Video, orbitOnly: true },
+        { href: `/${locale}/clip`, label: 'ELEVO Clip™', icon: Scissors, orbitOnly: true },
+        { href: `/${locale}/viral`, label: 'ELEVO Viral™', icon: TrendingUp, orbitOnly: true, badge: '🔥' },
+        { href: `/${locale}/video-studio`, label: 'Video Studio', icon: Film, orbitOnly: true },
+      ],
+    },
+    {
+      title: 'Intelligence',
+      items: [
+        { href: `/${locale}/ceo`, label: 'ELEVO CEO™', icon: Crown, galaxyOnly: true, badge: '👑' },
+        { href: `/${locale}/spy`, label: 'ELEVO Spy™', icon: Eye, orbitOnly: true },
+        { href: `/${locale}/seo`, label: 'ELEVO Rank™', icon: Search },
+        { href: `/${locale}/roas`, label: 'ROAS Analysis', icon: BarChart3, orbitOnly: true },
+        { href: `/${locale}/finances`, label: 'Finances', icon: TrendingDown, orbitOnly: true },
+        { href: `/${locale}/inventory`, label: 'Inventory', icon: Package, orbitOnly: true },
+        { href: `/${locale}/customer-trends`, label: 'Customer Trends', icon: TrendingUp, orbitOnly: true },
+        { href: `/${locale}/google-optimisation`, label: 'Google Optimisation', icon: MapPin },
+        { href: `/${locale}/alternatives`, label: 'Find Alternatives', icon: Repeat2, orbitOnly: true },
+      ],
+    },
+    {
+      title: 'Design & Create',
+      items: [
+        { href: `/${locale}/create`, label: 'ELEVO Create™', icon: Palette, orbitOnly: true },
+        { href: `/${locale}/stitch`, label: 'ELEVO Stitch™', icon: Paintbrush, orbitOnly: true, badge: 'NEW' },
       ],
     },
     {
@@ -83,51 +108,23 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
     {
       title: 'Ecommerce',
       items: [
-        { href: `/${locale}/drop`, label: 'ELEVO Drop™', icon: ShoppingCart, galaxyOnly: true, badge: 'NEW' },
+        { href: `/${locale}/drop`, label: 'ELEVO Drop™', icon: ShoppingCart, galaxyOnly: true },
         { href: `/${locale}/store`, label: 'Store Analytics', icon: Store, galaxyOnly: true },
       ],
     },
     {
-      title: 'Intelligence',
+      title: 'Sales Tools',
       items: [
-        { href: `/${locale}/ceo`, label: 'ELEVO CEO™', icon: Crown, galaxyOnly: true, badge: '👑 NEW' },
-        { href: `/${locale}/roas`, label: 'ROAS Analysis', icon: BarChart3, orbitOnly: true },
-        { href: `/${locale}/finances`, label: 'Finances', icon: TrendingDown, orbitOnly: true },
-        { href: `/${locale}/inventory`, label: 'Inventory', icon: Package, orbitOnly: true },
-        { href: `/${locale}/customer-trends`, label: 'Customer Trends', icon: TrendingUp, orbitOnly: true },
-        { href: `/${locale}/google-optimisation`, label: 'Google Optimisation', icon: MapPin },
-        { href: `/${locale}/alternatives`, label: 'Find Alternatives', icon: Repeat2, orbitOnly: true },
-        { href: `/${locale}/spy`, label: 'ELEVO Spy™', icon: Eye, orbitOnly: true, badge: 'NEW' },
-      ],
-    },
-    {
-      title: 'Design',
-      items: [
-        { href: `/${locale}/stitch`, label: 'ELEVO Stitch™', icon: Paintbrush, orbitOnly: true, badge: '✏️ NEW' },
-      ],
-    },
-    {
-      title: 'Social & Video',
-      items: [
-        { href: `/${locale}/create`, label: 'ELEVO Create™', icon: Palette, orbitOnly: true, badge: '✨ NEW' },
-        { href: `/${locale}/clip`, label: 'ELEVO Clip™', icon: Scissors, orbitOnly: true },
-        { href: `/${locale}/social`, label: 'Social Hub', icon: Share2, orbitOnly: true },
-        { href: `/${locale}/video-studio`, label: 'Video Studio', icon: Film, orbitOnly: true },
-        { href: `/${locale}/ugc`, label: 'UGC Pipeline', icon: Video, orbitOnly: true },
-        { href: `/${locale}/conversations`, label: 'Conversations', icon: MessageSquare, orbitOnly: true },
-        { href: `/${locale}/social/profiles`, label: 'Profile Generator', icon: UserCheck },
-        { href: `/${locale}/ads`, label: 'Ad Campaigns', icon: Target, orbitOnly: true },
-        { href: `/${locale}/seo`, label: 'SEO & Rankings', icon: Search },
-        { href: `/${locale}/viral`, label: 'ELEVO Viral™', icon: TrendingUp, orbitOnly: true, badge: '🔥' },
+        { href: `/${locale}/prospect`, label: 'ELEVO Prospect™', icon: Target, galaxyOnly: true },
+        { href: `/${locale}/ads`, label: 'Ad Campaigns', icon: Megaphone, orbitOnly: true },
       ],
     },
     {
       title: 'Customers',
       items: [
         { href: `/${locale}/dashboard/customers`, label: 'All Contacts', icon: UserSquare2 },
-        { href: `/${locale}/dashboard/customers/pipeline`, label: 'Sales Pipeline', icon: BarChart2, orbitOnly: true },
+        { href: `/${locale}/conversations`, label: 'Conversations', icon: MessageSquare, orbitOnly: true },
         { href: `/${locale}/dashboard/customers/review-requests`, label: 'Review Requests', icon: Star },
-        { href: `/${locale}/dashboard/customers/campaigns`, label: 'Campaigns', icon: Campaign, orbitOnly: true },
       ],
     },
     {
@@ -143,7 +140,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       title: 'Admin',
       items: [
         { href: `/${locale}/admin/updates`, label: 'ELEVO Update™', icon: RefreshCw, adminOnly: true },
-        { href: `/${locale}/admin/pa`, label: 'ELEVO PA™', icon: Shield, adminOnly: true, badge: 'NEW' },
+        { href: `/${locale}/admin/pa`, label: 'ELEVO PA™', icon: Shield, adminOnly: true },
         { href: `/${locale}/admin/elevo-marketing`, label: 'ELEVO Marketing', icon: Zap, adminOnly: true },
       ],
     },
