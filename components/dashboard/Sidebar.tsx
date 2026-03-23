@@ -3,13 +3,14 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
-  LayoutDashboard, FileText, BookOpen, Share2, Star, Mail, Search,
-  TrendingUp, Briefcase, BarChart2, Target, DollarSign, Users2, Megaphone,
-  UserSquare2, Zap, Library, Settings, ChevronRight, Rocket,
-  BarChart3, Package, TrendingDown, MapPin, Repeat2, MessageSquare, Bot,
-  Film, Video, UserCheck, Megaphone as Campaign, Eye, Palette,
-  ShoppingCart, Store, Scissors, Shield, RefreshCw, Globe, Crown, Paintbrush,
-  PenLine, Brain,
+  LayoutDashboard, MessageSquare, Zap, Share2, Globe,
+  Video, Scissors, TrendingUp, Film, Palette, Eye, PenLine, Wrench,
+  Crown, Shield, Search, RefreshCw,
+  FileText, Brain, Bot,
+  ShoppingCart, Store,
+  Target, Mail, Settings as SettingsIcon,
+  Users2, BarChart2, DollarSign, TrendingDown, Rocket,
+  ChevronRight, Library, Star, Paintbrush,
 } from 'lucide-react'
 import { useAgentSearch } from '@/hooks/useAgentSearch'
 import AgentSearch from './AgentSearch'
@@ -49,64 +50,52 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
     {
       title: 'Overview',
       items: [
-        { href: `/${locale}/chat`, label: 'Chat with ELEVO', icon: MessageSquare, badge: 'NEW' },
-        { href: `/${locale}/dashboard`, label: 'Mission Control', icon: LayoutDashboard },
-        { href: `/${locale}/analytics`, label: 'Analytics', icon: BarChart2 },
+        { href: `/${locale}/dashboard`, label: 'Dashboard', icon: LayoutDashboard },
+        { href: `/${locale}/chat`, label: 'Chat', icon: MessageSquare },
       ],
     },
     {
       title: 'Marketing',
       items: [
         { href: `/${locale}/market`, label: 'ELEVO Market™', icon: Zap, orbitOnly: true, badge: 'SUPER' },
-        { href: `/${locale}/smm`, label: 'ELEVO SMM™', icon: Share2, orbitOnly: true, badge: 'NEW' },
+        { href: `/${locale}/smm`, label: 'ELEVO SMM™', icon: Share2, orbitOnly: true },
         { href: `/${locale}/market/setup`, label: 'Social Setup', icon: Globe },
       ],
     },
     {
       title: 'Content',
       items: [
-        { href: `/${locale}/dashboard/content/gbp-posts`, label: 'GBP Posts', icon: FileText },
-        { href: `/${locale}/dashboard/content/blog`, label: 'Blog', icon: BookOpen },
-        { href: `/${locale}/dashboard/content/social`, label: 'Social', icon: Share2 },
-        { href: `/${locale}/dashboard/content/reviews`, label: 'Reviews', icon: Star },
-        { href: `/${locale}/dashboard/content/email`, label: 'Email', icon: Mail },
-        { href: `/${locale}/dashboard/content/seo`, label: 'SEO Copy', icon: Search },
         { href: `/${locale}/creator`, label: 'ELEVO Creator™', icon: Video, orbitOnly: true },
         { href: `/${locale}/clip`, label: 'ELEVO Clip™', icon: Scissors, orbitOnly: true },
-        { href: `/${locale}/viral`, label: 'ELEVO Viral™', icon: TrendingUp, orbitOnly: true, badge: '🔥' },
-        { href: `/${locale}/video-studio`, label: 'Video Studio', icon: Film, orbitOnly: true },
-      ],
-    },
-    {
-      title: 'Intelligence',
-      items: [
-        { href: `/${locale}/ceo`, label: 'ELEVO CEO™', icon: Crown, galaxyOnly: true, badge: '👑' },
-        { href: `/${locale}/spy`, label: 'ELEVO Spy™', icon: Eye, orbitOnly: true },
-        { href: `/${locale}/seo`, label: 'ELEVO Rank™', icon: Search },
-        { href: `/${locale}/roas`, label: 'ROAS Analysis', icon: BarChart3, orbitOnly: true },
-        { href: `/${locale}/finances`, label: 'Finances', icon: TrendingDown, orbitOnly: true },
-        { href: `/${locale}/inventory`, label: 'Inventory', icon: Package, orbitOnly: true },
-        { href: `/${locale}/customer-trends`, label: 'Customer Trends', icon: TrendingUp, orbitOnly: true },
-        { href: `/${locale}/google-optimisation`, label: 'Google Optimisation', icon: MapPin },
-        { href: `/${locale}/alternatives`, label: 'Find Alternatives', icon: Repeat2, orbitOnly: true },
+        { href: `/${locale}/viral`, label: 'ELEVO Viral™', icon: TrendingUp, orbitOnly: true },
+        { href: `/${locale}/video-studio`, label: 'Video Studio', icon: Film },
       ],
     },
     {
       title: 'Design & Create',
       items: [
         { href: `/${locale}/create`, label: 'ELEVO Create™', icon: Palette, orbitOnly: true },
-        { href: `/${locale}/stitch`, label: 'ELEVO Stitch™', icon: Paintbrush, orbitOnly: true, badge: 'NEW' },
+        { href: `/${locale}/vision`, label: 'ELEVO Vision™', icon: Eye, orbitOnly: true },
+        { href: `/${locale}/stitch`, label: 'ELEVO Stitch™', icon: Paintbrush, orbitOnly: true },
+        { href: `/${locale}/build-app`, label: 'ELEVO Build™', icon: Wrench, orbitOnly: true },
       ],
     },
     {
-      title: 'Growth',
+      title: 'Intelligence',
       items: [
-        { href: `/${locale}/dashboard/growth/sales`, label: 'Sales & Proposals', icon: Briefcase, orbitOnly: true },
-        { href: `/${locale}/dashboard/growth/research`, label: 'Market Research', icon: BarChart2, orbitOnly: true },
-        { href: `/${locale}/dashboard/growth/strategy`, label: 'Strategy & SWOT', icon: Target, orbitOnly: true },
-        { href: `/${locale}/dashboard/growth/financial`, label: 'Financial Health', icon: DollarSign, orbitOnly: true },
-        { href: `/${locale}/dashboard/growth/management`, label: 'Management & HR', icon: Users2, orbitOnly: true },
-        { href: `/${locale}/dashboard/growth/campaigns`, label: 'Campaigns', icon: Megaphone, orbitOnly: true },
+        { href: `/${locale}/ceo`, label: 'ELEVO CEO™', icon: Crown, galaxyOnly: true },
+        { href: `/${locale}/spy`, label: 'ELEVO Spy™', icon: Shield, orbitOnly: true },
+        { href: `/${locale}/seo`, label: 'ELEVO Rank™', icon: Search },
+        { href: `/${locale}/admin/updates`, label: 'ELEVO Update™', icon: RefreshCw, adminOnly: true },
+      ],
+    },
+    {
+      title: 'Tools',
+      items: [
+        { href: `/${locale}/docs`, label: 'ELEVO Docs™', icon: FileText },
+        { href: `/${locale}/chat`, label: 'ELEVO Route™', icon: Bot },
+        { href: `/${locale}/write-pro`, label: 'ELEVO Write Pro™', icon: PenLine },
+        { href: `/${locale}/deep`, label: 'ELEVO Deep™', icon: Brain, galaxyOnly: true },
       ],
     },
     {
@@ -120,34 +109,27 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       title: 'Sales Tools',
       items: [
         { href: `/${locale}/prospect`, label: 'ELEVO Prospect™', icon: Target, galaxyOnly: true },
-        { href: `/${locale}/ads`, label: 'Ad Campaigns', icon: Megaphone, orbitOnly: true },
+        { href: `/${locale}/prospect/cold-call`, label: 'Cold Call', icon: MessageSquare, orbitOnly: true },
+        { href: `/${locale}/prospect/cold-email`, label: 'Cold Email', icon: Mail, orbitOnly: true },
+        { href: `/${locale}/prospect/agent-builder`, label: 'Agent Builder', icon: Bot, galaxyOnly: true },
       ],
     },
     {
       title: 'Customers',
       items: [
-        { href: `/${locale}/dashboard/customers`, label: 'All Contacts', icon: UserSquare2 },
+        { href: `/${locale}/dashboard/customers`, label: 'All Contacts', icon: Users2 },
+        { href: `/${locale}/customers/pipeline`, label: 'Sales Pipeline', icon: TrendingUp, orbitOnly: true },
         { href: `/${locale}/conversations`, label: 'Conversations', icon: MessageSquare, orbitOnly: true },
-        { href: `/${locale}/dashboard/customers/review-requests`, label: 'Review Requests', icon: Star },
+        { href: `/${locale}/dashboard/customers/review-requests`, label: 'Reviews', icon: Star },
+        { href: `/${locale}/analytics`, label: 'Analytics', icon: BarChart2 },
       ],
     },
     {
-      title: 'Tools',
+      title: 'Growth',
       items: [
-        { href: `/${locale}/dashboard/advisor`, label: 'Problem Solver', icon: Zap },
-        { href: `/${locale}/write-pro`, label: 'ELEVO Write Pro™', icon: PenLine, badge: 'NEW' },
-        { href: `/${locale}/deep`, label: 'ELEVO Deep™', icon: Brain, galaxyOnly: true, badge: 'NEW' },
-        { href: `/${locale}/agents`, label: 'All Agents', icon: Bot },
-        { href: `/${locale}/dashboard/library`, label: 'Library', icon: Library },
-        { href: `/${locale}/dashboard/settings`, label: 'Settings', icon: Settings },
-      ],
-    },
-    {
-      title: 'Admin',
-      items: [
-        { href: `/${locale}/admin/updates`, label: 'ELEVO Update™', icon: RefreshCw, adminOnly: true },
-        { href: `/${locale}/admin/pa`, label: 'ELEVO PA™', icon: Shield, adminOnly: true },
-        { href: `/${locale}/admin/elevo-marketing`, label: 'ELEVO Marketing', icon: Zap, adminOnly: true },
+        { href: `/${locale}/roas`, label: 'ROAS Analysis', icon: DollarSign },
+        { href: `/${locale}/finances`, label: 'Finances', icon: TrendingDown },
+        { href: `/${locale}/dashboard/advisor`, label: 'Market Intel', icon: Search },
       ],
     },
   ]
@@ -193,10 +175,10 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
                 const active = isActive(item.href)
                 const locked = (item.orbitOnly && !isOrbit) || (item.galaxyOnly && !isGalaxy)
                 const lockLabel = item.galaxyOnly && !isGalaxy ? 'Galaxy' : 'Orbit+'
-                // adminOnly items are always shown — the destination page handles the role check
+                // adminOnly items shown to all — destination handles role check
 
                 return (
-                  <li key={item.href}>
+                  <li key={`${section.title}-${item.href}`}>
                     <Link
                       href={locked ? `/${locale}/dashboard/upgrade` : item.href}
                       className={`flex items-center gap-2.5 px-2 py-2 rounded-lg text-sm transition-colors group ${
@@ -208,7 +190,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
                       }`}
                     >
                       <item.icon size={15} className={active ? 'text-accent' : ''} />
-                      <span className="flex-1">{item.label}</span>
+                      <span className="flex-1 truncate">{item.label}</span>
                       {locked && (
                         <span className="text-xs bg-accent/20 text-accent px-1.5 py-0.5 rounded font-medium">
                           {lockLabel}
@@ -229,6 +211,61 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
             </ul>
           </div>
         ))}
+
+        {/* Settings & Library — always at bottom of nav */}
+        <div>
+          <p className="text-xs font-semibold text-dashMuted uppercase tracking-wider px-2 mb-1.5">Account</p>
+          <ul className="space-y-0.5">
+            {[
+              { href: `/${locale}/dashboard/library`, label: 'Library', icon: Library },
+              { href: `/${locale}/dashboard/settings`, label: 'Settings', icon: SettingsIcon },
+              { href: `/${locale}/agents`, label: 'All Agents', icon: Bot },
+            ].map(item => {
+              const active = isActive(item.href)
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`flex items-center gap-2.5 px-2 py-2 rounded-lg text-sm transition-colors ${
+                      active ? 'bg-accentDim text-accent font-medium' : 'text-dashMuted hover:text-dashText hover:bg-dashCard'
+                    }`}
+                  >
+                    <item.icon size={15} className={active ? 'text-accent' : ''} />
+                    <span className="flex-1">{item.label}</span>
+                    {active && <ChevronRight size={14} className="text-accent" />}
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+
+        {/* Admin */}
+        <div>
+          <p className="text-xs font-semibold text-dashMuted uppercase tracking-wider px-2 mb-1.5">Admin</p>
+          <ul className="space-y-0.5">
+            {[
+              { href: `/${locale}/admin/pa`, label: 'ELEVO PA™', icon: Shield },
+              { href: `/${locale}/admin/elevo-marketing`, label: 'ELEVO Marketing', icon: Zap },
+            ].map(item => {
+              const active = isActive(item.href)
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`flex items-center gap-2.5 px-2 py-2 rounded-lg text-sm transition-colors ${
+                      active ? 'bg-accentDim text-accent font-medium' : 'text-dashMuted hover:text-dashText hover:bg-dashCard'
+                    }`}
+                  >
+                    <item.icon size={15} className={active ? 'text-accent' : ''} />
+                    <span className="flex-1">{item.label}</span>
+                    {active && <ChevronRight size={14} className="text-accent" />}
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
       </nav>
 
       {/* Credits bar */}

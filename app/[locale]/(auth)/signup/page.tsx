@@ -125,8 +125,7 @@ export default function SignupPage() {
       {/* ── LEFT BRAND PANEL (hidden on mobile) ─────────────────── */}
       <div className="hidden lg:flex lg:w-[45%] bg-[#080C14] flex-col justify-between px-10 py-10 relative overflow-hidden">
         {/* Subtle grid pattern */}
-        <div className="absolute inset-0 opacity-[0.04]"
-          style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '32px 32px' }} />
+        <div className="absolute inset-0 opacity-[0.04] auth-dot-grid" />
 
         {/* Indigo glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none" />

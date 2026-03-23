@@ -279,6 +279,19 @@ export const AGENT_PERSONAS: AgentPersona[] = [
     availableFrom: 'orbit',
   },
 
+  // ── MEDIA: VISION ──────────────────────────────────────────────────────────
+  {
+    characterName: 'Iris',
+    brandName: 'ELEVO Vision™',
+    tagline: 'AI image prompts for every platform',
+    pillar: 'media',
+    emoji: '👁️',
+    description: 'Generates optimised image prompts for Midjourney, DALL·E 3, Stable Diffusion, Ideogram, Adobe Firefly, and Canva AI — tailored to your business, brand colours, and platform. Includes 3 variations per request.',
+    capabilities: ['Midjourney prompts', 'DALL·E 3 prompts', 'Stable Diffusion prompts', 'Ideogram prompts', 'Firefly prompts', 'Canva AI prompts', 'Brand integration', '3 variations'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
+  },
+
   // ── MEDIA CREATIVE ─────────────────────────────────────────────────────────
   {
     characterName: 'Pixel',
@@ -417,6 +430,28 @@ export const AGENT_PERSONAS: AgentPersona[] = [
   },
 
   // ── TOOLS PILLAR ──────────────────────────────────────────────────────────
+  {
+    characterName: 'Quill',
+    brandName: 'ELEVO Docs™',
+    tagline: 'Any business document in seconds',
+    pillar: 'tools',
+    emoji: '📄',
+    description: 'Generates complete, professional business documents — reports, proposals, presentations, business plans, contracts, email sequences, press releases, and more. Formatted, ready to send, and downloadable.',
+    capabilities: ['Business reports', 'Sales proposals', 'Presentation decks', 'Business plans', 'Contracts', 'Email sequences', 'Press releases', 'Marketing briefs'],
+    creditsPerUse: 2,
+    availableFrom: 'trial',
+  },
+  {
+    characterName: 'Forge',
+    brandName: 'ELEVO Build™',
+    tagline: 'Build anything from a single prompt',
+    pillar: 'tools',
+    emoji: '🏗️',
+    description: 'Builds complete, deployable landing pages, websites, web apps, mobile concepts, and internal tools from a prompt. Generates working HTML/CSS/JS, architecture plans, deploy guides, and SEO metadata.',
+    capabilities: ['Landing pages', 'Full websites', 'Web app architecture', 'Mobile concepts', 'Booking systems', 'Deploy guides', 'SEO metadata'],
+    creditsPerUse: 5,
+    availableFrom: 'orbit',
+  },
   {
     characterName: 'Route',
     brandName: 'ELEVO Route™',

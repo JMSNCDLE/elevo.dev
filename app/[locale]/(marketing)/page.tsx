@@ -69,10 +69,6 @@ const AGENTS = [
   { name: 'ELEVO Rank™', role: 'SEO Specialist', icon: BarChart2, color: 'text-purple-400', bg: 'bg-purple-500/10', plan: 'All plans' },
 ]
 
-const DOT_GRID = {
-  backgroundImage: 'radial-gradient(circle, rgba(99,102,241,0.15) 1px, transparent 1px)',
-  backgroundSize: '24px 24px',
-}
 
 export default function HomePage({ params: _params }: PageProps) {
   const [billingAnnual, setBillingAnnual] = useState(false)
@@ -190,9 +186,101 @@ export default function HomePage({ params: _params }: PageProps) {
         </section>
       </FadeInWhenVisible>
 
+      {/* ── SECTION 1b: ELEVO Docs™ — light ─────────────────────────────────── */}
+      <FadeInWhenVisible>
+        <section className="bg-[#FFFEF9] py-32 px-6">
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <div>
+                <span className="text-xs font-bold text-indigo-600 uppercase tracking-widest block mb-4">ELEVO Docs™</span>
+                <h2 className="text-5xl font-black text-gray-900 tracking-tighter mb-6">
+                  Generate any business document in seconds.
+                </h2>
+                <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+                  Reports. Proposals. Presentations. Email sequences. One prompt. Professional output. Ready to send.
+                </p>
+                <ul className="space-y-3 mb-8">
+                  {[
+                    '10 document types — from contracts to press releases',
+                    '2 credits per document',
+                    'Download as Word, PDF or Google Docs',
+                    'Available on all plans',
+                  ].map(f => (
+                    <li key={f} className="flex items-center gap-2.5 text-sm text-gray-700">
+                      <CheckCircle2 size={16} className="text-indigo-600 shrink-0" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href="/en/signup"
+                  className="inline-flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-indigo-700 transition-colors"
+                >
+                  Try ELEVO Docs™ →
+                </Link>
+              </div>
+              <div className="grid grid-cols-3 gap-3">
+                {[
+                  { label: 'Report', emoji: '📄' },
+                  { label: 'Proposal', emoji: '📋' },
+                  { label: 'Presentation', emoji: '📊' },
+                  { label: 'Business Plan', emoji: '🏢' },
+                  { label: 'Contract', emoji: '📜' },
+                  { label: 'Email Sequence', emoji: '📧' },
+                  { label: 'Press Release', emoji: '📰' },
+                  { label: 'Marketing Brief', emoji: '📣' },
+                  { label: 'Spreadsheet', emoji: '📈' },
+                ].map(doc => (
+                  <div key={doc.label} className="bg-indigo-50 border border-indigo-100 rounded-2xl p-4 text-center hover:border-indigo-300 transition-colors">
+                    <span className="text-2xl block mb-2">{doc.emoji}</span>
+                    <p className="text-xs font-semibold text-gray-900">{doc.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      </FadeInWhenVisible>
+
+      {/* ── SECTION 1c: ELEVO Build™ — indigo gradient ───────────────────────── */}
+      <FadeInWhenVisible>
+        <section className="py-32 px-6" style={{ background: 'linear-gradient(135deg, #4338ca 0%, #6366f1 50%, #7c3aed 100%)' }}>
+          <div className="max-w-5xl mx-auto text-center">
+            <span className="text-xs font-bold text-indigo-200 uppercase tracking-widest block mb-4">ELEVO Build™</span>
+            <h2 className="text-5xl font-black text-white tracking-tighter mb-6">
+              Build websites and apps<br />from a single prompt.
+            </h2>
+            <p className="text-xl text-indigo-100 mb-12 max-w-2xl mx-auto">
+              No code needed. Deploy in minutes.
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-3xl mx-auto mb-10">
+              {[
+                { label: 'Landing Page', emoji: '🌐' },
+                { label: 'Full Website', emoji: '🖥️' },
+                { label: 'Web App', emoji: '⚙️' },
+                { label: 'Mobile Concept', emoji: '📱' },
+                { label: 'Internal Tool', emoji: '🔧' },
+                { label: 'Booking System', emoji: '📅' },
+              ].map(bt => (
+                <div key={bt.label} className="bg-white/10 border border-white/20 rounded-2xl p-5 hover:bg-white/20 transition-colors">
+                  <span className="text-3xl block mb-2">{bt.emoji}</span>
+                  <p className="text-sm font-semibold text-white">{bt.label}</p>
+                </div>
+              ))}
+            </div>
+            <Link
+              href="/en/signup"
+              className="inline-flex items-center gap-2 bg-white text-indigo-700 px-7 py-4 rounded-xl font-bold text-base hover:bg-indigo-50 transition-colors shadow-xl"
+            >
+              Build something →
+            </Link>
+          </div>
+        </section>
+      </FadeInWhenVisible>
+
       {/* ── SECTION 2: ELEVO Spy™ — dark dot grid ───────────────────────────── */}
       <FadeInWhenVisible>
-        <section className="bg-[#080C14] py-32 px-6" style={DOT_GRID}>
+        <section className="bg-[#080C14] py-32 px-6 marketing-dot-grid">
           <div className="max-w-5xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <div>
@@ -290,7 +378,7 @@ export default function HomePage({ params: _params }: PageProps) {
 
       {/* ── SECTION 4: Agents — dark dot grid ───────────────────────────────── */}
       <FadeInWhenVisible>
-        <section className="bg-[#080C14] py-32 px-6" style={DOT_GRID}>
+        <section className="bg-[#080C14] py-32 px-6 marketing-dot-grid">
           <div className="max-w-5xl mx-auto">
             <div className="mb-16">
               <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest block mb-4">AI Agents</span>
@@ -510,7 +598,7 @@ export default function HomePage({ params: _params }: PageProps) {
 
       {/* ── SECTION 6: Final CTA — dark ─────────────────────────────────────── */}
       <FadeInWhenVisible>
-        <section className="bg-[#080C14] py-32 px-6" style={DOT_GRID}>
+        <section className="bg-[#080C14] py-32 px-6 marketing-dot-grid">
           <div className="max-w-3xl mx-auto text-center">
             <div className="flex justify-center gap-10 mb-12">
               {[
