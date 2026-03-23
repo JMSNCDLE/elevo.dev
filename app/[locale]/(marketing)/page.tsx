@@ -1,6 +1,6 @@
 'use client'
 
-import { use } from 'react'
+import { use, useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { CheckCircle2, Sparkles, Eye, ChevronRight } from 'lucide-react'
@@ -8,6 +8,60 @@ import { FadeInWhenVisible } from '@/components/shared/FadeInWhenVisible'
 import { LogoScroll } from '@/components/marketing/LogoScroll'
 import TrustBar from '@/components/shared/TrustBar'
 import LiveCounters from '@/components/shared/LiveCounters'
+
+const COMPETITOR_TOOLS = [
+  { name: 'Hootsuite', price: 99 },
+  { name: 'Jasper', price: 59 },
+  { name: 'HubSpot', price: 790 },
+  { name: 'Holo.ai', price: 49 },
+]
+
+function SavingsCalculator() {
+  const [selected, setSelected] = useState<Set<string>>(new Set())
+  const ELEVO_PRICE = 79
+
+  function toggle(name: string) {
+    setSelected((prev) => {
+      const next = new Set(prev)
+      next.has(name) ? next.delete(name) : next.add(name)
+      return next
+    })
+  }
+
+  const total = COMPETITOR_TOOLS.filter((t) => selected.has(t.name)).reduce((s, t) => s + t.price, 0)
+  const savings = total - ELEVO_PRICE
+
+  return (
+    <div className="space-y-3">
+      {COMPETITOR_TOOLS.map((tool) => (
+        <button
+          key={tool.name}
+          onClick={() => toggle(tool.name)}
+          className={`w-full flex items-center justify-between p-3 rounded-xl border transition-all ${
+            selected.has(tool.name)
+              ? 'bg-indigo-600/10 border-indigo-500/40 text-white'
+              : 'bg-white/3 border-white/10 text-gray-400 hover:border-white/20'
+          }`}
+        >
+          <span className="text-sm">{tool.name}</span>
+          <span className="text-sm font-medium">£{tool.price}/mo</span>
+        </button>
+      ))}
+      {selected.size > 0 && (
+        <div className="mt-4 p-4 bg-green-500/10 border border-green-500/30 rounded-xl text-center">
+          <p className="text-sm text-gray-300 mb-1">Current stack: <span className="font-bold text-white">£{total}/mo</span></p>
+          <p className="text-sm text-gray-300 mb-2">ELEVO replaces all of it: <span className="font-bold text-indigo-400">£{ELEVO_PRICE}/mo</span></p>
+          {savings > 0 && (
+            <p className="text-lg font-black text-green-400">You save: £{savings}/month</p>
+          )}
+        </div>
+      )}
+      {selected.size === 0 && (
+        <p className="text-xs text-gray-500 text-center">Select tools above to see your savings</p>
+      )}
+    </div>
+  )
+}
 
 const AGENTS = [
   { emoji: '✍️', brand: 'ELEVO Write™', role: 'Content Engine', desc: 'GBP posts, blogs, reviews, social captions, email — written in your voice, for your city.' },
@@ -510,6 +564,81 @@ export default function LandingPage({ params }: { params: Promise<{ locale: stri
             </div>
             <div className="text-center">
               <a href={`/${locale}/signup`} className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-8 py-4 rounded-xl text-lg transition-colors">Start growing your channel free →</a>
+            </div>
+          </div>
+        </section>
+      </FadeInWhenVisible>
+
+      {/* COMPARISON SECTION */}
+      <FadeInWhenVisible delay={0} y={32}>
+        <section className="py-20 px-6 bg-[#080C14]">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-12">
+              <p className="text-sm font-semibold text-indigo-400 uppercase tracking-widest mb-3">Why ELEVO™</p>
+              <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">One platform. Every tool you&apos;ve ever needed.</h2>
+              <p className="text-gray-400 text-lg">We built ELEVO because no single tool did everything. Now it does.</p>
+            </div>
+
+            <div className="overflow-x-auto mb-10">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-white/10">
+                    <th className="text-left py-3 px-4 text-gray-400 font-medium">Feature</th>
+                    <th className="text-center py-3 px-3 text-gray-400 font-medium">Hootsuite</th>
+                    <th className="text-center py-3 px-3 text-gray-400 font-medium">Jasper</th>
+                    <th className="text-center py-3 px-3 text-gray-400 font-medium">HubSpot</th>
+                    <th className="text-center py-3 px-3 text-gray-400 font-medium">Holo.ai</th>
+                    <th className="text-center py-3 px-3">
+                      <span className="text-indigo-400 font-bold animate-pulse">ELEVO™</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    ['Social scheduling', true, false, true, true, true],
+                    ['AI content writing', false, true, false, true, true],
+                    ['ROAS analysis', false, false, false, false, true],
+                    ['Competitor intelligence', false, false, false, false, true],
+                    ['AI video prompts', false, false, false, false, true],
+                    ['Dropshipping suite', false, false, false, false, true],
+                    ['Creator studio', false, false, false, false, true],
+                    ['CRM + conversations', false, false, true, false, true],
+                    ['Cold outreach machine', false, false, false, false, true],
+                    ['Full marketing missions', false, false, false, false, true],
+                    ['24/7 PA engineer', false, false, false, false, true],
+                  ].map(([feature, hootsuite, jasper, hubspot, holo, elevo], i) => (
+                    <tr key={i} className="border-b border-white/5 hover:bg-white/2 transition-colors">
+                      <td className="py-3 px-4 text-gray-300">{feature as string}</td>
+                      <td className="text-center py-3 px-3">{hootsuite ? <span className="text-green-400">✓</span> : <span className="text-gray-600">✗</span>}</td>
+                      <td className="text-center py-3 px-3">{jasper ? <span className="text-green-400">✓</span> : <span className="text-gray-600">✗</span>}</td>
+                      <td className="text-center py-3 px-3">{hubspot ? <span className="text-green-400">✓</span> : <span className="text-gray-600">✗</span>}</td>
+                      <td className="text-center py-3 px-3">{holo ? <span className="text-green-400">✓</span> : <span className="text-gray-600">✗</span>}</td>
+                      <td className="text-center py-3 px-3">
+                        <span className={`font-bold ${elevo ? 'text-indigo-400' : 'text-gray-600'}`}>{elevo ? '✓' : '✗'}</span>
+                      </td>
+                    </tr>
+                  ))}
+                  <tr className="border-t border-white/20">
+                    <td className="py-4 px-4 font-semibold text-white">Price/month</td>
+                    <td className="text-center py-4 px-3 text-gray-400">£99</td>
+                    <td className="text-center py-4 px-3 text-gray-400">£59</td>
+                    <td className="text-center py-4 px-3 text-gray-400">£790</td>
+                    <td className="text-center py-4 px-3 text-gray-400">£49</td>
+                    <td className="text-center py-4 px-3">
+                      <span className="font-bold text-indigo-400 text-base">£79</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p className="text-center text-gray-300 text-lg mb-10">
+              <span className="text-white font-bold">ELEVO replaces all 4.</span> At a fraction of the cost.
+            </p>
+
+            <div className="bg-[#141B24] rounded-2xl border border-white/5 p-6 max-w-lg mx-auto">
+              <h3 className="font-semibold text-white text-center mb-4">What tools do you currently use?</h3>
+              <SavingsCalculator />
             </div>
           </div>
         </section>

@@ -7,7 +7,7 @@ export interface AgentPersona {
   characterName: string
   brandName: string
   tagline: string
-  pillar: 'visibility' | 'growth' | 'customers' | 'intelligence' | 'media' | 'support' | 'ecommerce' | 'admin'
+  pillar: 'visibility' | 'growth' | 'customers' | 'intelligence' | 'media' | 'support' | 'ecommerce' | 'admin' | 'marketing'
   emoji: string
   description: string
   capabilities: string[]
@@ -368,6 +368,19 @@ export const AGENT_PERSONAS: AgentPersona[] = [
     availableFrom: 'orbit',
   },
 
+  // ── MARKETING PILLAR ──────────────────────────────────────────────────────
+  {
+    characterName: 'Clio',
+    brandName: 'ELEVO Market™',
+    tagline: 'Your complete marketing department',
+    pillar: 'marketing',
+    emoji: '⚡',
+    description: 'The complete marketing department. Builds full marketing missions, orchestrates all ELEVO agents, executes daily content plans autonomously, and adapts strategy weekly based on performance. Better than Hootsuite, Jasper, HubSpot, and Holo.ai combined.',
+    capabilities: ['Full marketing strategy', 'Content calendar', 'Ad campaigns', 'Email sequences', 'Influencer outreach', 'Reputation management', 'Weekly reviews', 'Autonomous execution'],
+    creditsPerUse: 10,
+    availableFrom: 'orbit',
+  },
+
   // ── ADMIN PILLAR ────────────────────────────────────────────────────────────
   {
     characterName: 'Aria',
@@ -405,4 +418,5 @@ export const PILLARS = [
   { key: 'ecommerce' as const, label: 'Ecommerce', emoji: '📦', description: 'Dropshipping product research, suppliers, and store building' },
   { key: 'support' as const, label: 'Support', emoji: '🗺️', description: 'Onboarding, guidance, and website tools' },
   { key: 'admin' as const, label: 'Admin', emoji: '🤖', description: 'Platform health, daily summaries, and engineering automation' },
+  { key: 'marketing' as const, label: 'Marketing', emoji: '⚡', description: 'Complete marketing missions, content calendars, and autonomous daily execution' },
 ]

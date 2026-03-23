@@ -8,7 +8,7 @@ import {
   UserSquare2, Zap, Library, Settings, ChevronRight, Rocket,
   BarChart3, Package, TrendingDown, MapPin, Repeat2, MessageSquare, Bot,
   Film, Video, UserCheck, Megaphone as Campaign, Eye, Palette,
-  ShoppingCart, Store, Scissors, Shield, RefreshCw,
+  ShoppingCart, Store, Scissors, Shield, RefreshCw, Globe,
 } from 'lucide-react'
 
 interface SidebarProps {
@@ -42,6 +42,13 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
   const creditsPct = Math.max(0, (creditsRemaining / creditsLimit) * 100)
 
   const sections: NavSection[] = [
+    {
+      title: 'Marketing',
+      items: [
+        { href: `/${locale}/market`, label: 'ELEVO Market™', icon: Zap, orbitOnly: true, badge: 'SUPER' },
+        { href: `/${locale}/market/setup`, label: 'Social Setup', icon: Globe },
+      ],
+    },
     {
       title: 'Overview',
       items: [
@@ -130,6 +137,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       items: [
         { href: `/${locale}/admin/updates`, label: 'ELEVO Update™', icon: RefreshCw, adminOnly: true },
         { href: `/${locale}/admin/pa`, label: 'ELEVO PA™', icon: Shield, adminOnly: true, badge: 'NEW' },
+        { href: `/${locale}/admin/elevo-marketing`, label: 'ELEVO Marketing', icon: Zap, adminOnly: true },
       ],
     },
   ]

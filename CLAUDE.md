@@ -622,3 +622,53 @@ _Add items here as James specifies them_
 1. Run `supabase/schema.sql` (Phase 16 PA additions: health_checks, pa_tasks, daily_summaries tables)
 2. Visit `/admin/pa` after deploying to run the first health check
 3. No new env vars required (uses existing ELEVO_ADMIN_EMAIL, CRON_SECRET, ELEVO_ADMIN_USER_ID)
+
+---
+
+## Phase 17 Complete (2026-03-23)
+
+### What was built in Phase 17
+
+**17A — ELEVO Market™ Agent:**
+- `lib/agents/superMarketingAgent.ts` — Clio: `buildMarketingMission()` (Opus + web_search, 30-day calendar, full strategy), `runWeeklyReview()` (Opus + web_search, updates content calendar), `executeMarketingDay()` (Sonnet, daily execution summary)
+
+**17B — API Routes:**
+- `app/api/market/mission/route.ts` — POST (build mission, 10 credits, Orbit+) + GET (list missions)
+- `app/api/market/execute/route.ts` — POST (execute marketing day, Galaxy only)
+- `app/api/market/review/route.ts` — POST (weekly review, 3 credits, Orbit+, updates plan)
+- `app/api/cron/execute-missions/route.ts` — GET (CRON_SECRET), finds auto_execute missions + runs daily
+- `app/api/admin/elevo-marketing/route.ts` — GET (admin only, mock mission status + content queue + 5 TikTok scripts for James) + POST (generate fresh content)
+
+**17C — Dashboard Pages:**
+- `app/[locale]/(dashboard)/market/page.tsx` — 5-tab Orbit+ dashboard (Mission Control, New Mission with 7-step animated loading, Content Calendar, Performance with weekly review, Agent Team)
+- `app/[locale]/(dashboard)/market/setup/page.tsx` — 6-step social setup wizard (platform audit, bio optimisation, content setup, OAuth connect, first week, launch)
+- `app/[locale]/(dashboard)/admin/elevo-marketing/page.tsx` — Admin-only: mission status, platform stats, 7-day content queue (approve/skip/regenerate), ad campaigns, 5 TikTok scripts with Vega prompts + download button
+
+**17D — Landing Page:**
+- `app/[locale]/(marketing)/page.tsx` — Comparison table section (vs Hootsuite/Jasper/HubSpot/Holo.ai) + SavingsCalculator component added before testimonials section
+
+**17E — Sidebar:**
+- `components/dashboard/Sidebar.tsx` — New "Marketing" section at top: ELEVO Market™ (Orbit+, SUPER badge) + Social Setup (all plans). Admin section: ELEVO Marketing added.
+
+**17F — Agent Personas:**
+- `lib/agents/agentPersonas.ts` — 'marketing' added to pillar union type + PILLARS array. Clio/ELEVO Market™ persona added (orbit, 10 credits).
+
+**17G — Schema:**
+- `supabase/schema.sql` — marketing_missions + mission_executions tables with RLS
+
+**17H — Cron:**
+- `vercel.json` — execute-missions cron at 7am daily
+
+### New pages in Phase 17
+- `/market` — ELEVO Market™ command centre (Orbit+)
+- `/market/setup` — Social setup wizard (all plans)
+- `/admin/elevo-marketing` — ELEVO marketing itself (Admin only)
+
+### Credits
+- New mission: 10 credits
+- Weekly review: 3 credits
+- Execute day: 0 credits (cron auto)
+
+### What James needs to do next
+1. Run `supabase/schema.sql` (Phase 17 additions: marketing_missions + mission_executions tables)
+2. No new env vars required for Phase 17

@@ -755,3 +755,43 @@ CREATE TABLE IF NOT EXISTS daily_summaries (
   fixes_applied INTEGER DEFAULT 0,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- ================================================
+-- PHASE 17: ELEVO Market™
+-- ================================================
+CREATE TABLE IF NOT EXISTS marketing_missions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  business_profile_id UUID REFERENCES business_profiles(id),
+  title TEXT NOT NULL,
+  goal TEXT NOT NULL,
+  timeframe TEXT NOT NULL,
+  status TEXT DEFAULT 'active' CHECK (status IN ('planning','active','paused','completed','archived')),
+  plan JSONB NOT NULL DEFAULT '{}',
+  current_week INTEGER DEFAULT 1,
+  performance JSONB DEFAULT '{}',
+  auto_execute BOOLEAN DEFAULT false,
+  total_credits_used INTEGER DEFAULT 0,
+  started_at TIMESTAMPTZ DEFAULT NOW(),
+  ends_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE marketing_missions ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_missions" ON marketing_missions FOR ALL USING (auth.uid() = user_id);
+
+CREATE TABLE IF NOT EXISTS mission_executions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  mission_id UUID NOT NULL REFERENCES marketing_missions(id) ON DELETE CASCADE,
+  execution_date DATE NOT NULL,
+  tasks_completed JSONB DEFAULT '[]',
+  posts_generated INTEGER DEFAULT 0,
+  posts_scheduled INTEGER DEFAULT 0,
+  credits_used INTEGER DEFAULT 0,
+  issues JSONB DEFAULT '[]',
+  summary TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE mission_executions ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_executions" ON mission_executions FOR ALL USING (
+  mission_id IN (SELECT id FROM marketing_missions WHERE user_id = auth.uid())
+);

@@ -43,6 +43,10 @@
     {
       "path": "/api/cron/daily-summary",
       "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/cron/execute-missions",
+      "schedule": "0 7 * * *"
     }
   ]
 }
