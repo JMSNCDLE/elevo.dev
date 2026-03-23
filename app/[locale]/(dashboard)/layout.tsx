@@ -5,6 +5,8 @@ import LiveAssistantPanel from '@/components/dashboard/LiveAssistantPanel'
 import AnalyticsTracker from '@/components/dashboard/AnalyticsTracker'
 import HelperBot from '@/components/dashboard/HelperBot'
 import SessionTracker from '@/components/dashboard/SessionTracker'
+import DeviceAdaptiveLayout from '@/components/dashboard/DeviceAdaptiveLayout'
+import ClientStageBadge from '@/components/dashboard/ClientStageBadge'
 
 export default async function DashboardLayout({
   children,
@@ -24,7 +26,7 @@ export default async function DashboardLayout({
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('plan, credits_used, credits_limit')
+    .select('id, plan, credits_used, credits_limit, trial_ends_at, subscription_status, created_at')
     .eq('id', user.id)
     .single()
 
@@ -45,6 +47,13 @@ export default async function DashboardLayout({
     }
   }
 
+  const stageBadgeProfile = {
+    plan: profile.plan,
+    trialEndsAt: profile.trial_ends_at,
+    subscriptionStatus: profile.subscription_status,
+    createdAt: profile.created_at,
+  }
+
   return (
     <div data-theme="dark" className="flex min-h-screen bg-dashBg">
       <Sidebar
@@ -56,7 +65,12 @@ export default async function DashboardLayout({
       />
 
       <main className="flex-1 overflow-auto">
-        {children}
+        <div className="flex items-center justify-end px-6 pt-4">
+          <ClientStageBadge profile={stageBadgeProfile} />
+        </div>
+        <DeviceAdaptiveLayout userId={profile.id}>
+          {children}
+        </DeviceAdaptiveLayout>
       </main>
 
       <LiveAssistantPanel businessProfileId={primaryBp?.id} />

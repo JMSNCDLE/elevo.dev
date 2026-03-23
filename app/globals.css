@@ -226,3 +226,9 @@ html { scroll-behavior: smooth; }
   background-image: radial-gradient(circle, rgba(99,102,241,0.15) 1px, transparent 1px);
   background-size: 24px 24px;
 }
+
+/* Device-adaptive layout */
+[data-device="mobile"] .sidebar { display: none }
+[data-device="mobile"] .card-grid { grid-template-columns: 1fr }
+[data-device="tablet"] .card-grid { grid-template-columns: repeat(2, 1fr) }
+[data-device="desktop"] .card-grid { grid-template-columns: repeat(3, 1fr) }

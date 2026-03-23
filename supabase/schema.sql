@@ -860,3 +860,9 @@ CREATE TABLE IF NOT EXISTS project_snapshots (
 );
 ALTER TABLE project_snapshots ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "own_snapshots" ON project_snapshots FOR ALL USING (auth.uid() = user_id);
+
+-- Phase 22: device tracking columns
+ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS device_type TEXT;
+ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS os TEXT;
+ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS browser TEXT;
+ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS screen_width INTEGER;
