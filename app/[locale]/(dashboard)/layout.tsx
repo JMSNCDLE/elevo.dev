@@ -3,6 +3,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import Sidebar from '@/components/dashboard/Sidebar'
 import LiveAssistantPanel from '@/components/dashboard/LiveAssistantPanel'
 import AnalyticsTracker from '@/components/dashboard/AnalyticsTracker'
+import HelperBot from '@/components/dashboard/HelperBot'
 
 export default async function DashboardLayout({
   children,
@@ -59,6 +60,7 @@ export default async function DashboardLayout({
 
       <LiveAssistantPanel businessProfileId={primaryBp?.id} />
       <AnalyticsTracker businessProfileId={primaryBp?.id} />
+      <HelperBot />
     </div>
   )
 }
