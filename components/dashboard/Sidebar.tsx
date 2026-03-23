@@ -7,7 +7,7 @@ import {
   TrendingUp, Briefcase, BarChart2, Target, DollarSign, Users2, Megaphone,
   UserSquare2, Zap, Library, Settings, ChevronRight, Rocket,
   BarChart3, Package, TrendingDown, MapPin, Repeat2, MessageSquare, Bot,
-  Film, Video, UserCheck, Megaphone as Campaign, Eye,
+  Film, Video, UserCheck, Megaphone as Campaign, Eye, Palette,
 } from 'lucide-react'
 
 interface SidebarProps {
@@ -83,6 +83,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
     {
       title: 'Social & Video',
       items: [
+        { href: `/${locale}/create`, label: 'ELEVO Create™', icon: Palette, orbitOnly: true, badge: '✨ NEW' },
         { href: `/${locale}/social`, label: 'Social Hub', icon: Share2, orbitOnly: true },
         { href: `/${locale}/video-studio`, label: 'Video Studio', icon: Film, orbitOnly: true },
         { href: `/${locale}/ugc`, label: 'UGC Pipeline', icon: Video, orbitOnly: true },

@@ -469,3 +469,43 @@ _Add items here as James specifies them_
 
 1. No schema changes required for Phase 13 (uses existing growth_reports and saved_generations tables)
 2. No new env vars required for Phase 13
+
+---
+
+## Phase 14 Complete (2026-03-23)
+
+### Files added in Phase 14
+
+**14A — ELEVO Create™ (AI creative studio):**
+- `lib/agents/creativeStudioAgent.ts` — Pixel agent: generateCreativePrompts() (Opus + web_search), generateBrandKit() (Opus), generateSocialGraphic() (Sonnet). Generates prompts for Sora 2, Veo 3, Kling 3, Higgsfield, Midjourney, DALL·E 3, Stable Diffusion, Ideogram, Adobe Firefly, Runway Gen-4, Pika, ElevenLabs, OpenAI TTS, Canva, Figma, NotebookLM.
+- `app/api/create/generate/route.ts` — POST, all plans, credit cost by output type (1–3)
+- `app/api/create/brand-kit/route.ts` — POST, 5 credits
+- `app/api/create/social-graphic/route.ts` — POST, 1 credit
+- `app/api/create/buy-credits/route.ts` — POST, Stripe one-time payment for creative credit packs (100 or 500)
+- `supabase/schema.sql` — creative_projects + creative_tokens tables
+
+**14B — GSAP Advanced Animations:**
+- `lib/gsap-animations.ts` — initHeroTextReveal, initParallaxSection, initCardReveal, initCounterAnimation, initHorizontalScroll (all dynamic imports, SSR-safe)
+- `components/shared/GSAPReveal.tsx` — React component with GSAP + ScrollTrigger, 6 animation types: fade/slide-up/slide-left/slide-right/scale/rotate
+
+**14C — UX Polish Components:**
+- `components/shared/ScrollProgress.tsx` — framer-motion scroll progress bar (3px indigo, fixed top)
+- `components/shared/CustomCursor.tsx` — Custom cursor: 8px dot + 32px ring on hover, spring physics, desktop-only, MutationObserver for dynamic elements
+- `components/marketing/PageTransition.tsx` — AnimatePresence page transitions (fade + y shift, 250ms)
+
+**14D — Marketing Layout updates:**
+- `app/[locale]/(marketing)/layout.tsx` — Added ScrollProgress, CustomCursor, PageTransition wrapper around children
+
+**14E — Landing page:**
+- `app/[locale]/(marketing)/page.tsx` — ELEVO Create™ dark navy section with comparison table (vs Canva/Figma/Midjourney) + tools strip (11 tools)
+
+**14F — Agent + Nav updates:**
+- `lib/agents/agentPersonas.ts` — Added ELEVO Create™ (characterName: Pixel, pillar: media, creditsPerUse: 2, availableFrom: orbit)
+- `components/dashboard/Sidebar.tsx` — ELEVO Create™ at top of Social & Video section (Orbit+, ✨ NEW badge, Palette icon)
+- `.env.local.example` — STRIPE_CREATE_PACK_100_ID + STRIPE_CREATE_PACK_500_ID
+
+### What James needs to do next
+
+1. Run `supabase/schema.sql` (Phase 14 additions: creative_projects + creative_tokens tables)
+2. Add Stripe price IDs for creative credit packs: `STRIPE_CREATE_PACK_100_ID` (£9.99 one-time) and `STRIPE_CREATE_PACK_500_ID` (£39.99 one-time)
+3. Build the `/create` dashboard page (app/[locale]/(dashboard)/create/page.tsx)

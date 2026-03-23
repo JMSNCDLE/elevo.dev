@@ -611,3 +611,33 @@ ALTER TABLE competitor_intel ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "own_competitor_intel" ON competitor_intel FOR ALL USING (auth.uid() = user_id);
 CREATE INDEX IF NOT EXISTS idx_competitor_intel_user ON competitor_intel(user_id);
 CREATE INDEX IF NOT EXISTS idx_competitor_intel_next_refresh ON competitor_intel(next_refresh_at) WHERE alert_enabled = true;
+
+-- ─── Phase 14: ELEVO Create™ ───────────────────────────────────────────────────
+
+CREATE TABLE IF NOT EXISTS creative_projects (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  business_profile_id UUID REFERENCES business_profiles(id),
+  title TEXT NOT NULL,
+  output_type TEXT NOT NULL,
+  description TEXT NOT NULL,
+  prompts JSONB NOT NULL DEFAULT '{}',
+  brand_consistency JSONB DEFAULT '{}',
+  status TEXT DEFAULT 'draft' CHECK (status IN ('draft','generating','ready','exported')),
+  exported_urls TEXT[] DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE creative_projects ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_creative" ON creative_projects FOR ALL USING (auth.uid() = user_id);
+
+CREATE TABLE IF NOT EXISTS creative_tokens (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  tokens_balance INTEGER DEFAULT 0,
+  tokens_used INTEGER DEFAULT 0,
+  plan TEXT,
+  stripe_subscription_id TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE creative_tokens ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_tokens" ON creative_tokens FOR ALL USING (auth.uid() = user_id);

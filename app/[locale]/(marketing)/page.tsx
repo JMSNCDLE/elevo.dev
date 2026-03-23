@@ -405,6 +405,77 @@ export default function LandingPage({ params }: { params: Promise<{ locale: stri
         </section>
       </FadeInWhenVisible>
 
+      {/* ELEVO Create™ Section */}
+      <FadeInWhenVisible delay={0} y={40}>
+        <section className="py-24 bg-[#080C14]">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl lg:text-5xl font-bold mb-4">
+                <span className="bg-gradient-to-r from-[#6366F1] via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                  ELEVO Create™
+                </span>
+                <span className="text-white block mt-2">Every AI creative tool. One prompt.</span>
+              </h2>
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                Describe what you want in plain English. ELEVO Create™ writes the perfect prompt for Sora 2, Veo 3, Kling 3, Higgsfield, Midjourney, DALL·E 3, and ElevenLabs simultaneously.
+              </p>
+            </div>
+
+            {/* Comparison table */}
+            <div className="overflow-x-auto mb-16">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-white/10">
+                    <th className="text-left py-3 px-4 text-gray-400">Feature</th>
+                    <th className="py-3 px-4 text-gray-400">Canva</th>
+                    <th className="py-3 px-4 text-gray-400">Figma</th>
+                    <th className="py-3 px-4 text-gray-400">Midjourney</th>
+                    <th className="py-3 px-4 text-[#6366F1] font-bold">ELEVO Create™</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(
+                    [
+                      ['AI image prompts', false, false, true, true],
+                      ['AI video prompts', false, false, false, true],
+                      ['Speech generation', false, false, false, true],
+                      ['Brand kit', true, true, false, true],
+                      ['Social graphics', true, false, false, true],
+                      ['Business-aware', false, false, false, true],
+                      ['CRM integration', false, false, false, true],
+                    ] as [string, boolean, boolean, boolean, boolean][]
+                  ).map(([feature, canva, figma, mj, elevo]) => (
+                    <tr key={feature} className="border-b border-white/5 hover:bg-white/[0.02]">
+                      <td className="py-3 px-4 text-gray-300">{feature}</td>
+                      <td className="py-3 px-4 text-center">{canva ? '✓' : <span className="text-gray-600">✗</span>}</td>
+                      <td className="py-3 px-4 text-center">{figma ? '✓' : <span className="text-gray-600">✗</span>}</td>
+                      <td className="py-3 px-4 text-center">{mj ? '✓' : <span className="text-gray-600">✗</span>}</td>
+                      <td className="py-3 px-4 text-center text-[#6366F1] font-bold">{elevo ? '✓' : '✗'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Tools strip */}
+            <div className="text-center mb-8">
+              <p className="text-gray-400 mb-4">Generates prompts for:</p>
+              <div className="flex flex-wrap justify-center gap-3">
+                {['Sora 2','Veo 3','Kling 3','Higgsfield','Midjourney','DALL·E 3','Runway','ElevenLabs','Stable Diffusion','Ideogram','Pika'].map(tool => (
+                  <span key={tool} className="px-3 py-1.5 rounded-full bg-[#141B24] text-gray-300 text-sm border border-white/10">{tool}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="text-center">
+              <a href={`/${locale}/signup`} className="inline-block bg-gradient-to-r from-[#6366F1] to-purple-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:opacity-90 transition-opacity">
+                Create your first asset free →
+              </a>
+            </div>
+          </div>
+        </section>
+      </FadeInWhenVisible>
+
       {/* TESTIMONIALS */}
       <FadeInWhenVisible delay={0} y={32}>
         <section className="py-20 px-6">

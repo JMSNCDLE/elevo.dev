@@ -279,6 +279,19 @@ export const AGENT_PERSONAS: AgentPersona[] = [
     availableFrom: 'orbit',
   },
 
+  // ── MEDIA CREATIVE ─────────────────────────────────────────────────────────
+  {
+    characterName: 'Pixel',
+    brandName: 'ELEVO Create™',
+    tagline: 'Every AI creative tool. One prompt.',
+    pillar: 'media',
+    emoji: '🎨',
+    description: 'Generates optimised prompts for Sora 2, Veo 3, Kling 3, Higgsfield, Midjourney, DALL·E 3, ElevenLabs and every major AI creative tool. Brand kit generator. Social graphic designer.',
+    capabilities: ['Sora 2', 'Veo 3', 'Kling 3', 'Higgsfield', 'Midjourney', 'DALL·E 3', 'ElevenLabs', 'Brand kits', 'Social graphics'],
+    creditsPerUse: 2,
+    availableFrom: 'orbit',
+  },
+
   // ── VIRAL / SOCIAL ─────────────────────────────────────────────────────────
   {
     characterName: 'ELEVO Viral™',

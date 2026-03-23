@@ -3,6 +3,9 @@ import Link from 'next/link'
 import Nav from '@/components/marketing/Nav'
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider'
 import ClientPopups from '@/components/marketing/ClientPopups'
+import { ScrollProgress } from '@/components/shared/ScrollProgress'
+import { CustomCursor } from '@/components/shared/CustomCursor'
+import { PageTransition } from '@/components/marketing/PageTransition'
 
 export async function generateMetadata({
   params,
@@ -159,8 +162,12 @@ export default async function MarketingLayout({
     <SmoothScrollProvider>
     <div className="min-h-screen bg-white flex flex-col">
       <JsonLd />
+      <ScrollProgress />
+      <CustomCursor />
       <Nav locale={locale} />
-      <main className="flex-1 pt-[72px]">{children}</main>
+      <main className="flex-1 pt-[72px]">
+        <PageTransition>{children}</PageTransition>
+      </main>
 
       {/* Footer */}
       <footer className="bg-[#080C14] text-gray-400 pt-16 pb-8 px-6">
