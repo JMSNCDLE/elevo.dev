@@ -35,6 +35,21 @@ body {
   overflow-x: hidden;
 }
 
+/* Login page dot grid background */
+.dot-grid-bg {
+  background-image: radial-gradient(circle, #e2e8f0 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Floating chip animation (login page) */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
 /* Dashboard dark theme */
 [data-theme="dark"] {
   color-scheme: dark;
