@@ -367,6 +367,19 @@ export const AGENT_PERSONAS: AgentPersona[] = [
     creditsPerUse: 1,
     availableFrom: 'orbit',
   },
+
+  // ── ADMIN PILLAR ────────────────────────────────────────────────────────────
+  {
+    characterName: 'Aria',
+    brandName: 'ELEVO PA™',
+    tagline: 'Your 24/7 personal engineer',
+    pillar: 'admin',
+    emoji: '🤖',
+    description: '24/7 autonomous health monitor. Watches every page, API, database table, and Stripe webhook. Sends daily summaries to James and creates tasks for any issues found.',
+    capabilities: ['Health monitoring', 'Daily summaries', 'Bug detection', 'Auto-fix', 'Task management', 'Incident reports'],
+    creditsPerUse: 0,
+    availableFrom: 'admin',
+  },
 ]
 
 // ─── Lookup helpers ────────────────────────────────────────────────────────────
@@ -391,4 +404,5 @@ export const PILLARS = [
   { key: 'media' as const, label: 'Media', emoji: '🎬', description: 'AI video studio, content clips, and data import' },
   { key: 'ecommerce' as const, label: 'Ecommerce', emoji: '📦', description: 'Dropshipping product research, suppliers, and store building' },
   { key: 'support' as const, label: 'Support', emoji: '🗺️', description: 'Onboarding, guidance, and website tools' },
+  { key: 'admin' as const, label: 'Admin', emoji: '🤖', description: 'Platform health, daily summaries, and engineering automation' },
 ]

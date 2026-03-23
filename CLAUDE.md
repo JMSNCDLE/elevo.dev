@@ -596,3 +596,29 @@ _Add items here as James specifies them_
 ### What James needs to do next
 1. Run `supabase/schema.sql` (Phase 16: creator_profiles table)
 2. No new env vars required (CREATOR_ADDON_PRICE_ID optional for future monetisation)
+
+---
+
+## Phase 16 (PA Extension) Complete (2026-03-23)
+
+### ELEVO PA™ — What was built
+
+**All 14 dashboard pages verified** (create, drop, clip, store, viral, spy, prospect, ads, seo, video-studio, creator, automations, conversations, social) — all exist.
+
+**PA Agent + Infrastructure:**
+- `lib/agents/paEngineerAgent.ts` — Aria: runHealthCheck(), generateDailySummary(), analyseError(), draftReport(). Uses Sonnet with adaptive thinking. Static analysis of all known routes, APIs, DB tables.
+- `app/api/admin/pa/health/route.ts` — GET, admin only, runs health check, saves to health_checks table
+- `app/api/admin/pa/summary/route.ts` — GET, admin only, generates daily summary
+- `app/api/admin/pa/tasks/route.ts` — GET/POST/PATCH task management
+- `app/api/cron/health-check/route.ts` — Every 30min, emails James if critical
+- `app/api/cron/daily-summary/route.ts` — 8am daily, saves to daily_summaries, emails James
+- `app/[locale]/(dashboard)/admin/pa/page.tsx` — 3-section admin dashboard: Health Dashboard (score, 4 status cards, Core Web Vitals, issues list with severity badges), Daily Summary (greeting, stats, wins, recommendations), PA Tasks Kanban (open/in-progress/done columns, add task form)
+- `components/dashboard/Sidebar.tsx` — Admin section added with ELEVO Update™ + ELEVO PA™ (Shield icon, NEW badge)
+- `lib/agents/agentPersonas.ts` — 'admin' pillar added to type union + PILLARS array, Aria/ELEVO PA™ persona added
+- `supabase/schema.sql` — health_checks, pa_tasks, daily_summaries tables added
+- `vercel.json` — health-check (*/30 * * * *) and daily-summary (0 8 * * *) crons added
+
+### What James needs to do next
+1. Run `supabase/schema.sql` (Phase 16 PA additions: health_checks, pa_tasks, daily_summaries tables)
+2. Visit `/admin/pa` after deploying to run the first health check
+3. No new env vars required (uses existing ELEVO_ADMIN_EMAIL, CRON_SECRET, ELEVO_ADMIN_USER_ID)

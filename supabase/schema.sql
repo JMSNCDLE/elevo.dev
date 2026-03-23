@@ -713,3 +713,45 @@ CREATE TABLE IF NOT EXISTS creator_profiles (
 );
 ALTER TABLE creator_profiles ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "own_creator" ON creator_profiles FOR ALL USING (auth.uid() = user_id);
+
+-- ================================================
+-- PHASE 16: ELEVO PA™ Tables
+-- ================================================
+CREATE TABLE IF NOT EXISTS health_checks (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  overall_health TEXT NOT NULL,
+  result JSONB NOT NULL DEFAULT '{}',
+  issues_count INTEGER DEFAULT 0,
+  critical_count INTEGER DEFAULT 0,
+  checked_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS pa_tasks (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+  type TEXT NOT NULL,
+  priority TEXT NOT NULL DEFAULT 'medium',
+  title TEXT NOT NULL,
+  description TEXT,
+  status TEXT DEFAULT 'open',
+  auto_fix_available BOOLEAN DEFAULT false,
+  estimated_time TEXT,
+  resolved_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE pa_tasks ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_tasks_pa" ON pa_tasks FOR ALL USING (
+  auth.uid() = user_id OR user_id IS NULL
+);
+
+CREATE TABLE IF NOT EXISTS daily_summaries (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  date DATE UNIQUE NOT NULL DEFAULT CURRENT_DATE,
+  summary JSONB NOT NULL DEFAULT '{}',
+  new_users INTEGER DEFAULT 0,
+  revenue NUMERIC(10,2) DEFAULT 0,
+  credits_used INTEGER DEFAULT 0,
+  errors_detected INTEGER DEFAULT 0,
+  fixes_applied INTEGER DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
