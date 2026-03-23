@@ -8,7 +8,7 @@ import {
   UserSquare2, Zap, Library, Settings, ChevronRight, Rocket,
   BarChart3, Package, TrendingDown, MapPin, Repeat2, MessageSquare, Bot,
   Film, Video, UserCheck, Megaphone as Campaign, Eye, Palette,
-  ShoppingCart, Store, Scissors,
+  ShoppingCart, Store, Scissors, Shield, RefreshCw,
 } from 'lucide-react'
 
 interface SidebarProps {
@@ -25,6 +25,7 @@ interface NavItem {
   icon: React.ElementType
   orbitOnly?: boolean
   galaxyOnly?: boolean
+  adminOnly?: boolean
   badge?: string
 }
 
@@ -124,6 +125,13 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
         { href: `/${locale}/dashboard/settings`, label: 'Settings', icon: Settings },
       ],
     },
+    {
+      title: 'Admin',
+      items: [
+        { href: `/${locale}/admin/updates`, label: 'ELEVO Update™', icon: RefreshCw, adminOnly: true },
+        { href: `/${locale}/admin/pa`, label: 'ELEVO PA™', icon: Shield, adminOnly: true, badge: 'NEW' },
+      ],
+    },
   ]
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/')
@@ -155,6 +163,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
                 const active = isActive(item.href)
                 const locked = (item.orbitOnly && !isOrbit) || (item.galaxyOnly && !isGalaxy)
                 const lockLabel = item.galaxyOnly && !isGalaxy ? 'Galaxy' : 'Orbit+'
+                // adminOnly items are always shown — the destination page handles the role check
 
                 return (
                   <li key={item.href}>

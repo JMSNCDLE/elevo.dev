@@ -7,7 +7,7 @@ export interface AgentPersona {
   characterName: string
   brandName: string
   tagline: string
-  pillar: 'visibility' | 'growth' | 'customers' | 'intelligence' | 'media' | 'support' | 'ecommerce'
+  pillar: 'visibility' | 'growth' | 'customers' | 'intelligence' | 'media' | 'support' | 'ecommerce' | 'admin'
   emoji: string
   description: string
   capabilities: string[]
