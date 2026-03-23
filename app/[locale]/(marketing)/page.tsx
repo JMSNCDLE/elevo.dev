@@ -335,6 +335,76 @@ export default function LandingPage({ params }: { params: Promise<{ locale: stri
         </section>
       </FadeInWhenVisible>
 
+      {/* ELEVO Viral™ Section */}
+      <FadeInWhenVisible>
+        <section className="py-24 bg-[#080C14]">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-white mb-4">
+                Go viral. Grow organically. <span className="text-[#6366F1]">ELEVO Viral™</span>
+              </h2>
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                The algorithm favours consistency and timing. ELEVO Viral™ tracks what is trending right now in your niche and tells you exactly what to post, when to post it, and how to make it shareable.
+              </p>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-8 mb-16">
+              <div className="text-center">
+                <div className="text-4xl font-bold text-[#6366F1] mb-2">340%</div>
+                <div className="text-gray-300">Average reach increase in 30 days</div>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl font-bold text-[#6366F1] mb-2">2,400+</div>
+                <div className="text-gray-300">Trending topics analysed daily</div>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl font-bold text-[#6366F1] mb-2">50</div>
+                <div className="text-gray-300">Viral hooks per business</div>
+              </div>
+            </div>
+
+            {/* Features */}
+            <div className="grid grid-cols-2 gap-6 mb-12">
+              <div className="flex items-start gap-4 p-6 rounded-xl bg-[#141B24]">
+                <span className="text-2xl">📈</span>
+                <div>
+                  <h3 className="text-white font-semibold mb-1">Trending topics for your niche</h3>
+                  <p className="text-gray-400">Updated daily with real-time trend data specific to your industry.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4 p-6 rounded-xl bg-[#141B24]">
+                <span className="text-2xl">🎯</span>
+                <div>
+                  <h3 className="text-white font-semibold mb-1">50 viral hooks for your business</h3>
+                  <p className="text-gray-400">Written for your exact niche, audience, and goals.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4 p-6 rounded-xl bg-[#141B24]">
+                <span className="text-2xl">📅</span>
+                <div>
+                  <h3 className="text-white font-semibold mb-1">30-day viral calendar</h3>
+                  <p className="text-gray-400">Every post planned — hook, script, hashtags, and best time to post.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4 p-6 rounded-xl bg-[#141B24]">
+                <span className="text-2xl">🚀</span>
+                <div>
+                  <h3 className="text-white font-semibold mb-1">Paid boost timing</h3>
+                  <p className="text-gray-400">Know exactly when to spend — boost only content already going viral.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center">
+              <a href={`/${locale}/signup`} className="inline-block bg-[#6366F1] text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-indigo-500 transition-colors">
+                Get your viral strategy →
+              </a>
+            </div>
+          </div>
+        </section>
+      </FadeInWhenVisible>
+
       {/* TESTIMONIALS */}
       <FadeInWhenVisible delay={0} y={32}>
         <section className="py-20 px-6">

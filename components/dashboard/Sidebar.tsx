@@ -90,6 +90,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
         { href: `/${locale}/social/profiles`, label: 'Profile Generator', icon: UserCheck },
         { href: `/${locale}/ads`, label: 'Ad Campaigns', icon: Target, orbitOnly: true },
         { href: `/${locale}/seo`, label: 'SEO & Rankings', icon: Search },
+        { href: `/${locale}/viral`, label: 'ELEVO Viral™', icon: TrendingUp, orbitOnly: true, badge: '🔥' },
       ],
     },
     {

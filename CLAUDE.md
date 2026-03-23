@@ -427,3 +427,45 @@ _Add items here as James specifies them_
 
 1. Run `supabase/schema.sql` (Phase 12 additions: invoices, discount_codes, competitor_intel tables + billing_anchor_day column)
 2. No new env vars required for Phase 12
+
+---
+
+## Phase 13 Complete (2026-03-23)
+
+### What was built in Phase 13
+
+**13A — Schema fix:**
+- `supabase/schema.sql` — Verified `used_by_user_id UUID REFERENCES profiles(id)` already present on `discount_codes` table
+- `app/api/stripe/webhook/route.ts` — Verified `.update({ used: true, used_at: ..., used_by_user_id: userId })` already correct
+
+**13B — ELEVO Viral™ Agent:**
+- `lib/agents/viralMarketingAgent.ts` — Already existed; verified complete with `buildViralStrategy()` (Opus + web_search, 30-day calendar, 50 hooks), `generateViralPost()` (Sonnet), `getTrendingNow()` (Sonnet + web_search)
+
+**13C — API Routes:**
+- `app/api/viral/strategy/route.ts` — POST, Orbit+, 5 credits, saves to growth_reports, returns full ViralStrategy
+- `app/api/viral/trending/route.ts` — GET, 1 credit, 4-hour cache via saved_generations, returns live trends
+- `app/api/viral/post/route.ts` — POST, 1 credit, generates single viral post, saves to saved_generations
+- `app/api/cron/viral-trends/route.ts` — GET (CRON_SECRET protected), refreshes trends for all Orbit+ users daily
+
+**13D — Dashboard Page:**
+- `app/[locale]/(dashboard)/viral/page.tsx` — Full Orbit+ dashboard with 4 tabs: Trending Now (real-time trend cards with urgency + viral potential badges), Your Viral Formula (readiness score + hook library + KPIs), 30-Day Calendar (expandable with full scripts, hashtags, ELEVO Studio prompts), ELEVO Own (admin only, founder content 7-day script)
+
+**13E — Sidebar:**
+- `components/dashboard/Sidebar.tsx` — ELEVO Viral™ added to "Social & Video" section (Orbit+, 🔥 badge, TrendingUp icon)
+
+**13F — Landing page:**
+- `app/[locale]/(marketing)/page.tsx` — ELEVO Viral™ dark section added after ELEVO Spy section (stats: 340% reach, 2,400+ trends, 50 hooks; 4 feature cards; CTA)
+
+**13G — Agent Personas:**
+- `lib/agents/agentPersonas.ts` — ELEVO Viral™ added to AGENT_PERSONAS array (pillar: media, orbit+, 5 credits)
+
+**13H — Vercel cron:**
+- `vercel.json` — Added `/api/cron/viral-trends` at `0 7 * * *` (daily 7am)
+
+### Sidebar: ELEVO Viral™ is under "Social & Video" section (Orbit+, 🔥 badge)
+### Credits: strategy=5, trending=1, post=1
+
+### What James needs to do next
+
+1. No schema changes required for Phase 13 (uses existing growth_reports and saved_generations tables)
+2. No new env vars required for Phase 13

@@ -279,6 +279,19 @@ export const AGENT_PERSONAS: AgentPersona[] = [
     availableFrom: 'orbit',
   },
 
+  // ── VIRAL / SOCIAL ─────────────────────────────────────────────────────────
+  {
+    characterName: 'ELEVO Viral™',
+    brandName: 'ELEVO Viral™',
+    tagline: 'Go viral. Grow organically.',
+    pillar: 'media',
+    emoji: '🚀',
+    description: 'Builds viral content strategies using real-time trend data. Tracks trending topics in your niche daily and generates a 30-day viral calendar.',
+    capabilities: ['TikTok virality', 'Instagram Reels strategy', 'Hook writing', 'Viral calendars', 'Organic growth', 'Trend riding'],
+    creditsPerUse: 5,
+    availableFrom: 'orbit',
+  },
+
   // ── SUPPORT ────────────────────────────────────────────────────────────────
   {
     characterName: 'Mira',
