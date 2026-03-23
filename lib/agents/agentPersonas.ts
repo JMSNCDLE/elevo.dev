@@ -7,7 +7,7 @@ export interface AgentPersona {
   characterName: string
   brandName: string
   tagline: string
-  pillar: 'visibility' | 'growth' | 'customers' | 'intelligence' | 'media' | 'support' | 'ecommerce' | 'admin' | 'marketing'
+  pillar: 'visibility' | 'growth' | 'customers' | 'intelligence' | 'media' | 'support' | 'ecommerce' | 'admin' | 'marketing' | 'design'
   emoji: string
   description: string
   capabilities: string[]
@@ -393,6 +393,28 @@ export const AGENT_PERSONAS: AgentPersona[] = [
     creditsPerUse: 0,
     availableFrom: 'admin',
   },
+  {
+    characterName: 'Maxwell',
+    brandName: 'ELEVO CEO™',
+    tagline: 'Your AI Chief Executive Officer',
+    pillar: 'intelligence',
+    emoji: '👑',
+    description: 'Fortune 500 strategy + McKinsey analysis + Goldman Sachs financial modelling — for your business. Advises on major decisions, builds growth strategies, and prepares investor pitches using Opus 4.6 with real-time web search.',
+    capabilities: ['CEO advisory sessions', 'Growth strategy', 'Investor pitch prep', 'Daily decision advice', 'Market analysis', 'Financial modelling'],
+    creditsPerUse: 10,
+    availableFrom: 'galaxy',
+  },
+  {
+    characterName: 'Mila',
+    brandName: 'ELEVO Stitch™',
+    tagline: 'AI Web Design Studio',
+    pillar: 'design',
+    emoji: '✏️',
+    description: 'Pixel-perfect, production-ready UI components and full websites built in seconds. Generates HTML + Tailwind components, analyses and improves existing sites, and builds complete multi-page websites. Deployable to Vercel, Netlify, or any web host instantly.',
+    capabilities: ['UI component generation', 'Site analysis & CRO', 'Full website generation', 'Dark mode variants', 'Responsive design', 'Deploy instructions'],
+    creditsPerUse: 2,
+    availableFrom: 'orbit',
+  },
 ]
 
 // ─── Lookup helpers ────────────────────────────────────────────────────────────
@@ -419,4 +441,5 @@ export const PILLARS = [
   { key: 'support' as const, label: 'Support', emoji: '🗺️', description: 'Onboarding, guidance, and website tools' },
   { key: 'admin' as const, label: 'Admin', emoji: '🤖', description: 'Platform health, daily summaries, and engineering automation' },
   { key: 'marketing' as const, label: 'Marketing', emoji: '⚡', description: 'Complete marketing missions, content calendars, and autonomous daily execution' },
+  { key: 'design' as const, label: 'Design', emoji: '✏️', description: 'AI web design studio — components, site analysis, and full website generation' },
 ]

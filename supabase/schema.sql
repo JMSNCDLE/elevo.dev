@@ -795,3 +795,29 @@ ALTER TABLE mission_executions ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "own_executions" ON mission_executions FOR ALL USING (
   mission_id IN (SELECT id FROM marketing_missions WHERE user_id = auth.uid())
 );
+
+-- ─── Phase 18: CEO Sessions + Stitch Designs ──────────────────────────────────
+
+CREATE TABLE IF NOT EXISTS ceo_sessions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  business_profile_id UUID REFERENCES business_profiles(id),
+  decision_type TEXT NOT NULL,
+  question TEXT NOT NULL,
+  response JSONB NOT NULL DEFAULT '{}',
+  credits_used INTEGER DEFAULT 10,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE ceo_sessions ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_ceo" ON ceo_sessions FOR ALL USING (auth.uid() = user_id);
+
+CREATE TABLE IF NOT EXISTS stitch_designs (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  component_type TEXT NOT NULL,
+  description TEXT NOT NULL,
+  code JSONB NOT NULL DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE stitch_designs ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_stitch" ON stitch_designs FOR ALL USING (auth.uid() = user_id);

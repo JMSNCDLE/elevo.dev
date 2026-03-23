@@ -8,7 +8,7 @@ import {
   UserSquare2, Zap, Library, Settings, ChevronRight, Rocket,
   BarChart3, Package, TrendingDown, MapPin, Repeat2, MessageSquare, Bot,
   Film, Video, UserCheck, Megaphone as Campaign, Eye, Palette,
-  ShoppingCart, Store, Scissors, Shield, RefreshCw, Globe,
+  ShoppingCart, Store, Scissors, Shield, RefreshCw, Globe, Crown, Paintbrush,
 } from 'lucide-react'
 
 interface SidebarProps {
@@ -90,6 +90,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
     {
       title: 'Intelligence',
       items: [
+        { href: `/${locale}/ceo`, label: 'ELEVO CEO™', icon: Crown, galaxyOnly: true, badge: '👑 NEW' },
         { href: `/${locale}/roas`, label: 'ROAS Analysis', icon: BarChart3, orbitOnly: true },
         { href: `/${locale}/finances`, label: 'Finances', icon: TrendingDown, orbitOnly: true },
         { href: `/${locale}/inventory`, label: 'Inventory', icon: Package, orbitOnly: true },
@@ -97,6 +98,12 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
         { href: `/${locale}/google-optimisation`, label: 'Google Optimisation', icon: MapPin },
         { href: `/${locale}/alternatives`, label: 'Find Alternatives', icon: Repeat2, orbitOnly: true },
         { href: `/${locale}/spy`, label: 'ELEVO Spy™', icon: Eye, orbitOnly: true, badge: 'NEW' },
+      ],
+    },
+    {
+      title: 'Design',
+      items: [
+        { href: `/${locale}/stitch`, label: 'ELEVO Stitch™', icon: Paintbrush, orbitOnly: true, badge: '✏️ NEW' },
       ],
     },
     {
