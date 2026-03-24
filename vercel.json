@@ -1,56 +1,28 @@
-{
-  "crons": [
-    {
-      "path": "/api/cron/market-intel",
-      "schedule": "0 6 * * 1"
-    },
-    {
-      "path": "/api/cron/coach-brief",
-      "schedule": "0 7 * * 1"
-    },
-    {
-      "path": "/api/cron/credit-reset",
-      "schedule": "0 0 1 * *"
-    },
-    {
-      "path": "/api/cron/trial-reminders",
-      "schedule": "0 9 * * *"
-    },
-    {
-      "path": "/api/cron/publish-scheduled",
-      "schedule": "*/15 * * * *"
-    },
-    {
-      "path": "/api/cron/spy-monitor",
-      "schedule": "0 8 * * 1"
-    },
-    {
-      "path": "/api/cron/viral-trends",
-      "schedule": "0 7 * * *"
-    },
-    {
-      "path": "/api/cron/store-sync",
-      "schedule": "0 * * * *"
-    },
-    {
-      "path": "/api/cron/ai-landscape",
-      "schedule": "0 6 * * 1"
-    },
-    {
-      "path": "/api/cron/health-check",
-      "schedule": "*/30 * * * *"
-    },
-    {
-      "path": "/api/cron/daily-summary",
-      "schedule": "0 8 * * *"
-    },
-    {
-      "path": "/api/cron/execute-missions",
-      "schedule": "0 7 * * *"
-    },
-    {
-      "path": "/api/cron/smm-daily",
-      "schedule": "0 6 * * *"
-    }
-  ]
-}
+{}
+```
+
+Just two curly brackets — nothing else.
+
+**Step 4** — Scroll down on that page. Click **"Commit changes"** → click **"Commit changes"** again to confirm.
+
+**Step 5** — Go back to Vercel → Cancel the dialog → click **··· → Create Deployment** → it will work now.
+
+---
+
+## Full instructions — nothing lost
+
+**NOW:** Edit vercel.json on GitHub → replace with `{}` → commit → Create Deployment on Vercel
+
+**STEP 4 — When green Ready:**
+`https://vercel.com/jmsncdles-projects/elevoai/settings/domains` → type `elevo.dev` → Add → copy DNS records
+
+**STEP 5 — Porkbun DNS:**
+porkbun.com → Domain Management → elevo.dev → DNS
+- Type **A** · Host blank · Answer `76.76.21.21` → Add
+- Type **CNAME** · Host `www` · Answer `cname.vercel-dns.com` → Add
+
+**STEP 6 — Wait 5–30 min → https://elevo.dev is live**
+
+**STEP 7 — Pull latest:**
+```
+cd "/Users/jamescarlin/Desktop/claude code for business" && git pull origin claude/build-elevo-ai-aYfcC && npm run dev
