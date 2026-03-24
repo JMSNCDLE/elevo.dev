@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.ai'
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.dev'
     const result = await runHealthCheck(appUrl)
 
     const supabase = await createServerClient()

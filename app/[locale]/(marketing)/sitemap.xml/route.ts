@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
 
-const BASE_URL = 'https://elevo.ai'
+const BASE_URL = 'https://elevo.dev'
 const LOCALES = ['en', 'es', 'fr', 'de', 'nl', 'pt', 'it']
 
 const STATIC_PAGES = [

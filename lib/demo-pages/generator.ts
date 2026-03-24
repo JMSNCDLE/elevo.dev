@@ -30,7 +30,7 @@ export async function generateProspectDemoPage(
 
   return {
     pageSlug,
-    pageUrl: `https://elevo.ai/en/demo/${pageSlug}`,
+    pageUrl: `https://elevo.dev/en/demo/${pageSlug}`,
     expiresAt,
   }
 }

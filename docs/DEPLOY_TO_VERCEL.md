@@ -26,7 +26,7 @@ Add EVERY line from your `.env.local` file:
 | `STRIPE_SECRET_KEY` | your real Stripe key |
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | your real Stripe key |
 | `STRIPE_WEBHOOK_SECRET` | from Stripe webhook setup (Step 5) |
-| `NEXT_PUBLIC_APP_URL` | `https://elevo.ai` |
+| `NEXT_PUBLIC_APP_URL` | `https://elevo.dev` |
 | `RESEND_API_KEY` | from .env.local |
 | `FROM_EMAIL` | `hello@elevo.ai` |
 | `CRON_SECRET` | `elevo-cron-secret-2026` |
@@ -46,7 +46,7 @@ Click **Save**. Then click **Redeploy** to apply variables.
 ## Step 5 — Set up Stripe webhook
 1. Go to: dashboard.stripe.com → Developers → **Webhooks**
 2. Click: **Add endpoint**
-3. URL: `https://elevo.ai/api/stripe/webhook`
+3. URL: `https://elevo.dev/api/stripe/webhook`
 4. Events to select:
    - `checkout.session.completed`
    - `invoice.payment_succeeded`
@@ -57,7 +57,7 @@ Click **Save**. Then click **Redeploy** to apply variables.
 7. Redeploy Vercel
 
 ## Step 6 — Test on live URL
-1. Go to: https://elevo.ai
+1. Go to: https://elevo.dev
 2. Sign up with a test account
 3. Check confirmation email arrives
 4. Check dashboard loads

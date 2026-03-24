@@ -42,7 +42,7 @@ Priority: ${report.recommendedPhase.priority.toUpperCase()}
 Reason: ${report.recommendedPhase.reason}
 
 Log in to ELEVO to see the full report:
-[View Full Report →] ${process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.ai'}/admin/updates`,
+[View Full Report →] ${process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.dev'}/admin/updates`,
     })
 
     return NextResponse.json({ ok: true, score: report.weeklyScore, timestamp: new Date().toISOString() })

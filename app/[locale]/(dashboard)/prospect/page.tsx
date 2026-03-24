@@ -254,7 +254,7 @@ export default function ProspectPage() {
                   </div>
                 </div>
                 <a
-                  href={`https://elevo.ai/en/demo/${audit.page_slug}`}
+                  href={`https://elevo.dev/en/demo/${audit.page_slug}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs text-accent hover:underline flex items-center gap-1"

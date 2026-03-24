@@ -5,5 +5,5 @@ Disallow: /api/
 Disallow: /*/dashboard/
 Disallow: /*/onboarding/
 
-Sitemap: https://elevo.ai/en/sitemap.xml
-Sitemap: https://elevo.ai/es/sitemap.xml
+Sitemap: https://elevo.dev/en/sitemap.xml
+Sitemap: https://elevo.dev/es/sitemap.xml

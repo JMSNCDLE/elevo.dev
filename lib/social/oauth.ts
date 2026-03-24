@@ -4,7 +4,7 @@
 export type SocialPlatform = 'instagram' | 'facebook' | 'linkedin' | 'twitter' | 'tiktok' | 'google'
 
 function getBaseUrl(): string {
-  return process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.ai'
+  return process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.dev'
 }
 
 // ─── Instagram ────────────────────────────────────────────────────────────────

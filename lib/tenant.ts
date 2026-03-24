@@ -39,7 +39,7 @@ export function getSubdomain(request: NextRequest): string | null {
 }
 
 export function getDashboardUrl(subdomain?: string): string {
-  const base = process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.ai'
+  const base = process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.dev'
 
   if (!subdomain) {
     // Default: use app subdomain

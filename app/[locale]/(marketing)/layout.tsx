@@ -13,7 +13,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>
 }): Promise<Metadata> {
   const { locale } = await params
-  const base = 'https://elevo.ai'
+  const base = 'https://elevo.dev'
   const isEs = locale === 'es'
 
   return {
@@ -68,7 +68,7 @@ function JsonLd() {
       name: 'ELEVO AI™',
       applicationCategory: 'BusinessApplication',
       operatingSystem: 'Web',
-      url: 'https://elevo.ai',
+      url: 'https://elevo.dev',
       description: 'The AI operating system for local businesses. 21 specialist AI agents for content, ROAS, SEO, CRM, financial intelligence, and more.',
       offers: [
         { '@type': 'Offer', name: 'Trial', price: '0', priceCurrency: 'GBP' },
@@ -82,7 +82,7 @@ function JsonLd() {
       '@context': 'https://schema.org',
       '@type': 'Organization',
       name: 'ELEVO AI Ltd',
-      url: 'https://elevo.ai',
+      url: 'https://elevo.dev',
       description: 'ELEVO AI™ builds the AI operating system for local businesses.',
       founder: { '@type': 'Person', name: 'James Carlin' },
       sameAs: ['https://twitter.com/elevo_ai', 'https://www.instagram.com/elevo.ai', 'https://www.linkedin.com/company/elevo-ai'],

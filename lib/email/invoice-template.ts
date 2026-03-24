@@ -93,7 +93,7 @@ ${[
   ["3. Generate this week's content", '/dashboard/content/gbp-posts'],
 ].map(([label, href]) => `
 <tr><td style="padding:8px 0;">
-<a href="https://elevo.ai/en${href}" style="display:block;background:#f8fafc;border-radius:8px;padding:12px 16px;text-decoration:none;color:#4f46e5;font-size:13px;font-weight:600;">${label} →</a>
+<a href="https://elevo.dev/en${href}" style="display:block;background:#f8fafc;border-radius:8px;padding:12px 16px;text-decoration:none;color:#4f46e5;font-size:13px;font-weight:600;">${label} →</a>
 </td></tr>`).join('')}
 </table>
 </td></tr>

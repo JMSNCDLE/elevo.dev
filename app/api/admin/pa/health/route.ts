@@ -18,7 +18,7 @@ export async function GET() {
   }
 
   try {
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.ai'
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.dev'
     const result = await runHealthCheck(appUrl)
 
     const issuesCount = result.issues.length

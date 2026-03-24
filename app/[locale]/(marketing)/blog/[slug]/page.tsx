@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'article',
     },
     alternates: {
-      canonical: `https://elevo.ai/en/blog/${slug}`,
+      canonical: `https://elevo.dev/en/blog/${slug}`,
     },
   }
 }
@@ -68,8 +68,8 @@ export default async function BlogPostPage({ params }: Props) {
     headline: post.title,
     description: post.excerpt,
     author: { '@type': 'Organization', name: 'ELEVO AI' },
-    publisher: { '@type': 'Organization', name: 'ELEVO AI', url: 'https://elevo.ai' },
-    url: `https://elevo.ai/${locale}/blog/${slug}`,
+    publisher: { '@type': 'Organization', name: 'ELEVO AI', url: 'https://elevo.dev' },
+    url: `https://elevo.dev/${locale}/blog/${slug}`,
   }
 
   return (

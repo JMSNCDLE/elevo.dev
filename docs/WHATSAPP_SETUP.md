@@ -70,7 +70,7 @@ When ELEVO AI is live and you want to send WhatsApp from your own number (e.g. a
 Once configured, test by hitting the admin endpoint:
 
 ```bash
-curl -X POST https://elevo.ai/api/whatsapp/notify \
+curl -X POST https://elevo.dev/api/whatsapp/notify \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_SUPABASE_TOKEN" \
   -d '{"type": "criticalError", "data": {"error": "Test error", "page": "/test"}}'

@@ -7,7 +7,7 @@ export interface EmbedConfig {
 }
 
 export function generateEmbedScript(config: EmbedConfig): string {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.ai'
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.dev'
   return `<script
   src="${appUrl}/widget.js"
   data-widget-id="${config.widgetId}"

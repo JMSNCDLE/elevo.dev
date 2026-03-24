@@ -54,7 +54,7 @@ ${tasksText}
 
 ${summary.motivationalNote}
 
-View full dashboard: ${process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.ai'}/admin/pa`,
+View full dashboard: ${process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.dev'}/admin/pa`,
     })
 
     // WhatsApp daily summary to James

@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     await sendEmail({
       to: email,
       subject: 'Your ELEVO AI™ personal discount code — 50% off',
-      html: `<p>Hi! Your ELEVO AI™ discount code is: <strong>${code}</strong></p><p>50% off your first month. Valid for 24 hours.</p><p><a href="https://elevo.ai/en/pricing">Claim at elevo.ai/pricing →</a></p>`,
+      html: `<p>Hi! Your ELEVO AI™ discount code is: <strong>${code}</strong></p><p>50% off your first month. Valid for 24 hours.</p><p><a href="https://elevo.dev/en/pricing">Claim at elevo.ai/pricing →</a></p>`,
     })
   } catch (_) {
     // Non-fatal

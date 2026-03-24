@@ -211,7 +211,7 @@ export async function POST(request: Request) {
           await sendSequenceEmail('onboardingBot', profileForEmail.email, {
             first_name: firstName,
             business_name: bp?.business_name ?? 'your business',
-            dashboard_url: process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.ai',
+            dashboard_url: process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.dev',
           })
         }
       }

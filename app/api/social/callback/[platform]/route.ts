@@ -19,7 +19,7 @@ export async function GET(
   const code = searchParams.get('code')
   const error = searchParams.get('error')
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.ai'
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.dev'
 
   if (error || !code) {
     return NextResponse.redirect(`${baseUrl}/en/social?error=oauth_denied`)
