@@ -55,6 +55,13 @@ export async function generateMetadata({
       creator: '@elevo_ai',
     },
     robots: { index: true, follow: true },
+    viewport: { width: 'device-width', initialScale: 1, viewportFit: 'cover' },
+    themeColor: '#050507',
+    appleWebApp: { capable: true, title: 'ELEVO AI' },
+    manifest: '/manifest.json',
+    icons: {
+      apple: '/icon-192.png',
+    },
   }
 }
 
@@ -138,11 +145,11 @@ const FOOTER_COLS = [
   {
     title: 'Legal',
     links: [
-      { label: 'Privacy Policy', href: '#' },
-      { label: 'Terms of Service', href: '#' },
-      { label: 'Refund Policy', href: '#' },
-      { label: 'Cookie Policy', href: '#' },
-      { label: 'GDPR', href: '#' },
+      { label: 'Privacy Policy', href: '/privacy' },
+      { label: 'Terms of Service', href: '/terms' },
+      { label: 'Refund Policy', href: '/refunds' },
+      { label: 'Cookie Policy', href: '/cookies' },
+      { label: 'GDPR', href: '/privacy' },
     ],
   },
 ]

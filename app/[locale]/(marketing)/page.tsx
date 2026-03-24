@@ -1,636 +1,511 @@
-'use client'
-
-import { useState } from 'react'
 import Link from 'next/link'
-import { CheckCircle2, Sparkles, Eye, ChevronRight, Crown, Shield, TrendingUp, Zap, Users, BarChart2, Share2, Bot, Search } from 'lucide-react'
-import { FadeInWhenVisible } from '@/components/shared/FadeInWhenVisible'
-import { LogoScroll } from '@/components/marketing/LogoScroll'
-import TrustBar from '@/components/shared/TrustBar'
-import LiveCounters from '@/components/shared/LiveCounters'
-
-// ─── Types ─────────────────────────────────────────────────────────────────────
+import { CheckCircle2 } from 'lucide-react'
 
 interface PageProps {
   params: Promise<{ locale: string }>
 }
 
-// ─── Plans ─────────────────────────────────────────────────────────────────────
-
-const PLANS = [
-  {
-    id: 'trial',
-    name: 'Trial',
-    price: 0,
-    credits: '50 credits',
-    description: '7 days free to explore ELEVO',
-    features: ['GBP Posts', 'Blog Writer', 'Social Captions', 'Review Responses', '50 AI credits'],
-    cta: 'Start free trial',
-    highlighted: false,
-  },
-  {
-    id: 'launch',
-    name: 'Launch',
-    price: 39,
-    credits: '500 credits/mo',
-    description: 'Perfect for solo operators',
-    features: ['Everything in Trial', 'Email Generator', 'SEO Copy', '500 credits/mo', 'Library & history'],
-    cta: 'Get Launch',
-    highlighted: false,
-  },
-  {
-    id: 'orbit',
-    name: 'Orbit',
-    price: 79,
-    credits: '1,500 credits/mo',
-    description: 'For growing businesses',
-    badge: '★ Most Popular',
-    features: ['Everything in Launch', 'All Growth tools', 'ELEVO Spy™', 'ELEVO Market™', 'ELEVO SMM™', 'ELEVO Viral™', '1,500 credits/mo'],
-    cta: 'Get Orbit',
-    highlighted: true,
-  },
-  {
-    id: 'galaxy',
-    name: 'Galaxy',
-    price: 149,
-    credits: '5,000 credits/mo',
-    description: 'Full AI operating system',
-    features: ['Everything in Orbit', 'ELEVO CEO™', 'ELEVO Drop™', 'Store Analytics', 'Priority support', '5,000 credits/mo'],
-    cta: 'Get Galaxy',
-    highlighted: false,
-  },
-]
-
-const AGENTS = [
-  { name: 'ELEVO CEO™', role: 'Chief Executive Officer', icon: Crown, color: 'text-yellow-400', bg: 'bg-yellow-500/10', plan: 'Galaxy' },
-  { name: 'ELEVO Spy™', role: 'Competitor Intelligence', icon: Eye, color: 'text-red-400', bg: 'bg-red-500/10', plan: 'Orbit+' },
-  { name: 'ELEVO Market™', role: 'Marketing Strategist', icon: TrendingUp, color: 'text-green-400', bg: 'bg-green-500/10', plan: 'Orbit+' },
-  { name: 'ELEVO SMM™', role: 'Social Media Manager', icon: Share2, color: 'text-blue-400', bg: 'bg-blue-500/10', plan: 'Orbit+' },
-  { name: 'ELEVO Viral™', role: 'Viral Content Creator', icon: Sparkles, color: 'text-pink-400', bg: 'bg-pink-500/10', plan: 'Orbit+' },
-  { name: 'ELEVO Rank™', role: 'SEO Specialist', icon: BarChart2, color: 'text-purple-400', bg: 'bg-purple-500/10', plan: 'All plans' },
-]
-
-
-export default function HomePage({ params: _params }: PageProps) {
-  const [billingAnnual, setBillingAnnual] = useState(false)
+export default async function HomePage({ params }: PageProps) {
+  await params
 
   return (
     <main className="overflow-hidden">
 
-      {/* ── HERO ── warm white, left text, dashboard mockup ─────────────────── */}
-      <section className="bg-[#FFFEF9] pt-24 pb-32 px-6">
-        <div className="max-w-6xl mx-auto">
-          <FadeInWhenVisible>
-            <div className="flex flex-col lg:flex-row items-center gap-16">
-              <div className="flex-1 max-w-xl">
-                <div className="inline-flex items-center gap-2 text-xs font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-3 py-1.5 rounded-full mb-8">
-                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-600" />
-                  400+ businesses · Launch offer active
+      {/* ── SECTION 1: HERO ──────────────────────────────────────────────────── */}
+      <section className="bg-[#050507] relative overflow-hidden min-h-screen flex flex-col justify-center px-6 py-32">
+        <div className="grid-overlay" />
+        <div className="hero-beam" />
+        <div className="glow-orb glow-orb-1" />
+        <div className="glow-orb glow-orb-2" />
+
+        <div className="relative z-10 max-w-5xl mx-auto text-center">
+          <div className="v-badge mx-auto mb-8 w-fit">
+            ✦ Now with ELEVO CEO™
+          </div>
+
+          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white tracking-tight leading-none mb-8">
+            Your business.<br />
+            Powered{' '}
+            <span className="gradient-text-hero">by AI.</span>
+          </h1>
+
+          <p className="text-white/60 text-lg max-w-2xl mx-auto mb-10">
+            21 AI specialists working together for your local business. Content. Growth. Intelligence. All in one operating system.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
+            <Link
+              href="/en/signup"
+              className="inline-flex items-center justify-center bg-white text-gray-900 font-semibold px-8 py-3 rounded-full hover:bg-white/90 transition-colors"
+            >
+              Start free — no card required →
+            </Link>
+            <Link
+              href="#features"
+              className="inline-flex items-center justify-center border border-white/20 text-white px-8 py-3 rounded-full hover:bg-white/5 transition-colors"
+            >
+              See how it works
+            </Link>
+          </div>
+
+          <p className="text-white/35 text-xs">400+ businesses · 12 countries · 99.9% uptime</p>
+
+          {/* Dashboard Mockup */}
+          <div className="max-w-5xl mx-auto mt-20" style={{ perspective: '1200px' }}>
+            <div
+              style={{ transform: 'rotateX(4deg)' }}
+              className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl transform-gpu flex"
+            >
+              {/* Sidebar */}
+              <div className="w-56 bg-[#0e1117] border-r border-white/5 p-4 shrink-0 hidden md:block">
+                <div className="flex items-center gap-2 mb-6">
+                  <div className="w-7 h-7 bg-indigo-600 rounded-lg flex items-center justify-center">
+                    <span className="text-white font-black text-xs">E</span>
+                  </div>
+                  <span className="text-white font-black text-sm">ELEVO AI™</span>
                 </div>
-                <h1 className="text-7xl font-black text-gray-900 tracking-tighter leading-none mb-6">
-                  The AI team your business needs.
-                </h1>
-                <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                  21 AI specialists. One platform. From £39/month.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3 mb-8">
-                  <Link
-                    href="/en/signup"
-                    className="inline-flex items-center justify-center gap-2 bg-indigo-600 text-white px-7 py-4 rounded-xl font-bold text-base hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-600/20"
-                  >
-                    Start free — no card required →
-                  </Link>
+                <div className="space-y-1">
+                  {[
+                    { label: 'Dashboard', color: 'bg-indigo-500' },
+                    { label: 'Content', color: 'bg-purple-500' },
+                    { label: 'Growth', color: 'bg-green-500' },
+                    { label: 'Intelligence', color: 'bg-red-500' },
+                    { label: 'Customers', color: 'bg-blue-500' },
+                  ].map(item => (
+                    <div key={item.label} className="flex items-center gap-2.5 px-2 py-2 rounded-lg hover:bg-white/5 cursor-pointer">
+                      <div className={`w-2 h-2 rounded-full ${item.color}`} />
+                      <span className="text-gray-400 text-xs">{item.label}</span>
+                    </div>
+                  ))}
                 </div>
-                <p className="text-sm text-gray-400">Used by 400+ businesses in 12 countries</p>
               </div>
 
-              {/* Dashboard mockup */}
-              <div
-                className="flex-1 max-w-lg"
-                style={{ transform: 'perspective(1000px) rotateX(5deg)' }}
-              >
-                <div className="bg-gray-900 rounded-2xl border border-white/10 shadow-2xl overflow-hidden">
-                  <div className="flex items-center gap-1.5 px-4 py-3 border-b border-white/5">
-                    <div className="w-3 h-3 rounded-full bg-red-500/50" />
-                    <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
-                    <div className="w-3 h-3 rounded-full bg-green-500/50" />
-                    <span className="ml-3 text-xs text-gray-500">Mission Control — ELEVO AI</span>
-                  </div>
-                  <div className="p-5 space-y-3">
-                    <div className="grid grid-cols-3 gap-3">
-                      {[
-                        { label: 'Credits left', value: '1,243', color: 'text-green-400' },
-                        { label: 'Content saved', value: '87', color: 'text-indigo-400' },
-                        { label: 'Active agents', value: '21', color: 'text-purple-400' },
-                      ].map(stat => (
-                        <div key={stat.label} className="bg-white/5 rounded-xl p-3">
-                          <p className={`text-xl font-bold ${stat.color}`}>{stat.value}</p>
-                          <p className="text-xs text-gray-500">{stat.label}</p>
-                        </div>
-                      ))}
+              {/* Main */}
+              <div className="flex-1 bg-[#080c14] p-6">
+                <h2 className="text-white font-bold text-xl mb-4">Mission Control</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                  {[
+                    { label: 'Credits Used', value: '247' },
+                    { label: 'Content Generated', value: '83' },
+                    { label: 'Growth Score', value: '94%' },
+                    { label: 'Businesses Helped', value: '400+' },
+                  ].map(m => (
+                    <div key={m.label} className="glass-card p-3">
+                      <p className="text-white font-bold text-lg">{m.value}</p>
+                      <p className="text-white/40 text-xs">{m.label}</p>
                     </div>
-                    {[
-                      { agent: 'ELEVO Spy™', action: 'Competitor alert detected', time: '2m ago', dot: 'bg-red-400' },
-                      { agent: 'ELEVO Market™', action: 'Strategy ready to review', time: '5m ago', dot: 'bg-green-400' },
-                      { agent: 'ELEVO SMM™', action: '3 posts scheduled for today', time: '12m ago', dot: 'bg-blue-400' },
-                    ].map(item => (
-                      <div key={item.agent} className="flex items-center gap-3 bg-white/3 rounded-lg p-3">
-                        <div className={`w-2 h-2 rounded-full ${item.dot} shrink-0`} />
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs font-semibold text-white">{item.agent}</p>
-                          <p className="text-xs text-gray-500 truncate">{item.action}</p>
-                        </div>
-                        <span className="text-xs text-gray-600">{item.time}</span>
+                  ))}
+                </div>
+                <div className="space-y-2">
+                  {[
+                    { agent: 'ELEVO Spy™', action: 'Competitor alert: rival posted viral reel', time: '2m ago', dot: 'bg-red-400' },
+                    { agent: 'ELEVO Market™', action: 'Monthly strategy updated for Q2', time: '5m ago', dot: 'bg-green-400' },
+                    { agent: 'ELEVO SMM™', action: '3 posts scheduled across all platforms', time: '12m ago', dot: 'bg-blue-400' },
+                  ].map(item => (
+                    <div key={item.agent} className="flex items-center gap-3 bg-white/3 rounded-lg p-3">
+                      <div className={`w-2 h-2 rounded-full ${item.dot} shrink-0`} />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-semibold text-white">{item.agent}</p>
+                        <p className="text-xs text-gray-500 truncate">{item.action}</p>
                       </div>
-                    ))}
-                  </div>
+                      <span className="text-xs text-gray-600 shrink-0">{item.time}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
-          </FadeInWhenVisible>
+            {/* Fade mask */}
+            <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-[#050507] to-transparent pointer-events-none" />
+          </div>
         </div>
       </section>
 
-      <LogoScroll />
-      <TrustBar />
+      {/* ── SECTION 2: LOGOS ─────────────────────────────────────────────────── */}
+      <section className="bg-[#080810] border-y border-white/5 py-12 overflow-hidden">
+        <p className="text-white/40 text-sm text-center mb-6">Trusted by businesses using</p>
+        <div className="flex gap-12 animate-[marquee_25s_linear_infinite] whitespace-nowrap w-max">
+          {['Restaurants', 'Hair Salons', 'Plumbers', 'Dentists', 'Gyms', 'Retailers', 'Accountants', 'Estate Agents', 'Solicitors', 'Electricians', 'Cleaners', 'Physiotherapists', 'Restaurants', 'Hair Salons', 'Plumbers', 'Dentists', 'Gyms', 'Retailers', 'Accountants', 'Estate Agents', 'Solicitors', 'Electricians', 'Cleaners', 'Physiotherapists'].map((type, i) => (
+            <span key={i} className="text-white/30 text-sm font-medium">{type}</span>
+          ))}
+        </div>
+        <style>{`@keyframes marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }`}</style>
+      </section>
 
-      {/* ── SECTION 1: Content — light ──────────────────────────────────────── */}
-      <FadeInWhenVisible>
-        <section className="bg-[#FFFEF9] py-32 px-6">
-          <div className="max-w-5xl mx-auto">
-            <div className="mb-16">
-              <span className="text-xs font-bold text-indigo-600 uppercase tracking-widest block mb-4">Content</span>
-              <h2 className="text-5xl font-black text-gray-900 tracking-tighter mb-4">
-                Content that ranks,<br />converts, and spreads.
+      {/* ── SECTIONS 3-5: FEATURE ROWS ───────────────────────────────────────── */}
+      <section id="features" className="bg-[#050507] py-24">
+
+        {/* Row 1: ROAS Intelligence */}
+        <div className="max-w-6xl mx-auto px-6 py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest block mb-4">Intelligence</span>
+              <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-6">
+                Know your ROAS<br />before you spend.
               </h2>
-              <p className="text-xl text-gray-600 max-w-xl">
-                Six AI content specialists ready to write for your business — every day, in your voice.
+              <p className="text-white/60 text-lg mb-8 leading-relaxed">
+                ELEVO analyses your ad spend and sales data to show you exactly where your money is working — and where it's being wasted.
               </p>
+              <ul className="space-y-3 mb-8">
+                {[
+                  'Real-time ROAS by platform and campaign',
+                  'Wastage detection with reallocation advice',
+                  'Google, Meta, TikTok all in one view',
+                  'Plain English recommendations',
+                ].map(f => (
+                  <li key={f} className="flex items-center gap-2.5 text-sm text-white/70">
+                    <CheckCircle2 size={16} className="text-indigo-400 shrink-0" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div className="terminal">
+              <div className="terminal-bar">
+                <div className="t-dot t-red" />
+                <div className="t-dot t-yellow" />
+                <div className="t-dot t-green" />
+                <span className="text-white/30 text-xs ml-2">ELEVO ROAS Analysis</span>
+              </div>
+              <div className="p-5 text-sm space-y-2">
+                <p className="text-white/40"># Running ROAS analysis for Apex Plumbing...</p>
+                <p className="text-green-400">✓ Google Ads: ROAS 4.2x — strong</p>
+                <p className="text-yellow-400">⚠ Meta Ads: ROAS 1.1x — poor</p>
+                <p className="text-green-400">✓ TikTok: ROAS 3.8x — good</p>
+                <p className="text-white/40">&nbsp;</p>
+                <p className="text-white/80">Recommendation:</p>
+                <p className="text-indigo-400">→ Reallocate £400/mo from Meta to Google</p>
+                <p className="text-indigo-400">→ Projected improvement: +£1,680/mo</p>
+                <p className="text-white/40">&nbsp;</p>
+                <p className="text-green-400">✓ Report saved to Intelligence hub</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Row 2: Social Automation */}
+        <div className="max-w-6xl mx-auto px-6 py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="bg-[#0d1117] border border-white/8 rounded-2xl p-6 space-y-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-bold text-blue-400 uppercase tracking-widest">Today&apos;s Schedule</span>
+                <span className="text-xs text-white/30">3 posts ready</span>
+              </div>
               {[
-                { name: 'GBP Posts', desc: 'Google Business posts that drive foot traffic', icon: '📍' },
-                { name: 'Blog Articles', desc: 'SEO-optimised posts that rank and convert', icon: '✍️' },
-                { name: 'Social Captions', desc: 'Scroll-stopping copy for every platform', icon: '📱' },
-                { name: 'Review Responses', desc: 'Professional replies that build trust', icon: '⭐' },
-                { name: 'Email Campaigns', desc: 'Subject lines and copy that get opens', icon: '📧' },
-                { name: 'SEO Copy', desc: 'Pages that search engines love', icon: '🔍' },
-              ].map(item => (
-                <div key={item.name} className="border border-gray-100 rounded-2xl p-5 hover:border-indigo-100 hover:shadow-sm transition-all">
-                  <span className="text-2xl mb-3 block">{item.icon}</span>
-                  <h3 className="font-bold text-gray-900 mb-1">{item.name}</h3>
-                  <p className="text-sm text-gray-500">{item.desc}</p>
+                { platform: 'Instagram', time: '9:00 AM', caption: 'Behind the scenes at our shop this morning 📸', color: 'bg-pink-500' },
+                { platform: 'Facebook', time: '12:30 PM', caption: 'Limited slots this week — book now before they go!', color: 'bg-blue-500' },
+                { platform: 'Google', time: '5:00 PM', caption: 'Update: Extended hours this Saturday until 7pm', color: 'bg-green-500' },
+              ].map(post => (
+                <div key={post.platform} className="glass-card p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className={`w-2.5 h-2.5 rounded-full ${post.color}`} />
+                    <span className="text-xs font-semibold text-white">{post.platform}</span>
+                    <span className="text-xs text-white/40 ml-auto">{post.time}</span>
+                  </div>
+                  <p className="text-sm text-white/70">{post.caption}</p>
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-      </FadeInWhenVisible>
-
-      {/* ── SECTION 1b: ELEVO Docs™ — light ─────────────────────────────────── */}
-      <FadeInWhenVisible>
-        <section className="bg-[#FFFEF9] py-32 px-6">
-          <div className="max-w-5xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <div>
-                <span className="text-xs font-bold text-indigo-600 uppercase tracking-widest block mb-4">ELEVO Docs™</span>
-                <h2 className="text-5xl font-black text-gray-900 tracking-tighter mb-6">
-                  Generate any business document in seconds.
-                </h2>
-                <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                  Reports. Proposals. Presentations. Email sequences. One prompt. Professional output. Ready to send.
-                </p>
-                <ul className="space-y-3 mb-8">
-                  {[
-                    '10 document types — from contracts to press releases',
-                    '2 credits per document',
-                    'Download as Word, PDF or Google Docs',
-                    'Available on all plans',
-                  ].map(f => (
-                    <li key={f} className="flex items-center gap-2.5 text-sm text-gray-700">
-                      <CheckCircle2 size={16} className="text-indigo-600 shrink-0" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/en/signup"
-                  className="inline-flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-indigo-700 transition-colors"
-                >
-                  Try ELEVO Docs™ →
-                </Link>
-              </div>
-              <div className="grid grid-cols-3 gap-3">
+            <div>
+              <span className="text-xs font-bold text-blue-400 uppercase tracking-widest block mb-4">Automation</span>
+              <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-6">
+                Post everywhere.<br />Without lifting a finger.
+              </h2>
+              <p className="text-white/60 text-lg mb-8 leading-relaxed">
+                ELEVO SMM™ generates and schedules your social content across Instagram, Facebook, Google, TikTok, and LinkedIn — automatically.
+              </p>
+              <ul className="space-y-3">
                 {[
-                  { label: 'Report', emoji: '📄' },
-                  { label: 'Proposal', emoji: '📋' },
-                  { label: 'Presentation', emoji: '📊' },
-                  { label: 'Business Plan', emoji: '🏢' },
-                  { label: 'Contract', emoji: '📜' },
-                  { label: 'Email Sequence', emoji: '📧' },
-                  { label: 'Press Release', emoji: '📰' },
-                  { label: 'Marketing Brief', emoji: '📣' },
-                  { label: 'Spreadsheet', emoji: '📈' },
-                ].map(doc => (
-                  <div key={doc.label} className="bg-indigo-50 border border-indigo-100 rounded-2xl p-4 text-center hover:border-indigo-300 transition-colors">
-                    <span className="text-2xl block mb-2">{doc.emoji}</span>
-                    <p className="text-xs font-semibold text-gray-900">{doc.label}</p>
+                  'AI writes captions in your brand voice',
+                  'Auto-scheduled at peak engagement times',
+                  'Platform-optimised for each channel',
+                  '30-day content calendar in one click',
+                ].map(f => (
+                  <li key={f} className="flex items-center gap-2.5 text-sm text-white/70">
+                    <CheckCircle2 size={16} className="text-blue-400 shrink-0" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Row 3: Competitor Intel */}
+        <div className="max-w-6xl mx-auto px-6 py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <span className="text-xs font-bold text-red-400 uppercase tracking-widest block mb-4">Intelligence</span>
+              <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-6">
+                Know everything about<br />your competitors.
+              </h2>
+              <p className="text-white/60 text-lg mb-8 leading-relaxed">
+                ELEVO Spy™ monitors competitor content, ads, SEO rankings, and customer sentiment in real time. Weekly battle plans delivered straight to your dashboard.
+              </p>
+              <ul className="space-y-3">
+                {[
+                  'Live competitor content monitoring',
+                  'Ad campaign reverse engineering',
+                  'SEO gap identification',
+                  'Weekly battle plan with exact tactics',
+                ].map(f => (
+                  <li key={f} className="flex items-center gap-2.5 text-sm text-white/70">
+                    <CheckCircle2 size={16} className="text-red-400 shrink-0" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="bg-[#0d1117] border border-white/8 rounded-2xl p-6">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-xs font-bold text-red-400 uppercase tracking-widest">Competitor Alert</span>
+                <span className="text-xs text-white/30">2 minutes ago</span>
+              </div>
+              <div className="mb-4 flex items-center gap-3">
+                <div className="w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center">
+                  <span className="text-red-400 font-black text-sm">!</span>
+                </div>
+                <div>
+                  <p className="text-white font-semibold text-sm">Rival Co.</p>
+                  <p className="text-white/40 text-xs">Threat level: HIGH</p>
+                </div>
+                <div className="ml-auto">
+                  <span className="text-xs font-bold text-red-400 bg-red-500/10 px-2 py-1 rounded-lg">HIGH</span>
+                </div>
+              </div>
+              <div className="space-y-2">
+                {[
+                  { label: 'New viral post detected', severity: 'HIGH', color: 'text-red-400 bg-red-500/10' },
+                  { label: 'Ad spend increased 40%', severity: 'MEDIUM', color: 'text-yellow-400 bg-yellow-500/10' },
+                  { label: 'Ranking #3 for your keyword', severity: 'WATCH', color: 'text-blue-400 bg-blue-500/10' },
+                ].map(alert => (
+                  <div key={alert.label} className="flex items-center gap-3 p-2.5 bg-white/4 rounded-lg">
+                    <span className={`text-xs font-bold px-2 py-0.5 rounded ${alert.color}`}>{alert.severity}</span>
+                    <span className="text-sm text-white/70">{alert.label}</span>
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-        </section>
-      </FadeInWhenVisible>
-
-      {/* ── SECTION 1c: ELEVO Build™ — indigo gradient ───────────────────────── */}
-      <FadeInWhenVisible>
-        <section className="py-32 px-6" style={{ background: 'linear-gradient(135deg, #4338ca 0%, #6366f1 50%, #7c3aed 100%)' }}>
-          <div className="max-w-5xl mx-auto text-center">
-            <span className="text-xs font-bold text-indigo-200 uppercase tracking-widest block mb-4">ELEVO Build™</span>
-            <h2 className="text-5xl font-black text-white tracking-tighter mb-6">
-              Build websites and apps<br />from a single prompt.
-            </h2>
-            <p className="text-xl text-indigo-100 mb-12 max-w-2xl mx-auto">
-              No code needed. Deploy in minutes.
-            </p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-3xl mx-auto mb-10">
-              {[
-                { label: 'Landing Page', emoji: '🌐' },
-                { label: 'Full Website', emoji: '🖥️' },
-                { label: 'Web App', emoji: '⚙️' },
-                { label: 'Mobile Concept', emoji: '📱' },
-                { label: 'Internal Tool', emoji: '🔧' },
-                { label: 'Booking System', emoji: '📅' },
-              ].map(bt => (
-                <div key={bt.label} className="bg-white/10 border border-white/20 rounded-2xl p-5 hover:bg-white/20 transition-colors">
-                  <span className="text-3xl block mb-2">{bt.emoji}</span>
-                  <p className="text-sm font-semibold text-white">{bt.label}</p>
-                </div>
-              ))}
-            </div>
-            <Link
-              href="/en/signup"
-              className="inline-flex items-center gap-2 bg-white text-indigo-700 px-7 py-4 rounded-xl font-bold text-base hover:bg-indigo-50 transition-colors shadow-xl"
-            >
-              Build something →
-            </Link>
-          </div>
-        </section>
-      </FadeInWhenVisible>
-
-      {/* ── SECTION 2: ELEVO Spy™ — dark dot grid ───────────────────────────── */}
-      <FadeInWhenVisible>
-        <section className="bg-[#080C14] py-32 px-6 marketing-dot-grid">
-          <div className="max-w-5xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <div>
-                <span className="text-xs font-bold text-red-400 uppercase tracking-widest block mb-4">Intelligence</span>
-                <h2 className="text-5xl font-black text-white tracking-tighter mb-6">
-                  Know your competitors better than they know themselves.
-                </h2>
-                <p className="text-lg text-gray-400 mb-8">
-                  ELEVO Spy™ monitors competitor content, ads, SEO, and sentiment in real time. Get weekly intelligence reports with a battle plan to outmanoeuvre them.
-                </p>
-                <ul className="space-y-3 mb-8">
-                  {[
-                    'Live competitor content monitoring',
-                    'Ad campaign analysis & reverse engineering',
-                    'SEO gap identification',
-                    'Weekly battle plan with exact tactics',
-                  ].map(f => (
-                    <li key={f} className="flex items-center gap-3 text-sm text-gray-300">
-                      <CheckCircle2 size={16} className="text-red-400 shrink-0" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/en/signup"
-                  className="inline-flex items-center gap-2 bg-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-red-600 transition-colors"
-                >
-                  <Eye size={16} /> Try ELEVO Spy™ →
-                </Link>
-              </div>
-              <div className="bg-gray-900/60 border border-white/10 rounded-2xl p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-bold text-red-400 uppercase tracking-widest">Competitor Alert</span>
-                  <span className="text-xs text-gray-500">2 minutes ago</span>
-                </div>
-                <div className="space-y-3">
-                  {[
-                    { label: 'New viral post detected', severity: 'HIGH', color: 'text-red-400 bg-red-500/10' },
-                    { label: 'Ad spend increased by 40%', severity: 'MEDIUM', color: 'text-yellow-400 bg-yellow-500/10' },
-                    { label: 'New keyword ranking #3', severity: 'WATCH', color: 'text-blue-400 bg-blue-500/10' },
-                  ].map(alert => (
-                    <div key={alert.label} className="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
-                      <span className={`text-xs font-bold px-2 py-0.5 rounded ${alert.color}`}>{alert.severity}</span>
-                      <span className="text-sm text-gray-300">{alert.label}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-4 pt-4 border-t border-white/5">
-                  <p className="text-xs text-gray-500 mb-2">Battle plan update ready</p>
-                  <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-lg p-3">
-                    <p className="text-sm text-indigo-300">Counter their viral post with a behind-the-scenes reel today. Post at 6pm for maximum reach.</p>
-                  </div>
-                </div>
+              <div className="mt-4 bg-indigo-500/10 border border-indigo-500/20 rounded-xl p-3">
+                <p className="text-xs text-indigo-300">Battle plan: Counter with a behind-the-scenes reel today. Post at 6pm for maximum reach.</p>
               </div>
             </div>
           </div>
-        </section>
-      </FadeInWhenVisible>
+        </div>
+      </section>
 
-      {/* ── SECTION 3: ELEVO CEO™ — light ───────────────────────────────────── */}
-      <FadeInWhenVisible>
-        <section className="bg-[#FFFEF9] py-32 px-6">
-          <div className="max-w-5xl mx-auto text-center">
-            <span className="text-xs font-bold text-yellow-600 uppercase tracking-widest block mb-4">Galaxy Plan</span>
-            <h2 className="text-5xl font-black text-gray-900 tracking-tighter mb-6">
-              Your AI Chief Executive Officer.
+      {/* ── SECTION 6: STATS ─────────────────────────────────────────────────── */}
+      <section className="bg-[#030305] py-24 relative overflow-hidden">
+        <div className="grid-overlay" />
+        <div className="relative z-10 max-w-5xl mx-auto px-6">
+          <div className="section-divider mb-16" />
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
+            {[
+              { value: '400+', label: 'Businesses' },
+              { value: '35+', label: 'API Routes' },
+              { value: '£616', label: 'Avg monthly ROI' },
+              { value: '99.9%', label: 'Uptime' },
+            ].map(stat => (
+              <div key={stat.label}>
+                <p className="stat-num">{stat.value}</p>
+                <p className="text-white/40 text-sm mt-2">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+          <div className="section-divider mt-16" />
+        </div>
+      </section>
+
+      {/* ── SECTION 7: COMPARISON ────────────────────────────────────────────── */}
+      <section className="bg-[#FFFEF9] py-24 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl sm:text-5xl font-black text-gray-900 tracking-tight">
+              How ELEVO AI™ compares
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-12">
-              Fortune 500 strategy. McKinsey analysis. Goldman Sachs financial modelling. All for your business, on demand.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
-              {[
-                { title: 'CEO Sessions', desc: 'Get board-level advice on pricing, hiring, pivots, and partnerships', icon: '💼' },
-                { title: 'Growth Strategy', desc: 'Full 12-month growth plan with revenue projections and milestones', icon: '📈' },
-                { title: 'Investor Prep', desc: 'Complete pitch deck, objection handlers, and term sheet guidance', icon: '🤝' },
-              ].map(feature => (
-                <div key={feature.title} className="bg-yellow-50 border border-yellow-100 rounded-2xl p-6 text-left">
-                  <span className="text-3xl mb-4 block">{feature.icon}</span>
-                  <h3 className="font-bold text-gray-900 mb-2">{feature.title}</h3>
-                  <p className="text-sm text-gray-600">{feature.desc}</p>
-                </div>
-              ))}
-            </div>
-            <div className="mt-10">
-              <Link
-                href="/en/signup"
-                className="inline-flex items-center gap-2 bg-yellow-500 text-white px-7 py-4 rounded-xl font-bold text-base hover:bg-yellow-600 transition-colors"
+            <p className="text-gray-500 mt-4">One platform instead of four</p>
+          </div>
+          <div className="comparison-table-wrap">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 pr-6 text-gray-500 font-medium">Feature</th>
+                  <th className="py-3 px-4 text-indigo-600 font-black">ELEVO AI™</th>
+                  <th className="py-3 px-4 text-gray-400 font-medium">Hootsuite</th>
+                  <th className="py-3 px-4 text-gray-400 font-medium">Jasper</th>
+                  <th className="py-3 px-4 text-gray-400 font-medium">HubSpot</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ['Content generation', '✓', '✗', '✓', '✓'],
+                  ['Market research', '✓', '✗', '✗', '✗'],
+                  ['Competitor spy', '✓', '✗', '✗', '✗'],
+                  ['CRM & contacts', '✓', '✗', '✗', '✓'],
+                  ['Financial health', '✓', '✗', '✗', '✗'],
+                  ['ROAS analysis', '✓', '✗', '✗', '✗'],
+                  ['Stripe billing built-in', '✓', '✗', '✗', '✗'],
+                  ['Multi-language (12)', '✓', '✗', '✗', '✗'],
+                  ['Free trial (no card)', '✓', '✓', '✓', '✗'],
+                  ['Starting price', '£39/mo', '£99/mo', '£39/mo', '£720/mo'],
+                ].map(([feature, elevo, hs, jasper, hub], i) => (
+                  <tr key={i} className="border-b border-gray-100">
+                    <td className="py-3 pr-6 text-gray-700 font-medium">{feature}</td>
+                    <td className={`py-3 px-4 text-center font-bold ${elevo === '✓' ? 'text-indigo-600' : 'text-gray-900'}`}>{elevo}</td>
+                    <td className={`py-3 px-4 text-center ${hs === '✓' ? 'text-green-600' : 'text-gray-400'}`}>{hs}</td>
+                    <td className={`py-3 px-4 text-center ${jasper === '✓' ? 'text-green-600' : 'text-gray-400'}`}>{jasper}</td>
+                    <td className={`py-3 px-4 text-center ${hub === '✓' ? 'text-green-600' : 'text-gray-400'}`}>{hub}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SECTION 8: PRICING ───────────────────────────────────────────────── */}
+      <section className="bg-[#FFFEF9] py-24 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl sm:text-5xl font-black text-gray-900 tracking-tight">
+              Simple pricing. No surprises.
+            </h2>
+            <p className="text-gray-500 mt-4">7-day free trial on every plan. No card required.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {[
+              {
+                name: 'Launch',
+                price: '£39',
+                period: '/mo',
+                desc: 'Perfect for solo operators',
+                features: ['GBP Posts + Blog Writer', 'Social Captions + Reviews', 'Email + SEO Copy', '500 credits/mo', 'Content library'],
+                cta: 'Start free trial',
+                highlight: false,
+              },
+              {
+                name: 'Orbit',
+                price: '£79',
+                period: '/mo',
+                desc: 'For growing businesses',
+                badge: '★ Most Popular',
+                features: ['Everything in Launch', 'All Growth tools', 'ELEVO Spy™ + Market™', 'ELEVO Viral™ + SMM™', '1,500 credits/mo'],
+                cta: 'Start free trial',
+                highlight: true,
+              },
+              {
+                name: 'Galaxy',
+                price: '£149',
+                period: '/mo',
+                desc: 'Full AI operating system',
+                features: ['Everything in Orbit', 'ELEVO CEO™', 'ELEVO Drop™ (e-commerce)', 'Store Analytics', '5,000 credits/mo'],
+                cta: 'Start free trial',
+                highlight: false,
+              },
+            ].map(plan => (
+              <div
+                key={plan.name}
+                className={`rounded-2xl p-6 ${plan.highlight ? 'border-2 border-indigo-600 bg-white shadow-xl shadow-indigo-100' : 'border border-gray-200 bg-white'}`}
               >
-                <Crown size={18} /> Try ELEVO CEO™ — Galaxy plan →
-              </Link>
-            </div>
-          </div>
-        </section>
-      </FadeInWhenVisible>
-
-      {/* ── SECTION 4: Agents — dark dot grid ───────────────────────────────── */}
-      <FadeInWhenVisible>
-        <section className="bg-[#080C14] py-32 px-6 marketing-dot-grid">
-          <div className="max-w-5xl mx-auto">
-            <div className="mb-16">
-              <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest block mb-4">AI Agents</span>
-              <h2 className="text-5xl font-black text-white tracking-tighter mb-4">
-                21 AI agents. Ready to work.
-              </h2>
-              <p className="text-xl text-gray-400 max-w-xl">
-                Each agent is a specialist. Together they cover every aspect of running and growing your business.
-              </p>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-10">
-              {AGENTS.map(agent => (
-                <div key={agent.name} className="bg-white/3 border border-white/10 rounded-2xl p-5 hover:border-white/20 transition-colors">
-                  <div className={`w-10 h-10 rounded-xl ${agent.bg} flex items-center justify-center mb-3`}>
-                    <agent.icon size={18} className={agent.color} />
-                  </div>
-                  <h3 className="font-bold text-white text-sm mb-0.5">{agent.name}</h3>
-                  <p className="text-xs text-gray-500 mb-2">{agent.role}</p>
-                  <span className="text-xs text-gray-600">{agent.plan}</span>
+                {'badge' in plan && plan.badge && (
+                  <span className="text-xs font-bold bg-indigo-600 text-white px-2 py-0.5 rounded-full mb-3 inline-block">
+                    {plan.badge}
+                  </span>
+                )}
+                <h3 className="font-black text-xl text-gray-900 mb-1">{plan.name}</h3>
+                <p className="text-sm text-gray-500 mb-4">{plan.desc}</p>
+                <div className="mb-6">
+                  <span className="text-4xl font-black text-gray-900">{plan.price}</span>
+                  <span className="text-sm text-gray-400">{plan.period}</span>
                 </div>
-              ))}
-            </div>
-            <Link
-              href="/en/agents"
-              className="inline-flex items-center gap-2 text-indigo-400 font-semibold hover:text-indigo-300 transition-colors"
-            >
-              <Bot size={16} /> View all 21 agents <ChevronRight size={14} />
-            </Link>
-          </div>
-        </section>
-      </FadeInWhenVisible>
-
-      {/* ── SECTION 4b: Agent Search — dark ─────────────────────────────────── */}
-      <FadeInWhenVisible>
-        <section className="bg-[#080C14] py-24 px-6">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest block mb-4">Command + K</span>
-              <h2 className="text-5xl font-black text-white tracking-tighter mb-4">
-                Every tool.<br />One search.
-              </h2>
-              <p className="text-lg text-gray-400 max-w-xl mx-auto">
-                Press ⌘K anywhere in the dashboard to instantly find and launch any of 21+ ELEVO agents.
-              </p>
-            </div>
-
-            {/* Mock search bar */}
-            <div className="max-w-xl mx-auto bg-[#141B24] border border-[#1E2A3A] rounded-2xl overflow-hidden shadow-2xl">
-              <div className="flex items-center gap-3 px-4 py-3 border-b border-[#1E2A3A]">
-                <Search size={18} className="text-gray-500" />
-                <span className="text-gray-400 text-sm flex-1">Search ELEVO agents...</span>
-                <kbd className="text-xs bg-[#0D1219] text-gray-500 px-1.5 py-0.5 rounded border border-[#1E2A3A]">⌘K</kbd>
-              </div>
-              <div className="py-2">
-                {[
-                  { emoji: '🕵️', name: 'ELEVO Spy™', desc: 'Competitor intelligence', query: 'competitor', badge: 'Orbit+', color: 'text-red-400' },
-                  { emoji: '📊', name: 'ELEVO Ads', desc: 'ROAS & ad performance', query: 'ROAS', badge: 'Available', color: 'text-green-400' },
-                  { emoji: '🎬', name: 'ELEVO Studio', desc: 'AI video creation', query: 'video', badge: 'Orbit+', color: 'text-amber-400' },
-                  { emoji: '✍️', name: 'ELEVO Write Pro™', desc: 'Humanise AI text', query: 'human', badge: 'Available', color: 'text-green-400' },
-                ].map((item, i) => (
-                  <div key={i} className={`flex items-center gap-3 px-4 py-3 ${i === 1 ? 'bg-indigo-500/10' : 'hover:bg-[#1A2332]'} transition-colors`}>
-                    <span className="text-xl">{item.emoji}</span>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-white">{item.name}</p>
-                      <p className="text-xs text-gray-500">{item.desc}</p>
-                    </div>
-                    <span className={`text-xs px-2 py-0.5 rounded-full ${item.badge === 'Available' ? 'bg-green-500/20 text-green-400' : 'bg-amber-500/20 text-amber-400'}`}>
-                      {item.badge}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <div className="px-4 py-2 border-t border-[#1E2A3A] flex gap-4 text-xs text-gray-600">
-                <span><kbd className="bg-[#0D1219] px-1 rounded">↑↓</kbd> navigate</span>
-                <span><kbd className="bg-[#0D1219] px-1 rounded">↵</kbd> select</span>
-                <span><kbd className="bg-[#0D1219] px-1 rounded">esc</kbd> close</span>
-              </div>
-            </div>
-          </div>
-        </section>
-      </FadeInWhenVisible>
-
-      {/* ── SECTION 4c: WhatsApp — light ─────────────────────────────────────── */}
-      <FadeInWhenVisible>
-        <section className="bg-[#FFFEF9] py-24 px-6">
-          <div className="max-w-4xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-              <div>
-                <span className="text-xs font-bold text-green-600 uppercase tracking-widest block mb-4">ELEVO Connect™</span>
-                <h2 className="text-5xl font-black text-gray-900 tracking-tighter mb-6">
-                  Your customers.<br />On WhatsApp.
-                </h2>
-                <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                  ELEVO Connect™ sends your customers WhatsApp messages automatically.
-                  Review requests. Appointment reminders. Win-back campaigns. All from one dashboard.
-                </p>
-                <ul className="space-y-3 mb-8">
-                  {[
-                    'Review requests sent 24h after a job',
-                    'Appointment confirmations + reminders',
-                    'Win-back campaigns for lapsed customers',
-                    'AI-drafted messages in your brand voice',
-                  ].map(f => (
-                    <li key={f} className="flex items-center gap-2.5 text-sm text-gray-700">
-                      <CheckCircle2 size={16} className="text-green-500 shrink-0" />
+                <ul className="space-y-2 mb-6">
+                  {plan.features.map(f => (
+                    <li key={f} className="flex items-start gap-2 text-sm text-gray-600">
+                      <CheckCircle2 size={14} className="text-indigo-600 shrink-0 mt-0.5" />
                       {f}
                     </li>
                   ))}
                 </ul>
                 <Link
                   href="/en/signup"
-                  className="inline-flex items-center gap-2 bg-green-500 text-white px-6 py-3 rounded-xl font-semibold text-sm hover:bg-green-600 transition-colors"
+                  className={`block text-center py-3 rounded-xl font-semibold text-sm transition-colors ${plan.highlight ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-gray-900 text-white hover:bg-gray-800'}`}
                 >
-                  Start sending →
+                  {plan.cta}
                 </Link>
               </div>
+            ))}
+          </div>
+          <p className="text-center text-gray-400 text-sm mt-8">
+            7-day free trial · No card required · Cancel anytime
+          </p>
+        </div>
+      </section>
 
-              {/* WhatsApp mock */}
-              <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
-                <div className="bg-green-500 px-4 py-3 flex items-center gap-3">
-                  <div className="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center text-sm font-bold text-white">E</div>
-                  <div>
-                    <p className="text-sm font-semibold text-white">ELEVO AI</p>
-                    <p className="text-xs text-green-100">Business account</p>
-                  </div>
-                </div>
-                <div className="p-4 bg-[#ECE5DD] space-y-3 min-h-[220px]">
-                  {[
-                    { from: 'elevo', text: 'Hi Sarah! Thanks for choosing us yesterday. How did we do? Leave a quick Google review and get 10% off your next visit! ⭐' },
-                    { from: 'user', text: '5 stars! Great service as always 😊' },
-                    { from: 'elevo', text: 'Amazing, thank you! Your discount code: SARAH10 — valid for 30 days 🎉' },
-                  ].map((msg, i) => (
-                    <div key={i} className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`max-w-[80%] rounded-xl px-3 py-2 text-xs ${msg.from === 'user' ? 'bg-[#DCF8C6] text-gray-800' : 'bg-white text-gray-800'}`}>
-                        {msg.text}
-                      </div>
-                    </div>
+      {/* ── SECTION 9: TESTIMONIALS ──────────────────────────────────────────── */}
+      <section className="bg-[#050507] py-24 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight">
+              Loved by local businesses
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {[
+              {
+                quote: "ELEVO completely transformed how I run my salon. The social content alone saves me 5 hours a week. My Google reviews have nearly doubled.",
+                name: 'Sam T.',
+                role: 'Hair Salon, Manchester',
+                stars: 5,
+              },
+              {
+                quote: "The ROAS analysis told me I was wasting £600/month on Meta ads. Moved it to Google and my leads tripled. Paid for itself in week one.",
+                name: 'Mike R.',
+                role: 'Plumber, Birmingham',
+                stars: 5,
+              },
+              {
+                quote: "ELEVO Spy caught my competitor running a discount campaign before I even knew about it. I launched a counter-offer the same day. Game changer.",
+                name: 'Laura K.',
+                role: 'Gym Owner, Bristol',
+                stars: 5,
+              },
+            ].map((t, i) => (
+              <div key={i} className="glass-card p-6">
+                <div className="flex gap-1 mb-4">
+                  {Array.from({ length: t.stars }).map((_, j) => (
+                    <span key={j} className="text-yellow-400 text-sm">★</span>
                   ))}
                 </div>
+                <p className="text-white/70 text-sm leading-relaxed mb-4">&ldquo;{t.quote}&rdquo;</p>
+                <div>
+                  <p className="text-white font-semibold text-sm">{t.name}</p>
+                  <p className="text-white/40 text-xs">{t.role}</p>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
-        </section>
-      </FadeInWhenVisible>
+        </div>
+      </section>
 
-      {/* ── SECTION 5: Pricing — light ──────────────────────────────────────── */}
-      <FadeInWhenVisible>
-        <section className="bg-[#FFFEF9] py-32 px-6">
-          <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-16">
-              <span className="text-xs font-bold text-indigo-600 uppercase tracking-widest block mb-4">Pricing</span>
-              <h2 className="text-5xl font-black text-gray-900 tracking-tighter mb-4">
-                Simple, honest pricing.
-              </h2>
-              <p className="text-xl text-gray-600">Start free. Scale when you're ready. Cancel anytime.</p>
-            </div>
+      {/* ── SECTION 10: FINAL CTA ────────────────────────────────────────────── */}
+      <section className="bg-[#050507] py-32 px-6 relative overflow-hidden">
+        <div className="hero-beam" />
+        <div className="grid-overlay" />
+        <div className="relative z-10 max-w-3xl mx-auto text-center">
+          <h2 className="text-5xl sm:text-6xl font-black text-white tracking-tight mb-6">
+            Build your AI business team today.
+          </h2>
+          <p className="text-white/50 text-lg mb-10">
+            Join 400+ businesses already using ELEVO AI™ to work smarter and grow faster.
+          </p>
+          <Link
+            href="/en/signup"
+            className="inline-flex items-center justify-center bg-white text-gray-900 font-semibold px-10 py-4 rounded-full hover:bg-white/90 transition-colors text-base"
+          >
+            Start free trial →
+          </Link>
+          <p className="text-white/30 text-xs mt-4">No credit card · 7-day free trial · Cancel anytime</p>
+        </div>
+      </section>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {PLANS.map(plan => (
-                <div
-                  key={plan.id}
-                  className={`rounded-2xl p-6 border ${
-                    plan.highlighted
-                      ? 'bg-indigo-600 border-indigo-600 text-white shadow-xl shadow-indigo-600/20'
-                      : 'bg-white border-gray-100 text-gray-900'
-                  }`}
-                >
-                  {plan.badge && (
-                    <span className="text-xs font-bold bg-white/20 px-2 py-0.5 rounded-full mb-3 inline-block">
-                      {plan.badge}
-                    </span>
-                  )}
-                  <h3 className={`font-black text-xl mb-1 ${plan.highlighted ? 'text-white' : 'text-gray-900'}`}>
-                    {plan.name}
-                  </h3>
-                  <p className={`text-sm mb-4 ${plan.highlighted ? 'text-indigo-100' : 'text-gray-500'}`}>
-                    {plan.description}
-                  </p>
-                  <div className="mb-4">
-                    <span className={`text-4xl font-black ${plan.highlighted ? 'text-white' : 'text-gray-900'}`}>
-                      £{plan.price}
-                    </span>
-                    {plan.price > 0 && (
-                      <span className={`text-sm ml-1 ${plan.highlighted ? 'text-indigo-200' : 'text-gray-400'}`}>/mo</span>
-                    )}
-                  </div>
-                  <p className={`text-xs mb-5 ${plan.highlighted ? 'text-indigo-200' : 'text-gray-400'}`}>
-                    {plan.credits}
-                  </p>
-                  <ul className="space-y-2 mb-6">
-                    {plan.features.map(f => (
-                      <li key={f} className={`flex items-start gap-2 text-xs ${plan.highlighted ? 'text-indigo-100' : 'text-gray-600'}`}>
-                        <CheckCircle2 size={12} className={`mt-0.5 shrink-0 ${plan.highlighted ? 'text-white' : 'text-indigo-600'}`} />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <Link
-                    href="/en/signup"
-                    className={`block text-center py-2.5 rounded-xl font-semibold text-sm transition-colors ${
-                      plan.highlighted
-                        ? 'bg-white text-indigo-600 hover:bg-indigo-50'
-                        : 'bg-gray-900 text-white hover:bg-gray-800'
-                    }`}
-                  >
-                    {plan.cta}
-                  </Link>
-                </div>
-              ))}
-            </div>
-            <p className="text-center text-gray-400 text-sm mt-8">
-              All plans include 30-day money-back guarantee · No contracts · Cancel anytime
-            </p>
-          </div>
-        </section>
-      </FadeInWhenVisible>
-
-      {/* ── SECTION 6: Final CTA — dark ─────────────────────────────────────── */}
-      <FadeInWhenVisible>
-        <section className="bg-[#080C14] py-32 px-6 marketing-dot-grid">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="flex justify-center gap-10 mb-12">
-              {[
-                { value: '400+', label: 'Businesses' },
-                { value: '£1.2M', label: 'Revenue driven' },
-                { value: '21', label: 'AI agents' },
-                { value: '99.9%', label: 'Uptime' },
-              ].map(stat => (
-                <div key={stat.label}>
-                  <p className="text-3xl font-black text-white">{stat.value}</p>
-                  <p className="text-sm text-gray-500">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-            <h2 className="text-6xl font-black text-white tracking-tighter mb-6">
-              The last tool<br />you'll ever need.
-            </h2>
-            <p className="text-xl text-gray-400 mb-10 max-w-xl mx-auto">
-              Join 400+ businesses using ELEVO AI to work smarter, grow faster, and win more.
-            </p>
-            <Link
-              href="/en/signup"
-              className="inline-flex items-center gap-2 bg-indigo-600 text-white px-10 py-5 rounded-xl font-bold text-lg hover:bg-indigo-700 transition-colors shadow-xl shadow-indigo-600/30"
-            >
-              <Zap size={20} /> Start free — no card required →
-            </Link>
-            <p className="text-gray-600 text-sm mt-4">7-day free trial · Cancel anytime · 30-day money-back</p>
-          </div>
-        </section>
-      </FadeInWhenVisible>
-
-      <LiveCounters />
     </main>
   )
 }

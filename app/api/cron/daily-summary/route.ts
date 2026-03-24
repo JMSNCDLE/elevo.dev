@@ -27,7 +27,7 @@ export async function GET(request: Request) {
     }, { onConflict: 'date' })
 
     // Email James
-    const adminEmail = process.env.ELEVO_ADMIN_EMAIL ?? 'james@elevo.ai'
+    const adminEmail = process.env.ELEVO_ADMIN_EMAIL ?? 'james@elevo.dev'
     const winsText = summary.wins.map(w => `✅ ${w}`).join('\n')
     const recsText = summary.recommendations.map(r => `→ ${r}`).join('\n')
     const tasksText = summary.upcomingTasks.map(t => `• ${t}`).join('\n')

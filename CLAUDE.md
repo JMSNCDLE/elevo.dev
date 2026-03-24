@@ -736,3 +736,50 @@ _Add items here as James specifies them_
    - TWILIO_AUTH_TOKEN
    - TWILIO_WHATSAPP_NUMBER (sandbox: +14155238886)
 4. Join the Twilio WhatsApp sandbox from +34 679 444 783 (send "join [word]" to +1 415 523 8886)
+
+---
+
+## Phase 23 Complete (2026-03-24)
+
+### What was built in Phase 23
+
+**23A — Vercel-inspired dark design system:**
+- `app/globals.css` — All Phase 23 CSS already present (hero-beam, glow-orbs, glass-card, grid-overlay, terminal, stat-num, gradient-text-hero, section-divider, mobile globals, fade-in animation, reduced-motion support)
+- `components/shared/FadeInWhenVisible.tsx` — Already correct (y:20, transformOrigin center center, mobile CSS fallback with animate-fade-in class)
+- `app/[locale]/(marketing)/page.tsx` — COMPLETE REWRITE: 10-section server component (hero beam + glow orbs + dashboard mockup, logo marquee, 3 feature rows with terminal windows + glass cards, stats section with stat-num, comparison table, pricing cards, testimonials with glass cards, final CTA with hero-beam)
+
+**23B — Mobile viewport + PWA:**
+- `app/[locale]/(marketing)/layout.tsx` — Added viewport, themeColor, appleWebApp, manifest, and apple-touch-icon metadata
+- `public/manifest.json` — PWA manifest (standalone display, dark background, shortcuts to dashboard + create)
+- `public/icon.svg` — ELEVO E logo in indigo square with rounded corners
+
+**23C — Cookie consent:**
+- `components/shared/CookieConsent.tsx` — REWRITE: 1800ms delay, banner + modal, 3 toggles (Essential locked, Analytics on, Marketing off), safe-area-inset padding, saves as JSON with timestamp. Already included via ClientPopups in marketing layout.
+
+**23D — Legal pages (4 new pages):**
+- `app/[locale]/(marketing)/privacy/page.tsx` — 10-section GDPR privacy policy (plain English, who we are, data collected, usage, sharing, retention, rights, cookies, children, changes, contact)
+- `app/[locale]/(marketing)/terms/page.tsx` — 13-section terms of service (agreement, service, security, acceptable use, billing, discounts, refunds, cancellation, AI content, IP/trademark, uptime, liability, governing law)
+- `app/[locale]/(marketing)/refunds/page.tsx` — Refund policy (7-day trial, 48h money-back, how to claim, after window, subsequent charges, data export)
+- `app/[locale]/(marketing)/cookies/page.tsx` — Cookie policy (4 sections: what cookies are, essential table, optional analytics+marketing, third-party Stripe/Supabase, how to manage)
+- `app/[locale]/(marketing)/layout.tsx` — Footer Legal links updated from # to /privacy, /terms, /refunds, /cookies
+
+**23E — Performance + next.config:**
+- `next.config.ts` — reactStrictMode: false, images.minimumCacheTTL: 86400, deviceSizes: [390,430,768,1024,1280,1920], framer-motion added to optimizePackageImports, X-Frame-Options: SAMEORIGIN header, /_next/static cache headers, serverActions allowedOrigins updated to elevo.dev
+
+**URL migration — elevo.ai → elevo.dev:**
+- `app/api/discount/generate/route.ts` — Email link text updated
+- `app/api/admin/elevo-marketing/route.ts` — website_url updated
+- `app/api/og/route.tsx` — Footer text updated
+- `app/api/admin/qa/send-test-email/route.ts` — Footer email updated
+- `app/api/cron/daily-summary/route.ts` — Admin email default updated
+- `app/api/cron/health-check/route.ts` — Admin email default updated
+- `app/api/cron/ai-landscape/route.ts` — Admin email default updated
+- `app/[locale]/(auth)/confirm/page.tsx` — "Email sent from" text updated
+- `lib/email/send.ts` — FROM_EMAIL default updated
+- `lib/email/invoice-template.ts` — Support email updated
+- `lib/agents/documentAgent.ts` — Footer credit updated
+
+### What James needs to do next
+1. Add icon-192.png and icon-512.png to /public for full PWA support (can convert icon.svg)
+2. No schema changes required for Phase 23
+3. No new env vars required for Phase 23

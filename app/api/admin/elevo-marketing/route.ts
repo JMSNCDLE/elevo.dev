@@ -105,7 +105,7 @@ export async function POST(request: Request) {
     services: ['AI content generation', 'Marketing automation', 'CRM', 'Business intelligence'],
     unique_selling_points: ['21 AI agents', 'Full marketing department in one tool', 'Replaces Hootsuite + Jasper + HubSpot'],
     tone_of_voice: 'Bold, confident, results-focused',
-    website_url: 'https://getelevo.ai',
+    website_url: 'https://elevo.dev',
     description: topic || 'ELEVO AI — the AI operating system for local businesses',
     target_audience: 'Local SME owners who want to grow online',
     is_primary: true,

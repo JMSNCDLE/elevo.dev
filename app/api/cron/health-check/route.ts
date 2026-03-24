@@ -32,7 +32,7 @@ export async function GET(request: Request) {
       if (firstCritical) {
         sendWhatsAppToJames(JAMES_ALERTS.criticalError(firstCritical.description, firstCritical.affectedFile ?? 'unknown')).catch(console.error)
       }
-      const adminEmail = process.env.ELEVO_ADMIN_EMAIL ?? 'james@elevo.ai'
+      const adminEmail = process.env.ELEVO_ADMIN_EMAIL ?? 'james@elevo.dev'
       const criticalIssues = result.issues
         .filter(i => i.severity === 'critical')
         .map(i => `• ${i.description}\n  Fix: ${i.proposedFix}`)

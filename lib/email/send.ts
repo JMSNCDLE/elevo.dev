@@ -8,7 +8,7 @@ function getResend(): Resend {
   return _resend
 }
 
-const FROM_EMAIL = process.env.FROM_EMAIL ?? 'hello@elevo.ai'
+const FROM_EMAIL = process.env.FROM_EMAIL ?? 'hello@elevo.dev'
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.dev'
 
 export interface SendEmailParams {

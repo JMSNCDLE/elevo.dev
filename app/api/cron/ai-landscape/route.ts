@@ -22,7 +22,7 @@ export async function GET(request: Request) {
     })
 
     // Email James
-    const adminEmail = process.env.ELEVO_ADMIN_EMAIL ?? 'james@elevo.ai'
+    const adminEmail = process.env.ELEVO_ADMIN_EMAIL ?? 'james@elevo.dev'
     await sendEmail({
       to: adminEmail,
       subject: `ELEVO Update™ — Weekly AI Landscape Score: ${report.weeklyScore}/100`,

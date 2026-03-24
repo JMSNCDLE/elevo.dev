@@ -100,7 +100,7 @@ ${[
 
 <!-- Support -->
 <tr><td style="background:#f8fafc;padding:24px 40px;text-align:center;border-top:1px solid #e5e7eb;">
-<p style="margin:0;font-size:12px;color:#6b7280;">Questions? <a href="mailto:hello@elevo.ai" style="color:#4f46e5;">hello@elevo.ai</a></p>
+<p style="margin:0;font-size:12px;color:#6b7280;">Questions? <a href="mailto:hello@elevo.dev" style="color:#4f46e5;">hello@elevo.dev</a></p>
 </td></tr>
 
 <!-- Footer -->

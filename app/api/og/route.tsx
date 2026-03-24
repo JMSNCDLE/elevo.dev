@@ -154,7 +154,7 @@ export function GET(request: NextRequest) {
               ))}
             </div>
             <span style={{ fontSize: '16px', color: 'rgba(165,180,252,0.5)', fontWeight: 500 }}>
-              elevo.ai
+              elevo.dev
             </span>
           </div>
         </div>

@@ -1,63 +1,47 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { X, Sparkles } from 'lucide-react'
-import { cn } from '@/lib/utils'
-
-interface ConsentPreferences {
-  analytics: boolean
-  marketing: boolean
-  personalisation: boolean
-}
+import Link from 'next/link'
 
 const STORAGE_KEY = 'elevo_consent_v2'
+
+interface ConsentData {
+  essential: true
+  analytics: boolean
+  marketing: boolean
+  timestamp: number
+}
 
 export default function CookieConsent() {
   const [shown, setShown] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
-  const [preferences, setPreferences] = useState<ConsentPreferences>({
-    analytics: true,
-    marketing: true,
-    personalisation: true,
-  })
+  const [analytics, setAnalytics] = useState(true)
+  const [marketing, setMarketing] = useState(false)
 
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY)
-      if (!stored) {
+    const timer = setTimeout(() => {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY)
+        if (!stored) setShown(true)
+      } catch {
         setShown(true)
       }
-    } catch {
-      setShown(true)
-    }
+    }, 1800)
+    return () => clearTimeout(timer)
   }, [])
 
-  function saveConsent(prefs: ConsentPreferences) {
+  function saveConsent(ana: boolean, mkt: boolean) {
+    const data: ConsentData = {
+      essential: true,
+      analytics: ana,
+      marketing: mkt,
+      timestamp: Date.now(),
+    }
     try {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify({ ts: Date.now(), ...prefs })
-      )
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
     } catch {
       // localStorage not available
     }
-    setShown(false)
-    setModalOpen(false)
-  }
-
-  function handleEssentialOnly() {
-    saveConsent({ analytics: false, marketing: false, personalisation: false })
-  }
-
-  function handleAcceptAll() {
-    saveConsent({ analytics: true, marketing: true, personalisation: true })
-  }
-
-  function handleSavePreferences() {
-    saveConsent(preferences)
-  }
-
-  function handleClose() {
     setShown(false)
     setModalOpen(false)
   }
@@ -66,33 +50,34 @@ export default function CookieConsent() {
 
   return (
     <>
-      {/* Cookie bar */}
-      <div className="fixed bottom-4 left-0 right-0 z-50 px-4">
-        <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-2xl border border-gray-100 p-4">
-          <div className="flex items-center justify-between gap-4 flex-wrap">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="shrink-0 w-8 h-8 bg-indigo-50 rounded-lg flex items-center justify-center">
-                <Sparkles size={16} className="text-indigo-600" />
-              </div>
-              <p className="text-sm text-gray-600">
-                We use cookies to improve your experience and analyse site traffic.{' '}
-                <button
-                  onClick={() => setModalOpen(true)}
-                  className="text-indigo-600 underline hover:text-indigo-700 transition-colors"
-                >
-                  Manage preferences
-                </button>
-              </p>
-            </div>
-            <div className="flex items-center gap-2 shrink-0">
+      {/* Banner */}
+      {!modalOpen && (
+        <div
+          className="fixed bottom-0 left-0 right-0 z-50 bg-white/96 backdrop-blur-md border-t border-gray-200 px-4 pt-3"
+          style={{ paddingBottom: 'calc(0.75rem + env(safe-area-inset-bottom))' }}
+        >
+          <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <p className="text-sm text-gray-800 flex-1 min-w-0">
+              We use cookies to improve your experience.{' '}
+              <Link href="/en/privacy" className="underline text-indigo-600 hover:text-indigo-700">
+                Privacy Policy
+              </Link>
+            </p>
+            <div className="flex items-center gap-2 shrink-0 flex-wrap">
               <button
-                onClick={handleEssentialOnly}
-                className="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:border-gray-400 hover:text-gray-800 transition-colors whitespace-nowrap"
+                onClick={() => setModalOpen(true)}
+                className="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:border-gray-400 transition-colors whitespace-nowrap"
+              >
+                Manage preferences
+              </button>
+              <button
+                onClick={() => saveConsent(false, false)}
+                className="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:border-gray-400 transition-colors whitespace-nowrap"
               >
                 Essential only
               </button>
               <button
-                onClick={handleAcceptAll}
+                onClick={() => saveConsent(true, true)}
                 className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors whitespace-nowrap"
               >
                 Accept all
@@ -100,77 +85,83 @@ export default function CookieConsent() {
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Preferences modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 relative">
-            <button
-              onClick={() => setModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              <X size={20} />
-            </button>
-
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-9 h-9 bg-indigo-50 rounded-xl flex items-center justify-center">
-                <Sparkles size={18} className="text-indigo-600" />
-              </div>
+        <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div
+            className="bg-white w-full sm:max-w-md sm:rounded-2xl shadow-2xl p-6"
+            style={{ paddingBottom: 'calc(1.5rem + env(safe-area-inset-bottom))' }}
+          >
+            <div className="flex items-center justify-between mb-5">
               <div>
                 <h2 className="text-base font-bold text-gray-900">Cookie preferences</h2>
                 <p className="text-xs text-gray-500">Control what data we collect</p>
               </div>
+              <button
+                onClick={() => setModalOpen(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors text-lg leading-none"
+                aria-label="Close"
+              >
+                ✕
+              </button>
             </div>
 
             <div className="space-y-3 mb-6">
-              {/* Essential — always on */}
+              {/* Essential — locked */}
               <div className="flex items-start justify-between gap-4 p-3 bg-gray-50 rounded-xl">
                 <div>
                   <p className="text-sm font-semibold text-gray-800">Essential</p>
-                  <p className="text-xs text-gray-500 mt-0.5">Required for the site to function. Cannot be disabled.</p>
+                  <p className="text-xs text-gray-500 mt-0.5">Required for the site to work. Cannot be disabled.</p>
                 </div>
-                <div className="shrink-0">
-                  <div className="w-10 h-6 bg-indigo-600 rounded-full flex items-center justify-end pr-0.5 cursor-not-allowed opacity-70">
-                    <div className="w-5 h-5 bg-white rounded-full shadow" />
-                  </div>
+                <div className="shrink-0 w-10 h-6 bg-indigo-600 rounded-full flex items-center justify-end pr-0.5 cursor-not-allowed opacity-70">
+                  <div className="w-5 h-5 bg-white rounded-full shadow" />
                 </div>
               </div>
 
               {/* Analytics */}
-              <ToggleRow
-                label="Analytics"
-                description="Helps us understand how visitors use the site."
-                checked={preferences.analytics}
-                onChange={v => setPreferences(p => ({ ...p, analytics: v }))}
-              />
+              <div className="flex items-start justify-between gap-4 p-3 bg-gray-50 rounded-xl">
+                <div>
+                  <p className="text-sm font-semibold text-gray-800">Analytics</p>
+                  <p className="text-xs text-gray-500 mt-0.5">Helps us understand how visitors use the site.</p>
+                </div>
+                <button
+                  onClick={() => setAnalytics(v => !v)}
+                  className={`shrink-0 w-10 h-6 rounded-full flex items-center transition-colors duration-200 ${analytics ? 'bg-indigo-600 justify-end pr-0.5' : 'bg-gray-200 justify-start pl-0.5'}`}
+                  aria-checked={analytics}
+                  role="switch"
+                >
+                  <div className="w-5 h-5 bg-white rounded-full shadow" />
+                </button>
+              </div>
 
               {/* Marketing */}
-              <ToggleRow
-                label="Marketing"
-                description="Used to deliver personalised advertisements."
-                checked={preferences.marketing}
-                onChange={v => setPreferences(p => ({ ...p, marketing: v }))}
-              />
-
-              {/* Personalisation */}
-              <ToggleRow
-                label="Personalisation"
-                description="Remembers your preferences for a better experience."
-                checked={preferences.personalisation}
-                onChange={v => setPreferences(p => ({ ...p, personalisation: v }))}
-              />
+              <div className="flex items-start justify-between gap-4 p-3 bg-gray-50 rounded-xl">
+                <div>
+                  <p className="text-sm font-semibold text-gray-800">Marketing</p>
+                  <p className="text-xs text-gray-500 mt-0.5">Used to deliver personalised advertisements.</p>
+                </div>
+                <button
+                  onClick={() => setMarketing(v => !v)}
+                  className={`shrink-0 w-10 h-6 rounded-full flex items-center transition-colors duration-200 ${marketing ? 'bg-indigo-600 justify-end pr-0.5' : 'bg-gray-200 justify-start pl-0.5'}`}
+                  aria-checked={marketing}
+                  role="switch"
+                >
+                  <div className="w-5 h-5 bg-white rounded-full shadow" />
+                </button>
+              </div>
             </div>
 
             <div className="flex gap-2">
               <button
-                onClick={handleEssentialOnly}
+                onClick={() => saveConsent(false, false)}
                 className="flex-1 py-2.5 text-sm font-medium text-gray-600 border border-gray-200 rounded-xl hover:border-gray-300 transition-colors"
               >
                 Essential only
               </button>
               <button
-                onClick={handleSavePreferences}
+                onClick={() => saveConsent(analytics, marketing)}
                 className="flex-1 py-2.5 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-colors"
               >
                 Save preferences
@@ -180,35 +171,5 @@ export default function CookieConsent() {
         </div>
       )}
     </>
-  )
-}
-
-function ToggleRow({
-  label,
-  description,
-  checked,
-  onChange,
-}: {
-  label: string
-  description: string
-  checked: boolean
-  onChange: (v: boolean) => void
-}) {
-  return (
-    <div className="flex items-start justify-between gap-4 p-3 bg-gray-50 rounded-xl">
-      <div>
-        <p className="text-sm font-semibold text-gray-800">{label}</p>
-        <p className="text-xs text-gray-500 mt-0.5">{description}</p>
-      </div>
-      <button
-        onClick={() => onChange(!checked)}
-        className={cn(
-          'shrink-0 w-10 h-6 rounded-full flex items-center transition-colors duration-200',
-          checked ? 'bg-indigo-600 justify-end pr-0.5' : 'bg-gray-200 justify-start pl-0.5'
-        )}
-      >
-        <div className="w-5 h-5 bg-white rounded-full shadow" />
-      </button>
-    </div>
   )
 }
