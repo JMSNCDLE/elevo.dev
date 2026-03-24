@@ -18,7 +18,7 @@
     },
     {
       "path": "/api/cron/publish-scheduled",
-      "schedule": "*/15 * * * *"
+      "schedule": "0 8 * * *"
     },
     {
       "path": "/api/cron/spy-monitor",
@@ -30,7 +30,7 @@
     },
     {
       "path": "/api/cron/store-sync",
-      "schedule": "0 * * * *"
+      "schedule": "0 9 * * *"
     },
     {
       "path": "/api/cron/ai-landscape",
@@ -38,7 +38,7 @@
     },
     {
       "path": "/api/cron/health-check",
-      "schedule": "*/30 * * * *"
+      "schedule": "0 8 * * *"
     },
     {
       "path": "/api/cron/daily-summary",
