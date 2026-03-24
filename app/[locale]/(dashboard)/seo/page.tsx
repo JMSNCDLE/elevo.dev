@@ -30,7 +30,7 @@ const DEFAULT_KEYWORDS = [
 
 export default function SEOPage() {
   const supabase = createBrowserClient()
-  const [domain, setDomain] = useState('elevo.ai')
+  const [domain, setDomain] = useState('elevo.dev')
   const [keywords, setKeywords] = useState<string[]>(DEFAULT_KEYWORDS)
   const [newKeyword, setNewKeyword] = useState('')
   const [status, setStatus] = useState<Status>('idle')

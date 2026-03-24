@@ -92,7 +92,7 @@ export default function DomainPage() {
         </div>
         <div>
           <h1 className="text-xl font-bold text-dashText">Custom Domain</h1>
-          <p className="text-dashMuted text-sm">Set your custom *.elevo.ai subdomain</p>
+          <p className="text-dashMuted text-sm">Set your custom *.elevo.dev subdomain</p>
         </div>
       </div>
 
@@ -103,7 +103,7 @@ export default function DomainPage() {
           <div className="bg-dashSurface border border-dashSurface2 rounded-lg px-4 py-3 mb-4 flex items-center gap-2">
             <Check size={14} className="text-green-400" />
             <span className="text-sm text-dashMuted">Current: </span>
-            <span className="text-sm font-mono text-dashText">{currentSubdomain}.elevo.ai</span>
+            <span className="text-sm font-mono text-dashText">{currentSubdomain}.elevo.dev</span>
           </div>
         )}
 
@@ -128,7 +128,7 @@ export default function DomainPage() {
             )}
           </div>
           <div className="bg-dashSurface border border-dashSurface2 rounded-none px-3 py-2.5 text-dashMuted text-sm select-none">
-            .elevo.ai
+            .elevo.dev
           </div>
           <button
             onClick={handleSave}
@@ -143,7 +143,7 @@ export default function DomainPage() {
           <p className="text-xs text-red-400 mt-2">That subdomain is already taken.</p>
         )}
         {!checking && availability === true && subdomain && (
-          <p className="text-xs text-green-400 mt-2">{subdomain}.elevo.ai is available!</p>
+          <p className="text-xs text-green-400 mt-2">{subdomain}.elevo.dev is available!</p>
         )}
         {error && <p className="text-xs text-red-400 mt-2">{error}</p>}
 
