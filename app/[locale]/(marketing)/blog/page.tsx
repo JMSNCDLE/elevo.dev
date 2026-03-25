@@ -7,15 +7,10 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>
 }): Promise<Metadata> {
-  const { locale } = await params
-  const isEs = locale === 'es'
+  await params
   return {
-    title: isEs
-      ? 'Blog — Consejos IA para Negocios Locales | ELEVO AI'
-      : 'Blog — AI Tips for Local Businesses | ELEVO AI',
-    description: isEs
-      ? 'Artículos, guías y consejos sobre IA para restaurantes, comercios y negocios locales.'
-      : 'Articles, guides and tips on AI for restaurants, trades and local businesses.',
+    title: 'Blog — AI Tips for Local Businesses | ELEVO AI',
+    description: 'Articles, guides and tips on AI for restaurants, trades and local businesses.',
   }
 }
 
@@ -34,23 +29,19 @@ export default async function BlogPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const isEs = locale === 'es'
-
   return (
     <main className="min-h-screen bg-white">
       {/* Header */}
       <section className="bg-gradient-to-b from-indigo-50 to-white py-20 px-6 border-b border-gray-100">
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-indigo-600 font-semibold uppercase tracking-widest text-xs mb-4">
-            {isEs ? 'Recursos' : 'Resources'}
+            Resources
           </p>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
-            {isEs ? 'IA para negocios locales' : 'AI for local businesses'}
+            AI for local businesses
           </h1>
           <p className="text-gray-500 text-lg">
-            {isEs
-              ? 'Guías, casos de uso y estrategias para hacer crecer tu negocio con IA.'
-              : 'Guides, case studies, and strategies for growing your business with AI.'}
+            Guides, case studies, and strategies for growing your business with AI.
           </p>
         </div>
       </section>
@@ -84,7 +75,7 @@ export default async function BlogPage({
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-gray-400">{post.date}</span>
                   <span className="text-xs font-medium text-indigo-600 group-hover:translate-x-0.5 transition-transform">
-                    {isEs ? 'Leer →' : 'Read →'}
+                    Read →
                   </span>
                 </div>
               </Link>
@@ -94,23 +85,19 @@ export default async function BlogPage({
           {/* CTA */}
           <div className="mt-16 bg-indigo-50 rounded-2xl p-8 text-center border border-indigo-100">
             <p className="text-indigo-600 font-semibold uppercase tracking-widest text-xs mb-3">
-              {isEs ? '¿Listo para empezar?' : 'Ready to get started?'}
+              Ready to get started?
             </p>
             <h2 className="text-2xl font-bold text-gray-900 mb-3">
-              {isEs
-                ? 'Prueba ELEVO AI™ gratis — 7 días, sin tarjeta'
-                : 'Try ELEVO AI™ free — 7 days, no card required'}
+              Try ELEVO AI™ free for 7 days
             </h2>
             <p className="text-gray-500 text-sm mb-6 max-w-md mx-auto">
-              {isEs
-                ? 'Onboarding en 3 minutos. Tu primer contenido en 30 segundos.'
-                : 'Onboarding in 3 minutes. Your first content in 30 seconds.'}
+              Onboarding in 3 minutes. Your first content in 30 seconds.
             </p>
             <Link
               href={`/${locale}/signup`}
               className="inline-block px-8 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-colors"
             >
-              {isEs ? 'Empieza gratis →' : 'Start free →'}
+              Start free →
             </Link>
           </div>
         </div>

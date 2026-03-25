@@ -253,58 +253,58 @@ Review these numbers monthly. A drop in visibility usually means a competitor ha
     `,
   },
   {
-    slug: 'como-conseguir-resenas-google-restaurante',
-    title: 'Cómo conseguir más reseñas de Google para tu restaurante',
-    category: 'Reseñas',
+    slug: 'how-to-get-more-google-reviews-for-your-restaurant',
+    title: 'How to Get More Google Reviews for Your Restaurant',
+    category: 'Reviews',
     categoryColor: 'orange',
     readingTime: '5 min read',
-    date: 'Marzo 2026',
-    excerpt: 'El 87% de los clientes lee reseñas antes de elegir un restaurante. Esta es la estrategia que usan los restaurantes con más de 200 reseñas.',
+    date: 'March 2026',
+    excerpt: '87% of customers read reviews before choosing a restaurant. Here is the strategy used by restaurants with over 200 reviews.',
     content: `
-## El 87% de tus clientes potenciales te está juzgando antes de entrar
+## 87% of Your Potential Customers Are Judging You Before They Walk In
 
-Un estudio de 2025 reveló que el 87% de los consumidores lee reseñas de Google antes de elegir un restaurante. No solo las miran — toman decisiones basadas en ellas.
+A 2025 study revealed that 87% of consumers read Google reviews before choosing a restaurant. They don't just glance at them — they make decisions based on them.
 
-Un restaurante con 4.8 estrellas y 180 reseñas supera consistentemente a uno con 4.5 estrellas y 20 reseñas, incluso cuando el segundo ofrece mejor comida.
+A restaurant with 4.8 stars and 180 reviews consistently outperforms one with 4.5 stars and 20 reviews, even when the latter serves better food.
 
-La percepción es la realidad. Y las reseñas son la percepción.
+Perception is reality. And reviews are perception.
 
-## Por qué la mayoría de los restaurantes no consiguen suficientes reseñas
+## Why Most Restaurants Don't Get Enough Reviews
 
-La razón no es que los clientes no estén satisfechos. Es que nadie se lo pide de la manera correcta, en el momento correcto.
+It's not that customers aren't satisfied. It's that nobody asks them in the right way, at the right time.
 
-Los clientes satisfechos raramente dejan reseñas por iniciativa propia. Los insatisfechos, sí. Esto crea un sesgo negativo que no refleja la realidad de tu negocio.
+Satisfied customers rarely leave reviews on their own initiative. Dissatisfied ones do. This creates a negative bias that doesn't reflect the reality of your business.
 
-La solución es sistemática: pedir la reseña en el momento óptimo, de la manera óptima.
+The solution is systematic: ask for the review at the optimal moment, in the optimal way.
 
-## La estrategia de 3 pasos que usan los restaurantes con 200+ reseñas
+## The 3-Step Strategy Used by Restaurants with 200+ Reviews
 
-### Paso 1: Pide la reseña dentro de las 2 horas de la visita
+### Step 1: Ask for the Review Within 2 Hours of the Visit
 
-El momento óptimo es cuando la experiencia aún está fresca. Un mensaje de WhatsApp o SMS enviado entre 1 y 2 horas después de que el cliente haya pagado tiene una tasa de conversión del 25-35%.
+The optimal moment is when the experience is still fresh. A WhatsApp or SMS message sent between 1 and 2 hours after the customer has paid has a conversion rate of 25-35%.
 
-El mensaje debe ser:
-- Personalizado (usa su nombre si lo tienes)
-- Corto (máximo 3 líneas)
-- Con enlace directo a tu página de reseñas de Google
+The message should be:
+- Personalised (use their name if you have it)
+- Short (3 lines maximum)
+- Include a direct link to your Google review page
 
-Ejemplo: *"Hola María, gracias por visitarnos esta noche. Si tienes un momento, nos ayudaría mucho una reseña en Google: [enlace]. ¡Hasta pronto!"*
+Example: *"Hi Sarah, thanks for dining with us tonight. If you have a moment, a Google review would mean a lot to us: [link]. See you soon!"*
 
-### Paso 2: Responde a todas las reseñas en menos de 24 horas
+### Step 2: Respond to Every Review Within 24 Hours
 
-Cada respuesta que das es visible para todos los clientes potenciales que lean tus reseñas. Una respuesta bien escrita a una reseña negativa puede convertir a un cliente insatisfecho en un defensor de tu marca.
+Every response you give is visible to all potential customers reading your reviews. A well-written response to a negative review can turn a dissatisfied customer into a brand advocate.
 
-Regla de oro: Agradece siempre, menciona el plato o la ocasión específica, e invita a volver.
+Golden rule: Always say thank you, mention the specific dish or occasion, and invite them back.
 
-### Paso 3: Automatiza el proceso con ELEVO
+### Step 3: Automate the Process with ELEVO
 
-La razón por la que la mayoría de restaurantes no piden reseñas consistentemente es simple: nadie tiene tiempo de hacerlo manualmente después de cada servicio.
+The reason most restaurants don't ask for reviews consistently is simple: nobody has time to do it manually after every service.
 
-ELEVO Sage™ automatiza todo el proceso: identifica clientes recientes, genera mensajes personalizados, y los programa para enviarse en el momento óptimo. Sin esfuerzo manual.
+ELEVO Sage™ automates the entire process: identifies recent customers, generates personalised messages, and schedules them to send at the optimal time. No manual effort required.
 
-## El objetivo: 4.7+ estrellas con 100+ reseñas
+## The Goal: 4.7+ Stars with 100+ Reviews
 
-Con este sistema, los restaurantes suelen alcanzar 100 reseñas en 3-4 meses. El impacto en reservas es inmediato y medible.
+With this system, restaurants typically reach 100 reviews in 3-4 months. The impact on bookings is immediate and measurable.
     `,
   },
   {

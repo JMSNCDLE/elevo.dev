@@ -14,18 +14,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params
   const base = 'https://elevo.dev'
-  const isEs = locale === 'es'
 
   return {
     title: {
-      default: isEs
-        ? 'ELEVO AI™ — El sistema operativo IA para negocios locales'
-        : 'ELEVO AI™ — The AI Operating System for Local Businesses',
+      default: 'ELEVO AI™ — The AI Operating System for Local Businesses',
       template: '%s | ELEVO AI™',
     },
-    description: isEs
-      ? '21 agentes IA especializados que escriben tu contenido, gestionan tus anuncios, atienden a tus clientes y resuelven cualquier problema. Desde £39/mes.'
-      : '21 AI specialists that write your content, run your ads, manage your customers, and solve any business problem. In seconds. From £39/month.',
+    description: '21 AI specialists that write your content, run your ads, manage your customers, and solve any business problem. In seconds. From £39/month.',
     keywords: [
       'AI for local businesses', 'business AI', 'marketing AI', 'ROAS analysis',
       'Google Business Profile', 'local SEO AI', 'content automation', 'CRM AI',
@@ -38,12 +33,10 @@ export async function generateMetadata({
     },
     openGraph: {
       type: 'website',
-      locale: isEs ? 'es_ES' : 'en_GB',
+      locale: 'en_GB',
       url: `${base}/${locale}`,
       siteName: 'ELEVO AI™',
-      title: isEs
-        ? 'ELEVO AI™ — El sistema operativo IA para negocios locales'
-        : 'ELEVO AI™ — The AI Operating System for Local Businesses',
+      title: 'ELEVO AI™ — The AI Operating System for Local Businesses',
       description: '21 AI specialists. Content, ads, CRM, SEO, finance. From £39/month.',
       images: [{ url: `${base}/api/og?title=The+AI+Operating+System+for+Local+Businesses`, width: 1200, height: 630 }],
     },
@@ -99,7 +92,7 @@ function JsonLd() {
       '@type': 'FAQPage',
       mainEntity: [
         { '@type': 'Question', name: 'What is ELEVO AI™?', acceptedAnswer: { '@type': 'Answer', text: 'ELEVO AI™ is the AI operating system for local businesses. 21 specialist AI agents handle your content, ads, SEO, CRM, finances, and more.' } },
-        { '@type': 'Question', name: 'How much does ELEVO AI cost?', acceptedAnswer: { '@type': 'Answer', text: 'Plans start at £39/month. 7-day free trial, no card required.' } },
+        { '@type': 'Question', name: 'How much does ELEVO AI cost?', acceptedAnswer: { '@type': 'Answer', text: 'Plans start at £39/month with a 7-day free trial.' } },
         { '@type': 'Question', name: 'Does ELEVO AI replace a marketing agency?', acceptedAnswer: { '@type': 'Answer', text: 'For most local businesses, yes. ELEVO AI generates more content, more consistently, at a fraction of the agency cost.' } },
         { '@type': 'Question', name: 'Is ELEVO AI GDPR compliant?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. GDPR-compliant, bank-grade encryption, data never used for AI training.' } },
       ],

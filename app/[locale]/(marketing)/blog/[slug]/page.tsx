@@ -60,8 +60,6 @@ export default async function BlogPostPage({ params }: Props) {
 
   if (!post) notFound()
 
-  const isEs = locale === 'es'
-
   const articleSchema = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -88,7 +86,7 @@ export default async function BlogPostPage({ params }: Props) {
                 href={`/${locale}/blog`}
                 className="text-sm text-gray-400 hover:text-indigo-600 transition-colors"
               >
-                ← {isEs ? 'Blog' : 'Blog'}
+                ← Blog
               </Link>
               <span className="text-gray-200">·</span>
               <span
@@ -121,25 +119,23 @@ export default async function BlogPostPage({ params }: Props) {
           {/* CTA */}
           <div className="mt-16 bg-indigo-50 rounded-2xl p-8 text-center border border-indigo-100">
             <h3 className="text-xl font-bold text-gray-900 mb-2">
-              {isEs ? '¿Listo para probarlo?' : 'Ready to try ELEVO AI™?'}
+              Ready to try ELEVO AI™?
             </h3>
             <p className="text-gray-500 mb-5 text-sm">
-              {isEs
-                ? '7 días gratis. Sin tarjeta de crédito.'
-                : 'Free for 7 days. No credit card required.'}
+              Free for 7 days. Start your trial today.
             </p>
             <Link
               href={`/${locale}/signup`}
               className="inline-block px-8 py-3 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition-colors"
             >
-              {isEs ? 'Empezar gratis →' : 'Start free →'}
+              Start free →
             </Link>
           </div>
 
           {/* Back */}
           <div className="mt-10 text-center">
             <Link href={`/${locale}/blog`} className="text-indigo-600 hover:underline text-sm">
-              ← {isEs ? 'Volver al blog' : 'Back to blog'}
+              ← Back to blog
             </Link>
           </div>
         </div>
