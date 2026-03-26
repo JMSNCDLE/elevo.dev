@@ -10,7 +10,7 @@ import {
   ShoppingCart, Store,
   Target, Mail, Settings as SettingsIcon,
   Users2, BarChart2, DollarSign, TrendingDown, Rocket,
-  ChevronRight, Library, Star, Paintbrush, ClipboardList, FlaskConical, Plug, Bell, Megaphone, Activity, ShoppingBag, Monitor, Camera, Phone,
+  ChevronRight, Library, Star, Paintbrush, ClipboardList, FlaskConical, Plug, Bell, Megaphone, Activity, ShoppingBag, Monitor, Camera, Phone, Server, UserPlus,
 } from 'lucide-react'
 import { useAgentSearch } from '@/hooks/useAgentSearch'
 import AgentSearch from './AgentSearch'
@@ -91,6 +91,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
         { href: `/${locale}/ceo`, label: 'ELEVO CEO™', icon: Crown, galaxyOnly: true },
         { href: `/${locale}/spy`, label: 'ELEVO Spy™', icon: Shield, orbitOnly: true },
         { href: `/${locale}/competitive-intel`, label: 'Competitive Intel', icon: Shield, galaxyOnly: true, badge: 'GALAXY' },
+        { href: `/${locale}/tools/hosting-automations`, label: 'Hosting Automations', icon: Server, galaxyOnly: true, badge: 'GALAXY' },
         { href: `/${locale}/seo`, label: 'ELEVO Rank™', icon: Search },
       ],
     },
@@ -145,6 +146,8 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
         { href: `/${locale}/tools/cold-email`, label: 'Cold Email Machine', icon: Mail, orbitOnly: true },
         { href: `/${locale}/tools/cold-call`, label: 'Cold Call Script', icon: Phone, orbitOnly: true },
         { href: `/${locale}/tools/proposal-builder`, label: 'Proposal Builder', icon: FileText, orbitOnly: true },
+        { href: `/${locale}/tools/onboarding-kit`, label: 'Onboarding Kit', icon: UserPlus, orbitOnly: true },
+        { href: `/${locale}/tools/cost-reducer`, label: 'Cost Reducer', icon: TrendingDown, orbitOnly: true },
         { href: `/${locale}/roas`, label: 'ROAS Analysis', icon: DollarSign },
         { href: `/${locale}/finances`, label: 'Finances', icon: TrendingDown },
         { href: `/${locale}/dashboard/advisor`, label: 'Market Intel', icon: Search },
