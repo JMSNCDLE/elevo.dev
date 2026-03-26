@@ -130,6 +130,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
     {
       title: 'Growth',
       items: [
+        { href: `/${locale}/sales-strategist`, label: 'Sales Strategist', icon: Target, orbitOnly: true },
         { href: `/${locale}/roas`, label: 'ROAS Analysis', icon: DollarSign },
         { href: `/${locale}/finances`, label: 'Finances', icon: TrendingDown },
         { href: `/${locale}/dashboard/advisor`, label: 'Market Intel', icon: Search },
