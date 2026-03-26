@@ -128,7 +128,7 @@ const FOOTER_COLS = [
   {
     title: 'Company',
     links: [
-      { label: 'About', href: '#' },
+      { label: 'About', href: '/' },
       { label: 'Partners', href: '/partners' },
       { label: 'Affiliates', href: '/signup' },
     ],
