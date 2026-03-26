@@ -151,7 +151,7 @@ export default function ExitIntentPopup() {
             </div>
 
             <p className="text-sm text-gray-500 mb-5">
-              No card. No commitment. We&apos;ll analyse your Google Business profile, social presence, and local SEO — free.
+              We&apos;ll analyse your Google Business profile, social presence, and local SEO — completely free.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-3">

@@ -6,7 +6,7 @@ export const runtime = 'edge'
 export function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const title = searchParams.get('title') ?? 'The AI Operating System for Local Businesses'
-  const subtitle = searchParams.get('subtitle') ?? '21 AI specialists. Content, ads, SEO, CRM, finance. From £39/month.'
+  const subtitle = searchParams.get('subtitle') ?? '21 AI specialists. Content, ads, SEO, CRM, finance. From €39/month.'
 
   return new ImageResponse(
     (

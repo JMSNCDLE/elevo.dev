@@ -52,7 +52,7 @@ export default function StagePrompt({ profile, currentFeatureRequires }: Props) 
   if (currentFeatureRequires === 'orbit' && (stage.stage === 'trial' || stage.stage === 'trial_active' || stage.stage === 'launch')) {
     return (
       <div className="mx-6 mt-4 flex items-center justify-between gap-4 px-4 py-3 bg-indigo-900/30 border border-indigo-500/30 rounded-xl">
-        <p className="text-indigo-300 text-sm font-medium">This feature needs Orbit — upgrade for £79/month</p>
+        <p className="text-indigo-300 text-sm font-medium">This feature needs Orbit — upgrade for €79/month</p>
         <Link
           href="/en/pricing"
           className="shrink-0 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-lg transition-colors"
@@ -66,7 +66,7 @@ export default function StagePrompt({ profile, currentFeatureRequires }: Props) 
   if (currentFeatureRequires === 'galaxy' && stage.stage !== 'galaxy') {
     return (
       <div className="mx-6 mt-4 flex items-center justify-between gap-4 px-4 py-3 bg-purple-900/30 border border-purple-500/30 rounded-xl">
-        <p className="text-purple-300 text-sm font-medium">This feature needs Galaxy — upgrade for £149/month</p>
+        <p className="text-purple-300 text-sm font-medium">This feature needs Galaxy — upgrade for €149/month</p>
         <Link
           href="/en/pricing"
           className="shrink-0 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold rounded-lg transition-colors"

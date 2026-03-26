@@ -4,14 +4,14 @@ import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Check, Minus, ChevronDown, ChevronUp, Star, Zap } from 'lucide-react';
+import { useCurrency } from '@/hooks/useCurrency';
+import { PLAN_PRICES, CURRENCY_SYMBOLS } from '@/lib/currency';
 
 interface Plan {
   id: string;
   name: string;
   badge?: string;
   description: string;
-  monthlyPrice: number;
-  annualPrice: number;
   credits: string;
   highlighted: boolean;
   features: string[];
@@ -35,8 +35,6 @@ const PLANS: Plan[] = [
     id: 'launch',
     name: 'Launch',
     description: 'For businesses just getting started',
-    monthlyPrice: 39,
-    annualPrice: 32,
     credits: '100 credits/month',
     highlighted: false,
     ctaVariant: 'outline',
@@ -53,8 +51,6 @@ const PLANS: Plan[] = [
     name: 'Orbit',
     badge: 'Most popular',
     description: 'For growing businesses ready to scale',
-    monthlyPrice: 79,
-    annualPrice: 65,
     credits: '300 credits/month',
     highlighted: true,
     ctaVariant: 'filled',
@@ -73,8 +69,6 @@ const PLANS: Plan[] = [
     id: 'galaxy',
     name: 'Galaxy',
     description: 'For agencies and power users',
-    monthlyPrice: 149,
-    annualPrice: 124,
     credits: '999 credits/month',
     highlighted: false,
     ctaVariant: 'outline',
@@ -120,9 +114,9 @@ const FEATURE_ROWS: FeatureRow[] = [
 
 const FAQS: FaqItem[] = [
   {
-    question: 'Is there really no card required for the trial?',
+    question: 'How does the 7-day free trial work?',
     answer:
-      "Correct. 7 days free, no payment details needed. Add a card when you're ready to upgrade.",
+      'Start your trial with any plan. You get full access for 7 days. Cancel before the trial ends and you won\'t be charged.',
   },
   {
     question: 'Can I cancel anytime?',
@@ -172,12 +166,19 @@ function FeatureCell({ value }: { value: boolean | string }) {
 export default function PricingPage() {
   const params = useParams();
   const locale = (params?.locale as string) ?? 'en';
+  const currency = useCurrency();
+  const symbol = CURRENCY_SYMBOLS[currency];
 
   const [annual, setAnnual] = useState<boolean>(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [tableExpanded, setTableExpanded] = useState<boolean>(false);
 
   const signupHref = `/${locale}/signup`;
+
+  function getPrice(planId: string): number {
+    const p = PLAN_PRICES[planId]?.[currency];
+    return p ? (annual ? p.annual : p.monthly) : 0;
+  }
   const visibleRows = tableExpanded ? FEATURE_ROWS : FEATURE_ROWS.slice(0, 10);
 
   return (
@@ -189,7 +190,7 @@ export default function PricingPage() {
             Simple, honest pricing.
           </h1>
           <p className="mt-4 text-lg text-gray-500">
-            Start free for 7 days. No card required. Cancel anytime.
+            7-day free trial on every plan. Cancel anytime.
           </p>
 
           {/* Monthly / Annual toggle */}
@@ -262,13 +263,13 @@ export default function PricingPage() {
                 {/* Price */}
                 <div className="mt-5 flex items-end gap-1">
                   <span className="text-4xl font-extrabold text-gray-900">
-                    £{annual ? plan.annualPrice : plan.monthlyPrice}
+                    {symbol}{getPrice(plan.id)}
                   </span>
                   <span className="mb-1 text-sm text-gray-400">/month</span>
                 </div>
                 {annual && (
                   <p className="mt-1 text-xs text-gray-400">
-                    Billed annually (£{plan.annualPrice * 12}/yr)
+                    Billed annually ({symbol}{getPrice(plan.id) * 12}/yr)
                   </p>
                 )}
 
@@ -450,7 +451,7 @@ export default function PricingPage() {
             href={signupHref}
             className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
-            Start free trial — no card needed
+            Start your 7-day free trial
           </Link>
           <p className="mt-4 text-xs text-gray-400">
             7-day free trial · Cancel anytime · ELEVO AI™

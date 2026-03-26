@@ -666,7 +666,7 @@ export default function StitchPage() {
   <div class="max-w-3xl mx-auto">
     <h1 class="text-7xl font-black text-white tracking-tighter mb-6 leading-none">Do more.<br/>Earn more.</h1>
     <p class="text-xl text-white/80 mb-10">The AI platform that works while you sleep. Join 400+ businesses already growing faster.</p>
-    <a href="#" class="inline-flex items-center gap-2 bg-white text-indigo-600 px-8 py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl transition-all hover:-translate-y-0.5">Start free — no card needed →</a>
+    <a href="#" class="inline-flex items-center gap-2 bg-white text-indigo-600 px-8 py-4 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl transition-all hover:-translate-y-0.5">Start your 7-day free trial →</a>
     <p class="text-white/60 text-sm mt-4">7-day free trial · Cancel anytime</p>
   </div>
 </section>`,
@@ -744,7 +744,7 @@ export default function StitchPage() {
     <h2 class="text-5xl font-black text-white mb-6">Ready to grow?</h2>
     <p class="text-xl text-gray-400 mb-8">Join hundreds of businesses already using ELEVO to work smarter, not harder.</p>
     <a href="#" class="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 transition-colors">Start your free trial →</a>
-    <p class="text-gray-500 text-sm mt-4">No credit card required · Cancel anytime</p>
+    <p class="text-gray-500 text-sm mt-4">7-day free trial · Cancel anytime</p>
   </div>
 </section>`,
                 },
@@ -754,7 +754,7 @@ export default function StitchPage() {
                   html: `<section class="bg-gray-50 py-20 px-6">
   <div class="max-w-2xl mx-auto text-center border border-gray-200 bg-white rounded-3xl p-12 shadow-sm">
     <h2 class="text-4xl font-black text-gray-900 mb-4">The last tool you'll ever need.</h2>
-    <p class="text-gray-600 mb-8">Start your 7-day free trial. No credit card. No commitment. Just results.</p>
+    <p class="text-gray-600 mb-8">Start your 7-day free trial. Cancel anytime. Just results.</p>
     <a href="#" class="bg-gray-900 text-white px-8 py-4 rounded-xl font-bold text-lg inline-block hover:bg-gray-800 transition-colors">Start free today</a>
   </div>
 </section>`,

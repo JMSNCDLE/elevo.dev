@@ -21,7 +21,7 @@ export default async function RefundsPage({ params }: { params: Promise<{ locale
             <div>
               <h2 className="text-xl font-bold text-gray-900 mb-4">7-day free trial</h2>
               <p className="text-gray-600 text-base leading-relaxed">
-                Every plan starts with a 7-day free trial. No credit card is required to start. You can explore the full feature set of your chosen plan before paying anything. If you decide ELEVO is not right for you during the trial, simply cancel — you will never be charged.
+                Every plan starts with a 7-day free trial. You can explore the full feature set of your chosen plan during the trial period. If you decide ELEVO is not right for you, simply cancel before the trial ends — you will not be charged.
               </p>
             </div>
 

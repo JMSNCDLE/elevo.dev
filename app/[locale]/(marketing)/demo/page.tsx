@@ -500,7 +500,7 @@ export default function DemoPage() {
             Ready to grow your business like Mario&apos;s?
           </p>
           <p className="text-gray-500 text-sm mb-6">
-            Start your 14-day free trial. No credit card required. Cancel any time.
+            Start your 7-day free trial. Cancel any time.
           </p>
           <div className="flex items-center justify-center gap-3 flex-wrap">
             <Link
@@ -518,8 +518,7 @@ export default function DemoPage() {
             </Link>
           </div>
           <p className="text-xs text-gray-400 mt-4 flex items-center justify-center gap-4">
-            <span className="flex items-center gap-1"><CheckCircle size={11} className="text-green-500" /> No credit card</span>
-            <span className="flex items-center gap-1"><CheckCircle size={11} className="text-green-500" /> 14-day free trial</span>
+            <span className="flex items-center gap-1"><CheckCircle size={11} className="text-green-500" /> 7-day free trial</span>
             <span className="flex items-center gap-1"><Star size={11} className="text-yellow-400" /> 4.9/5 rating</span>
           </p>
         </div>

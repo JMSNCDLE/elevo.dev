@@ -12,9 +12,9 @@ interface AgentDetailModalProps {
 
 const PLAN_LABELS: Record<string, string> = {
   trial: 'Free Trial',
-  launch: 'Launch (£39/mo)',
-  orbit: 'Orbit (£79/mo)',
-  galaxy: 'Galaxy (£149/mo)',
+  launch: 'Launch (€39/mo)',
+  orbit: 'Orbit (€79/mo)',
+  galaxy: 'Galaxy (€149/mo)',
   admin: 'Admin',
 }
 

@@ -30,8 +30,8 @@ export const PLANS: PlanConfig[] = [
     id: 'launch',
     name: 'Launch',
     badge: null,
-    prices: { gbp: 39, usd: 49, eur: 45 },
-    annualPrices: { gbp: 390, usd: 490, eur: 450 },
+    prices: { gbp: 34, usd: 39, eur: 39 },
+    annualPrices: { gbp: 336, usd: 384, eur: 384 },
     credits: 100,
     features: [
       'Google Business Profile posts',
@@ -54,8 +54,8 @@ export const PLANS: PlanConfig[] = [
     name: 'Orbit',
     badge: 'Most Popular',
     highlight: true,
-    prices: { gbp: 79, usd: 99, eur: 89 },
-    annualPrices: { gbp: 790, usd: 990, eur: 890 },
+    prices: { gbp: 69, usd: 79, eur: 79 },
+    annualPrices: { gbp: 684, usd: 780, eur: 780 },
     credits: 300,
     features: [
       'Everything in Launch',
@@ -80,8 +80,8 @@ export const PLANS: PlanConfig[] = [
     id: 'galaxy',
     name: 'Galaxy',
     badge: 'Best Value',
-    prices: { gbp: 149, usd: 199, eur: 169 },
-    annualPrices: { gbp: 1490, usd: 1990, eur: 1690 },
+    prices: { gbp: 129, usd: 149, eur: 149 },
+    annualPrices: { gbp: 1284, usd: 1488, eur: 1488 },
     credits: 999,
     features: [
       'Everything in Orbit',

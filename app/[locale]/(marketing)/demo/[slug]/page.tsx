@@ -235,7 +235,7 @@ export default async function DemoPage({ params }: Props) {
           </div>
 
           <p className="text-indigo-300 text-xs">
-            No credit card required · Free for 7 days
+            7-day free trial · Cancel anytime
           </p>
         </div>
       </section>

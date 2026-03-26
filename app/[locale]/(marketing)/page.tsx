@@ -38,7 +38,7 @@ export default async function HomePage({ params }: PageProps) {
               href="/en/signup"
               className="inline-flex items-center justify-center bg-white text-gray-900 font-semibold px-8 py-3 rounded-full hover:bg-white/90 transition-colors"
             >
-              Start free — no card required →
+              Start your 7-day free trial →
             </Link>
             <Link
               href="#features"
@@ -344,8 +344,8 @@ export default async function HomePage({ params }: PageProps) {
                   ['ROAS analysis', '✓', '✗', '✗', '✗'],
                   ['Stripe billing built-in', '✓', '✗', '✗', '✗'],
                   ['Multi-language (12)', '✓', '✗', '✗', '✗'],
-                  ['Free trial (no card)', '✓', '✓', '✓', '✗'],
-                  ['Starting price', '£39/mo', '£99/mo', '£39/mo', '£720/mo'],
+                  ['7-day free trial', '✓', '✓', '✓', '✗'],
+                  ['Starting price', '€39/mo', '€99/mo', '€39/mo', '€720/mo'],
                 ].map(([feature, elevo, hs, jasper, hub], i) => (
                   <tr key={i} className="border-b border-gray-100">
                     <td className="py-3 pr-6 text-gray-700 font-medium">{feature}</td>
@@ -368,13 +368,13 @@ export default async function HomePage({ params }: PageProps) {
             <h2 className="text-4xl sm:text-5xl font-black text-gray-900 tracking-tight">
               Simple pricing. No surprises.
             </h2>
-            <p className="text-gray-500 mt-4">7-day free trial on every plan. No card required.</p>
+            <p className="text-gray-500 mt-4">7-day free trial on every plan. Cancel anytime.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
               {
                 name: 'Launch',
-                price: '£39',
+                price: '€39',
                 period: '/mo',
                 desc: 'Perfect for solo operators',
                 features: ['GBP Posts + Blog Writer', 'Social Captions + Reviews', 'Email + SEO Copy', '500 credits/mo', 'Content library'],
@@ -383,7 +383,7 @@ export default async function HomePage({ params }: PageProps) {
               },
               {
                 name: 'Orbit',
-                price: '£79',
+                price: '€79',
                 period: '/mo',
                 desc: 'For growing businesses',
                 badge: '★ Most Popular',
@@ -393,7 +393,7 @@ export default async function HomePage({ params }: PageProps) {
               },
               {
                 name: 'Galaxy',
-                price: '£149',
+                price: '€149',
                 period: '/mo',
                 desc: 'Full AI operating system',
                 features: ['Everything in Orbit', 'ELEVO CEO™', 'ELEVO Drop™ (e-commerce)', 'Store Analytics', '5,000 credits/mo'],
@@ -434,7 +434,7 @@ export default async function HomePage({ params }: PageProps) {
             ))}
           </div>
           <p className="text-center text-gray-400 text-sm mt-8">
-            7-day free trial · No card required · Cancel anytime
+            7-day free trial · Cancel anytime
           </p>
         </div>
       </section>
@@ -502,7 +502,7 @@ export default async function HomePage({ params }: PageProps) {
           >
             Start free trial →
           </Link>
-          <p className="text-white/30 text-xs mt-4">No credit card · 7-day free trial · Cancel anytime</p>
+          <p className="text-white/30 text-xs mt-4">7-day free trial · Cancel anytime</p>
         </div>
       </section>
 

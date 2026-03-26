@@ -90,7 +90,7 @@ export default function SignupPage() {
             <span className="font-bold text-gray-900">ELEVO AI</span>
           </div>
           <h1 className="text-2xl font-bold text-gray-900">Start your free trial</h1>
-          <p className="text-gray-500 mt-1">7 days free · No card required · Cancel anytime</p>
+          <p className="text-gray-500 mt-1">7-day free trial · Cancel anytime</p>
         </div>
 
         <form onSubmit={handleSignup} className="space-y-4">
