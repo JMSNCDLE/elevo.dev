@@ -881,3 +881,16 @@ ALTER TABLE test_results ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "admin_only_test_results" ON test_results FOR ALL USING (
   auth.uid() = '5dc15dea-4633-441b-b37a-5406e7235114'::uuid
 );
+
+-- Phase 26G: App integrations
+CREATE TABLE IF NOT EXISTS user_integrations (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+  integration_name TEXT NOT NULL,
+  status TEXT DEFAULT 'disconnected' CHECK (status IN ('connected', 'disconnected', 'pending')),
+  config JSONB DEFAULT '{}',
+  connected_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE user_integrations ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_user_integrations" ON user_integrations FOR ALL USING (auth.uid() = user_id);
