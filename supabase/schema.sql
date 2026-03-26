@@ -963,6 +963,21 @@ CREATE POLICY "anyone_can_insert_vitals" ON web_vitals FOR INSERT WITH CHECK (tr
 ALTER TABLE profiles ADD COLUMN IF NOT EXISTS business_type TEXT DEFAULT 'local_business';
 ALTER TABLE profiles ADD COLUMN IF NOT EXISTS business_goal TEXT;
 
+-- Phase 28B: SEO audit log
+CREATE TABLE IF NOT EXISTS seo_audits (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  page_url TEXT NOT NULL,
+  current_meta TEXT,
+  suggested_meta TEXT,
+  keywords TEXT[],
+  action_taken TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE seo_audits ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "admin_only_seo_audits" ON seo_audits FOR ALL USING (
+  auth.uid() = '5dc15dea-4633-441b-b37a-5406e7235114'::uuid
+);
+
 -- Phase 28A: ELEVO Marketplace
 CREATE TABLE IF NOT EXISTS marketplace_jobs (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,

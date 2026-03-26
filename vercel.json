@@ -19,6 +19,14 @@
     {
       "path": "/api/cron/trial-reminders",
       "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/welcome-followup",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/seo-optimize",
+      "schedule": "0 6 * * *"
     }
   ]
 }

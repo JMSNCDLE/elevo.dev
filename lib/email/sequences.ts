@@ -10,24 +10,55 @@ export interface EmailSequence {
 export const EMAIL_SEQUENCES = {
   // Sequence 1 — Welcome (sent immediately on signup)
   welcome: {
-    subject: 'Welcome to ELEVO — your AI team is ready',
-    preview: 'One setup step and your first content is live in 60 seconds.',
-    body: `Hi {{firstName}},
+    subject: "Welcome to the team — we couldn't be happier to have you!",
+    preview: 'Your AI agents are ready and waiting. Let us show you around.',
+    body: `Hey {{firstName}}!
 
-You just made a smart decision.
+Welcome to ELEVO AI — you're officially part of the team! We couldn't be more excited to have you here.
 
-ELEVO is now working in the background for {{businessName}}. Your 21 AI agents are loaded with your business details and ready to go.
+We built ELEVO because we believe every business deserves an AI-powered team that works 24/7 — not just the big companies with massive budgets. And now, that team is yours.
 
-Your first task (takes 2 minutes):
+Your AI agents are ready right now. Here's what they can do for you:
 
-→ Generate your first Google Business Profile post
-It will include your city, your services, and a real CTA. It will be ready to copy and paste in under 60 seconds.
+- Write content that actually sounds like you (blog posts, social, emails)
+- Plan and execute your marketing strategy
+- Manage your customers and follow up automatically
+- Analyse your competitors and find opportunities
+- Track your performance and suggest improvements
 
-[Generate My First Post →] {{appUrl}}/dashboard/content/gbp-posts
+The best part? They never sleep, never take a day off, and never miss a deadline.
 
-Questions? Just reply to this email.
+Here's a great place to start:
+[Launch your dashboard →] {{appUrl}}/dashboard
 
-The ELEVO team`,
+If you ever need anything — and we mean anything — just reply to this email. A real person reads every message.
+
+Welcome aboard,
+The ELEVO AI Team`,
+  },
+
+  // Sequence 1.5 — 24-hour follow-up with personalised agent tips
+  welcomeFollowup: {
+    subject: 'Quick tip to get the most out of ELEVO',
+    preview: 'Three agents that will make the biggest difference for your business.',
+    body: `Hey {{firstName}},
+
+Hope you're settling in! Here's a quick tip to get the most out of ELEVO.
+
+Based on your business type, here are the 3 agents you should try first:
+
+{{agentTip1}}
+{{agentTip2}}
+{{agentTip3}}
+
+Each one takes less than 30 seconds to use. Just click, type what you need, and let the AI handle the rest.
+
+[Start your first task now →] {{appUrl}}/dashboard
+
+Got questions? Hit reply — we're always here.
+
+Cheers,
+The ELEVO AI Team`,
   },
 
   // Sequence 2 — Day 2: First value proof
