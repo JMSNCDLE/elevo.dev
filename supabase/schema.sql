@@ -894,3 +894,19 @@ CREATE TABLE IF NOT EXISTS user_integrations (
 );
 ALTER TABLE user_integrations ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "own_user_integrations" ON user_integrations FOR ALL USING (auth.uid() = user_id);
+
+-- Phase 27A: Platform updates / changelog
+CREATE TABLE IF NOT EXISTS platform_updates (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  title TEXT NOT NULL,
+  description TEXT NOT NULL,
+  category TEXT DEFAULT 'improvement' CHECK (category IN ('feature', 'improvement', 'fix', 'announcement')),
+  version TEXT,
+  published_at TIMESTAMPTZ DEFAULT NOW(),
+  is_published BOOLEAN DEFAULT true
+);
+ALTER TABLE platform_updates ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "public_read_updates" ON platform_updates FOR SELECT USING (is_published = true);
+CREATE POLICY "admin_write_updates" ON platform_updates FOR ALL USING (
+  auth.uid() = '5dc15dea-4633-441b-b37a-5406e7235114'::uuid
+);

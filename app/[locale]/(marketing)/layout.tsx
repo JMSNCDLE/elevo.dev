@@ -121,7 +121,7 @@ const FOOTER_COLS = [
       { label: 'Features', href: '#features' },
       { label: 'Pricing', href: '/pricing' },
       { label: 'Blog', href: '/blog' },
-      { label: 'Changelog', href: '/changelog' },
+      { label: 'Updates', href: '/changelog' },
       { label: 'Status', href: '/status' },
     ],
   },
@@ -129,8 +129,6 @@ const FOOTER_COLS = [
     title: 'Company',
     links: [
       { label: 'About', href: '#' },
-      { label: 'Careers', href: '/careers' },
-      { label: 'Press', href: '/press' },
       { label: 'Partners', href: '/partners' },
       { label: 'Affiliates', href: '/signup' },
     ],
@@ -187,24 +185,11 @@ export default async function MarketingLayout({
               <p className="text-xs text-gray-600 mb-4">
                 🔒 SSL encrypted &nbsp;·&nbsp; GDPR compliant &nbsp;·&nbsp; Payments by Stripe
               </p>
-              {/* Social icons */}
-              <div className="flex gap-3">
-                {[
-                  { label: 'TikTok', icon: '🎵' },
-                  { label: 'Instagram', icon: '📷' },
-                  { label: 'LinkedIn', icon: '💼' },
-                  { label: 'YouTube', icon: '▶️' },
-                  { label: 'Twitter', icon: '🐦' },
-                ].map(s => (
-                  <a
-                    key={s.label}
-                    href="#"
-                    aria-label={s.label}
-                    className="w-9 h-9 bg-white/5 hover:bg-indigo-600/20 rounded-lg flex items-center justify-center text-sm transition-colors"
-                  >
-                    {s.icon}
-                  </a>
-                ))}
+              {/* Social links */}
+              <div className="flex gap-4 text-xs text-gray-500">
+                <span>TikTok</span>
+                <span>Instagram</span>
+                <span>LinkedIn</span>
               </div>
             </div>
 
