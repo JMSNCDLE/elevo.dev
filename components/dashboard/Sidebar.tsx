@@ -132,6 +132,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       items: [
         { href: `/${locale}/sales-strategist`, label: 'Sales Strategist', icon: Target, orbitOnly: true },
         { href: `/${locale}/marketing-planner`, label: 'Marketing Planner', icon: Megaphone, orbitOnly: true },
+        { href: `/${locale}/execution-coach`, label: 'Execution Coach', icon: Rocket, orbitOnly: true },
         { href: `/${locale}/roas`, label: 'ROAS Analysis', icon: DollarSign },
         { href: `/${locale}/finances`, label: 'Finances', icon: TrendingDown },
         { href: `/${locale}/dashboard/advisor`, label: 'Market Intel', icon: Search },
