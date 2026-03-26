@@ -248,11 +248,14 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
           <p className="text-xs font-semibold text-dashMuted uppercase tracking-wider px-2 mb-1.5">Admin</p>
           <ul className="space-y-0.5">
             {[
-              { href: `/${locale}/admin`, label: 'Admin Panel', icon: Shield },
-              { href: `/${locale}/admin/pa`, label: 'ELEVO PA™', icon: Shield },
-              { href: `/${locale}/admin/testing`, label: 'QA Testing', icon: FlaskConical },
+              { href: `/${locale}/admin`, label: 'Overview', icon: LayoutDashboard },
+              { href: `/${locale}/admin/users`, label: 'Users', icon: Users2 },
+              { href: `/${locale}/admin/revenue`, label: 'Revenue', icon: DollarSign },
               { href: `/${locale}/admin/emails`, label: 'Emails', icon: Mail },
-              { href: `/${locale}/admin/elevo-marketing`, label: 'ELEVO Marketing', icon: Zap },
+              { href: `/${locale}/admin/agents`, label: 'Agents', icon: Bot },
+              { href: `/${locale}/admin/testing`, label: 'QA Testing', icon: FlaskConical },
+              { href: `/${locale}/admin/health`, label: 'System Health', icon: Shield },
+              { href: `/${locale}/admin/pa`, label: 'ELEVO PA™', icon: ClipboardList },
             ].map(item => {
               const active = isActive(item.href)
               return (
