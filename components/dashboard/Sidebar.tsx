@@ -10,7 +10,7 @@ import {
   ShoppingCart, Store,
   Target, Mail, Settings as SettingsIcon,
   Users2, BarChart2, DollarSign, TrendingDown, Rocket,
-  ChevronRight, Library, Star, Paintbrush, ClipboardList, FlaskConical, Plug, Bell, Megaphone,
+  ChevronRight, Library, Star, Paintbrush, ClipboardList, FlaskConical, Plug, Bell, Megaphone, Activity,
 } from 'lucide-react'
 import { useAgentSearch } from '@/hooks/useAgentSearch'
 import AgentSearch from './AgentSearch'
@@ -125,6 +125,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
         { href: `/${locale}/conversations`, label: 'Conversations', icon: MessageSquare, orbitOnly: true },
         { href: `/${locale}/dashboard/customers/review-requests`, label: 'Reviews', icon: Star },
         { href: `/${locale}/analytics`, label: 'Analytics', icon: BarChart2 },
+        { href: `/${locale}/web-vitals`, label: 'Web Vitals', icon: Activity },
       ],
     },
     {

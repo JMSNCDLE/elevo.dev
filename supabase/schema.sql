@@ -943,3 +943,18 @@ ALTER TABLE owner_notifications ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "admin_only_notifications" ON owner_notifications FOR ALL USING (
   auth.uid() = '5dc15dea-4633-441b-b37a-5406e7235114'::uuid
 );
+
+-- Phase 27J: Core Web Vitals
+CREATE TABLE IF NOT EXISTS web_vitals (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID,
+  url TEXT NOT NULL,
+  metric_name TEXT NOT NULL CHECK (metric_name IN ('LCP', 'CLS', 'TTFB', 'INP')),
+  metric_value FLOAT NOT NULL,
+  rating TEXT CHECK (rating IN ('good', 'needs-improvement', 'poor')),
+  device_type TEXT DEFAULT 'desktop',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE web_vitals ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "users_see_own_vitals" ON web_vitals FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "anyone_can_insert_vitals" ON web_vitals FOR INSERT WITH CHECK (true);
