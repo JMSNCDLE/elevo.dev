@@ -211,7 +211,7 @@ export default async function HomePage({ params }: PageProps) {
                 Post everywhere.<br />Without lifting a finger.
               </h2>
               <p className="text-white/60 text-lg mb-8 leading-relaxed">
-                ELEVO SMM™ generates and schedules your social content across Instagram, Facebook, Google, TikTok, and LinkedIn — automatically.
+                ELEVO SMM™ generates and schedules your social media content across Instagram, Facebook, Google, TikTok, and LinkedIn — automatically.
               </p>
               <ul className="space-y-3">
                 {[
@@ -450,7 +450,7 @@ export default async function HomePage({ params }: PageProps) {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
               {
-                quote: "ELEVO completely transformed how I run my salon. The social content alone saves me 5 hours a week. My Google reviews have nearly doubled.",
+                quote: "ELEVO completely transformed how I run my salon. The social media content alone saves me 5 hours a week. My Google reviews have nearly doubled.",
                 name: 'Sam T.',
                 role: 'Hair Salon, Manchester',
                 stars: 5,

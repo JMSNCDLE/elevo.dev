@@ -37,11 +37,11 @@ Violations may result in immediate account suspension without refund.`,
     },
     {
       title: '7. Refund policy',
-      content: `We offer a 48-hour money-back guarantee on your first payment. To claim a refund, email hello@elevo.dev within 48 hours of your first charge. After 48 hours from your first payment, we are unable to issue refunds. See our full Refund Policy page for details.`,
+      content: `All sales are final. No refunds are issued after payment has been processed. You may cancel your subscription at any time, and cancellation will take effect at the end of the current billing period.`,
     },
     {
       title: '8. Cancellation',
-      content: `You can cancel your subscription at any time from your billing settings. Cancellation takes effect at the end of your current billing period. You will retain full access until then. We do not offer pro-rata refunds for the remaining portion of a billing period after your first 48-hour window.`,
+      content: `You can cancel your subscription at any time from your billing settings. Cancellation takes effect at the end of your current billing period. You will retain full access until then. No pro-rata refunds are issued for the remaining portion of a billing period.`,
     },
     {
       title: '9. AI content',

@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { X, Zap } from 'lucide-react'
 
 const STORAGE_KEY = 'elevo_exit_popup_v1'
-const COOLDOWN_DAYS = 7
+const COOLDOWN_DAYS = 1
 
 const BUSINESS_TYPES = [
   'Plumber',
@@ -58,13 +58,23 @@ export default function ExitIntentPopup() {
   }, [])
 
   useEffect(() => {
-    // Wait a bit before attaching the listener so it doesn't fire immediately
-    const timeout = setTimeout(() => {
+    if (isCooledDown()) return
+
+    // Exit intent: fire when mouse leaves viewport (desktop)
+    const exitTimeout = setTimeout(() => {
       document.addEventListener('mouseleave', handleMouseLeave)
     }, 3000)
 
+    // Timer: show after 15 seconds on page if not already shown
+    const timerTimeout = setTimeout(() => {
+      if (!isCooledDown()) {
+        setShown(true)
+      }
+    }, 15000)
+
     return () => {
-      clearTimeout(timeout)
+      clearTimeout(exitTimeout)
+      clearTimeout(timerTimeout)
       document.removeEventListener('mouseleave', handleMouseLeave)
     }
   }, [handleMouseLeave])

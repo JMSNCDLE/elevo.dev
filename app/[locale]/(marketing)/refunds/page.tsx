@@ -13,7 +13,7 @@ export default async function RefundsPage({ params }: { params: Promise<{ locale
       <div className="bg-[#FFFEF9] py-20 px-4">
         <div className="max-w-3xl mx-auto">
           <p className="text-gray-600 text-base mb-12 leading-relaxed">
-            We want you to love ELEVO AI™. Here is exactly what happens if you need a refund — no hidden clauses, no runaround.
+            Please read our refund policy carefully before subscribing to ELEVO AI™.
           </p>
 
           <div className="space-y-10">
@@ -26,30 +26,16 @@ export default async function RefundsPage({ params }: { params: Promise<{ locale
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4">48-hour money-back guarantee</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">All sales are final</h2>
               <p className="text-gray-600 text-base leading-relaxed">
-                If you proceed to a paid subscription and are not satisfied, we offer a full refund on your first payment — no questions asked — provided you request it within 48 hours of being charged for the first time. This applies to the first month of any plan.
+                Once payment has been processed after the trial period, all sales are final. No refunds are issued for any reason. We encourage you to make full use of your 7-day trial to determine whether ELEVO AI is right for your business before committing to a paid plan.
               </p>
             </div>
 
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4">How to claim a refund</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">Cancellation</h2>
               <p className="text-gray-600 text-base leading-relaxed">
-                Email hello@elevo.dev within 48 hours of your first charge. Include the email address associated with your account. We will process your refund within 5 business days. Refunds are returned to your original payment method via Stripe.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4">After the 48-hour window</h2>
-              <p className="text-gray-600 text-base leading-relaxed">
-                Refunds cannot be issued after 48 hours from your first payment. This applies regardless of usage. If you are experiencing a problem with the platform, please contact us at hello@elevo.dev — we will do everything we can to resolve it.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Subsequent monthly charges</h2>
-              <p className="text-gray-600 text-base leading-relaxed">
-                Subsequent monthly charges are non-refundable. You can cancel your subscription at any time from your billing settings, and your access will continue until the end of the current billing period. We do not offer pro-rata refunds for unused time after the first 48-hour window.
+                You can cancel your subscription at any time from your billing settings. Cancellation takes effect at the end of the current billing period. You will retain full access until then. No pro-rata refunds are issued for unused time.
               </p>
             </div>
 

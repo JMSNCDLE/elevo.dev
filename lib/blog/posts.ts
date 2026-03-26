@@ -126,7 +126,7 @@ If you're running any paid advertising, Friday is the day to review it. Check wh
 
 That's it. Five tasks, under an hour per week. Businesses that do this consistently generate 3-4x more online enquiries than those that don't.
 
-**ELEVO automates all five** — writing your GBP post, drafting review replies, generating social content, scheduling follow-up messages, and flagging your underperforming campaigns. In the time it takes to make a coffee.
+**ELEVO automates all five** — writing your GBP post, drafting review replies, generating social media content, scheduling follow-up messages, and flagging your underperforming campaigns. In the time it takes to make a coffee.
     `,
   },
   {

@@ -145,9 +145,9 @@ const FAQS: FaqItem[] = [
     answer: 'Yes — fully available in English and Spanish, with more languages coming.',
   },
   {
-    question: 'Is there a money-back guarantee?',
+    question: 'What is the refund policy?',
     answer:
-      'Not happy after your first payment? Email us within 48 hours for a full refund.',
+      'All sales are final after payment is processed. We offer a generous 7-day free trial so you can evaluate ELEVO fully before committing.',
   },
 ];
 
@@ -445,7 +445,7 @@ export default function PricingPage() {
       <section className="py-20 px-4 bg-white border-t border-gray-100">
         <div className="max-w-xl mx-auto text-center">
           <p className="text-sm text-gray-500 mb-6">
-            Not happy? Email us within 48 hours of your first payment for a full refund.
+            Try ELEVO AI free for 7 days. All sales are final after payment.
           </p>
           <Link
             href={signupHref}
