@@ -4,6 +4,6 @@ Allow: /
 Disallow: /api/
 Disallow: /*/dashboard/
 Disallow: /*/onboarding/
+Disallow: /*/admin/
 
-Sitemap: https://elevo.dev/en/sitemap.xml
-Sitemap: https://elevo.dev/es/sitemap.xml
+Sitemap: https://elevo.dev/sitemap.xml

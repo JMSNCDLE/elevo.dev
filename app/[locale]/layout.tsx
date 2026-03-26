@@ -10,11 +10,12 @@ const locales = ['en', 'es', 'fr', 'de', 'it', 'pt', 'nl', 'pl', 'sv', 'ja', 'en
 
 export const metadata: Metadata = {
   title: {
-    default: 'ELEVO AI — Elevate Your Business',
-    template: '%s | ELEVO AI',
+    default: 'ELEVO AI™ — Create and Boost Your Business Powered by AI',
+    template: '%s | ELEVO AI™',
   },
-  description: 'ELEVO AI helps local businesses create content, manage customers, and solve challenges with the power of AI.',
-  keywords: ['AI', 'business', 'local business', 'marketing', 'content creation', 'CRM'],
+  description: 'Create and boost your business powered by AI — every aspect taken care of. 21 AI specialists for content, ads, SEO, CRM, and more.',
+  keywords: ['AI', 'business AI', 'local business', 'marketing AI', 'content creation', 'CRM AI', 'ELEVO AI', 'boost your business'],
+  metadataBase: new URL('https://elevo.dev'),
 }
 
 export default async function RootLocaleLayout({

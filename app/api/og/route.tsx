@@ -5,8 +5,8 @@ export const runtime = 'edge'
 
 export function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
-  const title = searchParams.get('title') ?? 'The AI Operating System for Local Businesses'
-  const subtitle = searchParams.get('subtitle') ?? '21 AI specialists. Content, ads, SEO, CRM, finance. From €39/month.'
+  const title = searchParams.get('title') ?? 'Create and Boost Your Business Powered by AI'
+  const subtitle = searchParams.get('subtitle') ?? 'Every aspect taken care of. 21 AI specialists. From €39/month.'
 
   return new ImageResponse(
     (
@@ -107,7 +107,7 @@ export function GET(request: NextRequest) {
               }}
             >
               <span style={{ fontSize: '13px', color: '#a5b4fc', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                AI Operating System™
+                ELEVO AI™
               </span>
             </div>
 

@@ -24,13 +24,13 @@ export default async function HomePage({ params }: PageProps) {
           </div>
 
           <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white tracking-tight leading-none mb-8">
-            Your business.<br />
-            Powered{' '}
-            <span className="gradient-text-hero">by AI.</span>
+            Create and boost<br />
+            your business{' '}
+            <span className="gradient-text-hero">powered by AI.</span>
           </h1>
 
           <p className="text-white/60 text-lg max-w-2xl mx-auto mb-10">
-            21 AI specialists working together for your local business. Content. Growth. Intelligence. All in one operating system.
+            Every aspect taken care of. 21 AI specialists handle your content, growth, intelligence, and customers — all in one platform.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
@@ -395,7 +395,7 @@ export default async function HomePage({ params }: PageProps) {
                 name: 'Galaxy',
                 price: '€149',
                 period: '/mo',
-                desc: 'Full AI operating system',
+                desc: 'Every aspect taken care of',
                 features: ['Everything in Orbit', 'ELEVO CEO™', 'ELEVO Drop™ (e-commerce)', 'Store Analytics', '5,000 credits/mo'],
                 cta: 'Start free trial',
                 highlight: false,
