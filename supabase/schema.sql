@@ -962,3 +962,55 @@ CREATE POLICY "anyone_can_insert_vitals" ON web_vitals FOR INSERT WITH CHECK (tr
 -- Phase 27K: Business type onboarding
 ALTER TABLE profiles ADD COLUMN IF NOT EXISTS business_type TEXT DEFAULT 'local_business';
 ALTER TABLE profiles ADD COLUMN IF NOT EXISTS business_goal TEXT;
+
+-- Phase 28A: ELEVO Marketplace
+CREATE TABLE IF NOT EXISTS marketplace_jobs (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  poster_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  title TEXT NOT NULL,
+  description TEXT NOT NULL,
+  category TEXT NOT NULL,
+  budget_min INTEGER,
+  budget_max INTEGER,
+  currency TEXT DEFAULT 'EUR',
+  deadline TIMESTAMPTZ,
+  skills TEXT[] DEFAULT '{}',
+  status TEXT DEFAULT 'open' CHECK (status IN ('open', 'in_progress', 'completed', 'cancelled')),
+  assigned_to UUID REFERENCES profiles(id),
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE marketplace_jobs ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "public_read_jobs" ON marketplace_jobs FOR SELECT USING (true);
+CREATE POLICY "poster_manage_jobs" ON marketplace_jobs FOR ALL USING (auth.uid() = poster_id);
+
+CREATE TABLE IF NOT EXISTS marketplace_applications (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  job_id UUID REFERENCES marketplace_jobs(id) ON DELETE CASCADE NOT NULL,
+  applicant_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  cover_letter TEXT NOT NULL,
+  proposed_rate INTEGER,
+  portfolio_url TEXT,
+  estimated_days INTEGER,
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'accepted', 'rejected')),
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE marketplace_applications ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "applicant_own" ON marketplace_applications FOR ALL USING (auth.uid() = applicant_id);
+CREATE POLICY "poster_view_apps" ON marketplace_applications FOR SELECT USING (
+  job_id IN (SELECT id FROM marketplace_jobs WHERE poster_id = auth.uid())
+);
+
+CREATE TABLE IF NOT EXISTS marketplace_profiles (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE UNIQUE NOT NULL,
+  bio TEXT,
+  skills TEXT[] DEFAULT '{}',
+  hourly_rate INTEGER,
+  portfolio_url TEXT,
+  completed_jobs INTEGER DEFAULT 0,
+  rating FLOAT DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE marketplace_profiles ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "public_read_profiles" ON marketplace_profiles FOR SELECT USING (true);
+CREATE POLICY "own_profile" ON marketplace_profiles FOR ALL USING (auth.uid() = user_id);

@@ -10,7 +10,7 @@ import {
   ShoppingCart, Store,
   Target, Mail, Settings as SettingsIcon,
   Users2, BarChart2, DollarSign, TrendingDown, Rocket,
-  ChevronRight, Library, Star, Paintbrush, ClipboardList, FlaskConical, Plug, Bell, Megaphone, Activity,
+  ChevronRight, Library, Star, Paintbrush, ClipboardList, FlaskConical, Plug, Bell, Megaphone, Activity, ShoppingBag,
 } from 'lucide-react'
 import { useAgentSearch } from '@/hooks/useAgentSearch'
 import AgentSearch from './AgentSearch'
@@ -99,6 +99,12 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
         { href: `/${locale}/deep`, label: 'ELEVO Deep™', icon: Brain, galaxyOnly: true },
         { href: `/${locale}/pa`, label: 'ELEVO PA™', icon: ClipboardList },
         { href: `/${locale}/integrations`, label: 'Integrations', icon: Plug },
+      ],
+    },
+    {
+      title: 'Marketplace',
+      items: [
+        { href: `/${locale}/marketplace`, label: 'Marketplace', icon: ShoppingBag },
       ],
     },
     {
