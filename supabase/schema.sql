@@ -958,3 +958,7 @@ CREATE TABLE IF NOT EXISTS web_vitals (
 ALTER TABLE web_vitals ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "users_see_own_vitals" ON web_vitals FOR SELECT USING (auth.uid() = user_id);
 CREATE POLICY "anyone_can_insert_vitals" ON web_vitals FOR INSERT WITH CHECK (true);
+
+-- Phase 27K: Business type onboarding
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS business_type TEXT DEFAULT 'local_business';
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS business_goal TEXT;

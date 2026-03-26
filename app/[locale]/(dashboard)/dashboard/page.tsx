@@ -4,6 +4,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import { FileText, BookOpen, Share2, Star, Mail, Search, Zap, Users, TrendingUp, BarChart2 } from 'lucide-react'
 import { timeAgo } from '@/lib/utils'
 import ReturnBriefingComponent from '@/components/dashboard/ReturnBriefing'
+import RecommendedAgents from '@/components/dashboard/RecommendedAgents'
 import { generateReturnBriefing } from '@/lib/agents/projectMemoryAgent'
 import type { ReturnBriefing } from '@/lib/agents/projectMemoryAgent'
 
@@ -18,7 +19,7 @@ export default async function MissionControlPage({ params }: { params: Promise<{
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().slice(0, 10)
 
   const [{ data: profile }, { data: bp }, { data: recentGens }, { data: crmStats }, { data: revenueData }, { data: lastSession }, { data: profileData }] = await Promise.all([
-    supabase.from('profiles').select('plan, credits_used, credits_limit').eq('id', user.id).single(),
+    supabase.from('profiles').select('plan, credits_used, credits_limit, business_type').eq('id', user.id).single(),
     supabase.from('business_profiles').select('*').eq('user_id', user.id).eq('is_primary', true).single(),
     supabase.from('saved_generations').select('id, type, content, created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(10),
     supabase.from('contacts').select('id, status').eq('user_id', user.id),
@@ -83,6 +84,14 @@ export default async function MissionControlPage({ params }: { params: Promise<{
       {/* Return briefing */}
       {showBriefing && returnBriefing && (
         <ReturnBriefingComponent briefing={returnBriefing} userName={userName} />
+      )}
+
+      {/* Recommended agents based on business type */}
+      {(profile as { business_type?: string })?.business_type && (
+        <RecommendedAgents
+          businessType={(profile as { business_type?: string }).business_type!}
+          businessName={bp?.business_name}
+        />
       )}
 
       {/* Mini analytics strip */}

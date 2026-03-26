@@ -1,221 +1,218 @@
 'use client'
 
-import { useLocale } from 'next-intl'
-
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { Loader2, Send, Sparkles } from 'lucide-react'
+import { useRouter, useParams } from 'next/navigation'
+import {
+  Store, ShoppingCart, Shirt, Palette, Camera, Briefcase, Users2,
+  MoreHorizontal, ArrowRight, Loader2, Rocket,
+} from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
 
-interface Step {
-  id: string
-  question: string
-  placeholder: string
-  hint: string
-}
-
-const STEPS: Step[] = [
-  {
-    id: 'business_name',
-    question: "What's your business called?",
-    placeholder: "e.g. Smith & Sons Plumbing",
-    hint: "Just the trading name you use.",
-  },
-  {
-    id: 'category',
-    question: "What type of business is it?",
-    placeholder: "e.g. Plumber, Electrician, Hair Salon, Landscaper...",
-    hint: "The industry or trade you're in.",
-  },
-  {
-    id: 'city',
-    question: "Where are you based?",
-    placeholder: "e.g. Manchester, London, Birmingham...",
-    hint: "Your main operating city or town.",
-  },
-  {
-    id: 'services',
-    question: "What are your main services?",
-    placeholder: "e.g. Boiler repairs, installations, bathroom fitting",
-    hint: "List your key services, separated by commas.",
-  },
-  {
-    id: 'unique_selling_points',
-    question: "What makes you different from the competition?",
-    placeholder: "e.g. 20 years experience, same-day response, family-run",
-    hint: "Your USPs — what customers love about you.",
-  },
+const BUSINESS_TYPES = [
+  { id: 'local_business', label: 'Local Business', desc: 'Restaurant, salon, gym, clinic, trades', icon: Store, color: 'bg-blue-500' },
+  { id: 'ecommerce', label: 'Ecommerce / Online Store', desc: 'Shopify, WooCommerce, online retail', icon: ShoppingCart, color: 'bg-green-500' },
+  { id: 'pod', label: 'Print on Demand', desc: 'Custom merch, t-shirts, mugs, posters', icon: Palette, color: 'bg-purple-500' },
+  { id: 'fashion', label: 'Fashion Brand', desc: 'Clothing, accessories, streetwear', icon: Shirt, color: 'bg-pink-500' },
+  { id: 'influencer', label: 'Influencer / Creator', desc: 'YouTube, TikTok, Instagram, podcasts', icon: Camera, color: 'bg-orange-500' },
+  { id: 'freelancer', label: 'Freelancer / Consultant', desc: 'Design, dev, coaching, writing', icon: Briefcase, color: 'bg-indigo-500' },
+  { id: 'agency', label: 'Agency', desc: 'Marketing, design, dev, PR agency', icon: Users2, color: 'bg-cyan-500' },
+  { id: 'other', label: 'Other', desc: "I'll describe it myself", icon: MoreHorizontal, color: 'bg-gray-500' },
 ]
 
-interface ChatMessage {
-  role: 'assistant' | 'user'
-  content: string
-}
+const GOALS = [
+  'Grow sales and revenue',
+  'Get more clients or customers',
+  'Build my brand online',
+  'Save time on marketing',
+  'Automate repetitive tasks',
+  'Improve my social media presence',
+  'Launch a new product or service',
+]
 
-export default function OnboardingPage({}: {  }) {
-  const locale = useLocale()
+export default function OnboardingPage() {
   const router = useRouter()
+  const params = useParams()
+  const locale = (params?.locale as string) ?? 'en'
   const supabase = createBrowserClient()
-  const [currentStep, setCurrentStep] = useState(0)
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'assistant', content: "Hi! I'm ELEVO. Let's get your account set up so I can start creating content that actually sounds like you. This will take about 2 minutes." },
-    { role: 'assistant', content: STEPS[0].question },
-  ])
-  const [input, setInput] = useState('')
-  const [answers, setAnswers] = useState<Record<string, string>>({})
-  const [submitting, setSubmitting] = useState(false)
 
-  const handleSend = async () => {
-    if (!input.trim() || submitting) return
+  const [step, setStep] = useState(1)
+  const [businessType, setBusinessType] = useState('')
+  const [businessName, setBusinessName] = useState('')
+  const [businessGoal, setBusinessGoal] = useState('')
+  const [city, setCity] = useState('')
+  const [saving, setSaving] = useState(false)
 
-    const step = STEPS[currentStep]
-    const userMessage = input.trim()
-    setInput('')
+  async function handleComplete() {
+    if (!businessType || !businessName.trim()) return
+    setSaving(true)
 
-    const newMessages: ChatMessage[] = [...messages, { role: 'user', content: userMessage }]
-    setAnswers(prev => ({ ...prev, [step.id]: userMessage }))
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
 
-    const nextStep = currentStep + 1
+      await supabase.from('profiles').update({
+        business_type: businessType,
+        business_goal: businessGoal || null,
+      }).eq('id', user.id)
 
-    if (nextStep < STEPS.length) {
-      newMessages.push({ role: 'assistant', content: STEPS[nextStep].question })
-      setMessages(newMessages)
-      setCurrentStep(nextStep)
-    } else {
-      // All done — submit
-      newMessages.push({ role: 'assistant', content: "Perfect! Setting up your account now..." })
-      setMessages(newMessages)
-      setSubmitting(true)
+      const { data: existingBp } = await supabase
+        .from('business_profiles')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('is_primary', true)
+        .single()
 
-      const allAnswers = { ...answers, [step.id]: userMessage }
-      await submitOnboarding(allAnswers)
+      if (existingBp) {
+        await supabase.from('business_profiles').update({
+          business_name: businessName.trim(),
+          category: businessType,
+          city: city.trim() || 'Not specified',
+          onboarding_complete: true,
+        }).eq('id', existingBp.id)
+      } else {
+        await supabase.from('business_profiles').insert({
+          user_id: user.id,
+          business_name: businessName.trim(),
+          category: businessType,
+          city: city.trim() || 'Not specified',
+          services: [],
+          unique_selling_points: [],
+          is_primary: true,
+          onboarding_complete: true,
+        })
+      }
+
+      router.push(`/${locale}/dashboard`)
+    } catch (err) {
+      console.error('Onboarding error:', err)
+    } finally {
+      setSaving(false)
     }
   }
-
-  const submitOnboarding = async (allAnswers: Record<string, string>) => {
-    const services = allAnswers.services
-      .split(',')
-      .map(s => s.trim())
-      .filter(Boolean)
-
-    const usps = allAnswers.unique_selling_points
-      .split(',')
-      .map(s => s.trim())
-      .filter(Boolean)
-
-    const res = await fetch('/api/onboard', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        businessName: allAnswers.business_name,
-        category: allAnswers.category,
-        city: allAnswers.city,
-        country: 'United Kingdom',
-        services,
-        uniqueSellingPoints: usps,
-        locale: locale,
-      }),
-    })
-
-    if (res.ok) {
-      setMessages(prev => [
-        ...prev,
-        { role: 'assistant', content: `You're all set! Welcome to ELEVO AI, ${allAnswers.business_name}. Taking you to Mission Control...` },
-      ])
-      setTimeout(() => router.push(`/${locale}/dashboard`), 2000)
-    } else {
-      setMessages(prev => [...prev, { role: 'assistant', content: "Something went wrong. Please try again." }])
-      setSubmitting(false)
-    }
-  }
-
-  const progress = ((currentStep) / STEPS.length) * 100
 
   return (
-    <div className="min-h-screen bg-dashBg flex flex-col items-center justify-center px-4 py-12">
-      <div className="w-full max-w-lg">
-        {/* Header */}
+    <div className="min-h-screen bg-[#080C14] flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-2xl">
+        {/* Logo + progress */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
-              <Sparkles size={16} className="text-white" />
+          <div className="flex items-center justify-center gap-2 mb-6">
+            <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center">
+              <span className="text-white font-black text-lg">E</span>
             </div>
-            <span className="text-dashText font-bold text-lg">ELEVO AI</span>
+            <span className="text-xl font-black text-white">ELEVO AI</span>
           </div>
-          <p className="text-dashMuted text-sm">Setting up your account</p>
-
-          {/* Progress bar */}
-          <div className="mt-4 w-full bg-dashCard rounded-full h-1.5">
-            <div
-              className="bg-accent h-1.5 rounded-full transition-all duration-500"
-              style={{ width: `${progress}%` }}
-            />
+          <div className="flex justify-center gap-2">
+            <div className={`w-8 h-1.5 rounded-full ${step >= 1 ? 'bg-indigo-500' : 'bg-white/10'}`} />
+            <div className={`w-8 h-1.5 rounded-full ${step >= 2 ? 'bg-indigo-500' : 'bg-white/10'}`} />
           </div>
-          <p className="text-xs text-dashMuted mt-1">{currentStep} of {STEPS.length} questions</p>
         </div>
 
-        {/* Chat window */}
-        <div className="bg-dashCard rounded-2xl border border-dashSurface2 overflow-hidden">
-          <div className="h-80 overflow-y-auto p-4 space-y-3">
-            {messages.map((msg, i) => (
-              <div
-                key={i}
-                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                {msg.role === 'assistant' && (
-                  <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center mr-2 mt-0.5 shrink-0">
-                    <span className="text-white text-xs font-bold">E</span>
-                  </div>
-                )}
-                <div
-                  className={`max-w-xs px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
-                    msg.role === 'user'
-                      ? 'bg-accent text-white rounded-br-sm'
-                      : 'bg-dashSurface text-dashText rounded-bl-sm'
+        {/* Step 1: Business type */}
+        {step === 1 && (
+          <div>
+            <h1 className="text-2xl font-bold text-white text-center mb-2">What type of business do you run?</h1>
+            <p className="text-white/50 text-center text-sm mb-8">
+              We&apos;ll customise your dashboard and recommend the best AI agents for you.
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              {BUSINESS_TYPES.map(bt => (
+                <button
+                  key={bt.id}
+                  onClick={() => setBusinessType(bt.id)}
+                  className={`flex items-start gap-3 p-4 rounded-xl border text-left transition-all ${
+                    businessType === bt.id
+                      ? 'border-indigo-500 bg-indigo-500/10 ring-1 ring-indigo-500'
+                      : 'border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10'
                   }`}
                 >
-                  {msg.content}
-                </div>
-              </div>
-            ))}
-
-            {submitting && (
-              <div className="flex justify-start">
-                <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center mr-2 mt-0.5 shrink-0">
-                  <span className="text-white text-xs font-bold">E</span>
-                </div>
-                <div className="bg-dashSurface px-4 py-2.5 rounded-2xl rounded-bl-sm">
-                  <Loader2 size={16} className="text-accent animate-spin" />
-                </div>
-              </div>
-            )}
+                  <div className={`w-9 h-9 ${bt.color} rounded-lg flex items-center justify-center shrink-0 mt-0.5`}>
+                    <bt.icon className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-white">{bt.label}</p>
+                    <p className="text-xs text-white/40 mt-0.5">{bt.desc}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+            <div className="mt-8 flex justify-end">
+              <button
+                onClick={() => setStep(2)}
+                disabled={!businessType}
+                className="flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-30 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-colors"
+              >
+                Continue <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
+        )}
 
-          {/* Input */}
-          {!submitting && (
-            <div className="border-t border-dashSurface2 p-4">
-              <p className="text-xs text-dashMuted mb-2">{STEPS[currentStep]?.hint}</p>
-              <div className="flex gap-2">
+        {/* Step 2: Name + Goal */}
+        {step === 2 && (
+          <div>
+            <h1 className="text-2xl font-bold text-white text-center mb-2">Tell us about your business</h1>
+            <p className="text-white/50 text-center text-sm mb-8">
+              This helps our AI agents create better content and strategies for you.
+            </p>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-white/70 mb-1.5">Business name</label>
                 <input
                   type="text"
-                  value={input}
-                  onChange={e => setInput(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && handleSend()}
-                  placeholder={STEPS[currentStep]?.placeholder}
-                  className="flex-1 bg-dashSurface border border-dashSurface2 rounded-lg px-3 py-2 text-sm text-dashText placeholder:text-dashMuted focus:outline-none focus:ring-2 focus:ring-accent"
+                  value={businessName}
+                  onChange={e => setBusinessName(e.target.value)}
+                  placeholder="e.g. Mario's Pizza, Luxe Streetwear, Sarah Design Co."
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-indigo-500/50 transition-colors"
                   autoFocus
                 />
-                <button
-                  onClick={handleSend}
-                  disabled={!input.trim()}
-                  className="p-2 bg-accent text-white rounded-lg hover:bg-accent/90 disabled:opacity-50 transition-colors"
-                >
-                  <Send size={16} />
-                </button>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-white/70 mb-1.5">City / Location</label>
+                <input
+                  type="text"
+                  value={city}
+                  onChange={e => setCity(e.target.value)}
+                  placeholder="e.g. London, Barcelona, New York"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-indigo-500/50 transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-white/70 mb-1.5">Main goal</label>
+                <div className="flex flex-wrap gap-2">
+                  {GOALS.map(goal => (
+                    <button
+                      key={goal}
+                      onClick={() => setBusinessGoal(goal)}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-full border transition-colors ${
+                        businessGoal === goal
+                          ? 'border-indigo-500 bg-indigo-500/20 text-indigo-300'
+                          : 'border-white/10 text-white/50 hover:text-white/80 hover:border-white/20'
+                      }`}
+                    >
+                      {goal}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
-          )}
-        </div>
+            <div className="mt-8 flex items-center justify-between">
+              <button onClick={() => setStep(1)} className="text-sm text-white/40 hover:text-white transition-colors">
+                Back
+              </button>
+              <button
+                onClick={handleComplete}
+                disabled={!businessName.trim() || saving}
+                className="flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-30 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-colors"
+              >
+                {saving ? (
+                  <><Loader2 className="w-4 h-4 animate-spin" /> Setting up...</>
+                ) : (
+                  <><Rocket className="w-4 h-4" /> Launch my dashboard</>
+                )}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
