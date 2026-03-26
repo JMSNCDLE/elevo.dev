@@ -736,6 +736,7 @@ CREATE TABLE IF NOT EXISTS pa_tasks (
   status TEXT DEFAULT 'open',
   auto_fix_available BOOLEAN DEFAULT false,
   estimated_time TEXT,
+  due_date TIMESTAMPTZ,
   resolved_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
