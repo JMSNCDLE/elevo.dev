@@ -10,7 +10,7 @@ import {
   ShoppingCart, Store,
   Target, Mail, Settings as SettingsIcon,
   Users2, BarChart2, DollarSign, TrendingDown, Rocket,
-  ChevronRight, Library, Star, Paintbrush, ClipboardList,
+  ChevronRight, Library, Star, Paintbrush, ClipboardList, FlaskConical,
 } from 'lucide-react'
 import { useAgentSearch } from '@/hooks/useAgentSearch'
 import AgentSearch from './AgentSearch'
@@ -247,7 +247,9 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
           <p className="text-xs font-semibold text-dashMuted uppercase tracking-wider px-2 mb-1.5">Admin</p>
           <ul className="space-y-0.5">
             {[
+              { href: `/${locale}/admin`, label: 'Admin Panel', icon: Shield },
               { href: `/${locale}/admin/pa`, label: 'ELEVO PA™', icon: Shield },
+              { href: `/${locale}/admin/testing`, label: 'QA Testing', icon: FlaskConical },
               { href: `/${locale}/admin/elevo-marketing`, label: 'ELEVO Marketing', icon: Zap },
             ].map(item => {
               const active = isActive(item.href)

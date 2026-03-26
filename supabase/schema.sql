@@ -867,3 +867,17 @@ ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS device_type TEXT;
 ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS os TEXT;
 ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS browser TEXT;
 ALTER TABLE user_sessions ADD COLUMN IF NOT EXISTS screen_width INTEGER;
+
+-- Phase 26E: QA test results
+CREATE TABLE IF NOT EXISTS test_results (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  test_name TEXT NOT NULL,
+  status TEXT NOT NULL CHECK (status IN ('pass', 'fail', 'error')),
+  response_time_ms INTEGER,
+  error_message TEXT,
+  run_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE test_results ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "admin_only_test_results" ON test_results FOR ALL USING (
+  auth.uid() = '5dc15dea-4633-441b-b37a-5406e7235114'::uuid
+);
