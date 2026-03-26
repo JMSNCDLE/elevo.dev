@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { createServiceClient } from '@/lib/supabase/server'
-import { sendSequenceEmail } from '@/lib/email/send'
+import { sendEmail, sendSequenceEmail } from '@/lib/email/send'
 import { calculateCommission } from '@/lib/affiliate'
 import { sendWhatsAppToJames, JAMES_ALERTS } from '@/lib/notifications/whatsapp'
 import { notifyNewSubscription, notifyChurn } from '@/lib/notifications/notify-owner'
@@ -217,6 +217,18 @@ export async function POST(request: Request) {
           })
         }
       }
+
+      // Resolve any active dunning for this user
+      if (profile) {
+        await supabase
+          .from('dunning_events')
+          .update({ status: 'resolved', resolved_at: new Date().toISOString() })
+          .eq('user_id', profile.id)
+          .eq('status', 'active')
+
+        // Restore subscription status
+        await supabase.from('profiles').update({ subscription_status: 'active' }).eq('id', profile.id)
+      }
     }
   }
 
@@ -231,8 +243,44 @@ export async function POST(request: Request) {
       if (failedProfile) {
         const { data: { user: failedUser } } = await supabase.auth.admin.getUserById(failedProfile.id)
         const failedEmail = failedUser?.email ?? 'unknown'
-        const failedAmount = invoice.amount_due ? `£${(invoice.amount_due / 100).toFixed(2)}` : '£0'
+        const failedAmount = invoice.amount_due ? `€${(invoice.amount_due / 100).toFixed(2)}` : '€0'
         sendWhatsAppToJames(JAMES_ALERTS.paymentFailed(failedEmail, failedAmount)).catch(console.error)
+
+        // Create dunning event
+        await supabase.from('dunning_events').insert({
+          user_id: failedProfile.id,
+          stripe_invoice_id: invoice.id,
+          amount_due: invoice.amount_due ?? 0,
+          currency: invoice.currency ?? 'eur',
+          step: 1,
+          status: 'active',
+          last_email_sent_at: new Date().toISOString(),
+          failed_at: new Date().toISOString(),
+        })
+
+        // Update profile status
+        await supabase.from('profiles').update({ subscription_status: 'past_due' }).eq('id', failedProfile.id)
+
+        // Send dunning email (Day 0)
+        if (failedEmail !== 'unknown') {
+          const portalUrl = `${process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.dev'}/en/billing`
+          sendEmail({
+            to: failedEmail,
+            subject: "Your payment didn't go through — let's fix it",
+            body: `Hey there,
+
+We tried to process your ELEVO AI payment of ${failedAmount}, but it didn't go through. This can happen for lots of reasons — expired card, insufficient funds, or a bank hold.
+
+No worries — your AI agents are still running for now. Just update your payment method and everything will continue as normal.
+
+[Update payment method →] ${portalUrl}
+
+If you need help, just reply to this email. We're here for you.
+
+The ELEVO AI Team`,
+            agentName: 'Dunning System',
+          }).catch(console.error)
+        }
       }
     }
   }

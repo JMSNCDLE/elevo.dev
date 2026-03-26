@@ -1061,3 +1061,23 @@ ALTER TABLE pipeline_leads ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "users_own_leads" ON pipeline_leads FOR ALL USING (auth.uid() = user_id);
 CREATE INDEX IF NOT EXISTS idx_pipeline_leads_user ON pipeline_leads(user_id);
 CREATE INDEX IF NOT EXISTS idx_pipeline_leads_stage ON pipeline_leads(stage);
+
+-- Phase 31A: Dunning events
+CREATE TABLE IF NOT EXISTS dunning_events (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  stripe_invoice_id TEXT,
+  amount_due INTEGER DEFAULT 0,
+  currency TEXT DEFAULT 'eur',
+  step INTEGER DEFAULT 0,
+  status TEXT DEFAULT 'active' CHECK (status IN ('active', 'resolved', 'downgraded')),
+  last_email_sent_at TIMESTAMPTZ,
+  failed_at TIMESTAMPTZ DEFAULT NOW(),
+  resolved_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE dunning_events ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "admin_dunning" ON dunning_events FOR ALL USING (
+  auth.uid() = '5dc15dea-4633-441b-b37a-5406e7235114'::uuid
+);
+CREATE POLICY "user_own_dunning" ON dunning_events FOR SELECT USING (auth.uid() = user_id);
