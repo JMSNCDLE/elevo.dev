@@ -10,7 +10,7 @@ import {
   ShoppingCart, Store,
   Target, Mail, Settings as SettingsIcon,
   Users2, BarChart2, DollarSign, TrendingDown, Rocket,
-  ChevronRight, Library, Star, Paintbrush, ClipboardList, FlaskConical, Plug, Bell, Megaphone, Activity, ShoppingBag, Monitor, Camera, Phone, Server, UserPlus,
+  ChevronRight, Library, Star, Paintbrush, ClipboardList, FlaskConical, Plug, Bell, Megaphone, Activity, ShoppingBag, Monitor, Camera, Phone, Server, UserPlus, GitBranch,
 } from 'lucide-react'
 import { useAgentSearch } from '@/hooks/useAgentSearch'
 import AgentSearch from './AgentSearch'
@@ -140,6 +140,8 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
     {
       title: 'Growth Tools',
       items: [
+        { href: `/${locale}/sales-pipeline`, label: 'Sales Pipeline', icon: GitBranch, orbitOnly: true },
+        { href: `/${locale}/tools/researcher`, label: 'Researcher', icon: Search, orbitOnly: true },
         { href: `/${locale}/sales-strategist`, label: 'Sales Strategist', icon: Target, orbitOnly: true },
         { href: `/${locale}/marketing-planner`, label: 'Marketing Planner', icon: Megaphone, orbitOnly: true },
         { href: `/${locale}/execution-coach`, label: 'Execution Coach', icon: Rocket, orbitOnly: true },

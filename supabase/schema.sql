@@ -1043,3 +1043,21 @@ CREATE TABLE IF NOT EXISTS marketplace_profiles (
 ALTER TABLE marketplace_profiles ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "public_read_profiles" ON marketplace_profiles FOR SELECT USING (true);
 CREATE POLICY "own_profile" ON marketplace_profiles FOR ALL USING (auth.uid() = user_id);
+
+-- Phase 30B: Sales pipeline leads
+CREATE TABLE IF NOT EXISTS pipeline_leads (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  full_name TEXT NOT NULL,
+  company TEXT,
+  email TEXT,
+  stage TEXT DEFAULT 'lead' CHECK (stage IN ('lead', 'researched', 'contacted', 'meeting_booked', 'proposal_sent', 'negotiation', 'won', 'lost')),
+  notes TEXT,
+  value NUMERIC DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE pipeline_leads ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "users_own_leads" ON pipeline_leads FOR ALL USING (auth.uid() = user_id);
+CREATE INDEX IF NOT EXISTS idx_pipeline_leads_user ON pipeline_leads(user_id);
+CREATE INDEX IF NOT EXISTS idx_pipeline_leads_stage ON pipeline_leads(stage);
