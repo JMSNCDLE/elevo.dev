@@ -963,6 +963,20 @@ CREATE POLICY "anyone_can_insert_vitals" ON web_vitals FOR INSERT WITH CHECK (tr
 ALTER TABLE profiles ADD COLUMN IF NOT EXISTS business_type TEXT DEFAULT 'local_business';
 ALTER TABLE profiles ADD COLUMN IF NOT EXISTS business_goal TEXT;
 
+-- Phase 28C: Dual ad accounts
+CREATE TABLE IF NOT EXISTS ad_accounts (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  platform TEXT NOT NULL CHECK (platform IN ('meta', 'google')),
+  account_name TEXT,
+  account_id TEXT,
+  status TEXT DEFAULT 'active' CHECK (status IN ('active', 'paused', 'banned')),
+  monthly_spend NUMERIC DEFAULT 0,
+  connected_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE ad_accounts ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "users_manage_own_ad_accounts" ON ad_accounts FOR ALL USING (auth.uid() = user_id);
+
 -- Phase 28B: SEO audit log
 CREATE TABLE IF NOT EXISTS seo_audits (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
