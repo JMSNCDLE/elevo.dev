@@ -21,6 +21,7 @@ interface SidebarProps {
   creditsUsed: number
   creditsLimit: number
   businessName?: string
+  userId?: string
 }
 
 interface NavItem {
@@ -38,7 +39,7 @@ interface NavSection {
   items: NavItem[]
 }
 
-export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, businessName }: SidebarProps) {
+export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, businessName, userId }: SidebarProps) {
   const pathname = usePathname()
   const isOrbit = plan === 'orbit' || plan === 'galaxy'
   const isGalaxy = plan === 'galaxy'
@@ -241,8 +242,8 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
           </ul>
         </div>
 
-        {/* Admin */}
-        <div>
+        {/* Admin — only visible to James */}
+        {userId === '5dc15dea-4633-441b-b37a-5406e7235114' && <div>
           <p className="text-xs font-semibold text-dashMuted uppercase tracking-wider px-2 mb-1.5">Admin</p>
           <ul className="space-y-0.5">
             {[
@@ -266,7 +267,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
               )
             })}
           </ul>
-        </div>
+        </div>}
       </nav>
 
       {/* Credits bar */}

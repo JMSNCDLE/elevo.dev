@@ -62,6 +62,7 @@ export default async function DashboardLayout({
         creditsUsed={profile.credits_used}
         creditsLimit={profile.credits_limit}
         businessName={primaryBp?.business_name}
+        userId={user.id}
       />
 
       <main className="flex-1 overflow-auto">

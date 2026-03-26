@@ -223,53 +223,59 @@ export default function AdminPage() {
   })
 
   useEffect(() => {
+    const ADMIN_USER_ID = '5dc15dea-4633-441b-b37a-5406e7235114'
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (!user) {
         router.push(`/${locale}/login`)
         return
       }
-      supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single()
-        .then(({ data }) => {
-          if (data?.role !== 'admin') {
-            router.push(`/${locale}/dashboard`)
-            return
-          }
-          setIsAdmin(true)
-          loadStats()
-        })
+      // Hard-coded owner check + role check
+      if (user.id !== ADMIN_USER_ID) {
+        supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .single()
+          .then(({ data }) => {
+            if (data?.role !== 'admin') {
+              router.push(`/${locale}/dashboard`)
+              return
+            }
+            setIsAdmin(true)
+            loadStats()
+          })
+      } else {
+        setIsAdmin(true)
+        loadStats()
+      }
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   async function loadStats() {
-    const { data: allProfiles } = await supabase
-      .from('profiles')
-      .select('plan, credits_used')
-
-    if (allProfiles) {
-      const total = allProfiles.length
-      const trials = allProfiles.filter(p => p.plan === 'trial').length
-      const paid = allProfiles.filter(p => p.plan !== 'trial').length
-      const totalCredits = allProfiles.reduce((s, p) => s + (p.credits_used ?? 0), 0)
-
-      const planRevenue: Record<string, number> = {
-        launch: 39,
-        orbit: 79,
-        galaxy: 149,
+    try {
+      const res = await fetch('/api/admin/stats')
+      if (res.ok) {
+        const data = await res.json()
+        setStats(data)
       }
-      const revenue = allProfiles.reduce((s, p) => s + (planRevenue[p.plan] ?? 0), 0)
+    } catch {
+      // Fallback: use client-side query
+      const { data: allProfiles } = await supabase
+        .from('profiles')
+        .select('plan, credits_used')
 
-      setStats({
-        totalUsers: total,
-        activeTrials: trials,
-        paidUsers: paid,
-        totalGenerations: totalCredits,
-        monthlyRevenue: revenue,
-      })
+      if (allProfiles) {
+        const total = allProfiles.length
+        const trials = allProfiles.filter(p => p.plan === 'trial').length
+        const paid = allProfiles.filter(p => p.plan !== 'trial').length
+        const totalCredits = allProfiles.reduce((s, p) => s + (p.credits_used ?? 0), 0)
+
+        const planRevenue: Record<string, number> = { launch: 39, orbit: 79, galaxy: 149 }
+        const revenue = allProfiles.reduce((s, p) => s + (planRevenue[p.plan] ?? 0), 0)
+
+        setStats({ totalUsers: total, activeTrials: trials, paidUsers: paid, totalGenerations: totalCredits, monthlyRevenue: revenue })
+      }
     }
   }
 
@@ -358,7 +364,7 @@ export default function AdminPage() {
             <StatCard label="Total users" value={stats.totalUsers.toString()} icon={Users} color="text-blue-400" />
             <StatCard label="Active trials" value={stats.activeTrials.toString()} icon={Eye} color="text-yellow-400" />
             <StatCard label="Paid users" value={stats.paidUsers.toString()} icon={UserCheck} color="text-green-400" />
-            <StatCard label="Est. MRR" value={`£${stats.monthlyRevenue.toLocaleString()}`} icon={DollarSign} color="text-accent" />
+            <StatCard label="Est. MRR" value={`€${stats.monthlyRevenue.toLocaleString()}`} icon={DollarSign} color="text-accent" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -366,9 +372,9 @@ export default function AdminPage() {
               <h3 className="text-sm font-semibold text-dashText mb-3">Plan breakdown</h3>
               {[
                 { plan: 'Trial', count: stats.activeTrials, color: '#9CA3AF' },
-                { plan: 'Launch (£39)', count: Math.round(stats.paidUsers * 0.5), color: '#60A5FA' },
-                { plan: 'Orbit (£79)', count: Math.round(stats.paidUsers * 0.35), color: '#6366F1' },
-                { plan: 'Galaxy (£149)', count: Math.round(stats.paidUsers * 0.15), color: '#A855F7' },
+                { plan: 'Launch (€39)', count: Math.round(stats.paidUsers * 0.5), color: '#60A5FA' },
+                { plan: 'Orbit (€79)', count: Math.round(stats.paidUsers * 0.35), color: '#6366F1' },
+                { plan: 'Galaxy (€149)', count: Math.round(stats.paidUsers * 0.15), color: '#A855F7' },
               ].map(row => (
                 <div key={row.plan} className="flex items-center justify-between py-1.5 border-b border-dashSurface2 last:border-0">
                   <div className="flex items-center gap-2">
@@ -488,7 +494,7 @@ export default function AdminPage() {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <div className="bg-dashCard border border-dashSurface2 rounded-xl p-5">
               <p className="text-xs text-dashMuted mb-1">Estimated MRR</p>
-              <p className="text-3xl font-bold text-dashText">£{stats.monthlyRevenue.toLocaleString()}</p>
+              <p className="text-3xl font-bold text-dashText">€{stats.monthlyRevenue.toLocaleString()}</p>
               <p className="text-xs text-green-400 flex items-center gap-1 mt-1">
                 <TrendingUp size={10} />
                 Based on active plan counts
@@ -501,7 +507,7 @@ export default function AdminPage() {
             <div className="bg-dashCard border border-dashSurface2 rounded-xl p-5">
               <p className="text-xs text-dashMuted mb-1">ARPU</p>
               <p className="text-3xl font-bold text-dashText">
-                £{stats.paidUsers > 0 ? Math.round(stats.monthlyRevenue / stats.paidUsers) : 0}
+                €{stats.paidUsers > 0 ? Math.round(stats.monthlyRevenue / stats.paidUsers) : 0}
               </p>
             </div>
           </div>
@@ -518,9 +524,9 @@ export default function AdminPage() {
               <div key={row.plan} className="flex items-center justify-between py-2.5 border-b border-dashSurface2 last:border-0">
                 <div>
                   <span className="text-sm text-dashText font-medium">{row.plan}</span>
-                  <span className="text-xs text-dashMuted ml-2">£{row.price}/mo × {row.count} users</span>
+                  <span className="text-xs text-dashMuted ml-2">€{row.price}/mo × {row.count} users</span>
                 </div>
-                <span className="text-sm font-bold text-dashText">£{(row.price * row.count).toLocaleString()}</span>
+                <span className="text-sm font-bold text-dashText">€{(row.price * row.count).toLocaleString()}</span>
               </div>
             ))}
           </div>
