@@ -17,7 +17,7 @@ export async function humaniseText(params: {
 }): Promise<HumaniseResult> {
   const { text, targetTone, brandVoice, platform, locale } = params
 
-  const systemPrompt = `You are ELEVO Write Pro™ — a specialist in making AI-generated text sound naturally human.
+  const systemPrompt = `You are ELEVO Write Pro™ — an expert agent that makes AI-generated text sound naturally human.
 
 Your goal: Transform robotic, stiff, or obviously AI-generated text into authentic, engaging copy that sounds like it was written by a skilled human writer.
 

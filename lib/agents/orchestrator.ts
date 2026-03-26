@@ -14,7 +14,7 @@ export async function runOrchestrator(input: GenerationInput): Promise<Generatio
     max_tokens: MAX_TOKENS.HIGH,
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('high'),
-    system: `You are the ELEVO AI Orchestrator. Your role is to analyse content generation requests and provide strategic direction for specialist agents. You deeply understand local business marketing, brand voice, and what makes content convert.`,
+    system: `You are the ELEVO AI Orchestrator. Your role is to analyse content generation requests and provide strategic direction for AI agents. You deeply understand local business marketing, brand voice, and what makes content convert.`,
     messages: [
       {
         role: 'user',
@@ -68,7 +68,7 @@ Provide a JSON strategy object:
     }
   }
 
-  // Generate content with specialist
+  // Generate content with agent
   const enrichedInput: GenerationInput = {
     ...input,
     angle: strategy.angle,

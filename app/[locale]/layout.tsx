@@ -17,6 +17,12 @@ export const metadata: Metadata = {
   description: '21 AI agents that replace your entire team — content, marketing, sales, CRM, analytics. Lower your customer acquisition cost. From €39/month.',
   keywords: ['AI', 'business AI', 'local business', 'marketing AI', 'content creation', 'CRM AI', 'ELEVO AI', 'boost your business'],
   metadataBase: new URL('https://elevo.dev'),
+  verification: {
+    google: 'PLACEHOLDER_VERIFICATION_CODE',
+  },
+  other: {
+    'google-site-verification': 'PLACEHOLDER_VERIFICATION_CODE',
+  },
 }
 
 export default async function RootLocaleLayout({

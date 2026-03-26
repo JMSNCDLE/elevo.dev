@@ -639,7 +639,7 @@ An AI OS does the same for your business operations.
 
 A customer leaves a Google review — your AI OS automatically drafts a response, updates the customer's CRM profile, logs the sentiment, and triggers a thank-you email with a referral offer. What used to require manual work across 4 different platforms happens automatically in seconds.
 
-A social media post performs well — your AI OS analyses why, creates similar content for other platforms, identifies the audience segment that engaged most, and adjusts your ad targeting to reach more people like them. What used to require a social media manager, a data analyst, and an ad specialist happens automatically.
+A social media post performs well — your AI OS analyses why, creates similar content for other platforms, identifies the audience segment that engaged most, and adjusts your ad targeting to reach more people like them. What used to require a social media manager, a data analyst, and an ad agent happens automatically.
 
 ## The 10-hour-a-week problem solved
 

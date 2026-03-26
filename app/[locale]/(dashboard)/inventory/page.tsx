@@ -181,7 +181,7 @@ export default function InventoryPage({}: {  }) {
           <Package size={22} className="text-accent" />
           <h1 className="text-2xl font-bold text-dashText">Inventory &amp; Supply</h1>
         </div>
-        <p className="text-dashMuted text-sm">Analysed by Rex, your Inventory &amp; Supply Chain Specialist</p>
+        <p className="text-dashMuted text-sm">Analysed by Rex, your Inventory &amp; Supply Chain Agent</p>
       </div>
 
       {/* Input Card */}

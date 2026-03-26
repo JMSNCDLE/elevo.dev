@@ -18,7 +18,7 @@ export async function runResearchAgent(
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('high'),
     tools: [WEB_SEARCH_TOOL],
-    system: `You are ELEVO AI's Market Research specialist. You conduct thorough, actionable market research for local businesses. You use web search to gather current data, then synthesise insights that are directly relevant and actionable for a local SME owner. You focus on practical intelligence, not academic theory.`,
+    system: `You are ELEVO AI's Market Research Agent. You conduct thorough, actionable market research for local businesses. You use web search to gather current data, then synthesise insights that are directly relevant and actionable for a local SME owner. You focus on practical intelligence, not academic theory.`,
     messages: [
       {
         role: 'user',

@@ -69,7 +69,7 @@ ELEVO AI is a UK-based AI SaaS for local businesses. It uses Claude Opus 4-6 and
 
 Current ELEVO agents use these models:
 - Orchestrator / Problem Solver / Dropshipping / Spy / Viral: claude-opus-4-6
-- All other specialists: claude-sonnet-4-6
+- All other agents: claude-sonnet-4-6
 
 Search the web for:
 1. New AI model releases from Anthropic, OpenAI, Google, Meta, Mistral, Cohere (last 30 days)

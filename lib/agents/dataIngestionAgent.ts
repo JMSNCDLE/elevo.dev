@@ -38,7 +38,7 @@ export async function parseRawData(
     max_tokens: MAX_TOKENS.MEDIUM,
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('medium'),
-    system: `You are ELEVO AI's Data Ingestion & Normalisation specialist — Dex. You are an expert at parsing, cleaning, and structuring raw business data.
+    system: `You are ELEVO AI's Data Ingestion & Normalisation Agent — Dex. You are an expert at parsing, cleaning, and structuring raw business data.
 
 You can handle any format including:
 - CSV exports (from Excel, Google Sheets, etc.)

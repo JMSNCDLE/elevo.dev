@@ -10,7 +10,7 @@ import {
   ShoppingCart, Store,
   Target, Mail, Settings as SettingsIcon,
   Users2, BarChart2, DollarSign, TrendingDown, Rocket,
-  ChevronRight, Library, Star, Paintbrush, ClipboardList, FlaskConical, Plug, Bell, Megaphone, Activity, ShoppingBag, Monitor, Camera,
+  ChevronRight, Library, Star, Paintbrush, ClipboardList, FlaskConical, Plug, Bell, Megaphone, Activity, ShoppingBag, Monitor, Camera, Phone,
 } from 'lucide-react'
 import { useAgentSearch } from '@/hooks/useAgentSearch'
 import AgentSearch from './AgentSearch'
@@ -90,8 +90,8 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       items: [
         { href: `/${locale}/ceo`, label: 'ELEVO CEO™', icon: Crown, galaxyOnly: true },
         { href: `/${locale}/spy`, label: 'ELEVO Spy™', icon: Shield, orbitOnly: true },
+        { href: `/${locale}/competitive-intel`, label: 'Competitive Intel', icon: Shield, galaxyOnly: true, badge: 'GALAXY' },
         { href: `/${locale}/seo`, label: 'ELEVO Rank™', icon: Search },
-        { href: `/${locale}/admin/updates`, label: 'ELEVO Update™', icon: RefreshCw, adminOnly: true },
       ],
     },
     {
@@ -122,8 +122,6 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       title: 'Sales Tools',
       items: [
         { href: `/${locale}/prospect`, label: 'ELEVO Prospect™', icon: Target, galaxyOnly: true },
-        { href: `/${locale}/prospect/cold-call`, label: 'Cold Call', icon: MessageSquare, orbitOnly: true },
-        { href: `/${locale}/prospect/cold-email`, label: 'Cold Email', icon: Mail, orbitOnly: true },
         { href: `/${locale}/prospect/agent-builder`, label: 'Agent Builder', icon: Bot, galaxyOnly: true },
       ],
     },
@@ -139,12 +137,14 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       ],
     },
     {
-      title: 'Growth',
+      title: 'Growth Tools',
       items: [
         { href: `/${locale}/sales-strategist`, label: 'Sales Strategist', icon: Target, orbitOnly: true },
         { href: `/${locale}/marketing-planner`, label: 'Marketing Planner', icon: Megaphone, orbitOnly: true },
         { href: `/${locale}/execution-coach`, label: 'Execution Coach', icon: Rocket, orbitOnly: true },
-        { href: `/${locale}/competitive-intel`, label: 'Competitive Intel', icon: Shield, galaxyOnly: true, badge: 'GALAXY' },
+        { href: `/${locale}/tools/cold-email`, label: 'Cold Email Machine', icon: Mail, orbitOnly: true },
+        { href: `/${locale}/tools/cold-call`, label: 'Cold Call Script', icon: Phone, orbitOnly: true },
+        { href: `/${locale}/tools/proposal-builder`, label: 'Proposal Builder', icon: FileText, orbitOnly: true },
         { href: `/${locale}/roas`, label: 'ROAS Analysis', icon: DollarSign },
         { href: `/${locale}/finances`, label: 'Finances', icon: TrendingDown },
         { href: `/${locale}/dashboard/advisor`, label: 'Market Intel', icon: Search },

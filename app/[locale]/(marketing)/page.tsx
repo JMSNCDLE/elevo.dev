@@ -455,7 +455,7 @@ export default async function HomePage({ params }: PageProps) {
               { role: 'Marketing Manager', cost: '€3,500/mo', agent: 'Marketing Planner™' },
               { role: 'Sales Rep', cost: '€2,800/mo', agent: 'Sales Strategist™' },
               { role: 'Social Media Manager', cost: '€2,200/mo', agent: 'ELEVO SMM™' },
-              { role: 'SEO Specialist', cost: '€2,500/mo', agent: 'ELEVO Rank™' },
+              { role: 'SEO Expert', cost: '€2,500/mo', agent: 'ELEVO Rank™' },
               { role: 'Content Writer', cost: '€1,800/mo', agent: 'ELEVO Content™' },
               { role: 'Business Analyst', cost: '€3,000/mo', agent: 'Competitive Intel™' },
             ].map(item => (

@@ -125,7 +125,7 @@ export async function enrichContact(
     max_tokens: MAX_TOKENS.LOW,
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('medium'),
-    system: `You are a CRM data enrichment specialist. You analyse customer data and assign accurate, useful tags.`,
+    system: `You are a CRM data enrichment agent. You analyse customer data and assign accurate, useful tags.`,
     messages: [
       {
         role: 'user',
