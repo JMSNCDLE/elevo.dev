@@ -471,7 +471,7 @@ The local businesses that embrace AI marketing tools in 2026 will look back in a
     date: 'March 2026',
     excerpt: 'ELEVO AI gives every local business access to 38 specialised AI agents — each one an expert in a different part of running your business.',
     content: `
-## What if you had a team of 38 specialists working for you — for less than the cost of one?
+## What if you had 38 AI agents working for you — for less than the cost of one employee?
 
 Most local businesses operate with a small team. Often, it's just the owner doing everything: marketing, customer service, bookkeeping, social media, ads, content creation, and somehow still finding time to actually deliver the service they sell.
 

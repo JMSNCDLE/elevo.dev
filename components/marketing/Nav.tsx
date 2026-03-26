@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
+import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
 
 interface NavProps {
   locale: string
@@ -74,6 +75,7 @@ export default function Nav({ locale }: NavProps) {
 
         {/* Desktop CTAs */}
         <div className="hidden md:flex items-center gap-3">
+          <LanguageSwitcher />
           <Link
             href={`/${locale}/login`}
             className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors px-3 py-2"

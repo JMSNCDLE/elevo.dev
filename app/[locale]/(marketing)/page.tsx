@@ -30,7 +30,7 @@ export default async function HomePage({ params }: PageProps) {
           </h1>
 
           <p className="text-white/60 text-lg max-w-2xl mx-auto mb-10">
-            Every aspect taken care of. 21 AI specialists handle your content, growth, intelligence, and customers — all in one platform.
+            21 AI agents that replace your entire team — content, marketing, sales, CRM, and analytics. 24/7, at a fraction of the cost.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
@@ -436,6 +436,44 @@ export default async function HomePage({ params }: PageProps) {
           <p className="text-center text-gray-400 text-sm mt-8">
             7-day free trial · Cancel anytime
           </p>
+        </div>
+      </section>
+
+      {/* ── SECTION 8B: WHY HIRE WHEN AI WORKS 24/7? ──────────────────────── */}
+      <section className="bg-[#050507] py-24 px-6 border-b border-white/5">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight">
+              Why hire when AI agents work 24/7?
+            </h2>
+            <p className="text-white/50 mt-4 text-lg max-w-2xl mx-auto">
+              A full marketing team costs over €5,000/month. ELEVO replaces them all — for €79/month.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { role: 'Marketing Manager', cost: '€3,500/mo', agent: 'Marketing Planner™' },
+              { role: 'Sales Rep', cost: '€2,800/mo', agent: 'Sales Strategist™' },
+              { role: 'Social Media Manager', cost: '€2,200/mo', agent: 'ELEVO SMM™' },
+              { role: 'SEO Specialist', cost: '€2,500/mo', agent: 'ELEVO Rank™' },
+              { role: 'Content Writer', cost: '€1,800/mo', agent: 'ELEVO Content™' },
+              { role: 'Business Analyst', cost: '€3,000/mo', agent: 'Competitive Intel™' },
+            ].map(item => (
+              <div key={item.role} className="bg-white/5 border border-white/10 rounded-xl p-5">
+                <p className="text-white/40 text-xs font-medium uppercase tracking-wider mb-2">Replaces your</p>
+                <p className="text-white font-bold text-lg mb-1">{item.role}</p>
+                <p className="text-red-400 text-sm line-through mb-3">{item.cost}</p>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full" />
+                  <p className="text-green-400 text-sm font-semibold">{item.agent} — included</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-10">
+            <p className="text-white/30 text-sm">Total employee cost: <span className="text-red-400 line-through">€15,800/mo</span></p>
+            <p className="text-white text-2xl font-black mt-1">ELEVO Orbit: <span className="text-green-400">€79/mo</span></p>
+          </div>
         </div>
       </section>
 
