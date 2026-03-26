@@ -4,6 +4,7 @@ import { createServiceClient } from '@/lib/supabase/server'
 import { sendSequenceEmail } from '@/lib/email/send'
 import { calculateCommission } from '@/lib/affiliate'
 import { sendWhatsAppToJames, JAMES_ALERTS } from '@/lib/notifications/whatsapp'
+import { notifyNewSubscription, notifyChurn } from '@/lib/notifications/notify-owner'
 
 let _stripe: Stripe | null = null
 function getStripe(): Stripe {
@@ -59,6 +60,7 @@ export async function POST(request: Request) {
       const buyerEmail = buyerUser?.email ?? 'unknown'
       const amountTotal = session.amount_total ? `£${(session.amount_total / 100).toFixed(2)}` : '£0'
       sendWhatsAppToJames(JAMES_ALERTS.newSale(planId, amountTotal, buyerEmail)).catch(console.error)
+      notifyNewSubscription(buyerEmail, planId, amountTotal).catch(console.error)
 
       // Mark discount code as used if one was applied
       const discountDbId = session.metadata?.discount_db_id
@@ -274,9 +276,10 @@ export async function POST(request: Request) {
     const sub = event.data.object as Stripe.Subscription
     const customerId = sub.customer as string
 
-    const { data: profile } = await supabase.from('profiles').select('id').eq('stripe_customer_id', customerId).single()
+    const { data: profile } = await supabase.from('profiles').select('id, email, plan').eq('stripe_customer_id', customerId).single()
     if (profile) {
       await supabase.from('profiles').update({ plan: 'trial', credits_limit: 20, credits_used: 0, stripe_subscription_id: null }).eq('id', profile.id)
+      notifyChurn(profile.email ?? customerId, profile.plan ?? 'unknown').catch(console.error)
     }
   }
 

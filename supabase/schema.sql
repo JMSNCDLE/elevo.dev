@@ -927,3 +927,19 @@ ALTER TABLE email_logs ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "admin_only_email_logs" ON email_logs FOR ALL USING (
   auth.uid() = '5dc15dea-4633-441b-b37a-5406e7235114'::uuid
 );
+
+-- Phase 27D: Owner notifications history
+CREATE TABLE IF NOT EXISTS owner_notifications (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  type TEXT NOT NULL CHECK (type IN ('signup', 'subscription', 'churn', 'alert', 'daily_summary', 'weekly_insight', 'agent_insight')),
+  title TEXT NOT NULL,
+  message TEXT NOT NULL,
+  channel TEXT NOT NULL CHECK (channel IN ('whatsapp', 'email', 'both')),
+  status TEXT DEFAULT 'sent' CHECK (status IN ('sent', 'failed', 'pending')),
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE owner_notifications ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "admin_only_notifications" ON owner_notifications FOR ALL USING (
+  auth.uid() = '5dc15dea-4633-441b-b37a-5406e7235114'::uuid
+);
