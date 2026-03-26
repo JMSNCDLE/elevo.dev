@@ -26,10 +26,10 @@ export default function PartnersPage() {
             We work with agencies, consultants, and technology partners. If you&apos;re interested in integrating with or reselling ELEVO AI, get in touch.
           </p>
           <a
-            href="mailto:hello@elevo.dev"
+            href="mailto:team@elevo.dev"
             className="inline-block px-6 py-3 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition-colors text-sm"
           >
-            hello@elevo.dev
+            team@elevo.dev
           </a>
         </div>
 

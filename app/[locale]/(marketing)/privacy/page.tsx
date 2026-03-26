@@ -4,7 +4,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
   const sections = [
     {
       title: '1. Who we are',
-      content: `ELEVO AI™ is a software-as-a-service platform operated by James Carlin, registered in England and Wales. If you have any questions about this policy, you can reach us at hello@elevo.dev. We take your privacy seriously and are committed to protecting your personal data in accordance with UK GDPR and the Data Protection Act 2018.`,
+      content: `ELEVO AI™ is a software-as-a-service platform operated by James Carlin, registered in England and Wales. If you have any questions about this policy, you can reach us at team@elevo.dev. We take your privacy seriously and are committed to protecting your personal data in accordance with UK GDPR and the Data Protection Act 2018.`,
     },
     {
       title: '2. What data we collect',
@@ -55,7 +55,7 @@ We do not sell your data to third parties. We do not use your data to train AI m
 • Objection: object to processing based on legitimate interests.
 • Restriction: ask us to limit how we use your data.
 
-To exercise any of these rights, email hello@elevo.dev. We will respond within 30 days.`,
+To exercise any of these rights, email team@elevo.dev. We will respond within 30 days.`,
     },
     {
       title: '7. Cookies',
@@ -63,7 +63,7 @@ To exercise any of these rights, email hello@elevo.dev. We will respond within 3
     },
     {
       title: '8. Children',
-      content: `ELEVO AI™ is not intended for use by anyone under the age of 16. We do not knowingly collect personal data from children. If you believe a child has provided us with personal data, please contact hello@elevo.dev and we will delete it promptly.`,
+      content: `ELEVO AI™ is not intended for use by anyone under the age of 16. We do not knowingly collect personal data from children. If you believe a child has provided us with personal data, please contact team@elevo.dev and we will delete it promptly.`,
     },
     {
       title: '9. Policy changes',
@@ -71,7 +71,7 @@ To exercise any of these rights, email hello@elevo.dev. We will respond within 3
     },
     {
       title: '10. Contact us',
-      content: `For privacy-related questions, data requests, or complaints, contact us at hello@elevo.dev. We aim to respond within 48 hours. You also have the right to lodge a complaint with the Information Commissioner's Office (ICO) at ico.org.uk.`,
+      content: `For privacy-related questions, data requests, or complaints, contact us at team@elevo.dev. We aim to respond within 48 hours. You also have the right to lodge a complaint with the Information Commissioner's Office (ICO) at ico.org.uk.`,
     },
   ]
 
@@ -87,7 +87,7 @@ To exercise any of these rights, email hello@elevo.dev. We will respond within 3
       <div className="bg-[#FFFEF9] py-20 px-4">
         <div className="max-w-3xl mx-auto">
           <p className="text-gray-600 text-base mb-12 leading-relaxed">
-            We believe privacy policies should be readable. This one is written in plain English. If anything is unclear, email us at hello@elevo.dev.
+            We believe privacy policies should be readable. This one is written in plain English. If anything is unclear, email us at team@elevo.dev.
           </p>
 
           <div className="space-y-10">

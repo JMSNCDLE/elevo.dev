@@ -12,7 +12,7 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
     },
     {
       title: '3. Account security',
-      content: `You are responsible for maintaining the security of your account credentials. Do not share your password with others. You are responsible for all activity that occurs under your account. If you suspect unauthorised access, notify us immediately at hello@elevo.dev. We reserve the right to suspend accounts showing signs of compromise or misuse.`,
+      content: `You are responsible for maintaining the security of your account credentials. Do not share your password with others. You are responsible for all activity that occurs under your account. If you suspect unauthorised access, notify us immediately at team@elevo.dev. We reserve the right to suspend accounts showing signs of compromise or misuse.`,
     },
     {
       title: '4. Acceptable use',
@@ -77,7 +77,7 @@ Violations may result in immediate account suspension without refund.`,
       <div className="bg-[#FFFEF9] py-20 px-4">
         <div className="max-w-3xl mx-auto">
           <p className="text-gray-600 text-base mb-12 leading-relaxed">
-            These terms govern your use of ELEVO AI™. By using the platform, you agree to be bound by them. Written in plain English — if anything is unclear, email hello@elevo.dev.
+            These terms govern your use of ELEVO AI™. By using the platform, you agree to be bound by them. Written in plain English — if anything is unclear, email team@elevo.dev.
           </p>
 
           <div className="space-y-10">

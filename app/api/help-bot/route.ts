@@ -78,7 +78,7 @@ const SYSTEM_PROMPT = `You are Mira, the friendly help guide for ELEVO AI — th
 ## Rules
 - Answer helpfully and concisely (under 100 words unless more detail is needed).
 - Never share other users' data or account information.
-- If you don't know something, guide the user to Settings, the relevant dashboard section, or hello@elevo.dev.
+- If you don't know something, guide the user to Settings, the relevant dashboard section, or team@elevo.dev.
 - Be warm and professional. Use the agent character names when referring to tools.`
 
 interface ConversationMessage {

@@ -42,14 +42,14 @@ export default async function RefundsPage({ params }: { params: Promise<{ locale
             <div>
               <h2 className="text-xl font-bold text-gray-900 mb-4">Data export after cancellation</h2>
               <p className="text-gray-600 text-base leading-relaxed">
-                Your data is always yours. After cancellation, you have 30 days to export your saved generations, contacts, and reports from your dashboard. After 30 days, your data will be scheduled for deletion in accordance with our Privacy Policy. To request an emergency data export, email hello@elevo.dev.
+                Your data is always yours. After cancellation, you have 30 days to export your saved generations, contacts, and reports from your dashboard. After 30 days, your data will be scheduled for deletion in accordance with our Privacy Policy. To request an emergency data export, email team@elevo.dev.
               </p>
             </div>
 
             <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-6">
               <h3 className="font-bold text-indigo-900 mb-2">Questions?</h3>
               <p className="text-indigo-700 text-sm">
-                Email us at <a href="mailto:hello@elevo.dev" className="font-semibold underline">hello@elevo.dev</a>. We respond within 48 hours.
+                Email us at <a href="mailto:team@elevo.dev" className="font-semibold underline">team@elevo.dev</a>. We respond within 48 hours.
               </p>
             </div>
 

@@ -132,7 +132,7 @@ export default function ConfirmPage() {
 
         {/* Footer hints */}
         <div className="mt-5 text-center space-y-1">
-          <p className="text-xs text-gray-400">Email sent from hello@elevo.dev — add to contacts</p>
+          <p className="text-xs text-gray-400">Email sent from team@elevo.dev — add to contacts</p>
           <p className="text-xs text-gray-400">Email expires in 24 hours</p>
           <p className="mt-3 text-xs text-gray-300">SSL encrypted · GDPR compliant · ™ ELEVO AI</p>
         </div>

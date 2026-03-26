@@ -1,5 +1,6 @@
 import { Resend } from 'resend'
 import { EMAIL_SEQUENCES, type SequenceKey } from './sequences'
+import { createClient } from '@supabase/supabase-js'
 
 // Lazy init — avoids build-time error when RESEND_API_KEY is not set
 let _resend: Resend | null = null
@@ -8,7 +9,7 @@ function getResend(): Resend {
   return _resend
 }
 
-const FROM_EMAIL = process.env.FROM_EMAIL ?? 'hello@elevo.dev'
+const FROM_EMAIL = process.env.FROM_EMAIL ?? 'ELEVO AI <team@elevo.dev>'
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.dev'
 
 export interface SendEmailParams {
@@ -19,7 +20,27 @@ export interface SendEmailParams {
   from?: string
 }
 
-export async function sendEmail(params: SendEmailParams): Promise<{ success: boolean; id?: string }> {
+async function logEmail(params: { to: string; subject: string; from?: string; status: string; agentName?: string; userId?: string; bodyPreview?: string }) {
+  try {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+    if (!url || !key) return
+    const sb = createClient(url, key)
+    await sb.from('email_logs').insert({
+      from_address: params.from ?? FROM_EMAIL,
+      to_address: params.to,
+      subject: params.subject,
+      body_preview: params.bodyPreview?.slice(0, 500) ?? null,
+      status: params.status,
+      agent_name: params.agentName ?? null,
+      user_id: params.userId ?? null,
+    })
+  } catch {
+    // Don't fail email sends if logging fails
+  }
+}
+
+export async function sendEmail(params: SendEmailParams & { agentName?: string; userId?: string }): Promise<{ success: boolean; id?: string }> {
   try {
     // If raw HTML provided, send it directly without wrapping
     if (params.html) {
@@ -31,8 +52,10 @@ export async function sendEmail(params: SendEmailParams): Promise<{ success: boo
       })
       if (error) {
         console.error('Resend error:', error)
+        await logEmail({ to: params.to, subject: params.subject, from: params.from, status: 'failed', agentName: params.agentName, userId: params.userId })
         return { success: false }
       }
+      await logEmail({ to: params.to, subject: params.subject, from: params.from, status: 'sent', agentName: params.agentName, userId: params.userId, bodyPreview: params.html?.slice(0, 500) })
       return { success: true, id: data?.id }
     }
 
@@ -66,12 +89,15 @@ ${html}
 
     if (error) {
       console.error('Resend error:', error)
+      await logEmail({ to: params.to, subject: params.subject, from: params.from, status: 'failed', agentName: params.agentName, userId: params.userId })
       return { success: false }
     }
 
+    await logEmail({ to: params.to, subject: params.subject, from: params.from, status: 'sent', agentName: params.agentName, userId: params.userId, bodyPreview: params.body?.slice(0, 500) })
     return { success: true, id: data?.id }
   } catch (err) {
     console.error('sendEmail error:', err)
+    await logEmail({ to: params.to, subject: params.subject, from: params.from, status: 'error', agentName: params.agentName, userId: params.userId })
     return { success: false }
   }
 }

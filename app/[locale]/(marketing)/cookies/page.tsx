@@ -99,7 +99,7 @@ export default async function CookiesPage({ params }: { params: Promise<{ locale
             <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-6">
               <h3 className="font-bold text-indigo-900 mb-2">Questions?</h3>
               <p className="text-indigo-700 text-sm">
-                Email us at <a href="mailto:hello@elevo.dev" className="font-semibold underline">hello@elevo.dev</a>.
+                Email us at <a href="mailto:team@elevo.dev" className="font-semibold underline">team@elevo.dev</a>.
               </p>
             </div>
 

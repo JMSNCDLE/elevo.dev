@@ -66,7 +66,7 @@ function buildTestEmail(type: 'confirmation' | 'receipt' | 'onboarding', email: 
   const footer = `
     <tr>
       <td style="padding:20px 40px;border-top:1px solid #F1F5F9;text-align:center">
-        <p style="font-size:11px;color:#94A3B8;margin:0">© 2026 ELEVO AI Ltd™ · hello@elevo.dev · <em>This is a test email sent from the QA Suite.</em></p>
+        <p style="font-size:11px;color:#94A3B8;margin:0">© 2026 ELEVO AI Ltd™ · team@elevo.dev · <em>This is a test email sent from the QA Suite.</em></p>
       </td>
     </tr>
   `

@@ -910,3 +910,20 @@ CREATE POLICY "public_read_updates" ON platform_updates FOR SELECT USING (is_pub
 CREATE POLICY "admin_write_updates" ON platform_updates FOR ALL USING (
   auth.uid() = '5dc15dea-4633-441b-b37a-5406e7235114'::uuid
 );
+
+-- Phase 27B: Email audit log
+CREATE TABLE IF NOT EXISTS email_logs (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  from_address TEXT NOT NULL DEFAULT 'team@elevo.dev',
+  to_address TEXT NOT NULL,
+  subject TEXT NOT NULL,
+  body_preview TEXT,
+  status TEXT DEFAULT 'sent' CHECK (status IN ('sent', 'failed', 'error')),
+  agent_name TEXT,
+  user_id UUID,
+  sent_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE email_logs ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "admin_only_email_logs" ON email_logs FOR ALL USING (
+  auth.uid() = '5dc15dea-4633-441b-b37a-5406e7235114'::uuid
+);
