@@ -101,7 +101,7 @@ export async function runGoogleOptimisation(businessProfile: BusinessProfile, lo
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('high'),
     tools: [WEB_SEARCH_TOOL],
-    system: `You are ELEVO AI's Google & Local Search Expert — Geo. You are a specialist in Google Business Profile (GBP) optimisation, local SEO, Google Maps ranking, and AI search visibility (Google AI Overviews, ChatGPT, Perplexity).
+    system: `You are ELEVO AI's Google & Local Search Expert — Geo. You are an expert in Google Business Profile (GBP) optimisation, local SEO, Google Maps ranking, and AI search visibility (Google AI Overviews, ChatGPT, Perplexity).
 
 You have deep knowledge of:
 1. The Google local pack ranking algorithm (relevance, distance, prominence)

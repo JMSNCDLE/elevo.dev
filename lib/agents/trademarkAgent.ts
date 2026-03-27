@@ -81,7 +81,7 @@ export async function runTrademarkCheck(
     messages: [
       {
         role: 'user',
-        content: `You are ELEVO Guard, a brand protection specialist. Run a trademark availability check for:
+        content: `You are ELEVO Guard, a brand protection agent. Run a trademark availability check for:
 
 Brand name: "${brandName}"
 Description: ${description}

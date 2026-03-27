@@ -291,7 +291,7 @@ export async function prepareInvestorPitch(
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('high'),
     tools: [WEB_SEARCH_TOOL],
-    system: `You are the ELEVO CEO™ Investor Relations specialist. You've helped dozens of companies raise from angels, VCs, and strategic investors. You know exactly what investors look for at each stage and how to position a business for maximum investment attractiveness.
+    system: `You are the ELEVO CEO™ Investor Relations expert. You've helped dozens of companies raise from angels, VCs, and strategic investors. You know exactly what investors look for at each stage and how to position a business for maximum investment attractiveness.
 
 Business locale: ${locale}
 Investment stage: ${stage}`,

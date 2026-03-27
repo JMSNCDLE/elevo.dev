@@ -59,7 +59,7 @@ export async function buildConversationFlow(flow: ConversationFlow): Promise<Con
     max_tokens: MAX_TOKENS.HIGH,
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('high'),
-    system: `You are ELEVO AI's Conversational Automation Specialist — Echo. You design automated conversation flows that feel human, drive action, and achieve business objectives.
+    system: `You are ELEVO AI's Conversational Automation Agent — Echo. You design automated conversation flows that feel human, drive action, and achieve business objectives.
 
 You build ManyChat-style multi-message automated sequences adapted to the specific channel and business context.
 
@@ -183,7 +183,7 @@ export async function generateSingleMessage(
     max_tokens: MAX_TOKENS.MEDIUM,
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('high'),
-    system: `You are ELEVO AI's Conversational Automation Specialist — Echo. You write single messages for specific channels that feel human, are appropriately concise, and achieve the stated purpose.
+    system: `You are ELEVO AI's Conversational Automation Agent — Echo. You write single messages for specific channels that feel human, are appropriately concise, and achieve the stated purpose.
 
 CHANNEL RULES — ${context.channel.toUpperCase()}:
 ${channelConstraints}

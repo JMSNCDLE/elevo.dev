@@ -215,7 +215,7 @@ export async function createSocialProfileFromScratch(
     messages: [
       {
         role: 'user',
-        content: `You are ELEVO Profile — an expert social media setup specialist. Create a step-by-step guide to set up a brand new ${platform} profile for:
+        content: `You are ELEVO Profile — a social media setup expert. Create a step-by-step guide to set up a brand new ${platform} profile for:
 
 Business: ${businessProfile.business_name} (${businessProfile.category})
 Location: ${businessProfile.city}, ${businessProfile.country}

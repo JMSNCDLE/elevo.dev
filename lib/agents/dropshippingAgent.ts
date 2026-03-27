@@ -315,7 +315,7 @@ export async function findSuppliers(
 Target Market: ${targetMarket}
 Locale: ${locale}
 
-Search for at least 4 suppliers including AliExpress options, CJDropshipping, and any specialist suppliers.
+Search for at least 4 suppliers including AliExpress options, CJDropshipping, and any niche suppliers.
 
 Return ONLY valid JSON array:
 [

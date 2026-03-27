@@ -447,32 +447,40 @@ export default async function HomePage({ params }: PageProps) {
               Why hire when AI agents work 24/7?
             </h2>
             <p className="text-white/50 mt-4 text-lg max-w-2xl mx-auto">
-              A full marketing team costs over €5,000/month. ELEVO replaces them all — for €79/month.
+              Each ELEVO agent replaces the need for a full-time employee — at a fraction of the cost.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { role: 'Marketing Manager', cost: '€3,500/mo', agent: 'Marketing Planner™' },
-              { role: 'Sales Rep', cost: '€2,800/mo', agent: 'Sales Strategist™' },
+              { role: 'Marketing Manager', cost: '€3,500/mo', agent: 'ELEVO Market™' },
               { role: 'Social Media Manager', cost: '€2,200/mo', agent: 'ELEVO SMM™' },
-              { role: 'SEO Expert', cost: '€2,500/mo', agent: 'ELEVO Rank™' },
-              { role: 'Content Writer', cost: '€1,800/mo', agent: 'ELEVO Content™' },
-              { role: 'Business Analyst', cost: '€3,000/mo', agent: 'Competitive Intel™' },
+              { role: 'Sales Rep', cost: '€2,800/mo', agent: 'Sales Strategist Agent' },
+              { role: 'Content Writer', cost: '€1,800/mo', agent: 'ELEVO Write™' },
+              { role: 'Business Analyst', cost: '€3,000/mo', agent: 'ELEVO Spy™' },
+              { role: 'Executive Coach', cost: '€4,000/mo', agent: 'Execution Coach Agent' },
+              { role: 'Researcher', cost: '€2,500/mo', agent: 'Researcher Agent' },
+              { role: 'Personal Assistant', cost: '€2,000/mo', agent: 'ELEVO PA™' },
             ].map(item => (
               <div key={item.role} className="bg-white/5 border border-white/10 rounded-xl p-5">
                 <p className="text-white/40 text-xs font-medium uppercase tracking-wider mb-2">Replaces your</p>
-                <p className="text-white font-bold text-lg mb-1">{item.role}</p>
+                <p className="text-white font-bold text-lg mb-1 line-through decoration-red-500/60">{item.role}</p>
                 <p className="text-red-400 text-sm line-through mb-3">{item.cost}</p>
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full" />
-                  <p className="text-green-400 text-sm font-semibold">{item.agent} — included</p>
+                  <span className="text-white/30">→</span>
+                  <p className="text-green-400 text-sm font-semibold">{item.agent}</p>
                 </div>
               </div>
             ))}
           </div>
           <div className="text-center mt-10">
-            <p className="text-white/30 text-sm">Total employee cost: <span className="text-red-400 line-through">€15,800/mo</span></p>
-            <p className="text-white text-2xl font-black mt-1">ELEVO Orbit: <span className="text-green-400">€79/mo</span></p>
+            <p className="text-white/30 text-sm">Total employee cost: <span className="text-red-400 line-through">€21,800/mo</span></p>
+            <p className="text-white text-2xl font-black mt-2">ELEVO Orbit: <span className="text-green-400">€79/mo</span></p>
+            <Link
+              href="/en/signup"
+              className="inline-flex items-center justify-center bg-white text-gray-900 font-semibold px-8 py-3 rounded-full hover:bg-white/90 transition-colors mt-6"
+            >
+              Start replacing costs with results →
+            </Link>
           </div>
         </div>
       </section>

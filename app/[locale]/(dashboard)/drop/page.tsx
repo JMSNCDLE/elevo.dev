@@ -513,7 +513,7 @@ export default function DropPage({ params }: { params: Promise<{ locale: string 
               </button>
             </div>
 
-            {status === 'loading' && <AgentStatusIndicator status="generating" message="Searching AliExpress, CJDropshipping, Zendrop, Spocket and specialist suppliers..." />}
+            {status === 'loading' && <AgentStatusIndicator status="generating" message="Searching AliExpress, CJDropshipping, Zendrop, Spocket and niche suppliers..." />}
             {error && <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-sm text-red-400">{error}</div>}
 
             {suppliers.length > 0 && (

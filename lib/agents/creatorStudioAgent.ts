@@ -220,7 +220,7 @@ export async function optimiseTitle(params: {
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('high'),
     betas: ['interleaved-thinking-2025-05-14'],
-    system: `You are ELEVO Creator™'s title optimisation specialist. You generate highly viral, high-CTR titles for video content. You understand YouTube, TikTok, and Instagram algorithms deeply. You know what makes people click — curiosity gaps, power words, emotional triggers, and search intent. You always return valid JSON only.`,
+    system: `You are ELEVO Creator™'s title optimisation expert. You generate highly viral, high-CTR titles for video content. You understand YouTube, TikTok, and Instagram algorithms deeply. You know what makes people click — curiosity gaps, power words, emotional triggers, and search intent. You always return valid JSON only.`,
     messages: [
       {
         role: 'user',
@@ -292,7 +292,7 @@ export async function generateThumbnailBrief(params: {
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('high'),
     betas: ['interleaved-thinking-2025-05-14'],
-    system: `You are ELEVO Creator™'s thumbnail design specialist. You understand exactly what makes thumbnails achieve high CTR on YouTube, TikTok, and Instagram. You are an expert in visual psychology, colour theory, typography, and face expression science. You generate highly actionable thumbnail concepts with exact AI image prompts. You always return valid JSON only.`,
+    system: `You are ELEVO Creator™'s thumbnail design expert. You understand exactly what makes thumbnails achieve high CTR on YouTube, TikTok, and Instagram. You are an expert in visual psychology, colour theory, typography, and face expression science. You generate highly actionable thumbnail concepts with exact AI image prompts. You always return valid JSON only.`,
     messages: [
       {
         role: 'user',
@@ -371,7 +371,7 @@ export async function generateEditingBrief(params: {
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('high'),
     betas: ['interleaved-thinking-2025-05-14'],
-    system: `You are ELEVO Creator™'s video editing specialist. You know every editing technique, transition, effect, and pacing strategy that drives watch time on YouTube, TikTok, and Instagram. You write detailed editing briefs better than any editing software's AI guide. You provide specific CapCut step-by-step instructions. You always return valid JSON only.`,
+    system: `You are ELEVO Creator™'s video editing expert. You know every editing technique, transition, effect, and pacing strategy that drives watch time on YouTube, TikTok, and Instagram. You write detailed editing briefs better than any editing software's AI guide. You provide specific CapCut step-by-step instructions. You always return valid JSON only.`,
     messages: [
       {
         role: 'user',
@@ -674,7 +674,7 @@ export async function generateTrafficStrategy(params: {
     ...buildEffortConfig('high'),
     betas: ['interleaved-thinking-2025-05-14'],
     tools: [WEB_SEARCH_TOOL],
-    system: `You are ELEVO Creator™'s traffic and algorithm specialist. You decode exactly how YouTube, TikTok, and Instagram algorithms distribute content. You build weekly traffic action plans based on real performance data. You always return valid JSON only.`,
+    system: `You are ELEVO Creator™'s traffic and algorithm expert. You decode exactly how YouTube, TikTok, and Instagram algorithms distribute content. You build weekly traffic action plans based on real performance data. You always return valid JSON only.`,
     messages: [
       {
         role: 'user',
