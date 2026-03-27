@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
-const STORAGE_KEY = 'elevo_consent_v2'
+const COOKIE_NAME = 'elevo_consent'
 
 interface ConsentData {
   essential: true
@@ -20,13 +20,9 @@ export default function CookieConsent() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      try {
-        const stored = localStorage.getItem(STORAGE_KEY)
-        if (!stored) setShown(true)
-      } catch {
-        setShown(true)
-      }
-    }, 1800)
+      const hasConsent = document.cookie.split(';').some(c => c.trim().startsWith(COOKIE_NAME + '='))
+      if (!hasConsent) setShown(true)
+    }, 800)
     return () => clearTimeout(timer)
   }, [])
 
@@ -37,11 +33,8 @@ export default function CookieConsent() {
       marketing: mkt,
       timestamp: Date.now(),
     }
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
-    } catch {
-      // localStorage not available
-    }
+    // Store in cookie (365 days, not localStorage)
+    document.cookie = `${COOKIE_NAME}=${encodeURIComponent(JSON.stringify(data))}; path=/; max-age=${365 * 24 * 60 * 60}; SameSite=Lax`
     setShown(false)
     setModalOpen(false)
   }
