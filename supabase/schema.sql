@@ -1081,3 +1081,35 @@ CREATE POLICY "admin_dunning" ON dunning_events FOR ALL USING (
   auth.uid() = '5dc15dea-4633-441b-b37a-5406e7235114'::uuid
 );
 CREATE POLICY "user_own_dunning" ON dunning_events FOR SELECT USING (auth.uid() = user_id);
+
+-- Phase 31B: Referral system
+CREATE TABLE IF NOT EXISTS referrals (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  referrer_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  referred_id UUID REFERENCES profiles(id) ON DELETE SET NULL,
+  referral_code TEXT NOT NULL,
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'signed_up', 'subscribed', 'churned')),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  converted_at TIMESTAMPTZ
+);
+ALTER TABLE referrals ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "users_own_referrals" ON referrals FOR ALL USING (auth.uid() = referrer_id);
+CREATE INDEX IF NOT EXISTS idx_referrals_referrer ON referrals(referrer_id);
+CREATE INDEX IF NOT EXISTS idx_referrals_code ON referrals(referral_code);
+
+CREATE TABLE IF NOT EXISTS referral_commissions (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  referral_id UUID REFERENCES referrals(id) ON DELETE CASCADE NOT NULL,
+  referrer_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  amount NUMERIC NOT NULL,
+  currency TEXT DEFAULT 'eur',
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'active', 'paid', 'cancelled')),
+  period_start TIMESTAMPTZ,
+  period_end TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE referral_commissions ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "users_own_commissions" ON referral_commissions FOR SELECT USING (auth.uid() = referrer_id);
+
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS referral_code TEXT UNIQUE;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS referred_by TEXT;
