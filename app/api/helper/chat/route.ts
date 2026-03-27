@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
   try {
     const client = getClient()
     const response = await client.messages.create({
-      model: MODELS.SPECIALIST,
+      model: MODELS.AGENT,
       max_tokens: 512,
       system: SYSTEM_PROMPT,
       messages,

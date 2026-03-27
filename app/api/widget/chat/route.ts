@@ -67,7 +67,7 @@ export async function POST(request: Request) {
     ]
 
     const response = await client.messages.create({
-      model: MODELS.SPECIALIST,
+      model: MODELS.AGENT,
       max_tokens: MAX_TOKENS.LOW,
       system: `${businessContext}\n\nYou are a friendly, helpful chat assistant for this business. Answer questions about services, pricing (if known), and general enquiries. If you don't know something specific, offer to connect the visitor with the team. Keep responses concise (2-4 sentences max). Never make up specific prices or appointments.`,
       messages,

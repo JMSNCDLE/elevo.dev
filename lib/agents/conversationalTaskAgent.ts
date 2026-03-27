@@ -64,7 +64,7 @@ interface IntentAnalysis {
 
 async function classifyIntent(userMessage: string, bp: BusinessProfile): Promise<IntentAnalysis> {
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: 500,
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('medium'),
@@ -107,7 +107,7 @@ export async function processConversationalTask(
     .map(m => `${m.role === 'user' ? 'User' : 'ELEVO'}: ${m.content}`)
     .join('\n')
 
-  const systemPrompt = `You are ELEVO — an AI business partner with 21 AI agents. When asked to do something, DO IT immediately and return the result. Never say you could do something — do it. You have access to: content writing, ROAS analysis, CRM, campaign planning, problem solving, market research, financial analysis.
+  const systemPrompt = `You are ELEVO — an AI business partner with 47+ AI agents. When asked to do something, DO IT immediately and return the result. Never say you could do something — do it. You have access to: content writing, ROAS analysis, CRM, campaign planning, problem solving, market research, financial analysis.
 
 Business: ${bp.business_name}, ${bp.category}, ${bp.city}, ${bp.country}
 Services: ${bp.services.join(', ')}

@@ -49,7 +49,7 @@ Create a warm, personal briefing in JSON format:
 Return ONLY the JSON, no markdown.`
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: 1000,
     thinking: { type: 'adaptive' },
     betas: ['interleaved-thinking-2025-05-14'],

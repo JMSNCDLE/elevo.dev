@@ -54,7 +54,7 @@ Be specific and actionable.`
 
   try {
     const response = await client.messages.create({
-      model: MODELS.SPECIALIST,
+      model: MODELS.AGENT,
       max_tokens: MAX_TOKENS.MEDIUM,
       messages: [{ role: 'user', content: prompt }],
     })

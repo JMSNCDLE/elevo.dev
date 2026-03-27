@@ -37,7 +37,7 @@ Available agents and their routes:
 Respond ONLY with JSON.`
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: 500,
     thinking: { type: 'adaptive' },
     betas: ['interleaved-thinking-2025-05-14'],

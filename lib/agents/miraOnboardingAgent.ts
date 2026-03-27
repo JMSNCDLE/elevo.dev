@@ -77,7 +77,7 @@ Respond with a JSON object:
 Locale hint: ${locale ?? 'en'}`
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.MEDIUM,
     thinking: { type: 'adaptive' },
     system: SYSTEM_PROMPT,

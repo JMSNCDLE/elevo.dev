@@ -71,7 +71,7 @@ export async function generateSocialProfileKit(params: {
   const { businessProfile: bp, platform, goal, locale } = params
 
   const message = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: { type: 'adaptive' },
     effort: 'high',
@@ -207,7 +207,7 @@ export async function createSocialProfileFromScratch(
   locale = 'en'
 ): Promise<ProfileFromScratchResult> {
   const message = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: { type: 'adaptive' },
     effort: 'high',

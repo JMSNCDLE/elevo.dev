@@ -682,7 +682,7 @@ export default function StitchPage() {
                   html: `<section class="bg-gray-900 py-20 px-6">
   <div class="max-w-5xl mx-auto">
     <h2 class="text-4xl font-black text-white text-center mb-3">Everything you need.</h2>
-    <p class="text-gray-400 text-center mb-12">One platform. 21 AI agents. Infinite possibilities.</p>
+    <p class="text-gray-400 text-center mb-12">One platform. 47+ AI agents. Infinite possibilities.</p>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
         <div class="w-10 h-10 bg-indigo-500/20 rounded-xl flex items-center justify-center mb-4">

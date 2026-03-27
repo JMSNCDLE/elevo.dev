@@ -60,7 +60,7 @@ export function createToolRoute(systemPrompt: string) {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const stream = await (client.messages as any).create({
-        model: MODELS.SPECIALIST,
+        model: MODELS.AGENT,
         max_tokens: 2048,
         thinking: { type: 'adaptive' },
         system: systemPrompt,

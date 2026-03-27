@@ -17,7 +17,7 @@ export async function runCRMBriefing(
   const client = getClient()
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.MEDIUM,
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('medium'),
@@ -71,7 +71,7 @@ export async function draftContactMessage(
   const firstName = contact.full_name.split(' ')[0]
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.MEDIUM,
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('medium'),
@@ -121,7 +121,7 @@ export async function enrichContact(
   const client = getClient()
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.LOW,
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('medium'),

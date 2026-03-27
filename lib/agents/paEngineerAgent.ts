@@ -208,7 +208,7 @@ Return JSON matching this exact TypeScript interface. Make the health check real
 Respond with valid JSON only, no markdown fences.`
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: 6000,
     thinking: buildThinkingConfig(),
     betas: ['interleaved-thinking-2025-05-14'],
@@ -251,7 +251,7 @@ Return JSON:
 Respond with valid JSON only, no markdown fences.`
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: 2000,
     thinking: buildThinkingConfig(),
     betas: ['interleaved-thinking-2025-05-14'],
@@ -286,7 +286,7 @@ Return JSON:
 Respond with valid JSON only, no markdown fences.`
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: 2000,
     thinking: buildThinkingConfig(),
     betas: ['interleaved-thinking-2025-05-14'],
@@ -323,7 +323,7 @@ For incident: include timeline, impact, root cause, resolution, prevention steps
 Keep it concise but comprehensive. Write as Aria, James's personal engineer.`
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: 3000,
     thinking: buildThinkingConfig(),
     betas: ['interleaved-thinking-2025-05-14'],

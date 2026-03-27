@@ -170,7 +170,7 @@ export async function buildConversationFlow(params: {
   const { businessProfile: bp, triggerType, platform, channel, objective, locale } = params
 
   const message = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.MEDIUM,
     thinking: { type: 'adaptive' },
     effort: 'medium',
@@ -225,7 +225,7 @@ export async function generateTemplateLibrary(
   const bp = businessProfile
 
   const message = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.MEDIUM,
     thinking: { type: 'adaptive' },
     effort: 'medium',

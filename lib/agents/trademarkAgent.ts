@@ -73,7 +73,7 @@ export async function runTrademarkCheck(
   const jurisList = jurisdictions.join(', ')
 
   const message = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: { type: 'adaptive' },
     effort: 'high',

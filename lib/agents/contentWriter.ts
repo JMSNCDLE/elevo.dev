@@ -43,7 +43,7 @@ Return ONLY valid JSON (no markdown fences):
   const userPrompt = buildUserPrompt(input)
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('high'),

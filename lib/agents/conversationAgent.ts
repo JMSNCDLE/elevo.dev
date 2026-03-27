@@ -55,7 +55,7 @@ export async function buildConversationFlow(flow: ConversationFlow): Promise<Con
   const channelConstraints = CHANNEL_CONSTRAINTS[flow.channel]
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('high'),
@@ -179,7 +179,7 @@ export async function generateSingleMessage(
   const channelConstraints = CHANNEL_CONSTRAINTS[context.channel]
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.MEDIUM,
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('high'),

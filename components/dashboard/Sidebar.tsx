@@ -10,7 +10,7 @@ import {
   ShoppingCart, Store,
   Target, Mail, Settings as SettingsIcon,
   Users2, BarChart2, DollarSign, TrendingDown, Rocket,
-  ChevronRight, Library, Star, Paintbrush, ClipboardList, FlaskConical, Plug, Bell, Megaphone, Activity, ShoppingBag, Monitor, Camera, Phone, Server, UserPlus, GitBranch, Gift, CreditCard,
+  ChevronRight, Library, Star, Paintbrush, ClipboardList, FlaskConical, Plug, Bell, Megaphone, Activity, ShoppingBag, Monitor, Camera, Phone, Server, UserPlus, GitBranch, Gift, CreditCard, Award, Package, Linkedin, Calendar,
 } from 'lucide-react'
 import { useAgentSearch } from '@/hooks/useAgentSearch'
 import AgentSearch from './AgentSearch'
@@ -70,12 +70,32 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       ],
     },
     {
-      title: 'Content',
+      title: 'Content & Marketing',
       items: [
         { href: `/${locale}/creator`, label: 'ELEVO Creator™', icon: Video, orbitOnly: true },
         { href: `/${locale}/clip`, label: 'ELEVO Clip™', icon: Scissors, orbitOnly: true },
         { href: `/${locale}/viral`, label: 'ELEVO Viral™', icon: TrendingUp, orbitOnly: true },
         { href: `/${locale}/video-studio`, label: 'Video Studio', icon: Film },
+        { href: `/${locale}/tools/case-study`, label: 'Case Study Builder', icon: Award },
+        { href: `/${locale}/tools/digital-product`, label: 'Digital Product', icon: Package, galaxyOnly: true, badge: 'GALAXY' },
+      ],
+    },
+    {
+      title: 'Sales & Outreach',
+      items: [
+        { href: `/${locale}/tools/linkedin-client`, label: 'LinkedIn Client', icon: Linkedin, orbitOnly: true },
+      ],
+    },
+    {
+      title: 'Threads Growth Suite',
+      items: [
+        { href: `/${locale}/tools/threads-strategy`, label: 'Strategy', icon: TrendingUp, orbitOnly: true },
+        { href: `/${locale}/tools/threads-audience`, label: 'Audience', icon: Users2, orbitOnly: true },
+        { href: `/${locale}/tools/threads-hooks`, label: 'Hook Generator', icon: Zap },
+        { href: `/${locale}/tools/threads-content-plan`, label: '30-Day Plan', icon: Calendar, orbitOnly: true },
+        { href: `/${locale}/tools/threads-writer`, label: 'Thread Writer', icon: PenLine },
+        { href: `/${locale}/tools/threads-engagement`, label: 'Engagement', icon: TrendingUp },
+        { href: `/${locale}/tools/threads-monetization`, label: 'Monetization', icon: DollarSign, galaxyOnly: true, badge: 'GALAXY' },
       ],
     },
     {

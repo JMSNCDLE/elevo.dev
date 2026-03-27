@@ -30,7 +30,7 @@ export default async function HomePage({ params }: PageProps) {
           </h1>
 
           <p className="text-white/60 text-lg max-w-2xl mx-auto mb-10">
-            21 AI agents that replace your entire team — content, marketing, sales, CRM, and analytics. 24/7, at a fraction of the cost.
+            47+ AI agents that replace your entire team — content, marketing, sales, CRM, and analytics. 24/7, at a fraction of the cost.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">

@@ -87,7 +87,7 @@ export async function runDailySMMWorkflow(params: {
   const { connectedPlatforms, date, locale } = params
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.MEDIUM,
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('medium'),
@@ -243,7 +243,7 @@ export async function analyseCompetitorSocialAndAdapt(params: {
   const { businessProfile, competitorHandles, platforms, locale } = params
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.MEDIUM,
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('medium'),

@@ -187,7 +187,7 @@ export async function generateVoiceoverScript(params: {
   const { businessProfile: bp, content, voiceStyle, emotion, language, platform } = params
 
   const message = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.MEDIUM,
     thinking: { type: 'adaptive' },
     effort: 'medium',

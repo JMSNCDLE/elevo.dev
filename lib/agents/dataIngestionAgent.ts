@@ -34,7 +34,7 @@ export async function parseRawData(
   const client = getClient()
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.MEDIUM,
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('medium'),
@@ -107,7 +107,7 @@ Return ONLY valid JSON:
  */
 export async function parseAdvertisingData(rawInput: string): Promise<ParsedAdData> {
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.MEDIUM,
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('medium'),

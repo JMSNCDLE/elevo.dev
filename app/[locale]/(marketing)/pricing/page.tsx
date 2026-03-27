@@ -458,6 +458,20 @@ export default function PricingPage() {
           </p>
         </div>
       </section>
+
+      {/* Enterprise CTA */}
+      <section className="py-16 px-4 bg-gradient-to-b from-gray-50 to-white border-t border-gray-100">
+        <div className="max-w-2xl mx-auto text-center">
+          <p className="text-xs font-semibold text-indigo-600 uppercase tracking-wider mb-2">Enterprise & Custom Solutions</p>
+          <h3 className="text-xl font-bold text-gray-900 mb-3">Need something more specific?</h3>
+          <p className="text-sm text-gray-500 mb-6">
+            Our team builds custom AI solutions tailored to your business. Bespoke agents, white-label setup, dedicated support.
+          </p>
+          <a href="mailto:team@elevo.dev" className="inline-block px-6 py-3 bg-gray-900 text-white font-semibold rounded-xl hover:bg-gray-800 transition-colors text-sm">
+            Contact team@elevo.dev
+          </a>
+        </div>
+      </section>
     </main>
   );
 }

@@ -45,7 +45,7 @@ export async function GET(request: Request) {
       // Ask AI for improvement suggestions
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const response = await (client.messages as any).create({
-        model: MODELS.SPECIALIST,
+        model: MODELS.AGENT,
         max_tokens: 512,
         thinking: { type: 'adaptive' },
         stream: false,

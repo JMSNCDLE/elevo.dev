@@ -145,7 +145,7 @@ Generate 5-8 specific, implementable changes. Return a JSON array:
 Locale: ${locale}`
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: { type: 'adaptive' },
     system: SYSTEM_PROMPT,
@@ -188,7 +188,7 @@ Write compelling, conversion-focused copy for the ${pageType} page. Include:
 Format as clean HTML sections with semantic tags. Locale: ${locale}`
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: { type: 'adaptive' },
     system: SYSTEM_PROMPT,

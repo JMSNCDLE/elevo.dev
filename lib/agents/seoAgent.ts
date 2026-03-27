@@ -49,7 +49,7 @@ export async function runSEOAudit(
   locale: string
 ): Promise<SEOAuditResult> {
   const message = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: { type: 'adaptive' },
     effort: 'high',
@@ -116,7 +116,7 @@ export async function generateSEOBlogPost(
   locale: string
 ): Promise<SEOBlogPost> {
   const message = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: { type: 'adaptive' },
     effort: 'high',

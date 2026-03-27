@@ -30,7 +30,7 @@ export async function GET() {
     const client = getClient()
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await (client.messages as any).create({
-      model: MODELS.SPECIALIST,
+      model: MODELS.AGENT,
       max_tokens: 10,
       stream: false,
       messages: [{ role: 'user', content: 'ping' }],
@@ -53,7 +53,7 @@ export async function GET() {
 
   return NextResponse.json({
     status: allAvailable ? 'all_agents_online' : 'degraded',
-    aiBackend: { status: aiStatus, latency: aiLatency, model: MODELS.SPECIALIST },
+    aiBackend: { status: aiStatus, latency: aiLatency, model: MODELS.AGENT },
     agents: agentStatuses,
     totalAgents: AGENTS.length,
     timestamp: new Date().toISOString(),

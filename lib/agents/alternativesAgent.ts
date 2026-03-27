@@ -45,7 +45,7 @@ export async function findAlternatives(request: AlternativeRequest): Promise<Alt
   const client = getClient()
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('high'),

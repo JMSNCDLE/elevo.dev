@@ -17,7 +17,7 @@ export function getClient(): Anthropic {
 export const MODELS = {
   ORCHESTRATOR: 'claude-opus-4-6',
   PROBLEM_SOLVER: 'claude-opus-4-6',
-  SPECIALIST: 'claude-sonnet-4-6',
+  AGENT: 'claude-sonnet-4-6',
 } as const
 
 // ─── Token Limits ─────────────────────────────────────────────────────────────

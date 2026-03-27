@@ -96,7 +96,7 @@ export async function runGoogleOptimisation(businessProfile: BusinessProfile, lo
   const hasUSPs = businessProfile.unique_selling_points && businessProfile.unique_selling_points.length > 0
 
   const response = await createMessage({
-    model: MODELS.SPECIALIST,
+    model: MODELS.AGENT,
     max_tokens: MAX_TOKENS.HIGH,
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('high'),
