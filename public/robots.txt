@@ -1,9 +1,41 @@
+# ELEVO AI — robots.txt
+# Allow all search engine bots to index marketing pages
+# Block dashboard, admin, API, and onboarding routes
+
 User-agent: *
 Allow: /
-
 Disallow: /api/
 Disallow: /*/dashboard/
 Disallow: /*/onboarding/
 Disallow: /*/admin/
 
+# Google
+User-agent: Googlebot
+Allow: /
+
+# Bing / Microsoft
+User-agent: Bingbot
+Allow: /
+
+# DuckDuckGo (uses Bing index, but has its own bot)
+User-agent: DuckDuckBot
+Allow: /
+
+# Yahoo (uses Bing index)
+User-agent: Slurp
+Allow: /
+
+# Yandex (significant EU traffic, supports IndexNow)
+User-agent: YandexBot
+Allow: /
+
+# Apple
+User-agent: Applebot
+Allow: /
+
+# Baidu (Chinese search)
+User-agent: Baiduspider
+Allow: /
+
+# Sitemaps
 Sitemap: https://elevo.dev/sitemap.xml

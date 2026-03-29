@@ -97,6 +97,27 @@ function JsonLd() {
         { '@type': 'Question', name: 'Is ELEVO AI GDPR compliant?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. GDPR-compliant, bank-grade encryption, data never used for AI training.' } },
       ],
     },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'ELEVO AI™',
+      url: 'https://elevo.dev',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: { '@type': 'EntryPoint', urlTemplate: 'https://elevo.dev/en/blog?q={search_term_string}' },
+        'query-input': 'required name=search_term_string',
+      },
+      inLanguage: ['en', 'es'],
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://elevo.dev' },
+        { '@type': 'ListItem', position: 2, name: 'Pricing', item: 'https://elevo.dev/en/pricing' },
+        { '@type': 'ListItem', position: 3, name: 'Blog', item: 'https://elevo.dev/en/blog' },
+      ],
+    },
   ]
 
   return (
