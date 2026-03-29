@@ -19,11 +19,17 @@ export async function GET(request: Request) {
   const supabase = createClient(url, key)
 
   // Upsert unsubscribe preference
-  await supabase.from('email_preferences').upsert({
+  const { error: upsertError } = await supabase.from('email_preferences').upsert({
     user_id: userId,
     marketing_emails: false,
     updated_at: new Date().toISOString(),
   }, { onConflict: 'user_id' })
+
+  if (upsertError) {
+    return new Response(unsubscribePage('Failed to update preferences. Please try again.', false, APP_URL), {
+      headers: { 'Content-Type': 'text/html' },
+    })
+  }
 
   return new Response(unsubscribePage('', true, APP_URL), {
     headers: { 'Content-Type': 'text/html' },

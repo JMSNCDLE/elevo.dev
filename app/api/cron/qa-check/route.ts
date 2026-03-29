@@ -4,7 +4,7 @@ import { createServiceClient } from '@/lib/supabase/server'
 const CRON_SECRET = process.env.CRON_SECRET
 const ADMIN_EMAIL = process.env.ELEVO_ADMIN_EMAIL ?? 'team@elevo.dev'
 const RESEND_API_KEY = process.env.RESEND_API_KEY
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
 
 interface QAResult {
   name: string

@@ -189,6 +189,8 @@ export async function POST(request: Request) {
             to: stripeUser.email,
             subject: `Payment confirmed — ${invoiceNumber} — ELEVO AI™`,
             html,
+            agentName: 'Invoice',
+            userId: profile.id,
           })
         }
       }
@@ -243,7 +245,8 @@ export async function POST(request: Request) {
       if (failedProfile) {
         const { data: { user: failedUser } } = await supabase.auth.admin.getUserById(failedProfile.id)
         const failedEmail = failedUser?.email ?? 'unknown'
-        const failedAmount = invoice.amount_due ? `€${(invoice.amount_due / 100).toFixed(2)}` : '€0'
+        const failedCurrency = invoice.currency === 'gbp' ? '£' : invoice.currency === 'eur' ? '€' : '$'
+        const failedAmount = invoice.amount_due ? `${failedCurrency}${(invoice.amount_due / 100).toFixed(2)}` : `${failedCurrency}0`
         sendWhatsAppToJames(JAMES_ALERTS.paymentFailed(failedEmail, failedAmount)).catch(console.error)
 
         // Create dunning event
