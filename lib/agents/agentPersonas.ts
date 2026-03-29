@@ -1,0 +1,516 @@
+// ─── ELEVO AI — Agent Brand Names ─────────────────────────────────────────────
+// Every ELEVO agent has both a character name and a product brand name.
+// Marketing pages show brand names only.
+// Dashboard and agent directory show both.
+
+export interface AgentPersona {
+  characterName: string
+  brandName: string
+  tagline: string
+  pillar: 'visibility' | 'growth' | 'customers' | 'intelligence' | 'media' | 'support' | 'ecommerce' | 'admin' | 'marketing' | 'design' | 'tools'
+  emoji: string
+  description: string
+  capabilities: string[]
+  creditsPerUse: number
+  availableFrom: 'trial' | 'launch' | 'orbit' | 'galaxy' | 'admin'
+}
+
+export const AGENT_PERSONAS: AgentPersona[] = [
+  // ── VISIBILITY PILLAR ──────────────────────────────────────────────────────
+  {
+    characterName: 'Sol',
+    brandName: 'ELEVO Write',
+    tagline: 'Content that ranks and converts',
+    pillar: 'visibility',
+    emoji: '✍️',
+    description: 'Creates GBP posts, blogs, social captions, review responses, email campaigns, and SEO copy — all in your brand voice.',
+    capabilities: ['GBP Posts', 'Blog articles', 'Social captions', 'Review responses', 'Email campaigns', 'SEO copy'],
+    creditsPerUse: 1,
+    availableFrom: 'trial',
+  },
+  {
+    characterName: 'Val',
+    brandName: 'ELEVO Check',
+    tagline: 'Quality guaranteed, every time',
+    pillar: 'visibility',
+    emoji: '✅',
+    description: 'Runs a 10-point quality check on every piece of content — grammar, tone, SEO, brand voice.',
+    capabilities: ['10-point quality audit', 'SEO validation', 'Tone of voice check', 'Brand consistency'],
+    creditsPerUse: 0,
+    availableFrom: 'trial',
+  },
+  {
+    characterName: 'Geo',
+    brandName: 'ELEVO Local',
+    tagline: 'Dominate your local search results',
+    pillar: 'visibility',
+    emoji: '📍',
+    description: 'Optimises your Google Business Profile, improves local rankings, and finds everything your competitors rank for that you don\'t.',
+    capabilities: ['GBP optimisation', 'Local SEO audit', 'Competitor gap analysis', 'Review strategy', 'Maps ranking'],
+    creditsPerUse: 1,
+    availableFrom: 'launch',
+  },
+  {
+    characterName: 'Leo',
+    brandName: 'ELEVO Ads',
+    tagline: 'Know exactly where every pound goes',
+    pillar: 'visibility',
+    emoji: '📊',
+    description: 'Analyses your ad spend across every platform. Finds wasted budget, identifies top performers, and tells you exactly what to do next.',
+    capabilities: ['ROAS analysis', 'Ad spend audit', 'Platform comparison', 'Budget optimisation', 'Creative performance'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
+  },
+  {
+    characterName: 'Rank',
+    brandName: 'ELEVO Rank',
+    tagline: 'Rank #1 for your best keywords',
+    pillar: 'visibility',
+    emoji: '🔍',
+    description: 'Audits your SEO, identifies content gaps, generates SEO-optimised blog posts, and builds your 90-day ranking plan.',
+    capabilities: ['SEO audit', 'Keyword research', 'Blog generation', 'Technical SEO', 'Backlink strategy'],
+    creditsPerUse: 1,
+    availableFrom: 'launch',
+  },
+
+  // ── GROWTH PILLAR ──────────────────────────────────────────────────────────
+  {
+    characterName: 'Ava',
+    brandName: 'ELEVO Sales',
+    tagline: 'Close more deals, faster',
+    pillar: 'growth',
+    emoji: '🤝',
+    description: 'Builds tailored sales proposals, scripts, and follow-up sequences that convert prospects into paying customers.',
+    capabilities: ['Sales proposals', 'Pitch decks', 'Follow-up scripts', 'Objection handling', 'Quote templates'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
+  },
+  {
+    characterName: 'Aria',
+    brandName: 'ELEVO Research',
+    tagline: 'Know your market before your competitors do',
+    pillar: 'growth',
+    emoji: '🔬',
+    description: 'Deep market research powered by real-time web search. Competitor intelligence, market sizing, trend analysis.',
+    capabilities: ['Market research', 'Competitor analysis', 'Trend identification', 'Opportunity mapping'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
+  },
+  {
+    characterName: 'Nova',
+    brandName: 'ELEVO Strategy',
+    tagline: 'A clear plan for where you\'re going',
+    pillar: 'growth',
+    emoji: '🚀',
+    description: 'Builds full SWOT analyses and 12-month growth strategies tailored to your business, market, and goals.',
+    capabilities: ['SWOT analysis', '12-month strategy', 'Goal setting', 'Growth roadmap', 'KPI framework'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
+  },
+  {
+    characterName: 'Zara',
+    brandName: 'ELEVO Money',
+    tagline: 'Your P&L, finally making sense',
+    pillar: 'growth',
+    emoji: '💰',
+    description: 'Analyses your financial health, forecasts cash flow, identifies cost-cutting opportunities, and models growth scenarios.',
+    capabilities: ['Financial health report', 'Cash flow forecast', 'Cost optimisation', 'Revenue modelling', 'Break-even analysis'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
+  },
+  {
+    characterName: 'Finn',
+    brandName: 'ELEVO People',
+    tagline: 'HR done right, without the HR team',
+    pillar: 'growth',
+    emoji: '👥',
+    description: 'Generates employment contracts, staff handbooks, performance frameworks, and hiring documents for your business.',
+    capabilities: ['Employment contracts', 'Staff handbooks', 'Performance reviews', 'Hiring templates', 'Disciplinary procedures'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
+  },
+  {
+    characterName: 'AdsP',
+    brandName: 'ELEVO Ads Pro',
+    tagline: 'Run Meta, Google, TikTok ads like an agency',
+    pillar: 'growth',
+    emoji: '🎯',
+    description: 'Builds complete ad campaigns with targeting, copy variations, creative briefs, and performance predictions — ready to launch.',
+    capabilities: ['Meta Ads', 'Google Ads', 'TikTok Ads', 'LinkedIn Ads', 'Audience targeting', 'A/B copy', 'Creative briefs'],
+    creditsPerUse: 3,
+    availableFrom: 'orbit',
+  },
+
+  // ── CUSTOMERS PILLAR ───────────────────────────────────────────────────────
+  {
+    characterName: 'Sage',
+    brandName: 'ELEVO Connect',
+    tagline: 'Every conversation, handled beautifully',
+    pillar: 'customers',
+    emoji: '💬',
+    description: 'Powers your CRM conversations across Instagram, WhatsApp, SMS, and email. Books appointments, captures leads automatically.',
+    capabilities: ['DM automation', 'Lead capture', 'Appointment booking', 'Follow-up sequences', 'CRM sync'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
+  },
+  {
+    characterName: 'Echo',
+    brandName: 'ELEVO Flow',
+    tagline: 'Automated flows that close',
+    pillar: 'customers',
+    emoji: '⚡',
+    description: 'Builds ManyChat-style message flows triggered by comments, follows, payments, and more — powered by Claude.',
+    capabilities: ['Comment triggers', 'DM flows', 'Review requests', 'Win-back sequences', 'Booking confirmations'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
+  },
+  {
+    characterName: 'Maya',
+    brandName: 'ELEVO Insight',
+    tagline: 'Understand your customers deeply',
+    pillar: 'customers',
+    emoji: '🧠',
+    description: 'Analyses customer behaviour, segments your audience, identifies your best customers, and predicts who\'s about to churn.',
+    capabilities: ['Customer segmentation', 'Churn prediction', 'Lifetime value analysis', 'Trend identification'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
+  },
+  {
+    characterName: 'Clio',
+    brandName: 'ELEVO Social',
+    tagline: 'A full-time social media manager',
+    pillar: 'customers',
+    emoji: '📱',
+    description: 'Manages your entire social presence — strategy, content calendar, scheduling, auto-posting, and performance analysis.',
+    capabilities: ['Social strategy', 'Content calendar', 'Auto-posting', 'Performance analysis', 'Profile optimisation'],
+    creditsPerUse: 1,
+    availableFrom: 'launch',
+  },
+  {
+    characterName: 'Prof',
+    brandName: 'ELEVO Profile',
+    tagline: 'Social profiles that stop the scroll',
+    pillar: 'customers',
+    emoji: '✨',
+    description: 'Creates optimised social media profiles with 30-day content calendars, hashtag strategies, and viral content ideas.',
+    capabilities: ['Profile optimisation', '30-day calendar', 'Hashtag strategy', 'Bio variations', 'Viral content ideas'],
+    creditsPerUse: 1,
+    availableFrom: 'launch',
+  },
+
+  // ── INTELLIGENCE PILLAR ────────────────────────────────────────────────────
+  {
+    characterName: 'Max',
+    brandName: 'ELEVO Solve',
+    tagline: 'Your smartest advisor, on demand',
+    pillar: 'intelligence',
+    emoji: '🧩',
+    description: 'Powered by Claude Opus — the most capable AI model. Diagnoses complex business problems and builds step-by-step action plans.',
+    capabilities: ['Problem analysis', 'Root cause identification', 'Action planning', 'Decision frameworks'],
+    creditsPerUse: 2,
+    availableFrom: 'launch',
+  },
+  {
+    characterName: 'Iris',
+    brandName: 'ELEVO Live',
+    tagline: 'Always on, always ready',
+    pillar: 'intelligence',
+    emoji: '💫',
+    description: 'The live assistant panel across your entire dashboard. Quick answers, instant content, real-time guidance.',
+    capabilities: ['Instant answers', 'Quick content', 'Dashboard assistant', 'Context-aware help'],
+    creditsPerUse: 0,
+    availableFrom: 'trial',
+  },
+  {
+    characterName: 'Atlas',
+    brandName: 'ELEVO Intel',
+    tagline: 'Market intelligence at your fingertips',
+    pillar: 'intelligence',
+    emoji: '🌍',
+    description: 'Monitors your market in real time. Tracks competitor moves, industry trends, and emerging opportunities.',
+    capabilities: ['Market monitoring', 'Competitor tracking', 'Trend alerts', 'Opportunity scoring'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
+  },
+  {
+    characterName: 'Hugo',
+    brandName: 'ELEVO Switch',
+    tagline: 'Cut costs without cutting quality',
+    pillar: 'intelligence',
+    emoji: '🔄',
+    description: 'Finds better, cheaper alternatives to every tool, supplier, and service you currently use.',
+    capabilities: ['Tool alternatives', 'Supplier sourcing', 'Cost comparison', 'Vendor analysis'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
+  },
+  {
+    characterName: 'Guard',
+    brandName: 'ELEVO Guard',
+    tagline: 'Protect your brand like a legal team',
+    pillar: 'intelligence',
+    emoji: '🛡️',
+    description: 'Checks trademark availability, recommends filing classes, builds your IP protection strategy.',
+    capabilities: ['Trademark availability', 'Class recommendations', 'IP strategy', 'Brand monitoring'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
+  },
+
+  // ── MEDIA PILLAR ───────────────────────────────────────────────────────────
+  {
+    characterName: 'Vega',
+    brandName: 'ELEVO Studio',
+    tagline: 'Every AI video tool, one studio',
+    pillar: 'media',
+    emoji: '🎬',
+    description: 'Creates avatar ads, product videos, voiceovers, and cinematic UGC. Your complete video production studio.',
+    capabilities: ['Avatar ads', 'Product URL videos', 'AI voiceovers', 'Cinematic UGC', 'D-ID prompts', 'HeyGen prompts'],
+    creditsPerUse: 2,
+    availableFrom: 'orbit',
+  },
+  {
+    characterName: 'Dex',
+    brandName: 'ELEVO Import',
+    tagline: 'All your data, in one place',
+    pillar: 'media',
+    emoji: '📥',
+    description: 'Imports and parses advertising data from Google Ads, Meta Ads, and other platforms.',
+    capabilities: ['Google Ads import', 'Meta Ads import', 'CSV parsing', 'Data normalisation'],
+    creditsPerUse: 0,
+    availableFrom: 'orbit',
+  },
+
+  // ── MEDIA: VISION ──────────────────────────────────────────────────────────
+  {
+    characterName: 'Iris',
+    brandName: 'ELEVO Vision™',
+    tagline: 'AI image prompts for every platform',
+    pillar: 'media',
+    emoji: '👁️',
+    description: 'Generates optimised image prompts for Midjourney, DALL·E 3, Stable Diffusion, Ideogram, Adobe Firefly, and Canva AI — tailored to your business, brand colours, and platform. Includes 3 variations per request.',
+    capabilities: ['Midjourney prompts', 'DALL·E 3 prompts', 'Stable Diffusion prompts', 'Ideogram prompts', 'Firefly prompts', 'Canva AI prompts', 'Brand integration', '3 variations'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
+  },
+
+  // ── MEDIA CREATIVE ─────────────────────────────────────────────────────────
+  {
+    characterName: 'Pixel',
+    brandName: 'ELEVO Create™',
+    tagline: 'Every AI creative tool. One prompt.',
+    pillar: 'media',
+    emoji: '🎨',
+    description: 'Generates optimised prompts for Sora 2, Veo 3, Kling 3, Higgsfield, Midjourney, DALL·E 3, ElevenLabs and every major AI creative tool. Brand kit generator. Social graphic designer.',
+    capabilities: ['Sora 2', 'Veo 3', 'Kling 3', 'Higgsfield', 'Midjourney', 'DALL·E 3', 'ElevenLabs', 'Brand kits', 'Social graphics'],
+    creditsPerUse: 2,
+    availableFrom: 'orbit',
+  },
+
+  // ── MEDIA: CLIP ────────────────────────────────────────────────────────────
+  {
+    characterName: 'Snap',
+    brandName: 'ELEVO Clip™',
+    tagline: 'Turn any long content into viral clips.',
+    pillar: 'media',
+    emoji: '✂️',
+    description: 'Identifies the 3-5 best moments in any video or transcript, writes captions, hashtags, hooks, and subtitle overlays for each clip — ready to post on TikTok, Instagram, YouTube Shorts, and LinkedIn.',
+    capabilities: ['Clip identification', 'Platform-specific captions', 'Viral hook writing', 'Posting schedule', 'ELEVO Create™ integration'],
+    creditsPerUse: 2,
+    availableFrom: 'orbit',
+  },
+
+  // ── VIRAL / SOCIAL ─────────────────────────────────────────────────────────
+  {
+    characterName: 'ELEVO Viral™',
+    brandName: 'ELEVO Viral™',
+    tagline: 'Go viral. Grow organically.',
+    pillar: 'media',
+    emoji: '🚀',
+    description: 'Builds viral content strategies using real-time trend data. Tracks trending topics in your niche daily and generates a 30-day viral calendar.',
+    capabilities: ['TikTok virality', 'Instagram Reels strategy', 'Hook writing', 'Viral calendars', 'Organic growth', 'Trend riding'],
+    creditsPerUse: 5,
+    availableFrom: 'orbit',
+  },
+
+  // ── CREATOR ────────────────────────────────────────────────────────────────
+  {
+    characterName: 'Reel',
+    brandName: 'ELEVO Creator™',
+    tagline: 'Your creator business strategist',
+    pillar: 'media',
+    emoji: '🎬',
+    description: 'Optimises titles for maximum virality, generates thumbnail concepts, builds editing briefs better than CapCut AI, audits YouTube and TikTok channels, and manages content traffic strategy.',
+    capabilities: ['Title optimisation', 'Thumbnail AI', 'Editing briefs', 'CapCut guide', 'Channel audit', 'YouTube SEO', 'TikTok algorithm', 'Traffic strategy'],
+    creditsPerUse: 2,
+    availableFrom: 'orbit',
+  },
+
+  // ── ECOMMERCE PILLAR ───────────────────────────────────────────────────────
+  {
+    characterName: 'Drake',
+    brandName: 'ELEVO Drop™',
+    tagline: 'Find winning products. Build stores. Scale fast.',
+    pillar: 'ecommerce',
+    emoji: '📦',
+    description: 'Your complete dropshipping suite. Finds trending products with high margins, sources the best suppliers, builds Shopify-ready store content, and creates ad campaigns — all in one command centre.',
+    capabilities: ['Product trend research', 'Supplier comparison', 'Shopify store content', 'Ad campaign creation', 'Profit projections'],
+    creditsPerUse: 5,
+    availableFrom: 'galaxy',
+  },
+
+  // ── SUPPORT ────────────────────────────────────────────────────────────────
+  {
+    characterName: 'Mira',
+    brandName: 'ELEVO Guide',
+    tagline: 'Up and running in 5 minutes',
+    pillar: 'support',
+    emoji: '🗺️',
+    description: 'Guides new users through onboarding with a conversational 5-step wizard that sets up their entire business profile.',
+    capabilities: ['Business profile setup', 'Guided onboarding', 'First content generation'],
+    creditsPerUse: 0,
+    availableFrom: 'trial',
+  },
+  {
+    characterName: 'Wren',
+    brandName: 'ELEVO Site',
+    tagline: 'Your website, always fresh',
+    pillar: 'support',
+    emoji: '🌐',
+    description: 'Analyses your website, suggests improvements, generates new pages, and keeps your content up to date.',
+    capabilities: ['Website audit', 'Page generation', 'Content refresh', 'SEO recommendations'],
+    creditsPerUse: 1,
+    availableFrom: 'orbit',
+  },
+
+  // ── MARKETING PILLAR ──────────────────────────────────────────────────────
+  {
+    characterName: 'Clio',
+    brandName: 'ELEVO Market™',
+    tagline: 'Your complete marketing department',
+    pillar: 'marketing',
+    emoji: '⚡',
+    description: 'The complete marketing department. Builds full marketing missions, orchestrates all ELEVO agents, executes daily content plans autonomously, and adapts strategy weekly based on performance. Better than Hootsuite, Jasper, HubSpot, and Holo.ai combined.',
+    capabilities: ['Full marketing strategy', 'Content calendar', 'Ad campaigns', 'Email sequences', 'Influencer outreach', 'Reputation management', 'Weekly reviews', 'Autonomous execution'],
+    creditsPerUse: 10,
+    availableFrom: 'orbit',
+  },
+
+  // ── ADMIN PILLAR ────────────────────────────────────────────────────────────
+  {
+    characterName: 'Aria',
+    brandName: 'ELEVO PA™',
+    tagline: 'Your 24/7 personal engineer',
+    pillar: 'admin',
+    emoji: '🤖',
+    description: '24/7 autonomous health monitor. Watches every page, API, database table, and Stripe webhook. Sends daily summaries to James and creates tasks for any issues found.',
+    capabilities: ['Health monitoring', 'Daily summaries', 'Bug detection', 'Auto-fix', 'Task management', 'Incident reports'],
+    creditsPerUse: 0,
+    availableFrom: 'admin',
+  },
+  {
+    characterName: 'Maxwell',
+    brandName: 'ELEVO CEO™',
+    tagline: 'Your AI Chief Executive Officer',
+    pillar: 'intelligence',
+    emoji: '👑',
+    description: 'Fortune 500 strategy + McKinsey analysis + Goldman Sachs financial modelling — for your business. Advises on major decisions, builds growth strategies, and prepares investor pitches using Opus 4.6 with real-time web search.',
+    capabilities: ['CEO advisory sessions', 'Growth strategy', 'Investor pitch prep', 'Daily decision advice', 'Market analysis', 'Financial modelling'],
+    creditsPerUse: 10,
+    availableFrom: 'galaxy',
+  },
+  {
+    characterName: 'Mila',
+    brandName: 'ELEVO Stitch™',
+    tagline: 'AI Web Design Studio',
+    pillar: 'design',
+    emoji: '✏️',
+    description: 'Pixel-perfect, production-ready UI components and full websites built in seconds. Generates HTML + Tailwind components, analyses and improves existing sites, and builds complete multi-page websites. Deployable to Vercel, Netlify, or any web host instantly.',
+    capabilities: ['UI component generation', 'Site analysis & CRO', 'Full website generation', 'Dark mode variants', 'Responsive design', 'Deploy instructions'],
+    creditsPerUse: 2,
+    availableFrom: 'orbit',
+  },
+
+  // ── TOOLS PILLAR ──────────────────────────────────────────────────────────
+  {
+    characterName: 'Quill',
+    brandName: 'ELEVO Docs™',
+    tagline: 'Any business document in seconds',
+    pillar: 'tools',
+    emoji: '📄',
+    description: 'Generates complete, professional business documents — reports, proposals, presentations, business plans, contracts, email sequences, press releases, and more. Formatted, ready to send, and downloadable.',
+    capabilities: ['Business reports', 'Sales proposals', 'Presentation decks', 'Business plans', 'Contracts', 'Email sequences', 'Press releases', 'Marketing briefs'],
+    creditsPerUse: 2,
+    availableFrom: 'trial',
+  },
+  {
+    characterName: 'Forge',
+    brandName: 'ELEVO Build™',
+    tagline: 'Build anything from a single prompt',
+    pillar: 'tools',
+    emoji: '🏗️',
+    description: 'Builds complete, deployable landing pages, websites, web apps, mobile concepts, and internal tools from a prompt. Generates working HTML/CSS/JS, architecture plans, deploy guides, and SEO metadata.',
+    capabilities: ['Landing pages', 'Full websites', 'Web app architecture', 'Mobile concepts', 'Booking systems', 'Deploy guides', 'SEO metadata'],
+    creditsPerUse: 5,
+    availableFrom: 'orbit',
+  },
+  {
+    characterName: 'Route',
+    brandName: 'ELEVO Route™',
+    tagline: 'Intelligent prompt routing to the best agent',
+    pillar: 'tools',
+    emoji: '🧭',
+    description: 'Analyzes your prompt and routes it to the perfect ELEVO agent for maximum results.',
+    capabilities: ['Intent detection', 'Agent matching', 'Prompt optimization', 'Multi-agent suggestions'],
+    creditsPerUse: 0,
+    availableFrom: 'trial',
+  },
+  {
+    characterName: 'Pro',
+    brandName: 'ELEVO Write Pro™',
+    tagline: 'Make AI text sound naturally human',
+    pillar: 'tools',
+    emoji: '✍️',
+    description: 'Rewrites AI-generated content to sound authentic, engaging and human.',
+    capabilities: ['Tone matching', 'Readability scoring', 'Human score analysis', 'Multiple alternatives', 'Brand voice training'],
+    creditsPerUse: 1,
+    availableFrom: 'trial',
+  },
+  {
+    characterName: 'Deep',
+    brandName: 'ELEVO Deep™',
+    tagline: 'Complex multi-step business execution',
+    pillar: 'tools',
+    emoji: '🧠',
+    description: 'Handles your most complex business tasks with multi-step AI execution.',
+    capabilities: ['Business plan creation', 'Multi-section documents', 'Downloadable reports', 'Strategic analysis', 'Deep research'],
+    creditsPerUse: 10,
+    availableFrom: 'galaxy',
+  },
+]
+
+// ─── Lookup helpers ────────────────────────────────────────────────────────────
+
+export function getAgentByCharacter(characterName: string): AgentPersona | undefined {
+  return AGENT_PERSONAS.find(a => a.characterName === characterName)
+}
+
+export function getAgentByBrand(brandName: string): AgentPersona | undefined {
+  return AGENT_PERSONAS.find(a => a.brandName === brandName)
+}
+
+export function getAgentsByPillar(pillar: AgentPersona['pillar']): AgentPersona[] {
+  return AGENT_PERSONAS.filter(a => a.pillar === pillar)
+}
+
+export const PILLARS = [
+  { key: 'visibility' as const, label: 'Visibility', emoji: '👁️', description: 'Content, local SEO, ads analysis, and rankings' },
+  { key: 'growth' as const, label: 'Growth', emoji: '📈', description: 'Sales, research, strategy, finance, HR, and ad campaigns' },
+  { key: 'customers' as const, label: 'Customers', emoji: '🤝', description: 'CRM, conversations, flows, social, and profiles' },
+  { key: 'intelligence' as const, label: 'Intelligence', emoji: '🧠', description: 'Problem solving, market intel, trends, and brand protection' },
+  { key: 'media' as const, label: 'Media', emoji: '🎬', description: 'AI video studio, content clips, and data import' },
+  { key: 'ecommerce' as const, label: 'Ecommerce', emoji: '📦', description: 'Dropshipping product research, suppliers, and store building' },
+  { key: 'support' as const, label: 'Support', emoji: '🗺️', description: 'Onboarding, guidance, and website tools' },
+  { key: 'admin' as const, label: 'Admin', emoji: '🤖', description: 'Platform health, daily summaries, and engineering automation' },
+  { key: 'marketing' as const, label: 'Marketing', emoji: '⚡', description: 'Complete marketing missions, content calendars, and autonomous daily execution' },
+  { key: 'design' as const, label: 'Design', emoji: '✏️', description: 'AI web design studio — components, site analysis, and full website generation' },
+  { key: 'tools' as const, label: 'Tools', emoji: '🔧', description: 'Utility agents — prompt routing, text humanisation, and complex task execution' },
+]

@@ -1,0 +1,24 @@
+{
+  "crons": [
+    { "path": "/api/cron/qa-check", "schedule": "*/30 * * * *" },
+    { "path": "/api/cron/daily-briefing", "schedule": "0 8 * * *" },
+    { "path": "/api/cron/health-check", "schedule": "*/30 * * * *" },
+    { "path": "/api/cron/daily-summary", "schedule": "0 8 * * *" },
+    { "path": "/api/cron/credit-reset", "schedule": "0 0 1 * *" },
+    { "path": "/api/cron/trial-reminders", "schedule": "0 9 * * *" },
+    { "path": "/api/cron/welcome-followup", "schedule": "0 9 * * *" },
+    { "path": "/api/cron/seo-optimize", "schedule": "0 6 * * *" },
+    { "path": "/api/cron/dunning", "schedule": "0 7 * * *" },
+    { "path": "/api/cron/coach-brief", "schedule": "0 7 * * 1" },
+    { "path": "/api/cron/market-intel", "schedule": "0 6 * * 1" },
+    { "path": "/api/cron/publish-scheduled", "schedule": "*/15 * * * *" },
+    { "path": "/api/cron/spy-monitor", "schedule": "0 8 * * 1" },
+    { "path": "/api/cron/viral-trends", "schedule": "0 7 * * *" },
+    { "path": "/api/cron/ai-landscape", "schedule": "0 6 * * 1" },
+    { "path": "/api/cron/store-sync", "schedule": "0 * * * *" },
+    { "path": "/api/cron/execute-missions", "schedule": "0 7 * * *" },
+    { "path": "/api/cron/smm-daily", "schedule": "0 9 * * *" },
+    { "path": "/api/cron/trial-welcome", "schedule": "0 10 * * *" },
+    { "path": "/api/cron/trial-progress", "schedule": "0 10 * * *" }
+  ]
+}
