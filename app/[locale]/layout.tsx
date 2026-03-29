@@ -18,11 +18,14 @@ export const metadata: Metadata = {
   keywords: ['AI', 'business AI', 'local business', 'marketing AI', 'content creation', 'CRM AI', 'ELEVO AI', 'boost your business'],
   metadataBase: new URL('https://elevo.dev'),
   verification: {
-    google: process.env.GOOGLE_SITE_VERIFICATION ?? 'PLACEHOLDER_VERIFICATION_CODE',
+    google: 'VPTyVYNKRhrrI4p3lesQcE9atx67usOvG4ZnjMiLWUg',
+    other: {
+      'msvalidate.01': '0B660C8218156BF38E8053FFB13524F6',
+    },
   },
   other: {
-    'google-site-verification': process.env.GOOGLE_SITE_VERIFICATION ?? 'PLACEHOLDER_VERIFICATION_CODE',
-    'msvalidate.01': process.env.BING_VERIFICATION_CODE ?? '',
+    'google-site-verification': 'VPTyVYNKRhrrI4p3lesQcE9atx67usOvG4ZnjMiLWUg',
+    'msvalidate.01': '0B660C8218156BF38E8053FFB13524F6',
     'yandex-verification': process.env.YANDEX_VERIFICATION_CODE ?? '',
   },
 }
