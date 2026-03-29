@@ -299,6 +299,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
               { href: `/${locale}/admin/health`, label: 'System Health', icon: Shield },
               { href: `/${locale}/admin/notifications`, label: 'Notifications', icon: Bell },
               { href: `/${locale}/admin/pa`, label: 'ELEVO PA™', icon: ClipboardList },
+              { href: `/${locale}/admin/email-campaigns`, label: 'Email Campaigns', icon: Megaphone },
             ].map(item => {
               const active = isActive(item.href)
               return (
