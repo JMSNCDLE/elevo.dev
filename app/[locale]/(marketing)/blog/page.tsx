@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 import { BLOG_POSTS } from '@/lib/blog/posts'
 
 export async function generateMetadata({
@@ -29,19 +30,20 @@ export default async function BlogPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  const t = await getTranslations('marketing')
   return (
     <main className="min-h-screen bg-white">
       {/* Header */}
       <section className="bg-gradient-to-b from-indigo-50 to-white py-20 px-6 border-b border-gray-100">
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-indigo-600 font-semibold uppercase tracking-widest text-xs mb-4">
-            Resources
+            {t('resources')}
           </p>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
-            AI for local businesses
+            {t('blogTitle')}
           </h1>
           <p className="text-gray-500 text-lg">
-            Guides, case studies, and strategies for growing your business with AI.
+            {t('blogSubtitle')}
           </p>
         </div>
       </section>
@@ -85,19 +87,19 @@ export default async function BlogPage({
           {/* CTA */}
           <div className="mt-16 bg-indigo-50 rounded-2xl p-8 text-center border border-indigo-100">
             <p className="text-indigo-600 font-semibold uppercase tracking-widest text-xs mb-3">
-              Ready to get started?
+              {t('readyToStart')}
             </p>
             <h2 className="text-2xl font-bold text-gray-900 mb-3">
-              Try ELEVO AI™ free for 7 days
+              {t('tryFree')}
             </h2>
             <p className="text-gray-500 text-sm mb-6 max-w-md mx-auto">
-              Onboarding in 3 minutes. Your first content in 30 seconds.
+              {t('onboardingTime')}
             </p>
             <Link
               href={`/${locale}/signup`}
               className="inline-block px-8 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-colors"
             >
-              Start free →
+              {t('startFreeArrow')}
             </Link>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import Nav from '@/components/marketing/Nav'
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider'
 import ClientPopups from '@/components/marketing/ClientPopups'
@@ -178,6 +179,7 @@ export default async function MarketingLayout({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  const t = await getTranslations('marketing')
 
   return (
     <SmoothScrollProvider>
@@ -203,7 +205,7 @@ export default async function MarketingLayout({
                 <span className="text-lg font-black text-white">ELEVO AI™</span>
               </Link>
               <p className="text-sm leading-relaxed max-w-xs mb-5">
-                Create and boost your business powered by AI — every aspect taken care of.
+                {t('footerTagline')}
               </p>
               <p className="text-xs text-gray-600 mb-4">
                 🔒 SSL encrypted &nbsp;·&nbsp; GDPR compliant &nbsp;·&nbsp; Payments by Stripe

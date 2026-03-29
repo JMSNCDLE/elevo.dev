@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { CheckCircle2 } from 'lucide-react'
 import { HomePricingCards, HomeComparisonPrice, HomeOrbitPrice } from '@/components/marketing/HomePricing'
+import { getTranslations } from 'next-intl/server'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -14,7 +15,8 @@ interface PageProps {
 }
 
 export default async function HomePage({ params }: PageProps) {
-  await params
+  const { locale } = await params
+  const t = await getTranslations('marketing')
 
   return (
     <main className="overflow-hidden">
@@ -32,21 +34,21 @@ export default async function HomePage({ params }: PageProps) {
           </div>
 
           <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white tracking-tight leading-none mb-8">
-            Create and boost<br />
-            your business{' '}
-            <span className="gradient-text-hero">powered by AI.</span>
+            {t('heroTitle1')}<br />
+            {t('heroTitle2')}{' '}
+            <span className="gradient-text-hero">{t('heroTitle3')}</span>
           </h1>
 
           <p className="text-white/60 text-lg max-w-2xl mx-auto mb-10">
-            47+ AI agents that replace your entire team — content, marketing, sales, CRM, and analytics. 24/7, at a fraction of the cost.
+            {t('heroSubtitle')}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
             <Link
-              href="/en/signup"
+              href={`/${locale}/signup`}
               className="inline-flex items-center justify-center bg-white text-gray-900 font-semibold px-8 py-3 rounded-full hover:bg-white/90 transition-colors"
             >
-              Start your 7-day free trial →
+              {t('startTrial')}
             </Link>
             <Link
               href="#features"
@@ -374,13 +376,13 @@ export default async function HomePage({ params }: PageProps) {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl sm:text-5xl font-black text-gray-900 tracking-tight">
-              Simple pricing. No surprises.
+              {t('pricingTitle')}
             </h2>
-            <p className="text-gray-500 mt-4">7-day free trial on every plan. Cancel anytime.</p>
+            <p className="text-gray-500 mt-4">{t('pricingSubtitle')}</p>
           </div>
           <HomePricingCards />
           <p className="text-center text-gray-400 text-sm mt-8">
-            7-day free trial · Cancel anytime
+            {t('trialNote')}
           </p>
         </div>
       </section>
@@ -489,12 +491,12 @@ export default async function HomePage({ params }: PageProps) {
             Join 400+ businesses already using ELEVO AI™ to work smarter and grow faster.
           </p>
           <Link
-            href="/en/signup"
+            href={`/${locale}/signup`}
             className="inline-flex items-center justify-center bg-white text-gray-900 font-semibold px-10 py-4 rounded-full hover:bg-white/90 transition-colors text-base"
           >
-            Start free trial →
+            {t('startFreeArrow')}
           </Link>
-          <p className="text-white/30 text-xs mt-4">7-day free trial · Cancel anytime</p>
+          <p className="text-white/30 text-xs mt-4">{t('trialNote')}</p>
         </div>
       </section>
 
