@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { CheckCircle2 } from 'lucide-react'
+import { HomePricingCards, HomeComparisonPrice, HomeOrbitPrice } from '@/components/marketing/HomePricing'
 
 interface PageProps {
   params: Promise<{ locale: string }>
@@ -345,7 +346,7 @@ export default async function HomePage({ params }: PageProps) {
                   ['Stripe billing built-in', '✓', '✗', '✗', '✗'],
                   ['Multi-language (12)', '✓', '✗', '✗', '✗'],
                   ['7-day free trial', '✓', '✓', '✓', '✗'],
-                  ['Starting price', '€39/mo', '€99/mo', '€39/mo', '€720/mo'],
+                  ['Starting price', 'From €39/mo', '€99/mo', '€39/mo', '€720/mo'],
                 ].map(([feature, elevo, hs, jasper, hub], i) => (
                   <tr key={i} className="border-b border-gray-100">
                     <td className="py-3 pr-6 text-gray-700 font-medium">{feature}</td>
@@ -370,69 +371,7 @@ export default async function HomePage({ params }: PageProps) {
             </h2>
             <p className="text-gray-500 mt-4">7-day free trial on every plan. Cancel anytime.</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {[
-              {
-                name: 'Launch',
-                price: '€39',
-                period: '/mo',
-                desc: 'Perfect for solo operators',
-                features: ['GBP Posts + Blog Writer', 'Social Captions + Reviews', 'Email + SEO Copy', '500 credits/mo', 'Content library'],
-                cta: 'Start free trial',
-                highlight: false,
-              },
-              {
-                name: 'Orbit',
-                price: '€79',
-                period: '/mo',
-                desc: 'For growing businesses',
-                badge: '★ Most Popular',
-                features: ['Everything in Launch', 'All Growth tools', 'ELEVO Spy™ + Market™', 'ELEVO Viral™ + SMM™', '1,500 credits/mo'],
-                cta: 'Start free trial',
-                highlight: true,
-              },
-              {
-                name: 'Galaxy',
-                price: '€149',
-                period: '/mo',
-                desc: 'Every aspect taken care of',
-                features: ['Everything in Orbit', 'ELEVO CEO™', 'ELEVO Drop™ (e-commerce)', 'Store Analytics', '5,000 credits/mo'],
-                cta: 'Start free trial',
-                highlight: false,
-              },
-            ].map(plan => (
-              <div
-                key={plan.name}
-                className={`rounded-2xl p-6 ${plan.highlight ? 'border-2 border-indigo-600 bg-white shadow-xl shadow-indigo-100' : 'border border-gray-200 bg-white'}`}
-              >
-                {'badge' in plan && plan.badge && (
-                  <span className="text-xs font-bold bg-indigo-600 text-white px-2 py-0.5 rounded-full mb-3 inline-block">
-                    {plan.badge}
-                  </span>
-                )}
-                <h3 className="font-black text-xl text-gray-900 mb-1">{plan.name}</h3>
-                <p className="text-sm text-gray-500 mb-4">{plan.desc}</p>
-                <div className="mb-6">
-                  <span className="text-4xl font-black text-gray-900">{plan.price}</span>
-                  <span className="text-sm text-gray-400">{plan.period}</span>
-                </div>
-                <ul className="space-y-2 mb-6">
-                  {plan.features.map(f => (
-                    <li key={f} className="flex items-start gap-2 text-sm text-gray-600">
-                      <CheckCircle2 size={14} className="text-indigo-600 shrink-0 mt-0.5" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/en/signup"
-                  className={`block text-center py-3 rounded-xl font-semibold text-sm transition-colors ${plan.highlight ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-gray-900 text-white hover:bg-gray-800'}`}
-                >
-                  {plan.cta}
-                </Link>
-              </div>
-            ))}
-          </div>
+          <HomePricingCards />
           <p className="text-center text-gray-400 text-sm mt-8">
             7-day free trial · Cancel anytime
           </p>
@@ -474,7 +413,7 @@ export default async function HomePage({ params }: PageProps) {
           </div>
           <div className="text-center mt-10">
             <p className="text-white/30 text-sm">Total employee cost: <span className="text-red-400 line-through">€21,800/mo</span></p>
-            <p className="text-white text-2xl font-black mt-2">ELEVO Orbit: <span className="text-green-400">€79/mo</span></p>
+            <p className="text-white text-2xl font-black mt-2">ELEVO Orbit: <HomeOrbitPrice /></p>
             <Link
               href="/en/signup"
               className="inline-flex items-center justify-center bg-white text-gray-900 font-semibold px-8 py-3 rounded-full hover:bg-white/90 transition-colors mt-6"
