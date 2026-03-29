@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import { createBrowserClient } from '@/lib/supabase/client'
 
 export default function LoginPage() {
@@ -11,6 +11,8 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
+  const params = useParams()
+  const locale = (params?.locale as string) ?? 'en'
 
   useEffect(() => { setMounted(true) }, [])
   if (!mounted) return null
@@ -22,7 +24,7 @@ export default function LoginPage() {
     const supabase = createBrowserClient()
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) { setError(error.message); setLoading(false) }
-    else { router.push('/en/dashboard') }
+    else { router.push(`/${locale}/dashboard`) }
   }
 
   return (
@@ -54,7 +56,7 @@ export default function LoginPage() {
               placeholder="••••••••" />
           </div>
           <div className="flex justify-end">
-            <Link href="/en/forgot-password" className="text-sm text-indigo-600 hover:underline">Forgot password?</Link>
+            <Link href={`/${locale}/forgot-password`} className="text-sm text-indigo-600 hover:underline">Forgot password?</Link>
           </div>
           {error && <p className="text-red-500 text-sm bg-red-50 px-3 py-2 rounded-lg">{error}</p>}
           <button type="submit" disabled={loading}
@@ -64,7 +66,7 @@ export default function LoginPage() {
         </form>
         <p className="text-center text-gray-500 text-sm mt-6">
           Don&apos;t have an account?{' '}
-          <Link href="/en/signup" className="text-indigo-600 font-medium hover:underline">Sign up free</Link>
+          <Link href={`/${locale}/signup`} className="text-indigo-600 font-medium hover:underline">Sign up free</Link>
         </p>
         <p className="text-center text-xs text-gray-400 mt-6">
           SSL encrypted · GDPR compliant · ™ ELEVO AI

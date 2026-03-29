@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import { Eye, EyeOff, CheckCircle2 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
 
@@ -29,6 +29,8 @@ export default function SignupPage() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
   const router = useRouter()
+  const params = useParams()
+  const locale = (params?.locale as string) ?? 'en'
 
   useEffect(() => { setMounted(true) }, [])
   if (!mounted) return null
@@ -42,11 +44,11 @@ export default function SignupPage() {
     setLoading(true)
 
     const supabase = createBrowserClient()
-    const { error: authError } = await supabase.auth.signUp({
+    const { data, error: authError } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/api/auth/callback`,
+        emailRedirectTo: `${window.location.origin}/${locale}/auth/callback`,
       },
     })
 
@@ -56,6 +58,13 @@ export default function SignupPage() {
       return
     }
 
+    // If session exists immediately, email confirmation is OFF — go straight to dashboard
+    if (data.session) {
+      router.push(`/${locale}/dashboard`)
+      return
+    }
+
+    // Otherwise email confirmation is ON — show "check your inbox" screen
     setSuccess(true)
     setLoading(false)
   }
@@ -183,7 +192,7 @@ export default function SignupPage() {
 
         <p className="text-center text-gray-500 text-sm mt-6">
           Already have an account?{' '}
-          <Link href="/en/login" className="text-indigo-600 font-medium hover:underline">Sign in</Link>
+          <Link href={`/${locale}/login`} className="text-indigo-600 font-medium hover:underline">Sign in</Link>
         </p>
         <p className="text-center text-xs text-gray-400 mt-4">
           SSL encrypted · GDPR compliant · ™ ELEVO AI

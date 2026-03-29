@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 const COOKIE_NAME = 'elevo_consent'
 
@@ -18,6 +19,30 @@ export default function CookieConsent() {
   const [analytics, setAnalytics] = useState(true)
   const [marketing, setMarketing] = useState(false)
 
+  let t: (key: string) => string
+  try {
+    t = useTranslations('cookies')
+  } catch {
+    // Fallback if translations not available
+    const fallback: Record<string, string> = {
+      banner: 'We use cookies to improve your experience.',
+      privacyLink: 'Privacy Policy',
+      managePrefs: 'Manage preferences',
+      essentialOnly: 'Essential only',
+      acceptAll: 'Accept all',
+      prefsTitle: 'Cookie preferences',
+      prefsSubtitle: 'Control what data we collect',
+      essential: 'Essential',
+      essentialDesc: 'Required for the site to work. Cannot be disabled.',
+      analytics: 'Analytics',
+      analyticsDesc: 'Helps us understand how visitors use the site.',
+      marketingLabel: 'Marketing',
+      marketingDesc: 'Used to deliver personalised advertisements.',
+      savePrefs: 'Save preferences',
+    }
+    t = (key: string) => fallback[key] ?? key
+  }
+
   useEffect(() => {
     const timer = setTimeout(() => {
       const hasConsent = document.cookie.split(';').some(c => c.trim().startsWith(COOKIE_NAME + '='))
@@ -33,7 +58,6 @@ export default function CookieConsent() {
       marketing: mkt,
       timestamp: Date.now(),
     }
-    // Store in cookie (365 days, not localStorage)
     document.cookie = `${COOKIE_NAME}=${encodeURIComponent(JSON.stringify(data))}; path=/; max-age=${365 * 24 * 60 * 60}; SameSite=Lax`
     setShown(false)
     setModalOpen(false)
@@ -51,9 +75,9 @@ export default function CookieConsent() {
         >
           <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <p className="text-sm text-gray-800 flex-1 min-w-0">
-              We use cookies to improve your experience.{' '}
+              {t('banner')}{' '}
               <Link href="/en/privacy" className="underline text-indigo-600 hover:text-indigo-700">
-                Privacy Policy
+                {t('privacyLink')}
               </Link>
             </p>
             <div className="flex items-center gap-2 shrink-0 flex-wrap">
@@ -61,19 +85,19 @@ export default function CookieConsent() {
                 onClick={() => setModalOpen(true)}
                 className="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:border-gray-400 transition-colors whitespace-nowrap"
               >
-                Manage preferences
+                {t('managePrefs')}
               </button>
               <button
                 onClick={() => saveConsent(false, false)}
                 className="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:border-gray-400 transition-colors whitespace-nowrap"
               >
-                Essential only
+                {t('essentialOnly')}
               </button>
               <button
                 onClick={() => saveConsent(true, true)}
                 className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors whitespace-nowrap"
               >
-                Accept all
+                {t('acceptAll')}
               </button>
             </div>
           </div>
@@ -89,8 +113,8 @@ export default function CookieConsent() {
           >
             <div className="flex items-center justify-between mb-5">
               <div>
-                <h2 className="text-base font-bold text-gray-900">Cookie preferences</h2>
-                <p className="text-xs text-gray-500">Control what data we collect</p>
+                <h2 className="text-base font-bold text-gray-900">{t('prefsTitle')}</h2>
+                <p className="text-xs text-gray-500">{t('prefsSubtitle')}</p>
               </div>
               <button
                 onClick={() => setModalOpen(false)}
@@ -105,8 +129,8 @@ export default function CookieConsent() {
               {/* Essential — locked */}
               <div className="flex items-start justify-between gap-4 p-3 bg-gray-50 rounded-xl">
                 <div>
-                  <p className="text-sm font-semibold text-gray-800">Essential</p>
-                  <p className="text-xs text-gray-500 mt-0.5">Required for the site to work. Cannot be disabled.</p>
+                  <p className="text-sm font-semibold text-gray-800">{t('essential')}</p>
+                  <p className="text-xs text-gray-500 mt-0.5">{t('essentialDesc')}</p>
                 </div>
                 <div className="shrink-0 w-10 h-6 bg-indigo-600 rounded-full flex items-center justify-end pr-0.5 cursor-not-allowed opacity-70">
                   <div className="w-5 h-5 bg-white rounded-full shadow" />
@@ -116,8 +140,8 @@ export default function CookieConsent() {
               {/* Analytics */}
               <div className="flex items-start justify-between gap-4 p-3 bg-gray-50 rounded-xl">
                 <div>
-                  <p className="text-sm font-semibold text-gray-800">Analytics</p>
-                  <p className="text-xs text-gray-500 mt-0.5">Helps us understand how visitors use the site.</p>
+                  <p className="text-sm font-semibold text-gray-800">{t('analytics')}</p>
+                  <p className="text-xs text-gray-500 mt-0.5">{t('analyticsDesc')}</p>
                 </div>
                 <button
                   onClick={() => setAnalytics(v => !v)}
@@ -132,8 +156,8 @@ export default function CookieConsent() {
               {/* Marketing */}
               <div className="flex items-start justify-between gap-4 p-3 bg-gray-50 rounded-xl">
                 <div>
-                  <p className="text-sm font-semibold text-gray-800">Marketing</p>
-                  <p className="text-xs text-gray-500 mt-0.5">Used to deliver personalised advertisements.</p>
+                  <p className="text-sm font-semibold text-gray-800">{t('marketingLabel')}</p>
+                  <p className="text-xs text-gray-500 mt-0.5">{t('marketingDesc')}</p>
                 </div>
                 <button
                   onClick={() => setMarketing(v => !v)}
@@ -151,13 +175,13 @@ export default function CookieConsent() {
                 onClick={() => saveConsent(false, false)}
                 className="flex-1 py-2.5 text-sm font-medium text-gray-600 border border-gray-200 rounded-xl hover:border-gray-300 transition-colors"
               >
-                Essential only
+                {t('essentialOnly')}
               </button>
               <button
                 onClick={() => saveConsent(analytics, marketing)}
                 className="flex-1 py-2.5 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-colors"
               >
-                Save preferences
+                {t('savePrefs')}
               </button>
             </div>
           </div>

@@ -159,7 +159,24 @@
     "readyToStart": "Ready to get started?",
     "tryFree": "Try ELEVO AI™ free for 7 days",
     "onboardingTime": "Onboarding in 3 minutes. Your first content in 30 seconds.",
-    "startFreeArrow": "Start free →"
+    "startFreeArrow": "Start free →",
+    "seeHowItWorks": "See how it works"
+  },
+  "cookies": {
+    "banner": "We use cookies to improve your experience.",
+    "privacyLink": "Privacy Policy",
+    "managePrefs": "Manage preferences",
+    "essentialOnly": "Essential only",
+    "acceptAll": "Accept all",
+    "prefsTitle": "Cookie preferences",
+    "prefsSubtitle": "Control what data we collect",
+    "essential": "Essential",
+    "essentialDesc": "Required for the site to work. Cannot be disabled.",
+    "analytics": "Analytics",
+    "analyticsDesc": "Helps us understand how visitors use the site.",
+    "marketingLabel": "Marketing",
+    "marketingDesc": "Used to deliver personalised advertisements.",
+    "savePrefs": "Save preferences"
   },
   "errors": {
     "authRequired": "Please sign in to continue",

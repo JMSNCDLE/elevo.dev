@@ -159,7 +159,24 @@
     "readyToStart": "¿Listo para empezar?",
     "tryFree": "Prueba ELEVO AI™ gratis durante 7 días",
     "onboardingTime": "Configuración en 3 minutos. Tu primer contenido en 30 segundos.",
-    "startFreeArrow": "Empieza gratis →"
+    "startFreeArrow": "Empieza gratis →",
+    "seeHowItWorks": "Descubre cómo funciona"
+  },
+  "cookies": {
+    "banner": "Usamos cookies para mejorar tu experiencia.",
+    "privacyLink": "Política de Privacidad",
+    "managePrefs": "Gestionar preferencias",
+    "essentialOnly": "Solo esenciales",
+    "acceptAll": "Aceptar todo",
+    "prefsTitle": "Preferencias de cookies",
+    "prefsSubtitle": "Controla qué datos recopilamos",
+    "essential": "Esenciales",
+    "essentialDesc": "Necesarias para que el sitio funcione. No se pueden desactivar.",
+    "analytics": "Analíticas",
+    "analyticsDesc": "Nos ayudan a entender cómo los visitantes usan el sitio.",
+    "marketingLabel": "Marketing",
+    "marketingDesc": "Se usan para mostrar anuncios personalizados.",
+    "savePrefs": "Guardar preferencias"
   },
   "errors": {
     "authRequired": "Por favor inicia sesión para continuar",
