@@ -1,3 +1,10 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Refund & Cancellation Policy',
+  description: 'ELEVO AI refund policy. 7-day free trial, all sales final after payment. Cancel anytime from billing settings.',
+}
+
 export default async function RefundsPage({ params }: { params: Promise<{ locale: string }> }) {
   await params
 

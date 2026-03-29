@@ -1,3 +1,10 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy — GDPR Compliant',
+  description: 'ELEVO AI privacy policy. GDPR compliant, bank-grade encryption, your data is never used for AI training. Read how we protect your information.',
+}
+
 export default async function PrivacyPage({ params }: { params: Promise<{ locale: string }> }) {
   await params
 

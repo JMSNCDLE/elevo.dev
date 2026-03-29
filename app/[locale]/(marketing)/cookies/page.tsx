@@ -1,3 +1,10 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Cookie Policy',
+  description: 'ELEVO AI cookie policy. Essential, analytics, and marketing cookies explained. Manage your preferences anytime.',
+}
+
 export default async function CookiesPage({ params }: { params: Promise<{ locale: string }> }) {
   await params
 

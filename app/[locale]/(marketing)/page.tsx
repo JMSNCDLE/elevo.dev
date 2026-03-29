@@ -1,6 +1,13 @@
 import Link from 'next/link'
 import { CheckCircle2 } from 'lucide-react'
 import { HomePricingCards, HomeComparisonPrice, HomeOrbitPrice } from '@/components/marketing/HomePricing'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'ELEVO AI™ — Create and Boost Your Business Powered by AI',
+  description: 'Create and boost your business powered by AI — every aspect taken care of. 47+ AI agents for content, marketing, ads, CRM, SEO, and analytics. 7-day free trial.',
+  keywords: ['AI for business', 'business AI tools', 'marketing AI', 'local business AI', 'ELEVO AI', 'AI agents', 'content automation', 'CRM AI', 'SEO AI'],
+}
 
 interface PageProps {
   params: Promise<{ locale: string }>

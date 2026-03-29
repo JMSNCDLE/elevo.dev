@@ -1,3 +1,10 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Terms of Service',
+  description: 'ELEVO AI terms of service. Subscription terms, acceptable use, billing, cancellation, and intellectual property policies.',
+}
+
 export default async function TermsPage({ params }: { params: Promise<{ locale: string }> }) {
   await params
 
