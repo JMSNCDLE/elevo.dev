@@ -12,6 +12,7 @@ create extension if not exists "pg_trgm";
 create table if not exists public.profiles (
   id            uuid references auth.users on delete cascade primary key,
   email         text not null,
+  full_name     text,
   plan          text not null default 'trial' check (plan in ('trial', 'launch', 'orbit', 'galaxy')),
   credits_used  integer not null default 0,
   credits_limit integer not null default 20,
@@ -22,7 +23,16 @@ create table if not exists public.profiles (
   updated_at    timestamptz not null default now()
 );
 
+-- Add full_name column if table already exists (migration-safe)
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS full_name text;
+
 alter table public.profiles enable row level security;
+
+-- Drop old policies to avoid conflicts on re-run
+drop policy if exists "Users can view own profile" on public.profiles;
+drop policy if exists "Users can update own profile" on public.profiles;
+drop policy if exists "Service role full access on profiles" on public.profiles;
+drop policy if exists "Allow insert for new users" on public.profiles;
 
 create policy "Users can view own profile"
   on public.profiles for select
@@ -32,8 +42,13 @@ create policy "Users can update own profile"
   on public.profiles for update
   using (auth.uid() = id);
 
+-- INSERT policy: allow trigger/service role to create profiles for new users
+create policy "Allow insert for new users"
+  on public.profiles for insert
+  with check (true);
+
 create policy "Service role full access on profiles"
-  on public.profiles
+  on public.profiles for all
   using (auth.role() = 'service_role');
 
 -- ─────────────────────────────────────────────────────────────────────────────
@@ -239,16 +254,31 @@ create index if not exists idx_growth_reports_type on public.growth_reports(type
 -- TRIGGERS
 -- ─────────────────────────────────────────────────────────────────────────────
 
--- Auto-create profile on signup
+-- Auto-create profile on signup (with conflict handling + error safety)
 create or replace function public.handle_new_user()
 returns trigger
 language plpgsql
 security definer set search_path = public
 as $$
 begin
-  insert into public.profiles (id, email, plan, credits_used, credits_limit)
-  values (new.id, new.email, 'trial', 0, 20);
+  insert into public.profiles (id, email, full_name, plan, credits_used, credits_limit, role)
+  values (
+    new.id,
+    coalesce(new.email, ''),
+    coalesce(new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'name', ''),
+    'trial',
+    0,
+    20,
+    'user'
+  )
+  on conflict (id) do update set
+    email = coalesce(excluded.email, profiles.email),
+    updated_at = now();
   return new;
+exception
+  when others then
+    raise log 'handle_new_user failed for %: %', new.id, sqlerrm;
+    return new;
 end;
 $$;
 
