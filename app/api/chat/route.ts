@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createServerClient } from '@/lib/supabase/server'
+import { ADMIN_IDS } from '@/lib/admin'
 import { processConversationalTask } from '@/lib/agents/conversationalTaskAgent'
 import type { BusinessProfile } from '@/lib/agents/types'
 import type { TaskMessage } from '@/lib/agents/conversationalTaskAgent'
@@ -54,7 +55,7 @@ export async function POST(request: Request) {
 
   if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
 
-  if ((profile ?? { credits_used: 0 }).credits_used >= (profile ?? { credits_limit: 9999 }).credits_limit) {
+  if (!ADMIN_IDS.includes(user.id) && (profile ?? { credits_used: 0 }).credits_used >= (profile ?? { credits_limit: 9999 }).credits_limit) {
     return NextResponse.json({ error: 'Insufficient credits. Please upgrade your plan.' }, { status: 402 })
   }
 

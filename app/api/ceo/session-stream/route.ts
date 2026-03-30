@@ -35,7 +35,6 @@ export async function POST(request: Request) {
         const anthropicStream = (client.messages as any).stream({
           model: MODELS.ORCHESTRATOR,
           max_tokens: 8000,
-          thinking: buildThinkingConfig(),
           ...buildEffortConfig('max'),
           tools: [WEB_SEARCH_TOOL],
           system: `You are the ELEVO CEO™ — an elite AI C-suite executive. You are advising ${businessName ?? 'a business'} on a ${decisionType ?? 'business'} decision. Provide deep, strategic analysis. Think through all angles carefully.`,

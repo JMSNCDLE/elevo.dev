@@ -7,7 +7,15 @@ let _client: Anthropic | null = null
 
 export function getClient(): Anthropic {
   if (!_client) {
-    _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+    const apiKey = process.env.ANTHROPIC_API_KEY
+    if (!apiKey) {
+      throw new Error('ANTHROPIC_API_KEY is not set in environment variables')
+    }
+    if (!apiKey.startsWith('sk-ant-')) {
+      throw new Error('Invalid ANTHROPIC_API_KEY format — must start with sk-ant-')
+    }
+    console.log('[anthropic] Client initialized successfully')
+    _client = new Anthropic({ apiKey })
   }
   return _client
 }

@@ -77,7 +77,6 @@ export async function POST(req: NextRequest) {
     const stream = await (client.messages as any).create({
       model: MODELS.AGENT,
       max_tokens: 2048,
-      thinking: { type: 'adaptive' },
       system: SYSTEM_PROMPT,
       messages,
       stream: true,

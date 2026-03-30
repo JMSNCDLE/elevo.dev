@@ -35,7 +35,8 @@ export function createGalaxyToolRoute(systemPrompt: string) {
     try {
       const client = getClient()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const stream = await (client.messages as any).create({ model: MODELS.AGENT, max_tokens: 3000, thinking: { type: 'adaptive' }, system: systemPrompt, messages, stream: true })
+      const stream = await (client.messages as any).create({ model: MODELS.AGENT, max_tokens: 3000, system: systemPrompt, messages, stream: true })
+
       if (profile && !adminBypass) {
         await supabase.from('profiles').update({ credits_used: profile.credits_used + 2 }).eq('id', user.id)
       }

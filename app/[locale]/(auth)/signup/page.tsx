@@ -172,7 +172,7 @@ export default function SignupPage() {
             <span className="text-xs text-gray-500">
               I agree to the{' '}
               <Link href={`/${locale}/terms`} className="text-indigo-600 hover:underline">{t('termsLink')}</Link>
-              {' '}&amp;{' '}
+              {' '}{t('and')}{' '}
               <Link href={`/${locale}/privacy`} className="text-indigo-600 hover:underline">{t('privacyLink')}</Link>
             </span>
           </label>

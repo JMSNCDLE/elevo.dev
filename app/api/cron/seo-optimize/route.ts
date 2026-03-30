@@ -47,7 +47,6 @@ export async function GET(request: Request) {
       const response = await (client.messages as any).create({
         model: MODELS.AGENT,
         max_tokens: 512,
-        thinking: { type: 'adaptive' },
         stream: false,
         system: `You are an SEO expert. Analyse the current meta description for an AI business platform page and suggest an improved version. Focus on: click-through rate, keyword relevance (AI, business, agents, marketing), and compelling copy under 160 characters. Also suggest 5 target keywords. Respond in JSON format: {"suggested_meta": "...", "keywords": ["k1","k2","k3","k4","k5"], "notes": "brief explanation"}`,
         messages: [{

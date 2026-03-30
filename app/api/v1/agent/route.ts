@@ -75,7 +75,6 @@ export async function POST(request: NextRequest) {
     const response = await createMessage({
       model: MODELS.AGENT,
       max_tokens: MAX_TOKENS.HIGH,
-      thinking: { type: 'adaptive' },
       system: `You are ELEVO AI's ${agent} agent. ${AGENT_DESCRIPTIONS[agent]}. You help small business owners with expert, actionable advice.${businessContext}`,
       messages: [
         {

@@ -505,7 +505,8 @@
     "sentLink": "Enviamos un enlace de confirmación a",
     "activateText": "Haz clic en el enlace para activar tu cuenta y comenzar tu prueba gratuita de 7 días.",
     "spamNote": "¿No lo recibiste? Revisa tu carpeta de spam.",
-    "agreeError": "Debes aceptar los Términos de Servicio para continuar."
+    "agreeError": "Debes aceptar los Términos de Servicio para continuar.",
+    "and": "y la"
   },
   "login": {
     "title": "Bienvenido de nuevo",

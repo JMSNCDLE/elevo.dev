@@ -65,7 +65,6 @@ export function createToolRoute(systemPrompt: string) {
       const stream = await (client.messages as any).create({
         model: MODELS.AGENT,
         max_tokens: 2048,
-        thinking: { type: 'adaptive' },
         system: systemPrompt,
         messages,
         stream: true,
