@@ -77,7 +77,7 @@ export default async function BlogPage({
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-gray-400">{post.date}</span>
                   <span className="text-xs font-medium text-indigo-600 group-hover:translate-x-0.5 transition-transform">
-                    Read →
+                    {t('blogReadMore')}
                   </span>
                 </div>
               </Link>

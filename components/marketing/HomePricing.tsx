@@ -1,11 +1,14 @@
 'use client'
 
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import { CheckCircle2 } from 'lucide-react'
 import { useCurrency } from '@/hooks/useCurrency'
 import { CURRENCY_SYMBOLS, PLAN_PRICES } from '@/lib/currency'
 
 export function HomePricingCards() {
+  const params = useParams()
+  const locale = (params?.locale as string) ?? 'en'
   const currency = useCurrency()
   const symbol = CURRENCY_SYMBOLS[currency]
 
@@ -67,7 +70,7 @@ export function HomePricingCards() {
             ))}
           </ul>
           <Link
-            href="/en/signup"
+            href={`/${locale}/signup`}
             className={`block text-center py-3 rounded-xl font-semibold text-sm transition-colors ${plan.highlight ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-gray-900 text-white hover:bg-gray-800'}`}
           >
             {plan.cta}

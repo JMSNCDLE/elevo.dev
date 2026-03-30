@@ -122,10 +122,10 @@ export default function Nav({ locale }: NavProps) {
           ))}
           <div className="pt-3 flex gap-3">
             <Link href={`/${locale}/login`} className="flex-1 text-center py-2.5 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg">
-              Sign in
+              {t('navSignIn')}
             </Link>
             <Link href={`/${locale}/signup`} className="flex-1 text-center py-2.5 text-sm font-semibold text-white bg-indigo-600 rounded-lg">
-              Start free trial
+              {t('navStartTrial')}
             </Link>
           </div>
         </div>

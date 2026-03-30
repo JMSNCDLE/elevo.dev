@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { X, Play } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 const STORAGE_KEY = 'elevo_scroll_popup_v1'
 const COOLDOWN_DAYS = 7
@@ -32,6 +33,8 @@ export default function ScrollTriggerPopup() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+
+  const t = useTranslations('demoPopup')
 
   const handleScroll = useCallback(() => {
     if (isCooledDown()) return
@@ -105,8 +108,8 @@ export default function ScrollTriggerPopup() {
             <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-3">
               <span className="text-lg">✓</span>
             </div>
-            <p className="text-sm font-semibold text-gray-800">Demo on its way! ✓</p>
-            <p className="text-xs text-gray-500 mt-1">Check your inbox in a few minutes.</p>
+            <p className="text-sm font-semibold text-gray-800">{t('successTitle')}</p>
+            <p className="text-xs text-gray-500 mt-1">{t('successMessage')}</p>
           </div>
         ) : (
           <>
@@ -115,8 +118,8 @@ export default function ScrollTriggerPopup() {
                 <Play size={14} className="text-indigo-600" />
               </div>
               <div>
-                <p className="text-sm font-bold text-gray-900">See ELEVO AI™ in action</p>
-                <p className="text-xs text-gray-500">Get a personalised demo — free.</p>
+                <p className="text-sm font-bold text-gray-900">{t('title')}</p>
+                <p className="text-xs text-gray-500">{t('subtitle')}</p>
               </div>
             </div>
 
@@ -126,7 +129,7 @@ export default function ScrollTriggerPopup() {
                 required
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                placeholder="your@email.com"
+                placeholder={t('emailPlaceholder')}
                 className="w-full px-3 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-colors"
               />
               <button
@@ -134,7 +137,7 @@ export default function ScrollTriggerPopup() {
                 disabled={loading || !email}
                 className="w-full py-2.5 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 rounded-xl transition-colors"
               >
-                {loading ? 'Sending…' : 'Send me the demo →'}
+                {loading ? t('sending') : t('submitButton')}
               </button>
             </form>
           </>

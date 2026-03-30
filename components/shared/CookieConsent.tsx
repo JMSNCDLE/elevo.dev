@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 
 const COOKIE_NAME = 'elevo_consent'
 
@@ -18,6 +18,8 @@ export default function CookieConsent() {
   const [modalOpen, setModalOpen] = useState(false)
   const [analytics, setAnalytics] = useState(true)
   const [marketing, setMarketing] = useState(false)
+
+  const locale = useLocale()
 
   let t: (key: string) => string
   try {
@@ -76,7 +78,7 @@ export default function CookieConsent() {
           <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <p className="text-sm text-gray-800 flex-1 min-w-0">
               {t('banner')}{' '}
-              <Link href="/en/privacy" className="underline text-indigo-600 hover:text-indigo-700">
+              <Link href={`/${locale}/privacy`} className="underline text-indigo-600 hover:text-indigo-700">
                 {t('privacyLink')}
               </Link>
             </p>

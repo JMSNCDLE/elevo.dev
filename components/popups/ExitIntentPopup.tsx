@@ -2,22 +2,10 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { X, Zap } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 const STORAGE_KEY = 'elevo_exit_popup_v1'
 const COOLDOWN_DAYS = 1
-
-const BUSINESS_TYPES = [
-  'Plumber',
-  'Electrician',
-  'Roofer',
-  'Builder',
-  'Restaurant',
-  'Café',
-  'Salon',
-  'Dental',
-  'Retail',
-  'Other',
-]
 
 function isCooledDown(): boolean {
   try {
@@ -47,6 +35,9 @@ export default function ExitIntentPopup() {
   const [businessType, setBusinessType] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+
+  const t = useTranslations('exitPopup')
+  const BUSINESS_TYPES = [t('typePlumber'), t('typeElectrician'), t('typeRoofer'), t('typeBuilder'), t('typeRestaurant'), t('typeCafe'), t('typeSalon'), t('typeDental'), t('typeRetail'), t('typeOther')]
 
   const handleMouseLeave = useCallback((e: MouseEvent) => {
     if (e.clientY < 10) {
@@ -134,15 +125,15 @@ export default function ExitIntentPopup() {
             <div className="w-14 h-14 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="text-2xl">✓</span>
             </div>
-            <h2 className="text-xl font-bold text-gray-900 mb-2">You&apos;re on the list!</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-2">{t('successTitle')}</h2>
             <p className="text-gray-500 text-sm">
-              We&apos;ll send your audit within 24 hours. ✓
+              {t('successMessage')}
             </p>
             <button
               onClick={handleClose}
               className="mt-6 text-sm text-gray-400 hover:text-gray-600 transition-colors"
             >
-              Close
+              {t('close')}
             </button>
           </div>
         ) : (
@@ -153,64 +144,64 @@ export default function ExitIntentPopup() {
                 <Zap size={20} className="text-indigo-600" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-gray-900">Wait — before you go</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t('title')}</h2>
                 <p className="text-sm text-gray-500 mt-0.5">
-                  Get a free personalised audit of your business&apos;s online presence.
+                  {t('subtitle')}
                 </p>
               </div>
             </div>
 
             <p className="text-sm text-gray-500 mb-5">
-              We&apos;ll analyse your Google Business profile, social presence, and local SEO — completely free.
+              {t('description')}
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-3">
               <div>
                 <label className="block text-xs font-medium text-gray-700 mb-1">
-                  Email address <span className="text-red-500">*</span>
+                  {t('emailLabel')} <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  placeholder="you@example.com"
+                  placeholder={t('emailPlaceholder')}
                   className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">Business name</label>
+                <label className="block text-xs font-medium text-gray-700 mb-1">{t('businessNameLabel')}</label>
                 <input
                   type="text"
                   value={businessName}
                   onChange={e => setBusinessName(e.target.value)}
-                  placeholder="e.g. Mario's Plumbing"
+                  placeholder={t('businessNamePlaceholder')}
                   className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">City</label>
+                <label className="block text-xs font-medium text-gray-700 mb-1">{t('cityLabel')}</label>
                 <input
                   type="text"
                   value={city}
                   onChange={e => setCity(e.target.value)}
-                  placeholder="e.g. Manchester"
+                  placeholder={t('cityPlaceholder')}
                   className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">Business type</label>
+                <label className="block text-xs font-medium text-gray-700 mb-1">{t('businessTypeLabel')}</label>
                 <select
                   value={businessType}
                   onChange={e => setBusinessType(e.target.value)}
                   className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-colors bg-white text-gray-700"
                 >
-                  <option value="">Select a type…</option>
-                  {BUSINESS_TYPES.map(t => (
-                    <option key={t} value={t}>{t}</option>
+                  <option value="">{t('selectType')}</option>
+                  {BUSINESS_TYPES.map(bt => (
+                    <option key={bt} value={bt}>{bt}</option>
                   ))}
                 </select>
               </div>
@@ -220,12 +211,12 @@ export default function ExitIntentPopup() {
                 disabled={loading || !email}
                 className="w-full py-3 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 rounded-xl transition-colors mt-1"
               >
-                {loading ? 'Sending…' : 'Get my free audit →'}
+                {loading ? t('sending') : t('submitButton')}
               </button>
             </form>
 
             <p className="text-xs text-gray-400 text-center mt-3">
-              No spam. Unsubscribe any time.
+              {t('noSpam')}
             </p>
           </>
         )}

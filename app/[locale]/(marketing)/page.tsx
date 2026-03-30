@@ -404,14 +404,14 @@ export default async function HomePage({ params }: PageProps) {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { role: 'Marketing Manager', cost: '€3,500/mo', agent: 'ELEVO Market™' },
-              { role: 'Social Media Manager', cost: '€2,200/mo', agent: 'ELEVO SMM™' },
-              { role: 'Sales Rep', cost: '€2,800/mo', agent: 'Sales Strategist Agent' },
-              { role: 'Content Writer', cost: '€1,800/mo', agent: 'ELEVO Write™' },
-              { role: 'Business Analyst', cost: '€3,000/mo', agent: 'ELEVO Spy™' },
-              { role: 'Executive Coach', cost: '€4,000/mo', agent: 'Execution Coach Agent' },
-              { role: 'Researcher', cost: '€2,500/mo', agent: 'Researcher Agent' },
-              { role: 'Personal Assistant', cost: '€2,000/mo', agent: 'ELEVO PA™' },
+              { role: t('roleMarketing'), cost: '€3,500/mo', agent: 'ELEVO Market™' },
+              { role: t('roleSocial'), cost: '€2,200/mo', agent: 'ELEVO SMM™' },
+              { role: t('roleSales'), cost: '€2,800/mo', agent: 'Sales Strategist Agent' },
+              { role: t('roleContent'), cost: '€1,800/mo', agent: 'ELEVO Write™' },
+              { role: t('roleAnalyst'), cost: '€3,000/mo', agent: 'ELEVO Spy™' },
+              { role: t('roleCoach'), cost: '€4,000/mo', agent: 'Execution Coach Agent' },
+              { role: t('roleResearcher'), cost: '€2,500/mo', agent: 'Researcher Agent' },
+              { role: t('roleAssistant'), cost: '€2,000/mo', agent: 'ELEVO PA™' },
             ].map(item => (
               <div key={item.role} className="bg-white/5 border border-white/10 rounded-xl p-5">
                 <p className="text-white/40 text-xs font-medium uppercase tracking-wider mb-2">{t('replacesYour')}</p>
