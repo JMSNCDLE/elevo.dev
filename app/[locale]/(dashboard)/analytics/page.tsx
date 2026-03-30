@@ -4,10 +4,12 @@ import { useState, useEffect, useCallback } from 'react'
 import { useLocale } from 'next-intl'
 import Link from 'next/link'
 import {
-  LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
+  LineChart, Line, BarChart, Bar, PieChart, Pie, AreaChart, Area,
+  XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, Cell,
 } from 'recharts'
-import { TrendingUp, TrendingDown, ArrowUpRight, BarChart2, Upload, RefreshCw } from 'lucide-react'
+import { TrendingUp, TrendingDown, ArrowUpRight, BarChart2, Upload, RefreshCw, Users, DollarSign, Activity } from 'lucide-react'
+import Abbr from '@/components/shared/Abbr'
 import type { AnalyticsSummary, AdPerformanceSummary } from '@/lib/analytics'
 
 const PERIODS = [
@@ -480,13 +482,107 @@ export default function AnalyticsPage() {
         )}
       </div>
 
-      {/* Website Traffic — Coming Soon */}
-      <div className="bg-dashCard rounded-xl border border-dashSurface2 p-6">
-        <h2 className="text-sm font-semibold text-dashText uppercase tracking-wide mb-4">Website traffic</h2>
-        <div className="text-center py-8">
-          <p className="text-dashMuted text-sm">Website analytics coming soon</p>
-          <p className="text-dashMuted text-xs mt-1">Connect your Google Analytics account to see page views, sessions, and traffic sources</p>
+      {/* SaaS Metrics Section */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div className="bg-dashCard rounded-xl border border-dashSurface2 p-5">
+          <p className="text-xs text-dashMuted mb-1"><Abbr term="MRR">MRR</Abbr></p>
+          <p className="text-2xl font-bold text-dashText">—</p>
+          <p className="text-xs text-dashMuted mt-1">Monthly Recurring Revenue</p>
         </div>
+        <div className="bg-dashCard rounded-xl border border-dashSurface2 p-5">
+          <p className="text-xs text-dashMuted mb-1"><Abbr term="ARPU">ARPU</Abbr></p>
+          <p className="text-2xl font-bold text-dashText">—</p>
+          <p className="text-xs text-dashMuted mt-1">Avg Revenue Per User</p>
+        </div>
+        <div className="bg-dashCard rounded-xl border border-dashSurface2 p-5">
+          <p className="text-xs text-dashMuted mb-1">Conversion Rate</p>
+          <p className="text-2xl font-bold text-dashText">—</p>
+          <p className="text-xs text-dashMuted mt-1">Trial → Paid</p>
+        </div>
+        <div className="bg-dashCard rounded-xl border border-dashSurface2 p-5">
+          <p className="text-xs text-dashMuted mb-1">Churn Rate</p>
+          <p className="text-2xl font-bold text-dashText">—</p>
+          <p className="text-xs text-dashMuted mt-1">Monthly churn %</p>
+        </div>
+      </div>
+
+      {/* Website Traffic + Conversion */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div className="bg-dashCard rounded-xl border border-dashSurface2 p-6">
+          <h2 className="text-sm font-semibold text-dashText uppercase tracking-wide mb-4">Website Traffic</h2>
+          <div className="grid grid-cols-2 gap-3 mb-4">
+            <div className="bg-dashSurface rounded-lg p-3">
+              <p className="text-xs text-dashMuted">Page Views</p>
+              <p className="text-lg font-bold text-dashText">—</p>
+            </div>
+            <div className="bg-dashSurface rounded-lg p-3">
+              <p className="text-xs text-dashMuted">Unique Visitors</p>
+              <p className="text-lg font-bold text-dashText">—</p>
+            </div>
+            <div className="bg-dashSurface rounded-lg p-3">
+              <p className="text-xs text-dashMuted">Bounce Rate</p>
+              <p className="text-lg font-bold text-dashText">—</p>
+            </div>
+            <div className="bg-dashSurface rounded-lg p-3">
+              <p className="text-xs text-dashMuted">Avg Session</p>
+              <p className="text-lg font-bold text-dashText">—</p>
+            </div>
+          </div>
+          <p className="text-xs text-dashMuted text-center">Connect Vercel Analytics or Google Analytics to see live data</p>
+        </div>
+
+        <div className="bg-dashCard rounded-xl border border-dashSurface2 p-6">
+          <h2 className="text-sm font-semibold text-dashText uppercase tracking-wide mb-4">Traffic Sources</h2>
+          <div className="space-y-3">
+            {[
+              { source: 'Direct', pct: 0, color: '#6366F1' },
+              { source: 'Organic Search', pct: 0, color: '#22c55e' },
+              { source: 'Social', pct: 0, color: '#f59e0b' },
+              { source: 'Referral', pct: 0, color: '#06b6d4' },
+              { source: 'Paid', pct: 0, color: '#ef4444' },
+            ].map(s => (
+              <div key={s.source}>
+                <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: s.color }} />
+                    <span className="text-xs text-dashText">{s.source}</span>
+                  </div>
+                  <span className="text-xs text-dashMuted">{s.pct}%</span>
+                </div>
+                <div className="h-1.5 bg-dashSurface rounded-full overflow-hidden">
+                  <div className="h-full rounded-full" style={{ width: `${s.pct}%`, backgroundColor: s.color }} />
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-dashMuted text-center mt-4">Data populates when analytics is connected</p>
+        </div>
+      </div>
+
+      {/* Conversion Funnel */}
+      <div className="bg-dashCard rounded-xl border border-dashSurface2 p-6">
+        <h2 className="text-sm font-semibold text-dashText uppercase tracking-wide mb-4">Conversion Funnel</h2>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
+          {[
+            { stage: 'Visitors', count: '—', color: '#6366F1' },
+            { stage: 'Signups', count: '—', color: '#818CF8' },
+            { stage: 'Trial Active', count: '—', color: '#f59e0b' },
+            { stage: 'Paid', count: '—', color: '#22c55e' },
+          ].map((s, i) => (
+            <div key={s.stage} className="flex items-center gap-3">
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center border-2 mx-auto" style={{ borderColor: s.color }}>
+                  <span className="text-lg font-bold text-dashText">{s.count}</span>
+                </div>
+                <p className="text-xs text-dashMuted mt-1.5">{s.stage}</p>
+              </div>
+              {i < 3 && <span className="text-dashMuted hidden sm:block">→</span>}
+            </div>
+          ))}
+        </div>
+        <p className="text-xs text-dashMuted text-center mt-4">
+          <Abbr term="CTR">CTR</Abbr>, <Abbr term="CPA">CPA</Abbr>, and <Abbr term="LTV">LTV</Abbr> metrics will appear as user data accumulates
+        </p>
       </div>
     </div>
   )

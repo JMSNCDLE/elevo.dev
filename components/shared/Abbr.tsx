@@ -20,6 +20,9 @@ const DEFINITIONS: Record<string, string> = {
   DM: 'Direct Message',
   HR: 'Human Resources',
   AI: 'Artificial Intelligence',
+  LTV: 'Lifetime Value',
+  ARPU: 'Average Revenue Per User',
+  ARR: 'Annual Recurring Revenue',
 }
 
 interface AbbrProps {
