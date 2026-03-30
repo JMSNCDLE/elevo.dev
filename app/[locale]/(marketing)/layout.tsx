@@ -47,7 +47,6 @@ export async function generateMetadata({
       title: 'ELEVO AI™ — Create and Boost Your Business Powered by AI',
       description: '54+ AI agents replace your entire team. From €39/month.',
       images: [`${base}/api/og?title=Create+and+Boost+Your+Business+Powered+by+AI`],
-      creator: '@elevo_ai',
     },
     robots: { index: true, follow: true },
     viewport: { width: 'device-width', initialScale: 1, viewportFit: 'cover' },
@@ -87,7 +86,6 @@ function JsonLd() {
       url: 'https://elevo.dev',
       description: 'ELEVO AI™ helps businesses create and grow powered by AI — every aspect taken care of.',
       founder: { '@type': 'Person', name: 'James Carlin' },
-      sameAs: ['https://twitter.com/elevo_ai', 'https://www.instagram.com/elevo.ai', 'https://www.linkedin.com/company/elevo-ai'],
     },
     {
       '@context': 'https://schema.org',
@@ -137,38 +135,7 @@ function JsonLd() {
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
 
-const FOOTER_COLS = [
-  {
-    title: 'Product',
-    links: [
-      { label: 'Features', href: '#features' },
-      { label: 'Pricing', href: '/pricing' },
-      { label: 'Blog', href: '/blog' },
-      { label: 'Updates', href: '/changelog' },
-      { label: 'Status', href: '/status' },
-    ],
-  },
-  {
-    title: 'Company',
-    links: [
-      { label: 'About', href: '/about' },
-      { label: 'Careers', href: '/careers' },
-      { label: 'Press', href: '/press' },
-      { label: 'Partners', href: '/partners' },
-      { label: 'Affiliates', href: '/signup' },
-    ],
-  },
-  {
-    title: 'Legal',
-    links: [
-      { label: 'Privacy Policy', href: '/privacy' },
-      { label: 'Terms of Service', href: '/terms' },
-      { label: 'Refund Policy', href: '/refunds' },
-      { label: 'Cookie Policy', href: '/cookies' },
-      { label: 'GDPR', href: '/privacy' },
-    ],
-  },
-]
+// Footer cols built dynamically inside layout using t()
 
 // ─── Layout ───────────────────────────────────────────────────────────────────
 
@@ -213,16 +180,41 @@ export default async function MarketingLayout({
               <p className="text-xs text-gray-600 mb-4">
                 🔒 SSL encrypted &nbsp;·&nbsp; GDPR compliant &nbsp;·&nbsp; Payments by Stripe
               </p>
-              {/* Social links */}
-              <div className="flex gap-4 text-xs text-gray-500">
-                <span>TikTok</span>
-                <span>Instagram</span>
-                <span>LinkedIn</span>
-              </div>
             </div>
 
             {/* Link cols */}
-            {FOOTER_COLS.map(col => (
+            {[
+              {
+                title: t('footerProduct'),
+                links: [
+                  { label: t('footerFeatures'), href: '#features' },
+                  { label: t('footerPricing'), href: '/pricing' },
+                  { label: t('footerBlog'), href: '/blog' },
+                  { label: t('footerUpdates'), href: '/changelog' },
+                  { label: t('footerStatus'), href: '/status' },
+                ],
+              },
+              {
+                title: t('footerCompany'),
+                links: [
+                  { label: t('footerAbout'), href: '/about' },
+                  { label: t('footerCareers'), href: '/careers' },
+                  { label: t('footerPress'), href: '/press' },
+                  { label: t('footerPartners'), href: '/partners' },
+                  { label: t('footerAffiliates'), href: '/signup' },
+                ],
+              },
+              {
+                title: t('footerLegal'),
+                links: [
+                  { label: t('footerPrivacy'), href: '/privacy' },
+                  { label: t('footerTerms'), href: '/terms' },
+                  { label: t('footerRefunds'), href: '/refunds' },
+                  { label: t('footerCookies'), href: '/cookies' },
+                  { label: t('footerGDPR'), href: '/privacy' },
+                ],
+              },
+            ].map(col => (
               <div key={col.title}>
                 <p className="text-sm font-semibold text-white mb-4">{col.title}</p>
                 <ul className="space-y-2.5">
@@ -242,8 +234,8 @@ export default async function MarketingLayout({
           </div>
 
           <div className="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-600">
-            <p>© {new Date().getFullYear()} ELEVO AI Ltd™ · All rights reserved · ELEVO AI™ is a registered trademark.</p>
-            <p>Made with ♥ for local businesses worldwide</p>
+            <p>© {new Date().getFullYear()} ELEVO AI Ltd™ · {t('footerCopyright')} · {t('footerTrademark')}</p>
+            <p>{t('footerLove')}</p>
           </div>
         </div>
       </footer>

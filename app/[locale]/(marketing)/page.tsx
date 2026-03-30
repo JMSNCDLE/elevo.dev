@@ -137,7 +137,7 @@ export default async function HomePage({ params }: PageProps) {
       <section className="bg-[#080810] border-y border-white/5 py-12 overflow-hidden">
         <p className="text-white/40 text-sm text-center mb-6">{t('trustedBusinesses')}</p>
         <div className="flex gap-12 animate-[marquee_25s_linear_infinite] whitespace-nowrap w-max">
-          {['Restaurants', 'Hair Salons', 'Plumbers', 'Dentists', 'Gyms', 'Retailers', 'Accountants', 'Estate Agents', 'Solicitors', 'Electricians', 'Cleaners', 'Physiotherapists', 'Restaurants', 'Hair Salons', 'Plumbers', 'Dentists', 'Gyms', 'Retailers', 'Accountants', 'Estate Agents', 'Solicitors', 'Electricians', 'Cleaners', 'Physiotherapists'].map((type, i) => (
+          {[t('bizRestaurants'), t('bizHairSalons'), t('bizPlumbers'), t('bizDentists'), t('bizGyms'), t('bizRetailers'), t('bizAccountants'), t('bizEstateAgents'), t('bizSolicitors'), t('bizElectricians'), t('bizCleaners'), t('bizPhysiotherapists'), t('bizRestaurants'), t('bizHairSalons'), t('bizPlumbers'), t('bizDentists'), t('bizGyms'), t('bizRetailers'), t('bizAccountants'), t('bizEstateAgents'), t('bizSolicitors'), t('bizElectricians'), t('bizCleaners'), t('bizPhysiotherapists')].map((type, i) => (
             <span key={i} className="text-white/30 text-sm font-medium">{type}</span>
           ))}
         </div>

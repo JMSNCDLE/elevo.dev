@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
 
 interface NavProps {
@@ -10,6 +11,7 @@ interface NavProps {
 }
 
 export default function Nav({ locale }: NavProps) {
+  const t = useTranslations('marketing')
   const [mounted, setMounted] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -24,10 +26,10 @@ export default function Nav({ locale }: NavProps) {
   }, [])
 
   const links = [
-    { href: `/${locale}/#features`, label: 'Features' },
-    { href: `/${locale}/#how-it-works`, label: 'How it works' },
-    { href: `/${locale}/pricing`, label: 'Pricing' },
-    { href: `/${locale}/blog`, label: 'Blog' },
+    { href: `/${locale}/#features`, label: t('navFeatures') },
+    { href: `/${locale}/#how-it-works`, label: t('navHowItWorks') },
+    { href: `/${locale}/pricing`, label: t('navPricing') },
+    { href: `/${locale}/blog`, label: t('navBlog') },
   ]
 
   const headerStyle = mounted && scrolled
@@ -80,20 +82,20 @@ export default function Nav({ locale }: NavProps) {
             href={`/${locale}/login`}
             className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors px-3 py-2"
           >
-            Sign in
+            {t('navSignIn')}
           </Link>
           <Link
             href={`/${locale}/signup`}
             className="text-sm font-semibold px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-sm"
           >
-            Start free trial
+            {t('navStartTrial')}
           </Link>
         </div>
 
         {/* Mobile */}
         <div className="flex md:hidden items-center gap-3">
           <Link href={`/${locale}/signup`} className="text-sm font-semibold px-3 py-1.5 bg-indigo-600 text-white rounded-lg">
-            Try free
+            {t('navTryFree')}
           </Link>
           <button
             onClick={() => setMobileOpen(o => !o)}
