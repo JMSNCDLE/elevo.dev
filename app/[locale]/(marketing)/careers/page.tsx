@@ -23,7 +23,7 @@ export default async function CareersPage({ params }: { params: Promise<{ locale
             <p className="text-gray-700 font-medium mb-2">Interested in joining?</p>
             <p className="text-gray-500 text-sm">
               Send your CV and a short note about what excites you to{' '}
-              <a href="mailto:hello@elevo.dev" className="text-indigo-600 font-semibold hover:underline">hello@elevo.dev</a>
+              <a href="mailto:team@elevo.dev" className="text-indigo-600 font-semibold hover:underline">team@elevo.dev</a>
             </p>
           </div>
           <Link href={`/${locale}`} className="text-sm text-indigo-600 font-medium hover:underline">

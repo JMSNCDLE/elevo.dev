@@ -58,7 +58,7 @@ export default async function HomePage({ params }: PageProps) {
             </Link>
           </div>
 
-          <p className="text-white/35 text-xs">400+ businesses · 12 countries · 99.9% uptime</p>
+          <p className="text-white/35 text-xs">{t('socialProof')}</p>
 
           {/* Dashboard Mockup */}
           <div className="max-w-5xl mx-auto mt-20" style={{ perspective: '1200px' }}>
@@ -132,7 +132,7 @@ export default async function HomePage({ params }: PageProps) {
 
       {/* ── SECTION 2: LOGOS ─────────────────────────────────────────────────── */}
       <section className="bg-[#080810] border-y border-white/5 py-12 overflow-hidden">
-        <p className="text-white/40 text-sm text-center mb-6">Trusted by businesses using</p>
+        <p className="text-white/40 text-sm text-center mb-6">{t('trustedBusinesses')}</p>
         <div className="flex gap-12 animate-[marquee_25s_linear_infinite] whitespace-nowrap w-max">
           {['Restaurants', 'Hair Salons', 'Plumbers', 'Dentists', 'Gyms', 'Retailers', 'Accountants', 'Estate Agents', 'Solicitors', 'Electricians', 'Cleaners', 'Physiotherapists', 'Restaurants', 'Hair Salons', 'Plumbers', 'Dentists', 'Gyms', 'Retailers', 'Accountants', 'Estate Agents', 'Solicitors', 'Electricians', 'Cleaners', 'Physiotherapists'].map((type, i) => (
             <span key={i} className="text-white/30 text-sm font-medium">{type}</span>
@@ -150,17 +150,17 @@ export default async function HomePage({ params }: PageProps) {
             <div>
               <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest block mb-4">Intelligence</span>
               <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-6">
-                Know your ROAS<br />before you spend.
+                {t('intelligenceTitle')}<br />{t('intelligenceTitle2')}
               </h2>
               <p className="text-white/60 text-lg mb-8 leading-relaxed">
-                ELEVO analyses your ad spend and sales data to show you exactly where your money is working — and where it's being wasted.
+                {t('intelligenceDesc')}
               </p>
               <ul className="space-y-3 mb-8">
                 {[
-                  'Real-time ROAS by platform and campaign',
-                  'Wastage detection with reallocation advice',
-                  'Google, Meta, TikTok all in one view',
-                  'Plain English recommendations',
+                  t('intelligenceF1'),
+                  t('intelligenceF2'),
+                  t('intelligenceF3'),
+                  t('intelligenceF4'),
                 ].map(f => (
                   <li key={f} className="flex items-center gap-2.5 text-sm text-white/70">
                     <CheckCircle2 size={16} className="text-indigo-400 shrink-0" />
@@ -218,17 +218,17 @@ export default async function HomePage({ params }: PageProps) {
             <div>
               <span className="text-xs font-bold text-blue-400 uppercase tracking-widest block mb-4">Automation</span>
               <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-6">
-                Post everywhere.<br />Without lifting a finger.
+                {t('automationTitle')}<br />{t('automationTitle2')}
               </h2>
               <p className="text-white/60 text-lg mb-8 leading-relaxed">
-                ELEVO SMM™ generates and schedules your social media content across Instagram, Facebook, Google, TikTok, and LinkedIn — automatically.
+                {t('automationDesc')}
               </p>
               <ul className="space-y-3">
                 {[
-                  'AI writes captions in your brand voice',
-                  'Auto-scheduled at peak engagement times',
-                  'Platform-optimised for each channel',
-                  '30-day content calendar in one click',
+                  t('automationF1'),
+                  t('automationF2'),
+                  t('automationF3'),
+                  t('automationF4'),
                 ].map(f => (
                   <li key={f} className="flex items-center gap-2.5 text-sm text-white/70">
                     <CheckCircle2 size={16} className="text-blue-400 shrink-0" />
@@ -246,17 +246,17 @@ export default async function HomePage({ params }: PageProps) {
             <div>
               <span className="text-xs font-bold text-red-400 uppercase tracking-widest block mb-4">Intelligence</span>
               <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-6">
-                Know everything about<br />your competitors.
+                {t('spyTitle')}<br />{t('spyTitle2')}
               </h2>
               <p className="text-white/60 text-lg mb-8 leading-relaxed">
-                ELEVO Spy™ monitors competitor content, ads, SEO rankings, and customer sentiment in real time. Weekly battle plans delivered straight to your dashboard.
+                {t('spyDesc')}
               </p>
               <ul className="space-y-3">
                 {[
-                  'Live competitor content monitoring',
-                  'Ad campaign reverse engineering',
-                  'SEO gap identification',
-                  'Weekly battle plan with exact tactics',
+                  t('spyF1'),
+                  t('spyF2'),
+                  t('spyF3'),
+                  t('spyF4'),
                 ].map(f => (
                   <li key={f} className="flex items-center gap-2.5 text-sm text-white/70">
                     <CheckCircle2 size={16} className="text-red-400 shrink-0" />
@@ -309,10 +309,10 @@ export default async function HomePage({ params }: PageProps) {
           <div className="section-divider mb-16" />
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
             {[
-              { value: '400+', label: 'Businesses' },
-              { value: '35+', label: 'API Routes' },
-              { value: '£616', label: 'Avg monthly ROI' },
-              { value: '99.9%', label: 'Uptime' },
+              { value: '400+', label: t('statsBusinesses') },
+              { value: '35+', label: t('statsRoutes') },
+              { value: '£616', label: t('statsROI') },
+              { value: '99.9%', label: t('statsUptime') },
             ].map(stat => (
               <div key={stat.label}>
                 <p className="stat-num">{stat.value}</p>
@@ -329,15 +329,15 @@ export default async function HomePage({ params }: PageProps) {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl sm:text-5xl font-black text-gray-900 tracking-tight">
-              How ELEVO AI™ compares
+              {t('compareTitle')}
             </h2>
-            <p className="text-gray-500 mt-4">One platform instead of four</p>
+            <p className="text-gray-500 mt-4">{t('compareSubtitle')}</p>
           </div>
           <div className="comparison-table-wrap">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 pr-6 text-gray-500 font-medium">Feature</th>
+                  <th className="text-left py-3 pr-6 text-gray-500 font-medium">{t('compareFeature')}</th>
                   <th className="py-3 px-4 text-indigo-600 font-black">ELEVO AI™</th>
                   <th className="py-3 px-4 text-gray-400 font-medium">Hootsuite</th>
                   <th className="py-3 px-4 text-gray-400 font-medium">Jasper</th>
@@ -346,16 +346,16 @@ export default async function HomePage({ params }: PageProps) {
               </thead>
               <tbody>
                 {[
-                  ['Content generation', '✓', '✗', '✓', '✓'],
-                  ['Market research', '✓', '✗', '✗', '✗'],
-                  ['Competitor spy', '✓', '✗', '✗', '✗'],
-                  ['CRM & contacts', '✓', '✗', '✗', '✓'],
-                  ['Financial health', '✓', '✗', '✗', '✗'],
-                  ['ROAS analysis', '✓', '✗', '✗', '✗'],
-                  ['Stripe billing built-in', '✓', '✗', '✗', '✗'],
-                  ['Multi-language (12)', '✓', '✗', '✗', '✗'],
-                  ['7-day free trial', '✓', '✓', '✓', '✗'],
-                  ['Starting price', 'From €39/mo', '€99/mo', '€39/mo', '€720/mo'],
+                  [t('compareContent'), '✓', '✗', '✓', '✓'],
+                  [t('compareMarket'), '✓', '✗', '✗', '✗'],
+                  [t('compareSpy'), '✓', '✗', '✗', '✗'],
+                  [t('compareCRM'), '✓', '✗', '✗', '✓'],
+                  [t('compareFinancial'), '✓', '✗', '✗', '✗'],
+                  [t('compareROAS'), '✓', '✗', '✗', '✗'],
+                  [t('compareStripe'), '✓', '✗', '✗', '✗'],
+                  [t('compareLanguages'), '✓', '✗', '✗', '✗'],
+                  [t('compareTrial'), '✓', '✓', '✓', '✗'],
+                  [t('comparePrice'), 'From €39/mo', '€99/mo', '€39/mo', '€720/mo'],
                 ].map(([feature, elevo, hs, jasper, hub], i) => (
                   <tr key={i} className="border-b border-gray-100">
                     <td className="py-3 pr-6 text-gray-700 font-medium">{feature}</td>
@@ -392,10 +392,10 @@ export default async function HomePage({ params }: PageProps) {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight">
-              Why hire when AI agents work 24/7?
+              {t('whyHireTitle')}
             </h2>
             <p className="text-white/50 mt-4 text-lg max-w-2xl mx-auto">
-              Each ELEVO agent replaces the need for a full-time employee — at a fraction of the cost.
+              {t('whyHireSubtitle')}
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -410,7 +410,7 @@ export default async function HomePage({ params }: PageProps) {
               { role: 'Personal Assistant', cost: '€2,000/mo', agent: 'ELEVO PA™' },
             ].map(item => (
               <div key={item.role} className="bg-white/5 border border-white/10 rounded-xl p-5">
-                <p className="text-white/40 text-xs font-medium uppercase tracking-wider mb-2">Replaces your</p>
+                <p className="text-white/40 text-xs font-medium uppercase tracking-wider mb-2">{t('replacesYour')}</p>
                 <p className="text-white font-bold text-lg mb-1 line-through decoration-red-500/60">{item.role}</p>
                 <p className="text-red-400 text-sm line-through mb-3">{item.cost}</p>
                 <div className="flex items-center gap-2">
@@ -421,13 +421,13 @@ export default async function HomePage({ params }: PageProps) {
             ))}
           </div>
           <div className="text-center mt-10">
-            <p className="text-white/30 text-sm">Total employee cost: <span className="text-red-400 line-through">€21,800/mo</span></p>
+            <p className="text-white/30 text-sm">{t('totalCost')} <span className="text-red-400 line-through">€21,800/mo</span></p>
             <p className="text-white text-2xl font-black mt-2">ELEVO Orbit: <HomeOrbitPrice /></p>
             <Link
-              href="/en/signup"
+              href={`/${locale}/signup`}
               className="inline-flex items-center justify-center bg-white text-gray-900 font-semibold px-8 py-3 rounded-full hover:bg-white/90 transition-colors mt-6"
             >
-              Start replacing costs with results →
+              {t('startReplacing')}
             </Link>
           </div>
         </div>
@@ -438,40 +438,40 @@ export default async function HomePage({ params }: PageProps) {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight">
-              Loved by local businesses
+              {t('testimonialsTitle')}
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
               {
-                quote: "ELEVO completely transformed how I run my salon. The social media content alone saves me 5 hours a week. My Google reviews have nearly doubled.",
-                name: 'Sam T.',
-                role: 'Hair Salon, Manchester',
+                quote: t('testimonial1'),
+                name: t('testimonial1Author'),
+                role: t('testimonial1Business'),
                 stars: 5,
               },
               {
-                quote: "The ROAS analysis told me I was wasting £600/month on Meta ads. Moved it to Google and my leads tripled. Paid for itself in week one.",
-                name: 'Mike R.',
-                role: 'Plumber, Birmingham',
+                quote: t('testimonial2'),
+                name: t('testimonial2Author'),
+                role: t('testimonial2Business'),
                 stars: 5,
               },
               {
-                quote: "ELEVO Spy caught my competitor running a discount campaign before I even knew about it. I launched a counter-offer the same day. Game changer.",
-                name: 'Laura K.',
-                role: 'Gym Owner, Bristol',
+                quote: t('testimonial3'),
+                name: t('testimonial3Author'),
+                role: t('testimonial3Business'),
                 stars: 5,
               },
-            ].map((t, i) => (
+            ].map((item, i) => (
               <div key={i} className="glass-card p-6">
                 <div className="flex gap-1 mb-4">
-                  {Array.from({ length: t.stars }).map((_, j) => (
+                  {Array.from({ length: item.stars }).map((_, j) => (
                     <span key={j} className="text-yellow-400 text-sm">★</span>
                   ))}
                 </div>
-                <p className="text-white/70 text-sm leading-relaxed mb-4">&ldquo;{t.quote}&rdquo;</p>
+                <p className="text-white/70 text-sm leading-relaxed mb-4">&ldquo;{item.quote}&rdquo;</p>
                 <div>
-                  <p className="text-white font-semibold text-sm">{t.name}</p>
-                  <p className="text-white/40 text-xs">{t.role}</p>
+                  <p className="text-white font-semibold text-sm">{item.name}</p>
+                  <p className="text-white/40 text-xs">{item.role}</p>
                 </div>
               </div>
             ))}
@@ -485,10 +485,10 @@ export default async function HomePage({ params }: PageProps) {
         <div className="grid-overlay" />
         <div className="relative z-10 max-w-3xl mx-auto text-center">
           <h2 className="text-5xl sm:text-6xl font-black text-white tracking-tight mb-6">
-            Build your AI business team today.
+            {t('ctaTitle')}
           </h2>
           <p className="text-white/50 text-lg mb-10">
-            Join 400+ businesses already using ELEVO AI™ to work smarter and grow faster.
+            {t('ctaSubtitle')}
           </p>
           <Link
             href={`/${locale}/signup`}

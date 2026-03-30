@@ -23,7 +23,7 @@ export default async function PressPage({ params }: { params: Promise<{ locale: 
             <p className="text-gray-700 font-medium mb-2">Media contact</p>
             <p className="text-gray-500 text-sm">
               Email{' '}
-              <a href="mailto:hello@elevo.dev" className="text-indigo-600 font-semibold hover:underline">hello@elevo.dev</a>
+              <a href="mailto:team@elevo.dev" className="text-indigo-600 font-semibold hover:underline">team@elevo.dev</a>
               {' '}with the subject line &quot;Press Inquiry&quot;
             </p>
           </div>
