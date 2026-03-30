@@ -359,3 +359,26 @@ button, a { min-height: 44px }
   .animate-fade-in { animation: none; opacity: 1 }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important }
 }
+
+/* Copyright protection for branded content */
+.trademark-protected,
+[data-protected] {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+@media print {
+  .trademark-protected,
+  [data-protected] {
+    opacity: 0.3;
+  }
+  .trademark-protected::after,
+  [data-protected]::after {
+    content: ' — © ELEVO AI™';
+    font-size: 10px;
+    color: #999;
+  }
+}

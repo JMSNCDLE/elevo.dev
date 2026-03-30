@@ -27,6 +27,8 @@ export const metadata: Metadata = {
     'google-site-verification': 'VPTyVYNKRhrrI4p3lesQcE9atx67usOvG4ZnjMiLWUg',
     'msvalidate.01': '0B660C8218156BF38E8053FFB13524F6',
     'yandex-verification': process.env.YANDEX_VERIFICATION_CODE ?? '',
+    'dcterms.rightsHolder': 'ELEVO AI Ltd™',
+    'dcterms.rights': '© 2026 ELEVO AI Ltd™. All rights reserved.',
   },
 }
 

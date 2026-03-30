@@ -7,6 +7,7 @@ import ClientPopups from '@/components/marketing/ClientPopups'
 import { ScrollProgress } from '@/components/shared/ScrollProgress'
 import { CustomCursor } from '@/components/shared/CustomCursor'
 import { PageTransition } from '@/components/marketing/PageTransition'
+import CopyrightProtection from '@/components/shared/CopyrightProtection'
 
 export async function generateMetadata({
   params,
@@ -189,7 +190,9 @@ export default async function MarketingLayout({
       <CustomCursor />
       <Nav locale={locale} />
       <main className="flex-1 pt-[72px]">
-        <PageTransition>{children}</PageTransition>
+        <CopyrightProtection>
+          <PageTransition>{children}</PageTransition>
+        </CopyrightProtection>
       </main>
 
       {/* Footer */}

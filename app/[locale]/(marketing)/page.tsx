@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { CheckCircle2 } from 'lucide-react'
 import { HomePricingCards, HomeComparisonPrice, HomeOrbitPrice } from '@/components/marketing/HomePricing'
+import TrademarkSlogan from '@/components/shared/TrademarkSlogan'
 import { getTranslations } from 'next-intl/server'
 import type { Metadata } from 'next'
 
@@ -33,15 +34,17 @@ export default async function HomePage({ params }: PageProps) {
             ✦ Now with ELEVO CEO™
           </div>
 
-          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white tracking-tight leading-none mb-8">
+          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white tracking-tight leading-none mb-8 trademark-protected" data-protected>
             {t('heroTitle1')}<br />
             {t('heroTitle2')}{' '}
             <span className="gradient-text-hero">{t('heroTitle3')}</span>
           </h1>
 
-          <p className="text-white/60 text-lg max-w-2xl mx-auto mb-10">
+          <p className="text-white/60 text-lg max-w-2xl mx-auto mb-6">
             {t('heroSubtitle')}
           </p>
+
+          <TrademarkSlogan className="mb-10" />
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
             <Link
@@ -333,7 +336,7 @@ export default async function HomePage({ params }: PageProps) {
             </h2>
             <p className="text-gray-500 mt-4">{t('compareSubtitle')}</p>
           </div>
-          <div className="comparison-table-wrap">
+          <div className="comparison-table-wrap trademark-protected" data-protected>
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-200">
@@ -381,9 +384,10 @@ export default async function HomePage({ params }: PageProps) {
             <p className="text-gray-500 mt-4">{t('pricingSubtitle')}</p>
           </div>
           <HomePricingCards />
-          <p className="text-center text-gray-400 text-sm mt-8">
-            {t('trialNote')}
-          </p>
+          <div className="text-center mt-8">
+            <TrademarkSlogan className="mb-2" />
+            <p className="text-gray-400 text-sm">{t('trialNote')}</p>
+          </div>
         </div>
       </section>
 
@@ -423,6 +427,7 @@ export default async function HomePage({ params }: PageProps) {
           <div className="text-center mt-10">
             <p className="text-white/30 text-sm">{t('totalCost')} <span className="text-red-400 line-through">€21,800/mo</span></p>
             <p className="text-white text-2xl font-black mt-2">ELEVO Orbit: <HomeOrbitPrice /></p>
+            <TrademarkSlogan className="mt-4" />
             <Link
               href={`/${locale}/signup`}
               className="inline-flex items-center justify-center bg-white text-gray-900 font-semibold px-8 py-3 rounded-full hover:bg-white/90 transition-colors mt-6"
@@ -435,7 +440,7 @@ export default async function HomePage({ params }: PageProps) {
 
       {/* ── SECTION 9: TESTIMONIALS ──────────────────────────────────────────── */}
       <section className="bg-[#050507] py-24 px-6">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl mx-auto trademark-protected" data-protected>
           <div className="text-center mb-12">
             <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight">
               {t('testimonialsTitle')}
