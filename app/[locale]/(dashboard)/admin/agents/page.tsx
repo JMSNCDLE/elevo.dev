@@ -5,8 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useLocale } from 'next-intl'
 import { Bot, Loader2, BarChart2 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
-
-const ADMIN_USER_ID = '5dc15dea-4633-441b-b37a-5406e7235114'
+import { isAdminId } from '@/lib/admin'
 
 const AGENT_LABELS: Record<string, string> = {
   gbp_post: 'GBP Posts (Rise)',
@@ -34,7 +33,7 @@ export default function AdminAgentsPage() {
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
-      if (!user || user.id !== ADMIN_USER_ID) { router.push(`/${locale}/dashboard`); return }
+      if (!user || !isAdminId(user.id)) { router.push(`/${locale}/dashboard`); return }
       setAuthed(true)
       fetch('/api/admin/stats').then(r => r.json()).then(data => {
         setAgentUsage(data.agentUsage ?? {})

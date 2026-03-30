@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient, createServiceClient } from '@/lib/supabase/server'
 import { notifyOwner } from '@/lib/notifications/notify-owner'
-
-const ADMIN_USER_ID = '5dc15dea-4633-441b-b37a-5406e7235114'
+import { isAdminId } from '@/lib/admin'
 
 // GET — list notification history
 export async function GET(req: NextRequest) {
   const supabase = await createServerClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user || user.id !== ADMIN_USER_ID) {
+  if (!user || !isAdminId(user.id)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
@@ -38,7 +37,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const supabase = await createServerClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user || user.id !== ADMIN_USER_ID) {
+  if (!user || !isAdminId(user.id)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 

@@ -2,8 +2,7 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendEmail } from '@/lib/email/send'
 import { wrapEmail } from '@/lib/email/templates'
-
-const ADMIN_ID = process.env.ELEVO_ADMIN_USER_ID ?? '5dc15dea-4633-441b-b37a-5406e7235114'
+import { isAdminId } from '@/lib/admin'
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.dev'
 const MAX_PROMO_PER_MONTH = 2
 
@@ -41,7 +40,7 @@ export async function POST(request: Request) {
 
   // Simple admin check: require admin header or cookie
   const adminCheck = request.headers.get('x-admin-id')
-  if (adminCheck !== ADMIN_ID) {
+  if (!adminCheck || !isAdminId(adminCheck)) {
     // Fallback: check via Supabase auth
     const cookieHeader = request.headers.get('cookie') ?? ''
     // For server actions / API calls from dashboard, check profiles

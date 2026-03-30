@@ -12,6 +12,7 @@ import {
   Users2, BarChart2, DollarSign, TrendingDown, Rocket,
   ChevronRight, Library, Star, Paintbrush, ClipboardList, FlaskConical, Plug, Bell, Megaphone, Activity, ShoppingBag, Monitor, Camera, Phone, Server, UserPlus, GitBranch, Gift, CreditCard, Award, Package, Linkedin, Calendar,
 } from 'lucide-react'
+import { isAdminId } from '@/lib/admin'
 import { useAgentSearch } from '@/hooks/useAgentSearch'
 import AgentSearch from './AgentSearch'
 
@@ -286,7 +287,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
         </div>
 
         {/* Admin — only visible to James */}
-        {userId === '5dc15dea-4633-441b-b37a-5406e7235114' && <div>
+        {userId && isAdminId(userId) && <div>
           <p className="text-xs font-semibold text-dashMuted uppercase tracking-wider px-2 mb-1.5">Admin</p>
           <ul className="space-y-0.5">
             {[

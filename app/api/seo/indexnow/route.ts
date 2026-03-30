@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { isAdminId } from '@/lib/admin'
 
 const INDEXNOW_KEY = process.env.INDEXNOW_KEY ?? ''
 const BASE_URL = 'https://elevo.dev'
@@ -14,7 +15,7 @@ export async function POST(request: Request) {
   if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
     // Check if admin
     const adminHeader = request.headers.get('x-admin-id')
-    if (adminHeader !== (process.env.ELEVO_ADMIN_USER_ID ?? '5dc15dea-4633-441b-b37a-5406e7235114')) {
+    if (!adminHeader || !isAdminId(adminHeader)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
   }

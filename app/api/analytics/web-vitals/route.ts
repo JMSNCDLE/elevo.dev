@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient, createServiceClient } from '@/lib/supabase/server'
-
-const ADMIN_USER_ID = '5dc15dea-4633-441b-b37a-5406e7235114'
+import { isAdminId } from '@/lib/admin'
 
 // POST — store a web vital metric (fire-and-forget, no auth required)
 export async function POST(req: NextRequest) {
@@ -50,8 +49,8 @@ export async function GET(req: NextRequest) {
   const since = new Date(Date.now() - days * 86400000).toISOString()
 
   // Admin sees all, regular users see their own
-  const isAdmin = user.id === ADMIN_USER_ID
-  const client = isAdmin ? await createServiceClient() : supabase
+  const admin = isAdminId(user.id)
+  const client = admin ? await createServiceClient() : supabase
 
   let query = client
     .from('web_vitals')
@@ -60,7 +59,7 @@ export async function GET(req: NextRequest) {
     .order('created_at', { ascending: false })
     .limit(2000)
 
-  if (!isAdmin) {
+  if (!admin) {
     query = query.eq('user_id', user.id)
   }
 

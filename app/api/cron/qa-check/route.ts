@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
+import { ADMIN_IDS } from '@/lib/admin'
 
 const CRON_SECRET = process.env.CRON_SECRET
 const ADMIN_EMAIL = process.env.ELEVO_ADMIN_EMAIL ?? 'team@elevo.dev'
@@ -77,16 +78,17 @@ async function checkAdminAccess(): Promise<QAResult> {
     const { data, error } = await supabase
       .from('profiles')
       .select('id, email, role, plan')
-      .eq('id', '5dc15dea-4633-441b-b37a-5406e7235114')
-      .single()
+      .in('id', ADMIN_IDS)
 
-    if (error || !data) {
+    if (error || !data || data.length === 0) {
       return { name: 'Admin Account', status: 'fail', message: 'Admin profile missing — run fix-signup-trigger.sql', duration: Date.now() - start }
     }
-    if (data.role !== 'admin') {
-      return { name: 'Admin Account', status: 'fail', message: `Admin role is "${data.role}" — should be "admin"`, duration: Date.now() - start }
+    const nonAdmin = data.find((d: { role: string }) => d.role !== 'admin')
+    if (nonAdmin) {
+      return { name: 'Admin Account', status: 'fail', message: `Admin role is "${nonAdmin.role}" — should be "admin"`, duration: Date.now() - start }
     }
-    return { name: 'Admin Account', status: 'pass', message: `Admin OK (${data.email}, ${data.plan})`, duration: Date.now() - start }
+    const first = data[0]
+    return { name: 'Admin Account', status: 'pass', message: `Admin OK (${data.length} admin(s), ${first.email}, ${first.plan})`, duration: Date.now() - start }
   } catch (err) {
     return { name: 'Admin Account', status: 'fail', message: `Error: ${(err as Error).message}`, duration: Date.now() - start }
   }

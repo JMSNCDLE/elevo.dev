@@ -7,6 +7,7 @@ import HelperBot from '@/components/dashboard/HelperBot'
 import SessionTracker from '@/components/dashboard/SessionTracker'
 import DeviceAdaptiveLayout from '@/components/dashboard/DeviceAdaptiveLayout'
 import ClientStageBadge from '@/components/dashboard/ClientStageBadge'
+import CreditsDepleted from '@/components/shared/CreditsDepleted'
 
 export default async function DashboardLayout({
   children,
@@ -68,6 +69,9 @@ export default async function DashboardLayout({
       <main className="flex-1 overflow-auto">
         <div className="flex items-center justify-end px-6 pt-4">
           <ClientStageBadge profile={stageBadgeProfile} />
+        </div>
+        <div className="px-6 pt-2">
+          <CreditsDepleted plan={profile.plan} creditsUsed={profile.credits_used} creditsLimit={profile.credits_limit} />
         </div>
         <DeviceAdaptiveLayout userId={profile.id}>
           {children}

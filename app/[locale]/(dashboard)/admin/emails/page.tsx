@@ -8,8 +8,7 @@ import {
   ChevronDown, ChevronUp, Calendar, Filter,
 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
-
-const ADMIN_USER_ID = '5dc15dea-4633-441b-b37a-5406e7235114'
+import { isAdminId } from '@/lib/admin'
 
 interface EmailLog {
   id: string
@@ -46,7 +45,7 @@ export default function AdminEmailsPage() {
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
-      if (!user || user.id !== ADMIN_USER_ID) {
+      if (!user || !isAdminId(user.id)) {
         router.push(`/${locale}/dashboard`)
         return
       }

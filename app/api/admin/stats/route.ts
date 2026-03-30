@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createServerClient, createServiceClient } from '@/lib/supabase/server'
-
-const ADMIN_USER_ID = '5dc15dea-4633-441b-b37a-5406e7235114'
+import { isAdminId } from '@/lib/admin'
 
 export async function GET() {
   // Auth check — must be the owner
@@ -13,7 +12,7 @@ export async function GET() {
   }
 
   // Allow owner OR admin role
-  if (user.id !== ADMIN_USER_ID) {
+  if (!isAdminId(user.id)) {
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
