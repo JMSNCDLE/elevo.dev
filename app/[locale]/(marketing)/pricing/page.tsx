@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { Check, Minus, ChevronDown, ChevronUp, Star, Zap } from 'lucide-react';
 import { useCurrency } from '@/hooks/useCurrency';
 import { PLAN_PRICES, CURRENCY_SYMBOLS } from '@/lib/currency';
@@ -30,127 +31,6 @@ interface FaqItem {
   answer: string;
 }
 
-const PLANS: Plan[] = [
-  {
-    id: 'launch',
-    name: 'Launch',
-    description: 'For businesses just getting started',
-    credits: '100 credits/month',
-    highlighted: false,
-    ctaVariant: 'outline',
-    features: [
-      'All content generators (GBP posts, blog, social, email, SEO)',
-      'CRM (up to 100 contacts)',
-      'Google Business Profile optimisation',
-      'Email support',
-      '1 business profile',
-    ],
-  },
-  {
-    id: 'orbit',
-    name: 'Orbit',
-    badge: 'Most popular',
-    description: 'For growing businesses ready to scale',
-    credits: '300 credits/month',
-    highlighted: true,
-    ctaVariant: 'filled',
-    features: [
-      'Everything in Launch',
-      'ROAS & ad spend analysis (ELEVO Ads Pro™)',
-      'Financial health intelligence (ELEVO Flora™)',
-      'Social Media Hub with auto-posting',
-      'ELEVO Connect™ (DM automation, replaces ManyChat)',
-      'Customer Trends & churn prediction',
-      '3 business profiles',
-      'Priority support',
-    ],
-  },
-  {
-    id: 'galaxy',
-    name: 'Galaxy',
-    description: 'For agencies and power users',
-    credits: '999 credits/month',
-    highlighted: false,
-    ctaVariant: 'outline',
-    features: [
-      'Everything in Orbit',
-      '15 business profiles',
-      "White-label (your brand, not ELEVO's)",
-      'API access',
-      'Embeddable widgets for client sites',
-      'Team member access (up to 5)',
-      'Custom subdomain',
-      'Dedicated account manager',
-    ],
-  },
-];
-
-const FEATURE_ROWS: FeatureRow[] = [
-  { feature: 'AI credits/month', launch: '100', orbit: '300', galaxy: '999' },
-  { feature: 'Business profiles', launch: '1', orbit: '3', galaxy: '15' },
-  { feature: 'GBP post generator', launch: true, orbit: true, galaxy: true },
-  { feature: 'Blog generator', launch: true, orbit: true, galaxy: true },
-  { feature: 'Social captions', launch: true, orbit: true, galaxy: true },
-  { feature: 'Email generator', launch: true, orbit: true, galaxy: true },
-  { feature: 'SEO copy', launch: true, orbit: true, galaxy: true },
-  { feature: 'Review responses', launch: true, orbit: true, galaxy: true },
-  { feature: 'CRM contacts', launch: '100', orbit: 'Unlimited', galaxy: 'Unlimited' },
-  { feature: 'Problem Solver (AI advisor)', launch: true, orbit: true, galaxy: true },
-  { feature: 'Live Assistant', launch: true, orbit: true, galaxy: true },
-  { feature: 'ROAS & ad spend analysis', launch: false, orbit: true, galaxy: true },
-  { feature: 'Financial health intelligence', launch: false, orbit: true, galaxy: true },
-  { feature: 'Social Hub with auto-posting', launch: false, orbit: true, galaxy: true },
-  { feature: 'ELEVO Connect™ (DM automation)', launch: false, orbit: true, galaxy: true },
-  { feature: 'Customer Trends & churn prediction', launch: false, orbit: true, galaxy: true },
-  { feature: 'Market research', launch: false, orbit: true, galaxy: true },
-  { feature: 'Campaign planning', launch: false, orbit: true, galaxy: true },
-  { feature: 'White-label', launch: false, orbit: false, galaxy: true },
-  { feature: 'API access', launch: false, orbit: false, galaxy: true },
-  { feature: 'Embeddable widgets', launch: false, orbit: false, galaxy: true },
-  { feature: 'Team member access', launch: false, orbit: false, galaxy: 'Up to 5' },
-  { feature: 'Custom subdomain', launch: false, orbit: false, galaxy: true },
-  { feature: 'Support', launch: 'Email', orbit: 'Priority', galaxy: 'Dedicated manager' },
-];
-
-const FAQS: FaqItem[] = [
-  {
-    question: 'How does the 7-day free trial work?',
-    answer:
-      'Start your trial with any plan. You get full access for 7 days. Cancel before the trial ends and you won\'t be charged.',
-  },
-  {
-    question: 'Can I cancel anytime?',
-    answer: 'Yes. Cancel from your account settings — no calls, no forms, instant.',
-  },
-  {
-    question: 'What counts as a credit?',
-    answer:
-      'One credit = one AI generation. Most content types cost 1 credit. The Problem Solver costs 2 credits.',
-  },
-  {
-    question: 'What happens when I run out of credits?',
-    answer: 'Credits reset monthly. Upgrade or wait for the reset.',
-  },
-  {
-    question: 'Does it work for my type of business?',
-    answer:
-      'ELEVO works for any local or service business — restaurants, trades, salons, dentists, consultants, agencies.',
-  },
-  {
-    question: 'What happens to my data if I cancel?',
-    answer: 'Your data is yours. Export everything before you leave.',
-  },
-  {
-    question: 'Is ELEVO available in Spanish?',
-    answer: 'Yes — fully available in English and Spanish, with more languages coming.',
-  },
-  {
-    question: 'What is the refund policy?',
-    answer:
-      'All sales are final after payment is processed. We offer a generous 7-day free trial so you can evaluate ELEVO fully before committing.',
-  },
-];
-
 function FeatureCell({ value }: { value: boolean | string }) {
   if (value === true) {
     return <Check className="w-5 h-5 text-indigo-600 mx-auto" aria-label="Included" />;
@@ -164,6 +44,7 @@ function FeatureCell({ value }: { value: boolean | string }) {
 }
 
 export default function PricingPage() {
+  const t = useTranslations('pricing');
   const params = useParams();
   const locale = (params?.locale as string) ?? 'en';
   const currency = useCurrency();
@@ -175,6 +56,99 @@ export default function PricingPage() {
 
   const signupHref = `/${locale}/signup`;
 
+  const PLANS: Plan[] = [
+    {
+      id: 'launch',
+      name: 'Launch',
+      description: t('launchDesc'),
+      credits: t('launchCredits'),
+      highlighted: false,
+      ctaVariant: 'outline',
+      features: [
+        t('launchF1'),
+        t('launchF2'),
+        t('launchF3'),
+        t('launchF4'),
+        t('launchF5'),
+      ],
+    },
+    {
+      id: 'orbit',
+      name: 'Orbit',
+      badge: t('mostPopular'),
+      description: t('orbitDesc'),
+      credits: t('orbitCredits'),
+      highlighted: true,
+      ctaVariant: 'filled',
+      features: [
+        t('orbitF1'),
+        t('orbitF2'),
+        t('orbitF3'),
+        t('orbitF4'),
+        t('orbitF5'),
+        t('orbitF6'),
+        t('orbitF7'),
+        t('orbitF8'),
+      ],
+    },
+    {
+      id: 'galaxy',
+      name: 'Galaxy',
+      description: t('galaxyDesc'),
+      credits: t('galaxyCredits'),
+      highlighted: false,
+      ctaVariant: 'outline',
+      features: [
+        t('galaxyF1'),
+        t('galaxyF2'),
+        t('galaxyF3'),
+        t('galaxyF4'),
+        t('galaxyF5'),
+        t('galaxyF6'),
+        t('galaxyF7'),
+        t('galaxyF8'),
+      ],
+    },
+  ];
+
+  const FEATURE_ROWS: FeatureRow[] = [
+    { feature: t('ftCredits'), launch: '100', orbit: '300', galaxy: '999' },
+    { feature: t('ftProfiles'), launch: '1', orbit: '3', galaxy: '15' },
+    { feature: t('ftGBP'), launch: true, orbit: true, galaxy: true },
+    { feature: t('ftBlog'), launch: true, orbit: true, galaxy: true },
+    { feature: t('ftSocial'), launch: true, orbit: true, galaxy: true },
+    { feature: t('ftEmail'), launch: true, orbit: true, galaxy: true },
+    { feature: t('ftSEO'), launch: true, orbit: true, galaxy: true },
+    { feature: t('ftReviews'), launch: true, orbit: true, galaxy: true },
+    { feature: t('ftCRM'), launch: '100', orbit: t('unlimited'), galaxy: t('unlimited') },
+    { feature: t('ftProblemSolver'), launch: true, orbit: true, galaxy: true },
+    { feature: t('ftLiveAssistant'), launch: true, orbit: true, galaxy: true },
+    { feature: t('ftROAS'), launch: false, orbit: true, galaxy: true },
+    { feature: t('ftFinancial'), launch: false, orbit: true, galaxy: true },
+    { feature: t('ftSocialHub'), launch: false, orbit: true, galaxy: true },
+    { feature: t('ftConnect'), launch: false, orbit: true, galaxy: true },
+    { feature: t('ftChurn'), launch: false, orbit: true, galaxy: true },
+    { feature: t('ftMarketResearch'), launch: false, orbit: true, galaxy: true },
+    { feature: t('ftCampaign'), launch: false, orbit: true, galaxy: true },
+    { feature: t('ftWhiteLabel'), launch: false, orbit: false, galaxy: true },
+    { feature: t('ftAPI'), launch: false, orbit: false, galaxy: true },
+    { feature: t('ftWidgets'), launch: false, orbit: false, galaxy: true },
+    { feature: t('ftTeam'), launch: false, orbit: false, galaxy: t('upTo5') },
+    { feature: t('ftSubdomain'), launch: false, orbit: false, galaxy: true },
+    { feature: t('ftSupport'), launch: t('supportEmail'), orbit: t('supportPriority'), galaxy: t('supportDedicated') },
+  ];
+
+  const FAQS: FaqItem[] = [
+    { question: t('faq1Q'), answer: t('faq1A') },
+    { question: t('faq2Q'), answer: t('faq2A') },
+    { question: t('faq3Q'), answer: t('faq3A') },
+    { question: t('faq4Q'), answer: t('faq4A') },
+    { question: t('faq5Q'), answer: t('faq5A') },
+    { question: t('faq6Q'), answer: t('faq6A') },
+    { question: t('faq7Q'), answer: t('faq7A') },
+    { question: t('faq8Q'), answer: t('faq8A') },
+  ];
+
   function getPrice(planId: string): number {
     const p = PLAN_PRICES[planId]?.[currency];
     return p ? (annual ? p.annual : p.monthly) : 0;
@@ -183,14 +157,14 @@ export default function PricingPage() {
 
   return (
     <main className="bg-white min-h-screen">
-      {/* ── 1. Header ── */}
+      {/* -- 1. Header -- */}
       <section className="pt-20 pb-10 px-4 text-center">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">
-            Simple, honest pricing.
+            {t('heroTitle')}
           </h1>
           <p className="mt-4 text-lg text-gray-500">
-            7-day free trial on every plan. Cancel anytime.
+            {t('heroSubtitle')}
           </p>
 
           {/* Monthly / Annual toggle */}
@@ -200,7 +174,7 @@ export default function PricingPage() {
                 !annual ? 'text-gray-900' : 'text-gray-400'
               }`}
             >
-              Monthly
+              {t('monthly')}
             </span>
             <button
               type="button"
@@ -223,18 +197,18 @@ export default function PricingPage() {
                 annual ? 'text-gray-900' : 'text-gray-400'
               }`}
             >
-              Annual
+              {t('annual')}
             </span>
             {annual && (
               <span className="rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-green-700">
-                2 months free — 17% off
+                {t('annualSaving')}
               </span>
             )}
           </div>
         </div>
       </section>
 
-      {/* ── 2. Plan cards ── */}
+      {/* -- 2. Plan cards -- */}
       <section className="pb-12 px-4">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
           {PLANS.map((plan) => (
@@ -265,7 +239,7 @@ export default function PricingPage() {
                   <span className="text-4xl font-extrabold text-gray-900">
                     {symbol}{getPrice(plan.id)}
                   </span>
-                  <span className="mb-1 text-sm text-gray-400">/month</span>
+                  <span className="mb-1 text-sm text-gray-400">{t('perMonth')}</span>
                 </div>
                 {annual && (
                   <p className="mt-1 text-xs text-gray-400">
@@ -300,7 +274,7 @@ export default function PricingPage() {
                       : 'border border-indigo-600 text-indigo-600 hover:bg-indigo-50 text-sm py-3'
                   }`}
                 >
-                  Start free trial →
+                  {t('startTrial')}
                 </Link>
               </div>
             </div>
@@ -308,34 +282,34 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* ── 3. Add-on box ── */}
+      {/* -- 3. Add-on box -- */}
       <section className="pb-12 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="rounded-2xl border border-dashed border-indigo-300 bg-indigo-50 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
               <h3 className="text-base font-semibold text-gray-900">
-                ELEVO Studio™ Add-on —{' '}
-                <span className="text-indigo-600">£29.99/month</span>
+                {t('addonTitle')}{' '}
+                <span className="text-indigo-600">{t('addonPrice')}</span>
               </h3>
               <p className="mt-1 text-sm text-gray-600">
-                Avatar ads, URL-to-video, voiceovers — included when added to any plan.
+                {t('addonDesc')}
               </p>
             </div>
             <Link
               href={signupHref}
               className="shrink-0 rounded-xl border border-indigo-600 px-5 py-2.5 text-sm font-semibold text-indigo-600 hover:bg-indigo-100 transition-colors whitespace-nowrap"
             >
-              Add to plan →
+              {t('addonCta')}
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ── 4. Feature comparison table ── */}
+      {/* -- 4. Feature comparison table -- */}
       <section className="pb-16 px-4">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">
-            Full feature comparison
+            {t('featureComparison')}
           </h2>
 
           <div className="overflow-x-auto rounded-2xl border border-gray-200 shadow-sm">
@@ -343,7 +317,7 @@ export default function PricingPage() {
               <thead>
                 <tr className="border-b border-gray-200 bg-gray-50">
                   <th className="py-4 px-5 text-left font-semibold text-gray-600 w-1/2">
-                    Feature
+                    {t('featureLabel')}
                   </th>
                   <th className="py-4 px-5 text-center font-semibold text-gray-700">
                     Launch
@@ -390,12 +364,12 @@ export default function PricingPage() {
               {tableExpanded ? (
                 <>
                   <ChevronUp className="w-4 h-4" />
-                  Show less
+                  {t('showLess')}
                 </>
               ) : (
                 <>
                   <ChevronDown className="w-4 h-4" />
-                  Show all {FEATURE_ROWS.length} features
+                  {t('showAll', { count: FEATURE_ROWS.length })}
                 </>
               )}
             </button>
@@ -403,11 +377,11 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* ── 5. FAQ Accordion ── */}
+      {/* -- 5. FAQ Accordion -- */}
       <section className="pb-20 px-4 bg-gray-50">
         <div className="max-w-2xl mx-auto pt-16">
           <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">
-            Frequently asked questions
+            {t('faqTitle')}
           </h2>
           <div className="space-y-3">
             {FAQS.map((faq, i) => (
@@ -441,20 +415,20 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* ── 6. Final CTA row ── */}
+      {/* -- 6. Final CTA row -- */}
       <section className="py-20 px-4 bg-white border-t border-gray-100">
         <div className="max-w-xl mx-auto text-center">
           <p className="text-sm text-gray-500 mb-6">
-            Try ELEVO AI free for 7 days. All sales are final after payment.
+            {t('ctaSubtitle')}
           </p>
           <Link
             href={signupHref}
             className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
-            Start your 7-day free trial
+            {t('ctaButton')}
           </Link>
           <p className="mt-4 text-xs text-gray-400">
-            7-day free trial · Cancel anytime · ELEVO AI™
+            {t('ctaFootnote')}
           </p>
         </div>
       </section>
@@ -462,13 +436,13 @@ export default function PricingPage() {
       {/* Enterprise CTA */}
       <section className="py-16 px-4 bg-gradient-to-b from-gray-50 to-white border-t border-gray-100">
         <div className="max-w-2xl mx-auto text-center">
-          <p className="text-xs font-semibold text-indigo-600 uppercase tracking-wider mb-2">Enterprise & Custom Solutions</p>
-          <h3 className="text-xl font-bold text-gray-900 mb-3">Need something more specific?</h3>
+          <p className="text-xs font-semibold text-indigo-600 uppercase tracking-wider mb-2">{t('enterpriseTag')}</p>
+          <h3 className="text-xl font-bold text-gray-900 mb-3">{t('enterpriseTitle')}</h3>
           <p className="text-sm text-gray-500 mb-6">
-            Our team builds custom AI solutions tailored to your business. Bespoke agents, white-label setup, dedicated support.
+            {t('enterpriseDesc')}
           </p>
           <a href="mailto:team@elevo.dev" className="inline-block px-6 py-3 bg-gray-900 text-white font-semibold rounded-xl hover:bg-gray-800 transition-colors text-sm">
-            Contact team@elevo.dev
+            {t('enterpriseCta')}
           </a>
         </div>
       </section>

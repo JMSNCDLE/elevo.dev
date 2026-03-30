@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { CheckCircle2 } from 'lucide-react'
 import { useCurrency } from '@/hooks/useCurrency'
+import { useTranslations } from 'next-intl'
 import { CURRENCY_SYMBOLS, PLAN_PRICES } from '@/lib/currency'
 
 export function HomePricingCards() {
@@ -11,34 +12,35 @@ export function HomePricingCards() {
   const locale = (params?.locale as string) ?? 'en'
   const currency = useCurrency()
   const symbol = CURRENCY_SYMBOLS[currency]
+  const t = useTranslations('homePricing')
 
   const plans = [
     {
       name: 'Launch',
       price: `${symbol}${PLAN_PRICES.launch[currency].monthly}`,
-      period: '/mo',
-      desc: 'Perfect for solo operators',
-      features: ['GBP Posts + Blog Writer', 'Social Captions + Reviews', 'Email + SEO Copy', '500 credits/mo', 'Content library'],
-      cta: 'Start free trial',
+      period: t('perMonth'),
+      desc: t('launchDesc'),
+      features: [t('launchF1'), t('launchF2'), t('launchF3'), t('launchF4'), t('launchF5')],
+      cta: t('startTrial'),
       highlight: false,
     },
     {
       name: 'Orbit',
       price: `${symbol}${PLAN_PRICES.orbit[currency].monthly}`,
-      period: '/mo',
-      desc: 'For growing businesses',
-      badge: '★ Most Popular',
-      features: ['Everything in Launch', 'All Growth tools', 'ELEVO Spy™ + Market™', 'ELEVO Viral™ + SMM™', '1,500 credits/mo'],
-      cta: 'Start free trial',
+      period: t('perMonth'),
+      desc: t('orbitDesc'),
+      badge: t('orbitBadge'),
+      features: [t('orbitF1'), t('orbitF2'), t('orbitF3'), t('orbitF4'), t('orbitF5')],
+      cta: t('startTrial'),
       highlight: true,
     },
     {
       name: 'Galaxy',
       price: `${symbol}${PLAN_PRICES.galaxy[currency].monthly}`,
-      period: '/mo',
-      desc: 'Every aspect taken care of',
-      features: ['Everything in Orbit', 'ELEVO CEO™', 'ELEVO Drop™ (e-commerce)', 'Store Analytics', '5,000 credits/mo'],
-      cta: 'Start free trial',
+      period: t('perMonth'),
+      desc: t('galaxyDesc'),
+      features: [t('galaxyF1'), t('galaxyF2'), t('galaxyF3'), t('galaxyF4'), t('galaxyF5')],
+      cta: t('startTrial'),
       highlight: false,
     },
   ]
