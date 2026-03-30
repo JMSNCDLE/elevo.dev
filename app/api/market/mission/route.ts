@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createServerClient } from '@/lib/supabase/server'
 import { buildMarketingMission } from '@/lib/agents/superMarketingAgent'
+import { ADMIN_IDS } from '@/lib/admin'
 import type { BusinessProfile } from '@/lib/agents/types'
 
 const Schema = z.object({
@@ -21,8 +22,8 @@ export async function POST(request: Request) {
 
   const { data: profile } = await supabase.from('profiles').select('plan, credits_used, credits_limit').eq('id', user.id).single()
   if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
-  if (profile.plan !== 'orbit' && profile.plan !== 'galaxy') return NextResponse.json({ error: 'Orbit plan required' }, { status: 403 })
-  if (profile.credits_used + 10 > profile.credits_limit) return NextResponse.json({ error: 'Insufficient credits' }, { status: 402 })
+  if (!ADMIN_IDS.includes(user.id) && profile.plan !== 'orbit' && profile.plan !== 'galaxy') return NextResponse.json({ error: 'Orbit plan required' }, { status: 403 })
+  if (!ADMIN_IDS.includes(user.id) && profile && (profile ?? { credits_used: 0 }).credits_used + 10 > (profile ?? { credits_limit: 9999 }).credits_limit) return NextResponse.json({ error: 'Insufficient credits' }, { status: 402 })
 
   const body = await request.json()
   const parsed = Schema.safeParse(body)
@@ -63,7 +64,7 @@ export async function POST(request: Request) {
 
     if (insertError) throw insertError
 
-    await supabase.from('profiles').update({ credits_used: profile.credits_used + 10 }).eq('id', user.id)
+    await supabase.from('profiles').update({ credits_used: (profile ?? { credits_used: 0 }).credits_used + 10 }).eq('id', user.id)
 
     return NextResponse.json({ mission, plan })
   } catch (err) {

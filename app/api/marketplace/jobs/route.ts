@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
+import { ADMIN_IDS } from '@/lib/admin'
 
 // GET — list jobs (public, all authenticated users)
 export async function GET(req: NextRequest) {
@@ -45,7 +46,7 @@ export async function POST(req: NextRequest) {
   if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
 
   // Tier gating
-  if (profile.plan === 'trial' || profile.plan === 'launch') {
+  if (!ADMIN_IDS.includes(user.id) && (profile.plan === 'trial' || profile.plan === 'launch')) {
     return NextResponse.json({ error: 'Upgrade to Orbit to post jobs on the marketplace' }, { status: 403 })
   }
 

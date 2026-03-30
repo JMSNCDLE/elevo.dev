@@ -33,13 +33,13 @@ export async function POST(request: NextRequest) {
     .select('credits_used, credits_limit')
     .eq('id', user.id)
     .single()
-  if (!profile || profile.credits_used + 1 > profile.credits_limit) {
+  if (!profile || (profile ?? { credits_used: 0 }).credits_used + 1 > (profile ?? { credits_limit: 9999 }).credits_limit) {
     return NextResponse.json({ error: 'Insufficient credits' }, { status: 402 })
   }
 
   const kit = await generateSocialProfileKit({ businessProfile: bp, platform, goal, locale })
 
-  await supabase.from('profiles').update({ credits_used: profile.credits_used + 1 }).eq('id', user.id)
+  await supabase.from('profiles').update({ credits_used: (profile ?? { credits_used: 0 }).credits_used + 1 }).eq('id', user.id)
 
   return NextResponse.json({ kit })
 }

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { ADMIN_IDS } from '@/lib/admin'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { buildAdCampaign, type AdCampaignBrief } from '@/lib/agents/adCampaignAgent'
@@ -38,7 +39,7 @@ export async function POST(request: NextRequest) {
   if (!profile || !['orbit', 'galaxy'].includes(profile.plan ?? '')) {
     return NextResponse.json({ error: 'Orbit plan required' }, { status: 403 })
   }
-  if (profile.credits_used + 3 > profile.credits_limit) {
+  if (!ADMIN_IDS.includes(user!.id) && profile && (profile ?? { credits_used: 0 }).credits_used + 3 > (profile ?? { credits_limit: 9999 }).credits_limit) {
     return NextResponse.json({ error: 'Insufficient credits' }, { status: 402 })
   }
 
@@ -75,7 +76,7 @@ export async function POST(request: NextRequest) {
   }).select('id').single()
 
   // Deduct credits
-  await supabase.from('profiles').update({ credits_used: profile.credits_used + 3 }).eq('id', user.id)
+  await supabase.from('profiles').update({ credits_used: (profile ?? { credits_used: 0 }).credits_used + 3 }).eq('id', user.id)
 
   return NextResponse.json({ output, campaignId: saved?.id })
 }

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createServerClient } from '@/lib/supabase/server'
 import { buildViralStrategy } from '@/lib/agents/viralMarketingAgent'
+import { ADMIN_IDS } from '@/lib/admin'
 import type { BusinessProfile } from '@/lib/agents/types'
 
 const Schema = z.object({
@@ -32,12 +33,12 @@ export async function POST(request: Request) {
     .eq('id', user.id)
     .single()
 
-  if (!profile || (profile.plan !== 'orbit' && profile.plan !== 'galaxy')) {
+  if (!ADMIN_IDS.includes(user.id) && (!profile || (profile.plan !== 'orbit' && profile.plan !== 'galaxy'))) {
     return NextResponse.json({ error: 'Orbit plan required' }, { status: 403 })
   }
 
   // 4. Credit check
-  if (profile.credits_used + CREDIT_COST > profile.credits_limit) {
+  if (!ADMIN_IDS.includes(user!.id) && profile && (profile ?? { credits_used: 0 }).credits_used + CREDIT_COST > (profile ?? { credits_limit: 9999 }).credits_limit) {
     return NextResponse.json({ error: 'Insufficient credits' }, { status: 402 })
   }
 
@@ -76,7 +77,7 @@ export async function POST(request: Request) {
     // 8. Deduct credits after success
     await supabase
       .from('profiles')
-      .update({ credits_used: profile.credits_used + CREDIT_COST })
+      .update({ credits_used: (profile ?? { credits_used: 0 }).credits_used + CREDIT_COST })
       .eq('id', user.id)
 
     return NextResponse.json({ success: true, strategy })

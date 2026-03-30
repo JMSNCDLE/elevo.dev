@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { getClient, MODELS } from '@/lib/agents/client'
+import { ADMIN_IDS } from '@/lib/admin'
 
 const SYSTEM_PROMPT = `You are ELEVO Competitive Intelligence™, an AI competitive analysis expert that runs 24/7. You are exclusively available to Galaxy tier users — the most powerful strategic agent in the ELEVO platform.
 
@@ -51,11 +52,11 @@ export async function POST(req: NextRequest) {
     .single()
 
   // Galaxy ONLY
-  if (!profile || profile.plan !== 'galaxy') {
+  if (!ADMIN_IDS.includes(user.id) && (!profile || profile.plan !== 'galaxy')) {
     return NextResponse.json({ error: 'Upgrade to Galaxy to access Competitive Intelligence™' }, { status: 403 })
   }
 
-  if (profile.credits_used >= profile.credits_limit) {
+  if (!ADMIN_IDS.includes(user.id) && profile && (profile ?? { credits_used: 0 }).credits_used >= (profile ?? { credits_limit: 9999 }).credits_limit) {
     return NextResponse.json({ error: 'No credits remaining' }, { status: 403 })
   }
 
@@ -100,11 +101,13 @@ export async function POST(req: NextRequest) {
       stream: true,
     })
 
-    // 2 credits for premium agent
-    await supabase
-      .from('profiles')
-      .update({ credits_used: profile.credits_used + 2 })
-      .eq('id', user.id)
+    // 2 credits for premium agent (skip for admins)
+    if (!ADMIN_IDS.includes(user.id) && profile) {
+      await supabase
+        .from('profiles')
+        .update({ credits_used: (profile ?? { credits_used: 0 }).credits_used + 2 })
+        .eq('id', user.id)
+    }
 
     const encoder = new TextEncoder()
     const readable = new ReadableStream({

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
+import { ADMIN_IDS } from '@/lib/admin'
 
 // GET — list user's pipeline leads
 export async function GET() {
@@ -9,7 +10,7 @@ export async function GET() {
 
   // Tier check
   const { data: profile } = await supabase.from('profiles').select('plan').eq('id', user.id).single()
-  if (!profile || (profile.plan !== 'orbit' && profile.plan !== 'galaxy')) {
+  if (!ADMIN_IDS.includes(user.id) && (!profile || (profile.plan !== 'orbit' && profile.plan !== 'galaxy'))) {
     return NextResponse.json({ error: 'Upgrade to Orbit' }, { status: 403 })
   }
 
@@ -30,7 +31,7 @@ export async function POST(req: NextRequest) {
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
   const { data: profile } = await supabase.from('profiles').select('plan').eq('id', user.id).single()
-  if (!profile || (profile.plan !== 'orbit' && profile.plan !== 'galaxy')) {
+  if (!ADMIN_IDS.includes(user.id) && (!profile || (profile.plan !== 'orbit' && profile.plan !== 'galaxy'))) {
     return NextResponse.json({ error: 'Upgrade to Orbit' }, { status: 403 })
   }
 

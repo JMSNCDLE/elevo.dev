@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { createServiceClient } from '@/lib/supabase/server'
 import { validateApiKey } from '@/lib/api-auth'
+import { ADMIN_IDS } from '@/lib/admin'
 import { runOrchestrator } from '@/lib/agents/orchestrator'
 import type { BusinessProfile, GenerationInput } from '@/lib/agents/types'
 
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid or missing API key' }, { status: 401 })
   }
 
-  if (plan === 'trial' || plan === 'launch') {
+  if (!ADMIN_IDS.includes(userId) && (plan === 'trial' || plan === 'launch')) {
     return NextResponse.json({ error: 'API access requires Galaxy plan' }, { status: 403 })
   }
 
@@ -44,7 +45,7 @@ export async function POST(request: NextRequest) {
     .eq('id', userId)
     .single()
 
-  if (!profile || profile.credits_used >= profile.credits_limit) {
+  if (!profile || (profile ?? { credits_used: 0 }).credits_used >= (profile ?? { credits_limit: 9999 }).credits_limit) {
     return NextResponse.json({ error: 'Insufficient credits' }, { status: 402 })
   }
 
@@ -61,7 +62,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const output = await runOrchestrator(input)
-    await supabase.from('profiles').update({ credits_used: profile.credits_used + 1 }).eq('id', userId)
+    await supabase.from('profiles').update({ credits_used: (profile ?? { credits_used: 0 }).credits_used + 1 }).eq('id', userId)
     return NextResponse.json({ output })
   } catch (err) {
     console.error('v1 generate error:', err)

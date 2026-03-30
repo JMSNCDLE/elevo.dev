@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createServerClient } from '@/lib/supabase/server'
 import { auditWebsite } from '@/lib/agents/websiteEditorAgent'
+import { ADMIN_IDS } from '@/lib/admin'
 
 const Schema = z.object({
   domain: z.string().min(3),
@@ -16,7 +17,7 @@ export async function POST(request: Request) {
 
   const { data: profile } = await supabase.from('profiles').select('plan').eq('id', user.id).single()
   if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
-  if (profile.plan !== 'galaxy') return NextResponse.json({ error: 'Galaxy plan required' }, { status: 403 })
+  if (!ADMIN_IDS.includes(user.id) && profile.plan !== 'galaxy') return NextResponse.json({ error: 'Galaxy plan required' }, { status: 403 })
 
   const body = await request.json()
   const parsed = Schema.safeParse(body)

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createServerClient } from '@/lib/supabase/server'
 import { generateThumbnailBrief } from '@/lib/agents/creatorStudioAgent'
+import { ADMIN_IDS } from '@/lib/admin'
 
 const Schema = z.object({
   videoTitle: z.string().min(3),
@@ -27,10 +28,10 @@ export async function POST(request: Request) {
     .eq('id', user.id)
     .single()
   if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
-  if (profile.plan !== 'orbit' && profile.plan !== 'galaxy') {
+  if (!ADMIN_IDS.includes(user.id) && profile.plan !== 'orbit' && profile.plan !== 'galaxy') {
     return NextResponse.json({ error: 'Orbit plan required' }, { status: 403 })
   }
-  if (profile.credits_used + 1 > profile.credits_limit) {
+  if (!ADMIN_IDS.includes(user.id) && profile && (profile ?? { credits_used: 0 }).credits_used + 1 > (profile ?? { credits_limit: 9999 }).credits_limit) {
     return NextResponse.json({ error: 'Insufficient credits' }, { status: 402 })
   }
 
@@ -39,7 +40,7 @@ export async function POST(request: Request) {
 
     await supabase
       .from('profiles')
-      .update({ credits_used: profile.credits_used + 1 })
+      .update({ credits_used: (profile ?? { credits_used: 0 }).credits_used + 1 })
       .eq('id', user.id)
 
     return NextResponse.json({ result })

@@ -3,8 +3,10 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter, useParams } from 'next/navigation'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { useTranslations } from 'next-intl'
 
 export default function LoginPage() {
+  const t = useTranslations('login')
   const [mounted, setMounted] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -37,39 +39,39 @@ export default function LoginPage() {
             </div>
             <span className="font-bold text-gray-900">ELEVO AI</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Welcome back</h1>
-          <p className="text-gray-500 mt-1">Sign in to your ELEVO AI account</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="text-gray-500 mt-1">{t('subtitle')}</p>
         </div>
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('emailLabel')}</label>
             <input type="email" value={email} onChange={e => setEmail(e.target.value)}
               autoComplete="email" required
               className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
-              placeholder="you@example.com" />
+              placeholder={t('emailPlaceholder')} />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('passwordLabel')}</label>
             <input type="password" value={password} onChange={e => setPassword(e.target.value)}
               autoComplete="current-password" required
               className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
               placeholder="••••••••" />
           </div>
           <div className="flex justify-end">
-            <Link href={`/${locale}/forgot-password`} className="text-sm text-indigo-600 hover:underline">Forgot password?</Link>
+            <Link href={`/${locale}/forgot-password`} className="text-sm text-indigo-600 hover:underline">{t('forgotPassword')}</Link>
           </div>
           {error && <p className="text-red-500 text-sm bg-red-50 px-3 py-2 rounded-lg">{error}</p>}
           <button type="submit" disabled={loading}
             className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-colors disabled:opacity-50">
-            {loading ? 'Signing in...' : 'Sign in →'}
+            {loading ? t('signingIn') : t('signInButton')}
           </button>
         </form>
         <p className="text-center text-gray-500 text-sm mt-6">
-          Don&apos;t have an account?{' '}
-          <Link href={`/${locale}/signup`} className="text-indigo-600 font-medium hover:underline">Sign up free</Link>
+          {t('noAccount')}{' '}
+          <Link href={`/${locale}/signup`} className="text-indigo-600 font-medium hover:underline">{t('signUpLink')}</Link>
         </p>
         <p className="text-center text-xs text-gray-400 mt-6">
-          SSL encrypted · GDPR compliant · ™ ELEVO AI
+          {t('securityNote')}
         </p>
       </div>
     </div>

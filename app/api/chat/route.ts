@@ -54,7 +54,7 @@ export async function POST(request: Request) {
 
   if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
 
-  if (profile.credits_used >= profile.credits_limit) {
+  if ((profile ?? { credits_used: 0 }).credits_used >= (profile ?? { credits_limit: 9999 }).credits_limit) {
     return NextResponse.json({ error: 'Insufficient credits. Please upgrade your plan.' }, { status: 402 })
   }
 
@@ -87,7 +87,7 @@ export async function POST(request: Request) {
     const result = await processConversationalTask(parsed.data.message, {
       businessProfile: bp,
       recentMessages: parsed.data.conversationHistory as TaskMessage[],
-      availableCredits: profile.credits_limit - profile.credits_used,
+      availableCredits: (profile ?? { credits_limit: 9999 }).credits_limit - (profile ?? { credits_used: 0 }).credits_used,
       plan: profile.plan,
       locale: parsed.data.locale,
     })
@@ -95,7 +95,7 @@ export async function POST(request: Request) {
     // Deduct 1 credit
     await supabase
       .from('profiles')
-      .update({ credits_used: profile.credits_used + 1 })
+      .update({ credits_used: (profile ?? { credits_used: 0 }).credits_used + 1 })
       .eq('id', user.id)
 
     // Track analytics event
@@ -114,7 +114,7 @@ export async function POST(request: Request) {
       contentCard: result.contentCard,
       dataCard: result.dataCard,
       followUpSuggestions: result.followUpSuggestions,
-      creditsRemaining: profile.credits_limit - profile.credits_used - 1,
+      creditsRemaining: (profile ?? { credits_limit: 9999 }).credits_limit - (profile ?? { credits_used: 0 }).credits_used - 1,
     })
   } catch (err) {
     console.error('Chat error:', err)

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { generateAgentBuildBrief } from '@/lib/agents/agentBuilderAgent'
+import { ADMIN_IDS } from '@/lib/admin'
 import type { AgentBuildInput } from '@/lib/agents/agentBuilderAgent'
 
 export async function POST(request: NextRequest) {
@@ -15,7 +16,7 @@ export async function POST(request: NextRequest) {
     .single()
   if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
 
-  if (profile.plan !== 'galaxy') {
+  if (!ADMIN_IDS.includes(user.id) && profile.plan !== 'galaxy') {
     return NextResponse.json({ error: 'Galaxy plan required' }, { status: 403 })
   }
   if ((profile.credits_remaining ?? 0) < 5) {

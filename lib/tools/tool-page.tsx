@@ -5,6 +5,7 @@ import { Send, Loader2, Bot, Lock } from 'lucide-react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 
 interface ChatMessage {
   role: 'user' | 'assistant'
@@ -51,6 +52,11 @@ export default function createToolPage(config: ToolPageConfig) {
     useEffect(() => {
       supabase.auth.getUser().then(({ data: { user } }) => {
         if (!user) return
+        if (ADMIN_IDS.includes(user.id)) {
+          setPlan('galaxy')
+          setLoading(false)
+          return
+        }
         supabase.from('profiles').select('plan').eq('id', user.id).single().then(({ data }) => {
           setPlan(data?.plan ?? 'trial')
           setLoading(false)

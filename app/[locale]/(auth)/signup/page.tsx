@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useRouter, useParams } from 'next/navigation'
 import { Eye, EyeOff, CheckCircle2 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { useTranslations } from 'next-intl'
 
 function getPasswordStrength(password: string): { label: string; color: string; pct: number } {
   if (!password) return { label: '', color: '', pct: 0 }
@@ -20,6 +21,7 @@ function getPasswordStrength(password: string): { label: string; color: string; 
 }
 
 export default function SignupPage() {
+  const t = useTranslations('signup')
   const [mounted, setMounted] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -39,7 +41,7 @@ export default function SignupPage() {
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!agreed) { setError('Please agree to the Terms of Service to continue.'); return }
+    if (!agreed) { setError(t('agreeError')); return }
     setError('')
     setLoading(true)
 
@@ -78,11 +80,11 @@ export default function SignupPage() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Check your inbox</h2>
-          <p className="text-gray-500 text-sm mb-1">We sent a confirmation link to</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">{t('checkInbox')}</h2>
+          <p className="text-gray-500 text-sm mb-1">{t('sentLink')}</p>
           <p className="font-semibold text-indigo-600 mb-5">{email}</p>
-          <p className="text-gray-500 text-sm mb-6">Click the link to activate your account and start your 7-day free trial.</p>
-          <p className="text-xs text-gray-400">Didn&apos;t receive it? Check your spam folder.</p>
+          <p className="text-gray-500 text-sm mb-6">{t('activateText')}</p>
+          <p className="text-xs text-gray-400">{t('spamNote')}</p>
         </div>
       </div>
     )
@@ -98,13 +100,13 @@ export default function SignupPage() {
             </div>
             <span className="font-bold text-gray-900">ELEVO AI</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Start your free trial</h1>
-          <p className="text-gray-500 mt-1">7-day free trial · Cancel anytime</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="text-gray-500 mt-1">{t('subtitle')}</p>
         </div>
 
         <form onSubmit={handleSignup} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('emailLabel')}</label>
             <input
               type="email"
               autoComplete="email"
@@ -112,12 +114,12 @@ export default function SignupPage() {
               value={email}
               onChange={e => setEmail(e.target.value)}
               className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
-              placeholder="you@example.com"
+              placeholder={t('emailPlaceholder')}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password (min. 8 characters)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('passwordLabel')}</label>
             <div className="relative">
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -140,7 +142,7 @@ export default function SignupPage() {
             {password && (
               <div className="mt-2">
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs text-gray-400">Password strength</span>
+                  <span className="text-xs text-gray-400">{t('passwordStrength')}</span>
                   <span className={`text-xs font-medium ${strength.pct >= 75 ? 'text-emerald-600' : strength.pct >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
                     {strength.label}
                   </span>
@@ -169,9 +171,9 @@ export default function SignupPage() {
             </div>
             <span className="text-xs text-gray-500">
               I agree to the{' '}
-              <Link href="/terms" className="text-indigo-600 hover:underline">Terms of Service</Link>
-              {' '}and{' '}
-              <Link href="/privacy" className="text-indigo-600 hover:underline">Privacy Policy</Link>
+              <Link href={`/${locale}/terms`} className="text-indigo-600 hover:underline">{t('termsLink')}</Link>
+              {' '}&amp;{' '}
+              <Link href={`/${locale}/privacy`} className="text-indigo-600 hover:underline">{t('privacyLink')}</Link>
             </span>
           </label>
 
@@ -186,16 +188,16 @@ export default function SignupPage() {
             disabled={loading}
             className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-colors disabled:opacity-50"
           >
-            {loading ? 'Creating account...' : 'Create free account →'}
+            {loading ? t('creating') : t('createButton')}
           </button>
         </form>
 
         <p className="text-center text-gray-500 text-sm mt-6">
-          Already have an account?{' '}
-          <Link href={`/${locale}/login`} className="text-indigo-600 font-medium hover:underline">Sign in</Link>
+          {t('haveAccount')}{' '}
+          <Link href={`/${locale}/login`} className="text-indigo-600 font-medium hover:underline">{t('signInLink')}</Link>
         </p>
         <p className="text-center text-xs text-gray-400 mt-4">
-          SSL encrypted · GDPR compliant · ™ ELEVO AI
+          {t('securityNote')}
         </p>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { ADMIN_IDS } from '@/lib/admin'
 import { z } from 'zod'
 import { createServerClient } from '@/lib/supabase/server'
 import { auditInstagramProfile } from '@/lib/agents/instagramAuditAgent'
@@ -28,7 +29,7 @@ export async function POST(request: NextRequest) {
   if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
 
   // Credit check — costs 5 credits
-  if (profile.credits_used + 5 > profile.credits_limit) {
+  if (!ADMIN_IDS.includes(user!.id) && profile && (profile ?? { credits_used: 0 }).credits_used + 5 > (profile ?? { credits_limit: 9999 }).credits_limit) {
     return NextResponse.json({ error: 'Insufficient credits. Instagram Audit costs 5 credits.' }, { status: 402 })
   }
 
@@ -61,7 +62,7 @@ export async function POST(request: NextRequest) {
     // Deduct credits after success
     await supabase
       .from('profiles')
-      .update({ credits_used: profile.credits_used + 5 })
+      .update({ credits_used: (profile ?? { credits_used: 0 }).credits_used + 5 })
       .eq('id', user.id)
 
     return NextResponse.json({ audit, pageSlug, pageUrl, expiresAt })

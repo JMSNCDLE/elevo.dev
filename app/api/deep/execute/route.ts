@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { runDeepExecution } from '@/lib/agents/deepExecutionAgent'
+import { ADMIN_IDS } from '@/lib/admin'
 
 export async function POST(request: Request) {
   const supabase = await createServerClient()
@@ -16,11 +17,11 @@ export async function POST(request: Request) {
   if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
 
   // Galaxy only
-  if (profile.plan !== 'galaxy') {
+  if (!ADMIN_IDS.includes(user.id) && profile.plan !== 'galaxy') {
     return NextResponse.json({ error: 'ELEVO Deep™ requires the Galaxy plan' }, { status: 403 })
   }
 
-  const creditsRemaining = (profile.credits_limit ?? 20) - (profile.credits_used ?? 0)
+  const creditsRemaining = ((profile ?? { credits_limit: 9999 }).credits_limit ?? 20) - ((profile ?? { credits_used: 0 }).credits_used ?? 0)
   if (creditsRemaining < 10) {
     return NextResponse.json({ error: 'Insufficient credits. ELEVO Deep™ costs 10 credits.' }, { status: 402 })
   }
@@ -49,7 +50,7 @@ export async function POST(request: Request) {
   // Deduct 10 credits after success
   await supabase
     .from('profiles')
-    .update({ credits_used: (profile.credits_used ?? 0) + 10 })
+    .update({ credits_used: ((profile ?? { credits_used: 0 }).credits_used ?? 0) + 10 })
     .eq('id', user.id)
 
   // Save to library

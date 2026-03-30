@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
+import { ADMIN_IDS } from '@/lib/admin'
 import type { AdPerformanceSummary } from '@/lib/analytics'
 
 function getPeriodStart(period: string): string {
@@ -18,7 +19,7 @@ export async function GET(request: NextRequest) {
 
   const { data: profile } = await supabase.from('profiles').select('plan').eq('id', user.id).single()
   if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
-  if (profile.plan !== 'orbit' && profile.plan !== 'galaxy') {
+  if (!ADMIN_IDS.includes(user.id) && profile.plan !== 'orbit' && profile.plan !== 'galaxy') {
     return NextResponse.json({ error: 'Orbit plan required' }, { status: 403 })
   }
 

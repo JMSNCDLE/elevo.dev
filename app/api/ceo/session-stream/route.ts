@@ -1,5 +1,6 @@
 import { createServerClient } from '@/lib/supabase/server'
 import { getClient, MODELS, buildThinkingConfig, buildEffortConfig, WEB_SEARCH_TOOL } from '@/lib/agents/client'
+import { ADMIN_IDS } from '@/lib/admin'
 
 export const dynamic = 'force-dynamic'
 
@@ -14,7 +15,7 @@ export async function POST(request: Request) {
     .eq('id', user.id)
     .single()
 
-  if (!profile || profile.plan !== 'galaxy') {
+  if (!ADMIN_IDS.includes(user.id) && (!profile || profile.plan !== 'galaxy')) {
     return new Response('Galaxy plan required', { status: 403 })
   }
 

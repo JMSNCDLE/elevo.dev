@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createServerClient } from '@/lib/supabase/server'
 import { runCompetitorSpy } from '@/lib/agents/competitorSpyAgent'
+import { ADMIN_IDS } from '@/lib/admin'
 import type { BusinessProfile } from '@/lib/agents/types'
 
 const CREDIT_COSTS: Record<string, number> = { quick: 1, deep: 3, full: 5 }
@@ -26,7 +27,7 @@ export async function POST(request: Request) {
     .select('plan, credits_used, credits_limit')
     .eq('id', user.id)
     .single()
-  if (!profile || (profile.plan !== 'orbit' && profile.plan !== 'galaxy')) {
+  if (!ADMIN_IDS.includes(user.id) && (!profile || (profile.plan !== 'orbit' && profile.plan !== 'galaxy'))) {
     return NextResponse.json({ error: 'Orbit plan required' }, { status: 403 })
   }
 
@@ -35,7 +36,7 @@ export async function POST(request: Request) {
   if (!parsed.success) return NextResponse.json({ error: 'Invalid input', details: parsed.error.flatten() }, { status: 400 })
 
   const creditCost = CREDIT_COSTS[parsed.data.analysisDepth]
-  if (profile.credits_used + creditCost > profile.credits_limit) {
+  if (!ADMIN_IDS.includes(user!.id) && profile && (profile ?? { credits_used: 0 }).credits_used + creditCost > (profile ?? { credits_limit: 9999 }).credits_limit) {
     return NextResponse.json({ error: 'Insufficient credits' }, { status: 402 })
   }
 
@@ -76,7 +77,7 @@ export async function POST(request: Request) {
 
     await supabase
       .from('profiles')
-      .update({ credits_used: profile.credits_used + creditCost })
+      .update({ credits_used: (profile ?? { credits_used: 0 }).credits_used + creditCost })
       .eq('id', user.id)
 
     return NextResponse.json({ report })

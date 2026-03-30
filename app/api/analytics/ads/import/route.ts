@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createServerClient } from '@/lib/supabase/server'
+import { ADMIN_IDS } from '@/lib/admin'
 
 const AdRowSchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
@@ -24,7 +25,7 @@ export async function POST(request: Request) {
 
   const { data: profile } = await supabase.from('profiles').select('plan').eq('id', user.id).single()
   if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
-  if (profile.plan !== 'orbit' && profile.plan !== 'galaxy') {
+  if (!ADMIN_IDS.includes(user.id) && profile.plan !== 'orbit' && profile.plan !== 'galaxy') {
     return NextResponse.json({ error: 'Orbit plan required' }, { status: 403 })
   }
 

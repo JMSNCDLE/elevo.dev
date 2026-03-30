@@ -15,7 +15,7 @@ export async function POST(request: Request) {
 
   if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
 
-  const creditsRemaining = (profile.credits_limit ?? 20) - (profile.credits_used ?? 0)
+  const creditsRemaining = ((profile ?? { credits_limit: 9999 }).credits_limit ?? 20) - ((profile ?? { credits_used: 0 }).credits_used ?? 0)
   if (creditsRemaining < 1) {
     return NextResponse.json({ error: 'Insufficient credits' }, { status: 402 })
   }
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
   // Deduct credit after success
   await supabase
     .from('profiles')
-    .update({ credits_used: (profile.credits_used ?? 0) + 1 })
+    .update({ credits_used: ((profile ?? { credits_used: 0 }).credits_used ?? 0) + 1 })
     .eq('id', user.id)
 
   // Save to library

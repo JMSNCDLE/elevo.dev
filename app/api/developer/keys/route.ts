@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createServerClient } from '@/lib/supabase/server'
 import { generateApiKey } from '@/lib/api-auth'
+import { ADMIN_IDS } from '@/lib/admin'
 
 const CreateSchema = z.object({
   name: z.string().min(1).max(50),
@@ -30,7 +31,7 @@ export async function GET() {
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
   const { data: profile } = await supabase.from('profiles').select('plan').eq('id', user.id).single()
-  if (!profile || profile.plan !== 'galaxy') {
+  if (!ADMIN_IDS.includes(user.id) && (!profile || profile.plan !== 'galaxy')) {
     return NextResponse.json({ error: 'Galaxy plan required' }, { status: 403 })
   }
 
@@ -53,7 +54,7 @@ export async function POST(request: Request) {
   if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
 
   const maxKeys = MAX_KEYS_PER_PLAN[profile.plan] ?? 0
-  if (maxKeys === 0) {
+  if (!ADMIN_IDS.includes(user.id) && maxKeys === 0) {
     return NextResponse.json({ error: 'Galaxy plan required to create API keys' }, { status: 403 })
   }
 

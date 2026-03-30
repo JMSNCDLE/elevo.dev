@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
   const { data: profile } = await supabase.from('profiles').select('credits_used, credits_limit, plan').eq('id', user.id).single()
   if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
 
-  if (profile.credits_used >= profile.credits_limit) {
+  if ((profile ?? { credits_used: 0 }).credits_used >= (profile ?? { credits_limit: 9999 }).credits_limit) {
     return NextResponse.json({ error: 'Insufficient credits. Please upgrade your plan.' }, { status: 402 })
   }
 
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
     })
 
     // Deduct credit
-    await supabase.from('profiles').update({ credits_used: profile.credits_used + 1 }).eq('id', user.id)
+    await supabase.from('profiles').update({ credits_used: (profile ?? { credits_used: 0 }).credits_used + 1 }).eq('id', user.id)
 
     // Track analytics event
     await supabase.from('analytics_events').insert({

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
+import { ADMIN_IDS } from '@/lib/admin'
 
 const MAX_ACCOUNTS_PER_PLATFORM = 2
 
@@ -32,7 +33,7 @@ export async function POST(req: NextRequest) {
     .eq('id', user.id)
     .single()
 
-  if (!profile || (profile.plan !== 'orbit' && profile.plan !== 'galaxy')) {
+  if (!ADMIN_IDS.includes(user.id) && (!profile || (profile.plan !== 'orbit' && profile.plan !== 'galaxy'))) {
     return NextResponse.json({ error: 'Upgrade to Orbit to manage ad accounts' }, { status: 403 })
   }
 

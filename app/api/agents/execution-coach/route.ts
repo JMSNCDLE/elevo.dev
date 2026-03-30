@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { getClient, MODELS } from '@/lib/agents/client'
+import { ADMIN_IDS } from '@/lib/admin'
 
 const SYSTEM_PROMPT = `You are ELEVO Execution Coach™, an AI business execution expert that runs 24/7.
 
@@ -47,11 +48,11 @@ export async function POST(req: NextRequest) {
     .eq('id', user.id)
     .single()
 
-  if (!profile || (profile.plan !== 'orbit' && profile.plan !== 'galaxy')) {
+  if (!ADMIN_IDS.includes(user.id) && (!profile || (profile.plan !== 'orbit' && profile.plan !== 'galaxy'))) {
     return NextResponse.json({ error: 'Upgrade to Orbit to access Execution Coach™' }, { status: 403 })
   }
 
-  if (profile.credits_used >= profile.credits_limit) {
+  if (!ADMIN_IDS.includes(user.id) && profile && (profile ?? { credits_used: 0 }).credits_used >= (profile ?? { credits_limit: 9999 }).credits_limit) {
     return NextResponse.json({ error: 'No credits remaining' }, { status: 403 })
   }
 
@@ -96,10 +97,12 @@ export async function POST(req: NextRequest) {
       stream: true,
     })
 
-    await supabase
-      .from('profiles')
-      .update({ credits_used: profile.credits_used + 1 })
-      .eq('id', user.id)
+    if (!ADMIN_IDS.includes(user.id) && profile) {
+      await supabase
+        .from('profiles')
+        .update({ credits_used: (profile ?? { credits_used: 0 }).credits_used + 1 })
+        .eq('id', user.id)
+    }
 
     const encoder = new TextEncoder()
     const readable = new ReadableStream({

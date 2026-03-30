@@ -10,7 +10,7 @@ export async function GET(request: Request) {
 
   const { data: profile } = await supabase.from('profiles').select('plan, credits_used, credits_limit').eq('id', user.id).single()
   if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
-  if (profile.credits_used >= profile.credits_limit) return NextResponse.json({ error: 'Insufficient credits' }, { status: 402 })
+  if ((profile ?? { credits_used: 0 }).credits_used >= (profile ?? { credits_limit: 9999 }).credits_limit) return NextResponse.json({ error: 'Insufficient credits' }, { status: 402 })
 
   const { searchParams } = new URL(request.url)
   const businessProfileId = searchParams.get('businessProfileId')
@@ -48,7 +48,7 @@ export async function GET(request: Request) {
       title: 'Google Optimisation',
       content: result,
     })
-    await supabase.from('profiles').update({ credits_used: profile.credits_used + 1 }).eq('id', user.id)
+    await supabase.from('profiles').update({ credits_used: (profile ?? { credits_used: 0 }).credits_used + 1 }).eq('id', user.id)
 
     return NextResponse.json({ result, cached: false })
   } catch (err) {
