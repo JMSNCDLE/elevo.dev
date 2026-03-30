@@ -18,3 +18,12 @@ export function isAdmin(userId: string, email?: string | null): boolean {
 export function isAdminId(userId: string): boolean {
   return ADMIN_IDS.includes(userId)
 }
+
+// Admin bypass: admins have unlimited credits and access to all features
+export function shouldBypassCredits(userId: string): boolean {
+  return ADMIN_IDS.includes(userId)
+}
+
+export function shouldBypassPlanRestrictions(userId: string): boolean {
+  return ADMIN_IDS.includes(userId)
+}

@@ -8,6 +8,7 @@ interface CreditsDepletedProps {
   plan: string
   creditsUsed: number
   creditsLimit: number
+  userId?: string
 }
 
 const PLAN_CONFIG: Record<string, { refreshTime: string; upgradeTo?: string; price: string }> = {
@@ -17,11 +18,14 @@ const PLAN_CONFIG: Record<string, { refreshTime: string; upgradeTo?: string; pri
   galaxy: { refreshTime: '2–3 hours', price: '€149/mo' },
 }
 
-export default function CreditsDepleted({ plan, creditsUsed, creditsLimit }: CreditsDepletedProps) {
+export default function CreditsDepleted({ plan, creditsUsed, creditsLimit, userId }: CreditsDepletedProps) {
   const params = useParams()
   const locale = (params?.locale as string) ?? 'en'
   const config = PLAN_CONFIG[plan] ?? PLAN_CONFIG.launch
 
+  // Admins have unlimited credits — never show depletion
+  const { isAdminId } = require('@/lib/admin')
+  if (userId && isAdminId(userId)) return null
   if (creditsUsed < creditsLimit) return null
 
   return (

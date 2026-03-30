@@ -66,12 +66,12 @@ export default async function DashboardLayout({
         userId={user.id}
       />
 
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1 overflow-auto pt-14 md:pt-0">
         <div className="flex items-center justify-end px-6 pt-4">
           <ClientStageBadge profile={stageBadgeProfile} />
         </div>
         <div className="px-6 pt-2">
-          <CreditsDepleted plan={profile.plan} creditsUsed={profile.credits_used} creditsLimit={profile.credits_limit} />
+          <CreditsDepleted plan={profile.plan} creditsUsed={profile.credits_used} creditsLimit={profile.credits_limit} userId={user.id} />
         </div>
         <DeviceAdaptiveLayout userId={profile.id}>
           {children}

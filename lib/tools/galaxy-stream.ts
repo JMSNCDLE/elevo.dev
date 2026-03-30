@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { getClient, MODELS } from '@/lib/agents/client'
+import { shouldBypassCredits, shouldBypassPlanRestrictions } from '@/lib/admin'
 
 interface ConversationMessage { role: 'user' | 'assistant'; content: string }
 
@@ -11,10 +12,11 @@ export function createGalaxyToolRoute(systemPrompt: string) {
     if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
     const { data: profile } = await supabase.from('profiles').select('plan, credits_used, credits_limit').eq('id', user.id).single()
-    if (!profile || profile.plan !== 'galaxy') {
+    const adminBypass = shouldBypassPlanRestrictions(user.id)
+    if (!adminBypass && (!profile || profile.plan !== 'galaxy')) {
       return NextResponse.json({ error: 'Upgrade to Galaxy to access this agent' }, { status: 403 })
     }
-    if (profile.credits_used >= profile.credits_limit) {
+    if (!adminBypass && profile && profile.credits_used >= profile.credits_limit) {
       return NextResponse.json({ error: 'No credits remaining' }, { status: 403 })
     }
 
@@ -34,7 +36,9 @@ export function createGalaxyToolRoute(systemPrompt: string) {
       const client = getClient()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const stream = await (client.messages as any).create({ model: MODELS.AGENT, max_tokens: 3000, thinking: { type: 'adaptive' }, system: systemPrompt, messages, stream: true })
-      await supabase.from('profiles').update({ credits_used: profile.credits_used + 2 }).eq('id', user.id)
+      if (profile && !adminBypass) {
+        await supabase.from('profiles').update({ credits_used: profile.credits_used + 2 }).eq('id', user.id)
+      }
 
       const encoder = new TextEncoder()
       const readable = new ReadableStream({

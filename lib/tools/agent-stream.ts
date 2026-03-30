@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { getClient, MODELS } from '@/lib/agents/client'
+import { shouldBypassCredits, shouldBypassPlanRestrictions } from '@/lib/admin'
 
 interface ConversationMessage {
   role: 'user' | 'assistant'
@@ -19,11 +20,13 @@ export function createToolRoute(systemPrompt: string) {
       .eq('id', user.id)
       .single()
 
-    if (!profile || (profile.plan !== 'orbit' && profile.plan !== 'galaxy')) {
+    const adminBypass = shouldBypassPlanRestrictions(user.id)
+
+    if (!adminBypass && (!profile || (profile.plan !== 'orbit' && profile.plan !== 'galaxy'))) {
       return NextResponse.json({ error: 'Upgrade to Orbit to access this tool' }, { status: 403 })
     }
 
-    if (profile.credits_used >= profile.credits_limit) {
+    if (!adminBypass && profile && profile.credits_used >= profile.credits_limit) {
       return NextResponse.json({ error: 'No credits remaining' }, { status: 403 })
     }
 
@@ -68,10 +71,12 @@ export function createToolRoute(systemPrompt: string) {
         stream: true,
       })
 
-      await supabase
-        .from('profiles')
-        .update({ credits_used: profile.credits_used + 1 })
-        .eq('id', user.id)
+      if (profile && !adminBypass) {
+        await supabase
+          .from('profiles')
+          .update({ credits_used: profile.credits_used + 1 })
+          .eq('id', user.id)
+      }
 
       const encoder = new TextEncoder()
       const readable = new ReadableStream({

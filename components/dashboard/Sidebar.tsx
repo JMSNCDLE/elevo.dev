@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
@@ -42,11 +43,17 @@ interface NavSection {
 
 export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, businessName, userId }: SidebarProps) {
   const pathname = usePathname()
+  const [mobileOpen, setMobileOpen] = useState(false)
   const isOrbit = plan === 'orbit' || plan === 'galaxy'
   const isGalaxy = plan === 'galaxy'
   const creditsRemaining = creditsLimit - creditsUsed
   const creditsPct = Math.max(0, (creditsRemaining / creditsLimit) * 100)
   const { open: openSearch } = useAgentSearch()
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileOpen(false)
+  }, [pathname])
 
   const sections: NavSection[] = [
     {
@@ -183,7 +190,40 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/')
 
   return (
-    <aside className="w-60 shrink-0 bg-dashSurface border-r border-dashSurface2 h-screen sticky top-0 flex flex-col overflow-y-auto">
+    <>
+      {/* Mobile hamburger bar */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-dashSurface border-b border-dashSurface2 px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 bg-accent rounded-lg flex items-center justify-center">
+            <Rocket size={14} className="text-white" />
+          </div>
+          <span className="font-bold text-dashText text-sm">ELEVO AI</span>
+        </div>
+        <button
+          onClick={() => setMobileOpen(v => !v)}
+          className="w-9 h-9 flex items-center justify-center rounded-lg bg-dashCard text-dashMuted hover:text-white transition-colors"
+          aria-label="Toggle menu"
+        >
+          {mobileOpen ? (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+          ) : (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 12h18M3 6h18M3 18h18" /></svg>
+          )}
+        </button>
+      </div>
+
+      {/* Overlay for mobile */}
+      {mobileOpen && (
+        <div className="md:hidden fixed inset-0 z-40 bg-black/60" onClick={() => setMobileOpen(false)} />
+      )}
+
+    <aside className={`
+      ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}
+      md:translate-x-0
+      fixed md:sticky top-0 left-0 z-50
+      w-64 md:w-60 shrink-0 bg-dashSurface border-r border-dashSurface2 h-screen
+      flex flex-col overflow-y-auto transition-transform duration-200 ease-out
+    `}>
       {/* Logo */}
       <div className="px-4 py-5 border-b border-dashSurface2">
         <div className="flex items-center gap-2">
@@ -352,5 +392,6 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
         )}
       </div>
     </aside>
+    </>
   )
 }
