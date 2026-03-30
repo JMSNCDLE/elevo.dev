@@ -33,7 +33,7 @@ export default async function PressPage({ params }: { params: Promise<{ locale: 
               <li>Founded: 2026</li>
               <li>Founder: James Carlin</li>
               <li>Product: AI operating system for local businesses</li>
-              <li>47+ AI agents, 12 languages</li>
+              <li>54+ AI agents, 12 languages</li>
             </ul>
           </div>
           <Link href={`/${locale}`} className="text-sm text-indigo-600 font-medium hover:underline mt-8 inline-block">

@@ -103,7 +103,7 @@ export async function POST(request: Request) {
     city: 'London',
     country: 'UK',
     services: ['AI content generation', 'Marketing automation', 'CRM', 'Business intelligence'],
-    unique_selling_points: ['47+ AI agents', 'Full marketing department in one tool', 'Replaces Hootsuite + Jasper + HubSpot'],
+    unique_selling_points: ['54+ AI agents', 'Full marketing department in one tool', 'Replaces Hootsuite + Jasper + HubSpot'],
     tone_of_voice: 'Bold, confident, results-focused',
     website_url: 'https://elevo.dev',
     description: topic || 'ELEVO AI — the AI operating system for local businesses',

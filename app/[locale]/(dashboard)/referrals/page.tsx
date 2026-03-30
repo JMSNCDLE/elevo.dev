@@ -25,7 +25,7 @@ interface ReferralData {
 }
 
 const SHARE_MESSAGES = [
-  "I've been using ELEVO AI to run my business and it's incredible. 47+ AI agents handle my marketing, sales, content, and more — 24/7. Try it free:",
+  "I've been using ELEVO AI to run my business and it's incredible. 54+ AI agents handle my marketing, sales, content, and more — 24/7. Try it free:",
   "Forget hiring. ELEVO AI gives you an entire team of AI agents for less than the cost of one employee. I use it every day:",
   "Just discovered ELEVO AI — it's like having a marketing manager, sales rep, and content writer all in one platform. Check it out:",
 ]

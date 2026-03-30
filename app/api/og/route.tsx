@@ -6,7 +6,7 @@ export const runtime = 'edge'
 export function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const title = searchParams.get('title') ?? 'Create and Boost Your Business Powered by AI'
-  const subtitle = searchParams.get('subtitle') ?? '47+ AI agents that replace your entire team. From €39/month.'
+  const subtitle = searchParams.get('subtitle') ?? '54+ AI agents that replace your entire team. From €39/month.'
 
   return new ImageResponse(
     (
@@ -146,7 +146,7 @@ export function GET(request: NextRequest) {
             }}
           >
             <div style={{ display: 'flex', gap: '24px' }}>
-              {['400+ businesses', '£1.2M saved', '47+ AI agents', '99.9% uptime'].map(stat => (
+              {['400+ businesses', '£1.2M saved', '54+ AI agents', '99.9% uptime'].map(stat => (
                 <div key={stat} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <div style={{ width: '6px', height: '6px', background: '#6366f1', borderRadius: '50%' }} />
                   <span style={{ fontSize: '14px', color: 'rgba(165,180,252,0.7)', fontWeight: 500 }}>{stat}</span>
