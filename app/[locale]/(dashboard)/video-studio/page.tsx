@@ -8,6 +8,7 @@ import {
   Loader2, ChevronDown, ChevronUp
 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 import AgentStatusIndicator from '@/components/shared/AgentStatusIndicator'
 import ActionExplanation from '@/components/shared/ActionExplanation'
 import UpgradePrompt from '@/components/shared/UpgradePrompt'
@@ -77,7 +78,7 @@ export default function VideoStudioPage() {
       supabase.from('profiles').select('plan').eq('id', user.id).single(),
       supabase.from('business_profiles').select('*').eq('user_id', user.id).eq('is_primary', true).single(),
     ])
-    setPlan(profileRes.data?.plan ?? 'trial')
+    setPlan(ADMIN_IDS.includes(user!.id) ? 'galaxy' : (profileRes.data?.plan ?? 'trial'))
     setBp(bpRes.data)
   }, [supabase])
 

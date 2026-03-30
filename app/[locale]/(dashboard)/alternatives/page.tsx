@@ -5,6 +5,7 @@ import { useLocale } from 'next-intl'
 import { useState, useEffect } from 'react'
 import { Loader2, Zap, TrendingDown, AlertCircle, ChevronRight, ExternalLink, CheckCircle2, XCircle, Clock, Wrench } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 import AgentStatusIndicator from '@/components/shared/AgentStatusIndicator'
 import CopyButton from '@/components/shared/CopyButton'
 import { cn } from '@/lib/utils'
@@ -56,7 +57,7 @@ export default function AlternativesPage({}: {  }) {
           .eq('is_primary', true)
           .single(),
       ])
-      if (prof) setPlan(prof.plan)
+      if (prof) setPlan(ADMIN_IDS.includes(user.id) ? 'galaxy' : prof.plan)
       if (bpData) setBp(bpData as BusinessProfile)
     })()
   }, [])

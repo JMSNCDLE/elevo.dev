@@ -7,6 +7,7 @@ import {
   BarChart2, Film, Globe, Plus, CheckCircle2
 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 import AgentStatusIndicator from '@/components/shared/AgentStatusIndicator'
 import ActionExplanation from '@/components/shared/ActionExplanation'
 import UpgradePrompt from '@/components/shared/UpgradePrompt'
@@ -73,7 +74,7 @@ export default function AdsPage() {
       supabase.from('profiles').select('plan, role').eq('id', user.id).single(),
       supabase.from('business_profiles').select('*').eq('user_id', user.id).eq('is_primary', true).single(),
     ])
-    setPlan(profileRes.data?.plan ?? 'trial')
+    setPlan(ADMIN_IDS.includes(user!.id) ? 'galaxy' : (profileRes.data?.plan ?? 'trial'))
     setIsAdmin(profileRes.data?.role === 'admin')
     setBp(bpRes.data)
     if (bpRes.data?.city) setTargetLocation(bpRes.data.city)

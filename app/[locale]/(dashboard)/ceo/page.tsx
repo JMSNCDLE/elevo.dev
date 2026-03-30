@@ -8,6 +8,7 @@ import {
   Target, Briefcase, Lightbulb, Shield, Star,
 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 import AgentStatusIndicator from '@/components/shared/AgentStatusIndicator'
 import ActionExplanation from '@/components/shared/ActionExplanation'
 import UpgradePrompt from '@/components/shared/UpgradePrompt'
@@ -91,7 +92,7 @@ export default function CEOPage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
       const { data: prof } = await supabase.from('profiles').select('plan').eq('id', user.id).single()
-      if (prof) setPlan(prof.plan)
+      if (prof) setPlan(ADMIN_IDS.includes(user.id) ? 'galaxy' : prof.plan)
       const { data: bps } = await supabase.from('business_profiles').select('id, business_name').eq('user_id', user.id)
       if (bps?.length) {
         setBusinessProfiles(bps)

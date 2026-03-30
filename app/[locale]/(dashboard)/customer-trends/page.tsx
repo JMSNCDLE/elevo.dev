@@ -15,6 +15,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 import UpgradePrompt from '@/components/shared/UpgradePrompt'
 import AgentStatusIndicator from '@/components/shared/AgentStatusIndicator'
 import { cn } from '@/lib/utils'
@@ -75,7 +76,7 @@ export default function CustomerTrendsPage({}: {  }) {
         supabase.from('profiles').select('plan').eq('id', user.id).single(),
         supabase.from('business_profiles').select('*').eq('user_id', user.id).eq('is_primary', true).single(),
       ])
-      if (prof) setPlan(prof.plan)
+      if (prof) setPlan(ADMIN_IDS.includes(user.id) ? 'galaxy' : prof.plan)
       if (bpData) setBp(bpData as BusinessProfile)
     }
     load()

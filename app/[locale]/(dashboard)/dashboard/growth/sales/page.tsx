@@ -5,6 +5,7 @@ import { useLocale } from 'next-intl'
 import { useState, useEffect } from 'react'
 import { Loader2, Download } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 import UpgradePrompt from '@/components/shared/UpgradePrompt'
 import AgentStatusIndicator from '@/components/shared/AgentStatusIndicator'
 import CopyButton from '@/components/shared/CopyButton'
@@ -35,7 +36,7 @@ export default function SalesPage({}: {  }) {
         supabase.from('profiles').select('plan').eq('id', user.id).single(),
         supabase.from('business_profiles').select('*').eq('user_id', user.id).eq('is_primary', true).single(),
       ])
-      if (prof) setPlan(prof.plan)
+      if (prof) setPlan(ADMIN_IDS.includes(user.id) ? 'galaxy' : prof.plan)
       if (bpData) setBp(bpData as BusinessProfile)
     }
     load()

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Bot, Lock, ExternalLink, Search } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 import { AGENT_PERSONAS } from '@/lib/agents/agentPersonas'
 import type { AgentPersona } from '@/lib/agents/agentPersonas'
 import { cn } from '@/lib/utils'
@@ -59,7 +60,7 @@ export default function AgentsPage() {
     supabase.auth.getUser().then(async ({ data: { user } }) => {
       if (!user) return
       const { data: pr } = await supabase.from('profiles').select('plan').eq('id', user.id).single()
-      if (pr) setPlan(pr.plan)
+      if (pr) setPlan(ADMIN_IDS.includes(user!.id) ? 'galaxy' : pr.plan)
     })
   }, [])
 

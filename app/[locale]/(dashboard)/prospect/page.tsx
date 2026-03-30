@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useLocale } from 'next-intl'
 import { Phone, Cpu, Mail, ChevronRight, Instagram } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 import UpgradePrompt from '@/components/shared/UpgradePrompt'
 
 interface RecentAudit {
@@ -86,7 +87,7 @@ export default function ProspectPage() {
         .order('created_at', { ascending: false })
         .limit(5),
     ])
-    setPlan(profileRes.data?.plan ?? 'trial')
+    setPlan(ADMIN_IDS.includes(user.id) ? 'galaxy' : (profileRes.data?.plan ?? 'trial'))
     setRecentAudits((auditsRes.data as RecentAudit[]) ?? [])
     setLoading(false)
   }, [supabase])

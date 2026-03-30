@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { Palette, Loader2, Check, Eye } from 'lucide-react'
 import UpgradePrompt from '@/components/shared/UpgradePrompt'
 import { useLocale } from 'next-intl'
+import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 
 interface Config {
   brandName: string
@@ -37,6 +39,8 @@ export default function WhiteLabelPage() {
   useEffect(() => {
     async function load() {
       try {
+        const supabase = createBrowserClient()
+        const { data: { user } } = await supabase.auth.getUser()
         const [profileRes, configRes] = await Promise.all([
           fetch('/api/auth/me').catch(() => null),
           fetch('/api/white-label/config'),
@@ -44,7 +48,7 @@ export default function WhiteLabelPage() {
 
         if (profileRes?.ok) {
           const pd: ProfileData = await profileRes.json()
-          setPlan(pd.plan)
+          setPlan(user && ADMIN_IDS.includes(user.id) ? 'galaxy' : pd.plan)
         }
 
         if (configRes.ok) {

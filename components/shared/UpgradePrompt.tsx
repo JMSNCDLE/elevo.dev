@@ -1,12 +1,14 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Rocket, Lock } from 'lucide-react'
+import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 
 interface UpgradePromptProps {
   locale?: string
   feature?: string
-  // Alternative prop names used in some pages
   featureName?: string
   description?: string
   requiredPlan?: string
@@ -17,6 +19,16 @@ export default function UpgradePrompt({ locale = 'en', feature, featureName, des
   const displayFeature = featureName || feature || 'this feature'
   const plan = requiredPlan || 'orbit'
   const planLabel = plan.charAt(0).toUpperCase() + plan.slice(1)
+
+  // Admins never see upgrade prompts
+  const [isAdmin, setIsAdmin] = useState(false)
+  useEffect(() => {
+    const supabase = createBrowserClient()
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user && ADMIN_IDS.includes(user.id)) setIsAdmin(true)
+    })
+  }, [])
+  if (isAdmin) return null
 
   return (
     <div className="flex flex-col items-center justify-center py-16 px-6 text-center">

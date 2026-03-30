@@ -8,6 +8,7 @@ import {
   Calendar, Send, RefreshCw, Users
 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 import AgentStatusIndicator from '@/components/shared/AgentStatusIndicator'
 import UpgradePrompt from '@/components/shared/UpgradePrompt'
 import { cn } from '@/lib/utils'
@@ -69,7 +70,7 @@ export default function SocialPage() {
       supabase.from('scheduled_posts').select('*').eq('user_id', user.id).eq('status', 'scheduled').order('scheduled_for').limit(20),
     ])
 
-    setPlan(profileRes.data?.plan ?? 'trial')
+    setPlan(ADMIN_IDS.includes(user!.id) ? 'galaxy' : (profileRes.data?.plan ?? 'trial'))
     setAccounts(accountsRes.data ?? [])
     setScheduled(postsRes.data ?? [])
     setLoading(false)

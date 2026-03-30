@@ -8,6 +8,8 @@ import {
   Copy, Check, RefreshCw, Bot,
 } from 'lucide-react'
 import type { MarketingMissionPlan } from '@/lib/agents/superMarketingAgent'
+import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 
 interface Mission {
   id: string
@@ -118,7 +120,9 @@ export default function MarketPage({ params }: { params: Promise<{ locale: strin
       }
       if (userRes.ok) {
         const d = await userRes.json()
-        setIsGalaxy(d.profile?.plan === 'galaxy')
+        const supabase = createBrowserClient()
+        const { data: { user } } = await supabase.auth.getUser()
+        setIsGalaxy(user && ADMIN_IDS.includes(user.id) ? true : d.profile?.plan === 'galaxy')
       }
     } finally {
       setLoadingMissions(false)

@@ -27,3 +27,12 @@ export function shouldBypassCredits(userId: string): boolean {
 export function shouldBypassPlanRestrictions(userId: string): boolean {
   return ADMIN_IDS.includes(userId)
 }
+
+/**
+ * Returns the effective plan for a user.
+ * Admins always get 'galaxy' (full access) regardless of DB plan.
+ */
+export function getEffectivePlan(userId: string, dbPlan: string): string {
+  if (ADMIN_IDS.includes(userId)) return 'galaxy'
+  return dbPlan
+}

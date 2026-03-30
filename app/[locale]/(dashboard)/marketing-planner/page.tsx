@@ -8,6 +8,7 @@ import {
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 
 interface ChatMessage {
   role: 'user' | 'assistant'
@@ -45,7 +46,7 @@ export default function MarketingPlannerPage() {
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (!user) return
       supabase.from('profiles').select('plan').eq('id', user.id).single().then(({ data }) => {
-        setPlan(data?.plan ?? 'trial')
+        setPlan(ADMIN_IDS.includes(user.id) ? 'galaxy' : (data?.plan ?? 'trial'))
         setLoading(false)
       })
     })

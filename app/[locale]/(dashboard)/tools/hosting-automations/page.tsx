@@ -5,6 +5,7 @@ import { Server, Send, Loader2, Bot, FileText, TrendingDown, Shield, BarChart2, 
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 
 interface ChatMessage { role: 'user' | 'assistant'; content: string }
 
@@ -39,7 +40,7 @@ export default function HostingAutomationsPage() {
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (!user) return
       supabase.from('profiles').select('plan').eq('id', user.id).single().then(({ data }) => {
-        setPlan(data?.plan ?? 'trial')
+        setPlan(ADMIN_IDS.includes(user.id) ? 'galaxy' : (data?.plan ?? 'trial'))
         setLoading(false)
       })
     })

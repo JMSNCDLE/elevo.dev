@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useLocale } from 'next-intl'
 import { Loader2, Mail, Download, ExternalLink } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 import UpgradePrompt from '@/components/shared/UpgradePrompt'
 import AgentStatusIndicator from '@/components/shared/AgentStatusIndicator'
 import CopyButton from '@/components/shared/CopyButton'
@@ -73,7 +74,7 @@ export default function ColdEmailPage() {
       if (!user) return
       const { data: prof } = await supabase.from('profiles').select('plan, full_name').eq('id', user.id).single()
       if (prof) {
-        setPlan(prof.plan ?? 'trial')
+        setPlan(ADMIN_IDS.includes(user.id) ? 'galaxy' : (prof.plan ?? 'trial'))
         if (prof.full_name) setYourName(prof.full_name)
       }
     }

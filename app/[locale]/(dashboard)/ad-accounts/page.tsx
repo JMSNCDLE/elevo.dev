@@ -8,6 +8,7 @@ import {
   CheckCircle, PauseCircle, XCircle, Lock, Shield,
 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 import toast from 'react-hot-toast'
 
 interface AdAccount {
@@ -48,7 +49,7 @@ export default function AdAccountsPage() {
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (!user) return
       supabase.from('profiles').select('plan').eq('id', user.id).single().then(({ data }) => {
-        setPlan(data?.plan ?? 'trial')
+        setPlan(ADMIN_IDS.includes(user.id) ? 'galaxy' : (data?.plan ?? 'trial'))
       })
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps

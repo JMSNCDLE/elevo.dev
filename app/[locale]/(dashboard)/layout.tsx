@@ -8,6 +8,8 @@ import SessionTracker from '@/components/dashboard/SessionTracker'
 import DeviceAdaptiveLayout from '@/components/dashboard/DeviceAdaptiveLayout'
 import ClientStageBadge from '@/components/dashboard/ClientStageBadge'
 import CreditsDepleted from '@/components/shared/CreditsDepleted'
+import TrialBanner from '@/components/dashboard/TrialBanner'
+import { getEffectivePlan } from '@/lib/admin'
 
 export default async function DashboardLayout({
   children,
@@ -48,8 +50,10 @@ export default async function DashboardLayout({
     }
   }
 
+  const effectivePlan = getEffectivePlan(user.id, profile.plan)
+
   const stageBadgeProfile = {
-    plan: profile.plan,
+    plan: effectivePlan,
     trialEndsAt: profile.trial_ends_at,
     subscriptionStatus: profile.subscription_status,
     createdAt: profile.created_at,
@@ -59,7 +63,7 @@ export default async function DashboardLayout({
     <div data-theme="dark" className="flex min-h-screen bg-dashBg">
       <Sidebar
         locale={locale}
-        plan={profile.plan}
+        plan={effectivePlan}
         creditsUsed={profile.credits_used}
         creditsLimit={profile.credits_limit}
         businessName={primaryBp?.business_name}
@@ -70,8 +74,9 @@ export default async function DashboardLayout({
         <div className="flex items-center justify-end px-6 pt-4">
           <ClientStageBadge profile={stageBadgeProfile} />
         </div>
+        <TrialBanner locale={locale} plan={effectivePlan} trialEndsAt={profile.trial_ends_at} userId={user.id} />
         <div className="px-6 pt-2">
-          <CreditsDepleted plan={profile.plan} creditsUsed={profile.credits_used} creditsLimit={profile.credits_limit} userId={user.id} />
+          <CreditsDepleted plan={effectivePlan} creditsUsed={profile.credits_used} creditsLimit={profile.credits_limit} userId={user.id} />
         </div>
         <DeviceAdaptiveLayout userId={profile.id}>
           {children}

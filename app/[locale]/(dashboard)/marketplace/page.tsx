@@ -8,6 +8,7 @@ import {
   DollarSign, Clock, Tag, Lock, Send,
 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 import toast from 'react-hot-toast'
 
 interface Job {
@@ -70,7 +71,7 @@ export default function MarketplacePage() {
       if (!user) return
       setUserId(user.id)
       supabase.from('profiles').select('plan').eq('id', user.id).single().then(({ data }) => {
-        setPlan(data?.plan ?? 'trial')
+        setPlan(ADMIN_IDS.includes(user.id) ? 'galaxy' : (data?.plan ?? 'trial'))
       })
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps

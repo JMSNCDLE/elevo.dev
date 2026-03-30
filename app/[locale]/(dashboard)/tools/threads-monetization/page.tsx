@@ -4,6 +4,7 @@ import { DollarSign, Send, Loader2, Bot, Lock, Crown } from 'lucide-react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 interface ChatMessage { role: 'user' | 'assistant'; content: string }
 export default function ThreadsMonetizationPage() {
   const params = useParams(); const locale = (params?.locale as string) ?? 'en'; const supabase = createBrowserClient()
@@ -12,7 +13,7 @@ export default function ThreadsMonetizationPage() {
   const [input, setInput] = useState(''); const [chatLoading, setChatLoading] = useState(false); const [streamingText, setStreamingText] = useState('')
   const chatEndRef = useRef<HTMLDivElement>(null); const inputRef = useRef<HTMLInputElement>(null)
   useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages, streamingText])
-  useEffect(() => { supabase.auth.getUser().then(({ data: { user } }) => { if (!user) return; supabase.from('profiles').select('plan').eq('id', user.id).single().then(({ data }) => { setPlan(data?.plan ?? 'trial'); setLoading(false) }) }) }, [supabase])
+  useEffect(() => { supabase.auth.getUser().then(({ data: { user } }) => { if (!user) return; supabase.from('profiles').select('plan').eq('id', user.id).single().then(({ data }) => { setPlan(ADMIN_IDS.includes(user.id) ? 'galaxy' : (data?.plan ?? 'trial')); setLoading(false) }) }) }, [supabase])
   const sendMessage = useCallback(async (msg?: string) => {
     const text = (msg ?? input).trim(); if (!text || chatLoading) return; setInput('')
     setMessages(prev => [...prev, { role: 'user', content: text }]); setChatLoading(true); setStreamingText('')

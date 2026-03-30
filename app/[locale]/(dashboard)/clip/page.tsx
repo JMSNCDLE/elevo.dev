@@ -8,6 +8,7 @@ import {
   CheckCircle2, Zap,
 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 import AgentStatusIndicator from '@/components/shared/AgentStatusIndicator'
 import ActionExplanation from '@/components/shared/ActionExplanation'
 import UpgradePrompt from '@/components/shared/UpgradePrompt'
@@ -60,7 +61,7 @@ export default function ClipPage({ params }: { params: Promise<{ locale: string 
       supabase.from('profiles').select('plan').eq('id', user.id).single(),
       supabase.from('business_profiles').select('*').eq('user_id', user.id),
     ])
-    setPlan(profileRes.data?.plan ?? 'trial')
+    setPlan(ADMIN_IDS.includes(user!.id) ? 'galaxy' : (profileRes.data?.plan ?? 'trial'))
     setBusinessProfiles(bpRes.data ?? [])
     if (bpRes.data?.[0]) {
       setBp(bpRes.data[0] as BusinessProfile)
