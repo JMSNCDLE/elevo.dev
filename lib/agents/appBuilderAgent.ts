@@ -93,7 +93,7 @@ export async function buildProduct(
 - Colors: ${brandColors} (unless business has specific colors)
 - The HTML must be 100% deployable — no external dependencies except Google Fonts (use <link> tag)
 - Include all sections relevant to: ${request.description}
-- Make it look like a £5,000 professionally designed website
+- Make it look like a €5,000 professionally designed website
 ${request.pages ? `- Include these pages/sections: ${request.pages.join(', ')}` : ''}`
     : `For htmlOutput: provide a minimal skeleton/starter HTML file for the developer to build on.`
 

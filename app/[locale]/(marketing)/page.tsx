@@ -186,8 +186,8 @@ export default async function HomePage({ params }: PageProps) {
                 <p className="text-green-400">✓ TikTok: ROAS 3.8x — good</p>
                 <p className="text-white/40">&nbsp;</p>
                 <p className="text-white/80">Recommendation:</p>
-                <p className="text-indigo-400">→ Reallocate £400/mo from Meta to Google</p>
-                <p className="text-indigo-400">→ Projected improvement: +£1,680/mo</p>
+                <p className="text-indigo-400">→ Reallocate €400/mo from Meta to Google</p>
+                <p className="text-indigo-400">→ Projected improvement: +€1,680/mo</p>
                 <p className="text-white/40">&nbsp;</p>
                 <p className="text-green-400">✓ Report saved to Intelligence hub</p>
               </div>
@@ -314,7 +314,7 @@ export default async function HomePage({ params }: PageProps) {
             {[
               { value: '400+', label: t('statsBusinesses') },
               { value: '35+', label: t('statsRoutes') },
-              { value: '£616', label: t('statsROI') },
+              { value: '€616', label: t('statsROI') },
               { value: '99.9%', label: t('statsUptime') },
             ].map(stat => (
               <div key={stat.label}>

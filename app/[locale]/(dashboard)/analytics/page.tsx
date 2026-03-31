@@ -215,7 +215,7 @@ export default function AnalyticsPage() {
               label="Total Revenue"
               value={summary.totalRevenue}
               change={summary.revenueChange}
-              prefix="£"
+              prefix="€"
             />
             <StatCard
               label="Total Jobs"
@@ -231,7 +231,7 @@ export default function AnalyticsPage() {
               label="Avg Job Value"
               value={summary.avgJobValue}
               change={summary.avgJobValueChange}
-              prefix="£"
+              prefix="€"
             />
           </>
         ) : (
@@ -273,10 +273,10 @@ export default function AnalyticsPage() {
                 tick={{ fill: '#94A3B8', fontSize: 11 }}
                 tickFormatter={(v: string) => v.slice(5)}
               />
-              <YAxis tick={{ fill: '#94A3B8', fontSize: 11 }} tickFormatter={(v: number) => `£${v}`} />
+              <YAxis tick={{ fill: '#94A3B8', fontSize: 11 }} tickFormatter={(v: number) => `€${v}`} />
               <Tooltip
                 contentStyle={{ background: '#1A2332', border: '1px solid #161F2E', borderRadius: 8, color: '#EEF2FF' }}
-                formatter={(value: number, name: string) => [name === 'revenue' ? `£${value}` : value, name === 'revenue' ? 'Revenue' : 'Jobs']}
+                formatter={(value: number, name: string) => [name === 'revenue' ? `€${value}` : value, name === 'revenue' ? 'Revenue' : 'Jobs']}
               />
               <Line type="monotone" dataKey="revenue" stroke={CHART_COLOR} strokeWidth={2} dot={false} />
               <Line type="monotone" dataKey="jobs" stroke="#22c55e" strokeWidth={1.5} dot={false} />
@@ -394,11 +394,11 @@ export default function AnalyticsPage() {
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 flex-1">
                 <div>
                   <p className="text-xs text-dashMuted mb-1">Total Spend</p>
-                  <p className="text-lg font-bold text-dashText">£{adSummary.totalSpend.toFixed(2)}</p>
+                  <p className="text-lg font-bold text-dashText">€{adSummary.totalSpend.toFixed(2)}</p>
                 </div>
                 <div>
                   <p className="text-xs text-dashMuted mb-1">Total Revenue</p>
-                  <p className="text-lg font-bold text-dashText">£{adSummary.totalRevenue.toFixed(2)}</p>
+                  <p className="text-lg font-bold text-dashText">€{adSummary.totalRevenue.toFixed(2)}</p>
                 </div>
                 <div>
                   <p className="text-xs text-dashMuted mb-1">Impressions</p>
@@ -410,11 +410,11 @@ export default function AnalyticsPage() {
                 </div>
                 <div>
                   <p className="text-xs text-dashMuted mb-1">Avg CPM</p>
-                  <p className="text-lg font-bold text-dashText">£{adSummary.avgCPM.toFixed(2)}</p>
+                  <p className="text-lg font-bold text-dashText">€{adSummary.avgCPM.toFixed(2)}</p>
                 </div>
                 <div>
                   <p className="text-xs text-dashMuted mb-1">Avg CPC</p>
-                  <p className="text-lg font-bold text-dashText">£{adSummary.avgCPC.toFixed(2)}</p>
+                  <p className="text-lg font-bold text-dashText">€{adSummary.avgCPC.toFixed(2)}</p>
                 </div>
                 <div>
                   <p className="text-xs text-dashMuted mb-1">Avg CTR</p>
@@ -444,13 +444,13 @@ export default function AnalyticsPage() {
                       {adSummary.byPlatform.map(p => (
                         <tr key={p.platform} className="border-b border-dashSurface2/50">
                           <td className="py-2 pr-4 text-dashText font-medium">{p.platform}</td>
-                          <td className="py-2 pr-4 text-dashText">£{p.spend.toFixed(2)}</td>
-                          <td className="py-2 pr-4 text-dashText">£{p.revenue.toFixed(2)}</td>
+                          <td className="py-2 pr-4 text-dashText">€{p.spend.toFixed(2)}</td>
+                          <td className="py-2 pr-4 text-dashText">€{p.revenue.toFixed(2)}</td>
                           <td className={`py-2 pr-4 font-bold ${p.roas >= 4 ? 'text-green-400' : p.roas >= 2 ? 'text-amber-400' : 'text-red-400'}`}>
                             {p.roas.toFixed(2)}x
                           </td>
                           <td className="py-2 pr-4 text-dashText">{p.impressions.toLocaleString()}</td>
-                          <td className="py-2 pr-4 text-dashText">£{p.cpm.toFixed(2)}</td>
+                          <td className="py-2 pr-4 text-dashText">€{p.cpm.toFixed(2)}</td>
                           <td className="py-2 pr-4 text-dashText">{(p.ctr * 100).toFixed(2)}%</td>
                         </tr>
                       ))}
@@ -468,7 +468,7 @@ export default function AnalyticsPage() {
                   <LineChart data={adSummary.performanceByDay} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#161F2E" />
                     <XAxis dataKey="date" tick={{ fill: '#94A3B8', fontSize: 10 }} tickFormatter={(v: string) => v.slice(5)} />
-                    <YAxis tick={{ fill: '#94A3B8', fontSize: 10 }} tickFormatter={(v: number) => `£${v}`} />
+                    <YAxis tick={{ fill: '#94A3B8', fontSize: 10 }} tickFormatter={(v: number) => `€${v}`} />
                     <Tooltip
                       contentStyle={{ background: '#1A2332', border: '1px solid #161F2E', borderRadius: 8, color: '#EEF2FF' }}
                     />

@@ -158,7 +158,7 @@ export default async function DemoPage({ params }: Props) {
           {/* Revenue Opportunity */}
           <div className="bg-indigo-50 rounded-2xl p-6 border border-indigo-100">
             <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <span className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-600 text-sm font-black flex items-center justify-center">£</span>
+              <span className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-600 text-sm font-black flex items-center justify-center">€</span>
               Revenue Opportunity
             </h2>
             <div className="space-y-3">

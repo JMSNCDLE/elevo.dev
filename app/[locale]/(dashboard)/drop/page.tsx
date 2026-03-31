@@ -247,7 +247,7 @@ export default function DropPage({ params }: { params: Promise<{ locale: string 
   // Finder
   const [niche, setNiche] = useState('')
   const [targetMarket, setTargetMarket] = useState('UK')
-  const [budget, setBudget] = useState('£500')
+  const [budget, setBudget] = useState('€500')
   const [products, setProducts] = useState<WinningProduct[]>([])
 
   // Suppliers
@@ -444,7 +444,7 @@ export default function DropPage({ params }: { params: Promise<{ locale: string 
                   <input
                     value={budget}
                     onChange={e => setBudget(e.target.value)}
-                    placeholder="e.g. £500/month"
+                    placeholder="e.g. €500/month"
                     className="w-full bg-dashSurface2 border border-dashSurface2 rounded-lg px-3 py-2 text-sm text-dashText placeholder:text-dashMuted focus:outline-none focus:border-accent"
                   />
                 </div>
@@ -740,8 +740,8 @@ export default function DropPage({ params }: { params: Promise<{ locale: string 
                           <td className="px-4 py-3">
                             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded-full', sc.color, sc.bg)}>{sc.label}</span>
                           </td>
-                          <td className="px-4 py-3 text-sm text-green-400 font-semibold">£{(p.monthly_revenue ?? 0).toLocaleString()}</td>
-                          <td className="px-4 py-3 text-sm text-dashText">£{(p.monthly_spend ?? 0).toLocaleString()}</td>
+                          <td className="px-4 py-3 text-sm text-green-400 font-semibold">€{(p.monthly_revenue ?? 0).toLocaleString()}</td>
+                          <td className="px-4 py-3 text-sm text-dashText">€{(p.monthly_spend ?? 0).toLocaleString()}</td>
                           <td className="px-4 py-3 text-sm text-dashText">{(p.roas ?? 0).toFixed(2)}x</td>
                         </tr>
                       )

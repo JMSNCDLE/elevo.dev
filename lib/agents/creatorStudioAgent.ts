@@ -568,10 +568,10 @@ Return ONLY valid JSON:
   ],
   "monetisationAnalysis": {
     "isMonetised": true,
-    "estimatedCPM": "e.g. £3.50-£6.00",
-    "estimatedMonthlyRevenue": "e.g. £1,200-£2,100",
+    "estimatedCPM": "e.g. €3.50-€6.00",
+    "estimatedMonthlyRevenue": "e.g. €1,200-€2,100",
     "untappedRevenue": ["Revenue stream 1", "Revenue stream 2"],
-    "sponsorshipValue": "e.g. £500-£1,200 per integration"
+    "sponsorshipValue": "e.g. €500-€1,200 per integration"
   },
   "seoAudit": {
     "keywordUsage": "Analysis of keyword usage in titles/descriptions",

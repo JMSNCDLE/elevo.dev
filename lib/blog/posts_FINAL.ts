@@ -22,7 +22,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: 'March 2026',
     excerpt: "Most local businesses have no idea what their ROAS is. Here's what that's costing you — and how to fix it in 60 seconds.",
     content: `
-## The £340/month problem most business owners don't know they have
+## The €340/month problem most business owners don't know they have
 
 You're running Google Ads. You're paying Meta every month. Maybe you've got TikTok ads running too. And every month, the money goes out — but you have no clear picture of what's coming back.
 
@@ -34,9 +34,9 @@ ROAS is the simplest measure of whether your ads are working:
 
 **ROAS = Revenue generated ÷ Ad spend**
 
-A ROAS of 4:1 means for every £1 you spend on ads, you make £4 back. That's the benchmark most experts target for local service businesses.
+A ROAS of 4:1 means for every €1 you spend on ads, you make €4 back. That's the benchmark most experts target for local service businesses.
 
-The average local business sits at **1.8:1**. That means for every £100 spent, they get £180 back — a £80 return before accounting for cost of goods, staff time, and overheads. In many cases, they're effectively paying to break even.
+The average local business sits at **1.8:1**. That means for every €100 spent, they get €180 back — a €80 return before accounting for cost of goods, staff time, and overheads. In many cases, they're effectively paying to break even.
 
 ## The 3 most common ways local businesses waste ad spend
 
@@ -62,9 +62,9 @@ Fix: Audit every campaign monthly. Cut anything below 2:1 ROAS. Move that budget
 
 ELEVO Ads Pro™ (powered by Leo, your ROAS agent) analyses your campaigns, identifies underperforming spend, and tells you exactly where to cut and where to scale — in one report.
 
-Mario T., an emergency plumber in Manchester, found £340/month of wasted spend in his first analysis. He moved that budget to his best-performing campaign and doubled his monthly calls within 6 weeks.
+Mario T., an emergency plumber in Manchester, found €340/month of wasted spend in his first analysis. He moved that budget to his best-performing campaign and doubled his monthly calls within 6 weeks.
 
-The average ELEVO user finds **£600–£1,200/month** of wasted spend in their first ROAS analysis.
+The average ELEVO user finds **€600–€1,200/month** of wasted spend in their first ROAS analysis.
     `,
   },
   {
@@ -131,7 +131,7 @@ That's it. Five tasks, under an hour per week. Businesses that do this consisten
   },
   {
     slug: 'manchester-plumber-saved-340-per-month',
-    title: 'How a Manchester plumber saved £340/month in 60 seconds',
+    title: 'How a Manchester plumber saved €340/month in 60 seconds',
     category: 'Case Study',
     categoryColor: 'green',
     readingTime: '4 min read',
@@ -140,7 +140,7 @@ That's it. Five tasks, under an hour per week. Businesses that do this consisten
     content: `
 ## "I didn't know what ROAS meant. I just knew I was paying Google every month."
 
-Mario T. runs a 3-man emergency plumbing business in Manchester. He started running Google Ads 8 months before discovering ELEVO — spending around £800/month across 4 campaigns.
+Mario T. runs a 3-man emergency plumbing business in Manchester. He started running Google Ads 8 months before discovering ELEVO — spending around €800/month across 4 campaigns.
 
 "I set them up with a Google rep who called me one day. They seemed professional. The calls were coming in, so I assumed it was working."
 
@@ -150,7 +150,7 @@ The problem: Mario had no conversion tracking. He knew calls were coming in — 
 
 When Mario ran his first ROAS analysis on ELEVO, the results were clear within 60 seconds.
 
-Two of his four campaigns had zero tracked conversions in the previous 90 days. Combined, they were spending **£340/month**.
+Two of his four campaigns had zero tracked conversions in the previous 90 days. Combined, they were spending **€340/month**.
 
 The other two campaigns — targeting emergency plumbing searches within 8 miles of Manchester city centre — were generating most of his calls at a healthy 4.8:1 ROAS.
 
@@ -158,11 +158,11 @@ The other two campaigns — targeting emergency plumbing searches within 8 miles
 
 ## What changed
 
-Mario paused the two underperforming campaigns immediately and moved the £340/month budget to his two working campaigns.
+Mario paused the two underperforming campaigns immediately and moved the €340/month budget to his two working campaigns.
 
 Within 6 weeks:
 - Monthly calls increased from ~22 to ~41
-- Cost per lead dropped from £36 to £19
+- Cost per lead dropped from €36 to €19
 - Monthly ad spend stayed the same
 
 "I'm spending the same money. I'm just not wasting half of it now."
@@ -314,7 +314,7 @@ Con este sistema, los restaurantes suelen alcanzar 100 reseñas en 3-4 meses. El
     categoryColor: 'teal',
     readingTime: '6 min read',
     date: 'March 2026',
-    excerpt: "Both automate Instagram DMs. But one costs £99/month and takes hours to set up. Here's the honest comparison.",
+    excerpt: "Both automate Instagram DMs. But one costs €99/month and takes hours to set up. Here's the honest comparison.",
     content: `
 ## The case for DM automation
 
@@ -336,7 +336,7 @@ ManyChat is the most established DM automation tool. It's used by hundreds of th
 
 **The problems with ManyChat for local businesses:**
 
-*Price:* ManyChat Pro starts at $15/month but grows quickly. Most local businesses end up paying £79-£149/month once they need the features they actually want. Agency accounts run £300+/month.
+*Price:* ManyChat Pro starts at $15/month but grows quickly. Most local businesses end up paying €79-€149/month once they need the features they actually want. Agency accounts run €300+/month.
 
 *Setup complexity:* Building flows in ManyChat requires significant time investment. Most local businesses spend 3-5 hours setting up their first flow — and many give up before they finish.
 
@@ -356,7 +356,7 @@ ELEVO Connect™ is ELEVO's conversation automation feature, powered by Sage —
 
 *Full CRM integration:* Every conversation automatically creates or updates a contact in your ELEVO CRM. No Zapier. No manual data entry.
 
-*Included in Orbit:* ELEVO Connect™ is included in the Orbit plan at £79/month — along with content generation, ROAS analysis, SEO tools, and everything else ELEVO does.
+*Included in Orbit:* ELEVO Connect™ is included in the Orbit plan at €79/month — along with content generation, ROAS analysis, SEO tools, and everything else ELEVO does.
 
 ## The honest verdict
 
@@ -364,7 +364,7 @@ If you're an enterprise business with dedicated marketing staff and complex auto
 
 If you're a local business who wants DM automation that works, integrates with your other tools, and doesn't require a 5-hour setup — ELEVO Connect™ is the better choice.
 
-At £79/month all-in vs £99/month just for ManyChat, the economics are clear.
+At €79/month all-in vs €99/month just for ManyChat, the economics are clear.
     `,
   },
 
@@ -425,7 +425,7 @@ For a local restaurant, this might mean identifying that customers who engage wi
 
 AI doesn't just analyse demographics. It analyses behaviour patterns, engagement signals, and conversion history to build a profile of your ideal customer — and then helps you find more people who match that profile.
 
-**The result:** Your £500/month ad budget works like £2,000 because it's targeting the right people at the right time with the right message.
+**The result:** Your €500/month ad budget works like €2,000 because it's targeting the right people at the right time with the right message.
 
 ### 5. Automated customer follow-up that feels personal
 
@@ -441,15 +441,15 @@ That kind of personalised, timely follow-up converts at 20-30% for local busines
 
 Here's the maths that matters. In 2020, a local business trying to do professional-level marketing needed:
 
-- A social media manager: £1,500-£3,000/month
-- A content writer: £500-£1,500/month
-- An analytics tool: £100-£300/month
-- A CRM system: £50-£200/month
-- An ad management agency: £500-£2,000/month
+- A social media manager: €1,500-€3,000/month
+- A content writer: €500-€1,500/month
+- An analytics tool: €100-€300/month
+- A CRM system: €50-€200/month
+- An ad management agency: €500-€2,000/month
 
-**Total: £2,650-£7,000/month**
+**Total: €2,650-€7,000/month**
 
-In 2026, an AI marketing platform like ELEVO gives you all of that — content generation, social scheduling, analytics, CRM, ad management, and more — for **£39-£149/month**.
+In 2026, an AI marketing platform like ELEVO gives you all of that — content generation, social scheduling, analytics, CRM, ad management, and more — for **€39-€149/month**.
 
 That's not a marginal improvement. That's a 95% cost reduction with comparable (and often better) output.
 
@@ -491,7 +491,7 @@ These agents ensure potential customers can find your business when they search.
 
 ## Growth Agents — Scale your business
 
-**Leo™ — ROAS Agent:** Analyses your advertising spend across all platforms and identifies exactly where you're wasting money and where to double down. Leo has saved ELEVO users an average of £600-£1,200/month in wasted ad spend.
+**Leo™ — ROAS Agent:** Analyses your advertising spend across all platforms and identifies exactly where you're wasting money and where to double down. Leo has saved ELEVO users an average of €600-€1,200/month in wasted ad spend.
 
 **Bolt™ — Ads Manager Agent:** Creates, manages, and optimises ad campaigns across Google and Meta. Bolt handles targeting, bidding, creative testing, and budget allocation — all based on your specific business goals.
 
@@ -609,23 +609,23 @@ This is the subscription trap — and it's costing local businesses far more tha
 
 Let's do the maths. A typical local business running separate tools pays:
 
-- Canva Pro: £100/year
-- Hootsuite: £89/month
-- Mailchimp: £30/month
-- CRM tool: £50/month
-- Chatbot tool: £50/month
-- Accounting software: £25/month
-- Analytics tool: £30/month
+- Canva Pro: €100/year
+- Hootsuite: €89/month
+- Mailchimp: €30/month
+- CRM tool: €50/month
+- Chatbot tool: €50/month
+- Accounting software: €25/month
+- Analytics tool: €30/month
 
-**Total: approximately £274/month or £3,288/year**
+**Total: approximately €274/month or €3,288/year**
 
 But that's just the subscription cost. The hidden cost is time.
 
 Logging into each platform, manually transferring data between tools, recreating customer information in multiple systems, checking separate dashboards for separate metrics — this takes an average of **10-15 hours per week** for a solo business owner.
 
-At a modest value of £30/hour for your time, that's an additional **£1,200-£1,800/month** in lost productivity.
+At a modest value of €30/hour for your time, that's an additional **€1,200-€1,800/month** in lost productivity.
 
-**The true cost of scattered tools: £1,474-£2,074/month.**
+**The true cost of scattered tools: €1,474-€2,074/month.**
 
 ## What an AI operating system actually means
 
@@ -675,9 +675,9 @@ With 38 AI agents covering content, ads, CRM, analytics, social media, email, SE
 
 **The pricing comparison:**
 
-Scattered tools: £274/month + 10-15 hours/week of your time
-ELEVO Launch plan: £39/month + under 1 hour/week
-ELEVO Orbit plan: £79/month + under 1 hour/week (full AI OS access)
+Scattered tools: €274/month + 10-15 hours/week of your time
+ELEVO Launch plan: €39/month + under 1 hour/week
+ELEVO Orbit plan: €79/month + under 1 hour/week (full AI OS access)
 
 The economics aren't even close.
 
@@ -922,7 +922,7 @@ ELEVO's Translate™ agent makes your content accessible in 12 languages — ope
 
 As your business grows, the amount of data you generate grows exponentially. AI's ability to analyse patterns across thousands of data points and surface actionable insights becomes increasingly valuable.
 
-ELEVO's Deep™ and CEO™ agents analyse your entire business operation and provide strategic recommendations — the kind of advice that would cost £5,000+ from a business consultant.
+ELEVO's Deep™ and CEO™ agents analyse your entire business operation and provide strategic recommendations — the kind of advice that would cost €5,000+ from a business consultant.
 
 ## The growth flywheel
 

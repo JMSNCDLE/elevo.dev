@@ -27,7 +27,7 @@ type Status = 'idle' | 'thinking' | 'generating' | 'done' | 'error'
 type DataType = 'pl' | 'cashflow' | 'invoices' | 'bank_statement' | 'mixed'
 
 const CURRENCIES = ['GBP', 'USD', 'EUR'] as const
-const CURRENCY_SYMBOLS: Record<string, string> = { GBP: '£', USD: '$', EUR: '€' }
+const CURRENCY_SYMBOLS: Record<string, string> = { GBP: '€', USD: '$', EUR: '€' }
 
 const DATA_TYPES: { value: DataType; label: string }[] = [
   { value: 'pl', label: 'P&L' },
@@ -117,7 +117,7 @@ export default function FinancesPage({}: {  }) {
     return <UpgradePrompt locale={locale} feature="Financial Intelligence" />
   }
 
-  const sym = CURRENCY_SYMBOLS[currency] || '£'
+  const sym = CURRENCY_SYMBOLS[currency] || '€'
 
   const handleAnalyse = async () => {
     if (!bp || !rawData.trim()) return

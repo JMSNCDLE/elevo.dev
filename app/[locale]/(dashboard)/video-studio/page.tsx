@@ -34,7 +34,7 @@ const COMPARISON = [
   { feature: 'Cinematic UGC', arcads: false, creatify: false, elevenlabs: false, elevo: true },
   { feature: 'CRM integration', arcads: false, creatify: false, elevenlabs: false, elevo: true },
   { feature: 'Auto-schedule', arcads: false, creatify: false, elevenlabs: false, elevo: true },
-  { feature: 'Price', arcads: '£99+/mo', creatify: '£99+/mo', elevenlabs: '£22+/mo', elevo: '£29.99 add-on' },
+  { feature: 'Price', arcads: '€99+/mo', creatify: '€99+/mo', elevenlabs: '€22+/mo', elevo: '€29.99 add-on' },
 ]
 
 export default function VideoStudioPage() {

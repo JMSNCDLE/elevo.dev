@@ -34,8 +34,8 @@ CRM Stats:
 - Lapsed (60-90 days): ${stats.lapsedContacts}
 - At risk (90+ days): ${stats.atRiskContacts}
 - Review-ready contacts: ${stats.reviewReady}
-- Total recorded revenue: £${stats.totalRevenue}
-- Average job value: £${stats.avgJobValue}
+- Total recorded revenue: €${stats.totalRevenue}
+- Average job value: €${stats.avgJobValue}
 
 Return ONLY valid JSON:
 {
@@ -85,7 +85,7 @@ Contact details:
 - First name: ${firstName}
 - Last contact: ${contact.last_contact_date ? new Date(contact.last_contact_date).toLocaleDateString('en-GB') : 'Unknown'}
 - Total jobs: ${contact.total_jobs}
-- Total value: £${contact.total_revenue}
+- Total value: €${contact.total_revenue}
 - Notes: ${contact.notes || 'None'}
 - Tags: ${contact.tags.join(', ') || 'None'}
 
@@ -132,7 +132,7 @@ export async function enrichContact(
         content: `Suggest tags for this contact:
 Name: ${contact.full_name}
 Total jobs: ${contact.total_jobs}
-Total revenue: £${contact.total_revenue}
+Total revenue: €${contact.total_revenue}
 Status: ${contact.status}
 Existing tags: ${contact.tags.join(', ') || 'None'}
 Recent interactions: ${recentInteractions.map(i => `${i.type}: ${i.notes || ''}`).join('; ')}

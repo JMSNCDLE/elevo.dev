@@ -24,7 +24,7 @@ interface Campaign {
 
 const PLATFORMS = ['google', 'meta', 'tiktok', 'instagram', 'email', 'other'] as const
 const CURRENCIES = ['GBP', 'USD', 'EUR'] as const
-const CURRENCY_SYMBOLS: Record<string, string> = { GBP: '£', USD: '$', EUR: '€' }
+const CURRENCY_SYMBOLS: Record<string, string> = { GBP: '€', USD: '$', EUR: '€' }
 
 function emptyRow(): Campaign {
   return { name: '', platform: 'google', spend: '', revenue: '', period: '' }
@@ -84,7 +84,7 @@ export default function ROASPage({}: {  }) {
     return <UpgradePrompt locale={locale} feature="ROAS Dashboard" />
   }
 
-  const sym = CURRENCY_SYMBOLS[currency] || '£'
+  const sym = CURRENCY_SYMBOLS[currency] || '€'
 
   const updateRow = (i: number, field: keyof Campaign, value: string) => {
     setCampaigns(prev => prev.map((row, idx) => idx === i ? { ...row, [field]: value } : row))

@@ -25,7 +25,7 @@ type Status = 'idle' | 'thinking' | 'generating' | 'done' | 'error'
 type InputMode = 'paste' | 'manual'
 
 const CURRENCIES = ['GBP', 'USD', 'EUR'] as const
-const CURRENCY_SYMBOLS: Record<string, string> = { GBP: '£', USD: '$', EUR: '€' }
+const CURRENCY_SYMBOLS: Record<string, string> = { GBP: '€', USD: '$', EUR: '€' }
 
 interface ManualItem {
   name: string
@@ -117,7 +117,7 @@ export default function InventoryPage({}: {  }) {
     return <UpgradePrompt locale={locale} feature="Inventory & Supply" />
   }
 
-  const sym = CURRENCY_SYMBOLS[currency] || '£'
+  const sym = CURRENCY_SYMBOLS[currency] || '€'
 
   const updateItem = (i: number, field: keyof ManualItem, value: string) => {
     setItems(prev => prev.map((row, idx) => idx === i ? { ...row, [field]: value } : row))

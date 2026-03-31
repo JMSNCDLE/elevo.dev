@@ -110,7 +110,7 @@ export default function AlternativesPage({}: {  }) {
             value={situation}
             onChange={(e) => setSituation(e.target.value)}
             rows={4}
-            placeholder="Describe what's not working or too expensive... e.g. Our current booking software costs £180/month but we only use 20% of the features. It's slow and support is terrible."
+            placeholder="Describe what's not working or too expensive... e.g. Our current booking software costs €180/month but we only use 20% of the features. It's slow and support is terrible."
             className="w-full bg-dashSurface border border-dashSurface2 rounded-lg px-3 py-2.5 text-sm text-dashText placeholder:text-dashMuted resize-none focus:outline-none focus:ring-2 focus:ring-accent min-h-[100px]"
           />
         </div>
@@ -139,7 +139,7 @@ export default function AlternativesPage({}: {  }) {
         {/* Optional cost */}
         <div className="max-w-xs">
           <label className="block text-sm font-medium text-dashMuted mb-1.5">
-            Current monthly cost (£) <span className="text-dashMuted text-xs">(optional)</span>
+            Current monthly cost (€) <span className="text-dashMuted text-xs">(optional)</span>
           </label>
           <input
             type="number"
@@ -326,19 +326,19 @@ export default function AlternativesPage({}: {  }) {
                 <div className="bg-dashSurface rounded-lg p-4">
                   <p className="text-xs text-dashMuted mb-1">Current (Annual)</p>
                   <p className="text-xl font-bold text-dashText">
-                    £{report.costSavingSummary.currentAnnualCost.toLocaleString()}
+                    €{report.costSavingSummary.currentAnnualCost.toLocaleString()}
                   </p>
                 </div>
                 <div className="bg-dashSurface rounded-lg p-4">
                   <p className="text-xs text-dashMuted mb-1">Recommended (Annual)</p>
                   <p className="text-xl font-bold text-dashText">
-                    £{report.costSavingSummary.recommendedAnnualCost.toLocaleString()}
+                    €{report.costSavingSummary.recommendedAnnualCost.toLocaleString()}
                   </p>
                 </div>
                 <div className="bg-green-400/5 border border-green-400/20 rounded-lg p-4">
                   <p className="text-xs text-dashMuted mb-1">Annual Saving</p>
                   <p className="text-xl font-bold text-green-400">
-                    £{report.costSavingSummary.annualSaving.toLocaleString()}
+                    €{report.costSavingSummary.annualSaving.toLocaleString()}
                   </p>
                 </div>
               </div>

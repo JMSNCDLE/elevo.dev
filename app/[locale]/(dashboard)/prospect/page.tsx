@@ -44,7 +44,7 @@ const TOOL_CARDS = [
     iconBg: 'bg-accent/10',
     iconColor: 'text-accent',
     title: 'AI Agent Build Brief',
-    sub: "Turn any client's problem into a complete AI build brief. What agencies charge £5,000–£50,000 for.",
+    sub: "Turn any client's problem into a complete AI build brief. What agencies charge €5,000–€50,000 for.",
     steps: ['Enter problem', 'Build brief', 'Send to client'],
     btnLabel: 'Build Agent Brief →',
     href: '/prospect/agent-builder',

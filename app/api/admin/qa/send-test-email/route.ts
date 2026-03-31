@@ -128,7 +128,7 @@ function buildTestEmail(type: 'confirmation' | 'receipt' | 'onboarding', email: 
               </tr>
               <tr>
                 <td style="padding:12px 16px;font-size:13px;color:#64748B;font-weight:600">Amount</td>
-                <td style="padding:12px 16px;font-size:13px;color:#0F172A;text-align:right">£79.00</td>
+                <td style="padding:12px 16px;font-size:13px;color:#0F172A;text-align:right">€79.00</td>
               </tr>
               <tr style="background:#F8FAFC">
                 <td style="padding:12px 16px;font-size:13px;color:#64748B;font-weight:600">Invoice</td>

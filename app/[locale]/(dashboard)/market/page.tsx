@@ -33,7 +33,7 @@ interface BusinessProfile {
 
 const PLATFORMS = ['TikTok', 'Instagram', 'Facebook', 'LinkedIn', 'YouTube Shorts', 'Pinterest', 'Twitter/X']
 const TIMEFRAME_OPTIONS = ['2 weeks', '4 weeks', '6 weeks', '8 weeks', '12 weeks']
-const BUDGET_OPTIONS = ['No paid ads', '£100-500/mo', '£500-1000/mo', '£1000-2500/mo', '£2500+/mo']
+const BUDGET_OPTIONS = ['No paid ads', '€100-500/mo', '€500-1000/mo', '€1000-2500/mo', '€2500+/mo']
 
 const LOADING_STEPS = [
   'Analysing your business profile...',

@@ -76,8 +76,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ result })
   } catch (err) {
-    console.error('Problem solver error:', err)
-    return NextResponse.json({ error: 'Analysis failed. Please try again.' }, { status: 500 })
+    const errorMsg = err instanceof Error ? err.message : String(err)
+    console.error('[problem-solver] FULL ERROR:', errorMsg, err)
+    return NextResponse.json({ error: `Analysis failed: ${errorMsg}` }, { status: 500 })
   }
 }
 

@@ -37,7 +37,7 @@ const AVAILABLE_TOOLS = [
 ]
 
 const BUDGETS = [
-  'Under £1k', '£1-5k', '£5-25k', '£25k+', 'Unknown',
+  'Under €1k', '€1-5k', '€5-25k', '€25k+', 'Unknown',
 ]
 
 const TIMELINES = [

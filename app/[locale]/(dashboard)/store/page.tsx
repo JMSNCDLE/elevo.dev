@@ -284,9 +284,9 @@ export default function StorePage({ params }: { params: Promise<{ locale: string
               <div className="space-y-6">
                 {/* Stat cards */}
                 <div className="grid grid-cols-4 gap-4">
-                  <StatCard label="Total Revenue" value={analytics.totalRevenue} prefix="£" trend="up" />
+                  <StatCard label="Total Revenue" value={analytics.totalRevenue} prefix="€" trend="up" />
                   <StatCard label="Total Orders" value={analytics.totalOrders} trend="up" />
-                  <StatCard label="Avg Order Value" value={analytics.avgOrderValue} prefix="£" trend="neutral" />
+                  <StatCard label="Avg Order Value" value={analytics.avgOrderValue} prefix="€" trend="neutral" />
                   <StatCard label="Conversion Rate" value={analytics.conversionRate} suffix="%" trend={analytics.conversionRate >= 2 ? 'up' : 'down'} />
                 </div>
 
@@ -311,7 +311,7 @@ export default function StorePage({ params }: { params: Promise<{ locale: string
                       <YAxis stroke="#4B5563" tick={{ fill: '#9CA3AF', fontSize: 11 }} />
                       <Tooltip
                         contentStyle={{ background: '#141B24', border: '1px solid #1A2332', borderRadius: 8, color: '#EEF2FF' }}
-                        formatter={(v: number) => [`£${v.toFixed(2)}`, 'Revenue']}
+                        formatter={(v: number) => [`€${v.toFixed(2)}`, 'Revenue']}
                       />
                       <Line type="monotone" dataKey="revenue" stroke={CHART_COLOR} strokeWidth={2} dot={false} />
                     </LineChart>
@@ -328,7 +328,7 @@ export default function StorePage({ params }: { params: Promise<{ locale: string
                           <p className="text-xs text-dashText truncate max-w-[200px]">{p.title}</p>
                           <div className="flex items-center gap-2">
                             <span className="text-xs text-dashMuted">{p.orders} orders</span>
-                            <span className="text-xs font-semibold text-green-400">£{p.revenue.toFixed(2)}</span>
+                            <span className="text-xs font-semibold text-green-400">€{p.revenue.toFixed(2)}</span>
                           </div>
                         </div>
                       ))}
@@ -365,7 +365,7 @@ export default function StorePage({ params }: { params: Promise<{ locale: string
                   <h3 className="text-sm font-semibold text-dashText mb-3">ELEVO Insights</h3>
                   <div className="space-y-2 text-xs text-dashMuted">
                     {analytics.avgOrderValue < 30 && (
-                      <p>• Your average order value is low. Consider adding product bundles or upsells to increase AOV above £50.</p>
+                      <p>• Your average order value is low. Consider adding product bundles or upsells to increase AOV above €50.</p>
                     )}
                     {analytics.refundRate > 5 && (
                       <p>• Your refund rate of {analytics.refundRate}% is above average. Review product quality and descriptions to set better expectations.</p>

@@ -190,7 +190,7 @@ export default function ClipPage({ params }: { params: Promise<{ locale: string 
               <input
                 value={videoTitle}
                 onChange={e => setVideoTitle(e.target.value)}
-                placeholder="e.g. How I built a £10k/month business in 6 months"
+                placeholder="e.g. How I built a €10k/month business in 6 months"
                 className="w-full bg-dashSurface2 border border-dashSurface2 rounded-lg px-3 py-2 text-sm text-dashText placeholder:text-dashMuted focus:outline-none focus:border-accent"
               />
             </div>

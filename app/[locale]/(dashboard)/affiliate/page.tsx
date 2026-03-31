@@ -192,8 +192,8 @@ export default function AffiliatePage() {
           <div className="grid grid-cols-3 gap-4">
             {[
               { label: 'Referrals', value: stats.totalReferrals, icon: Users, color: 'text-blue-400' },
-              { label: 'Pending', value: `£${(stats.pendingCommission ?? 0).toFixed(2)}`, icon: DollarSign, color: 'text-amber-400' },
-              { label: 'Paid', value: `£${(stats.paidCommission ?? 0).toFixed(2)}`, icon: TrendingUp, color: 'text-green-400' },
+              { label: 'Pending', value: `€${(stats.pendingCommission ?? 0).toFixed(2)}`, icon: DollarSign, color: 'text-amber-400' },
+              { label: 'Paid', value: `€${(stats.paidCommission ?? 0).toFixed(2)}`, icon: TrendingUp, color: 'text-green-400' },
             ].map(s => (
               <div key={s.label} className="bg-dashCard border border-dashSurface2 rounded-2xl p-4">
                 <s.icon size={16} className={`${s.color} mb-2`} />
@@ -242,7 +242,7 @@ export default function AffiliatePage() {
                 {payouts.map(p => (
                   <div key={p.id} className="flex items-center justify-between py-2 border-b border-dashSurface2 last:border-0">
                     <div>
-                      <p className="text-sm text-dashText">£{p.amount.toFixed(2)} {p.currency}</p>
+                      <p className="text-sm text-dashText">€{p.amount.toFixed(2)} {p.currency}</p>
                       <p className="text-xs text-dashMuted">
                         {p.paid_at ? new Date(p.paid_at).toLocaleDateString('en-GB') : new Date(p.created_at).toLocaleDateString('en-GB')}
                       </p>

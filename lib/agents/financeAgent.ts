@@ -176,7 +176,7 @@ Return ONLY valid JSON:
   "revenueGrowthOpportunities": [
     {
       "opportunity": "<opportunity>",
-      "estimatedUplift": "<e.g. +£2,000/month or +15%>",
+      "estimatedUplift": "<e.g. +€2,000/month or +15%>",
       "timeframe": "<e.g. 30 days, 3 months>",
       "effort": "low|medium|high"
     }

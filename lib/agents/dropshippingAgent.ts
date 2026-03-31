@@ -98,8 +98,8 @@ Return ONLY valid JSON array with exactly ${count} products:
     "productName": "exact product name",
     "category": "product category",
     "estimatedMargin": "e.g. 65%",
-    "buyPrice": "e.g. £4.50",
-    "sellPrice": "e.g. £29.99",
+    "buyPrice": "e.g. €4.50",
+    "sellPrice": "e.g. €29.99",
     "trendScore": 85,
     "demandSignals": ["TikTok viral with 2M views", "Amazon bestseller rank #42"],
     "competitionLevel": "low",
@@ -107,7 +107,7 @@ Return ONLY valid JSON array with exactly ${count} products:
       {
         "name": "Supplier name",
         "url": "actual URL",
-        "unitCost": "£4.50",
+        "unitCost": "€4.50",
         "shippingTime": "7-14 days",
         "moq": 1,
         "quality": "4.7/5 stars",
@@ -137,7 +137,7 @@ Return ONLY valid JSON array with exactly ${count} products:
         "primaryText": "full ad copy",
         "headline": "headline",
         "targeting": "audience targeting description",
-        "dailyBudget": "£20-£50"
+        "dailyBudget": "€20-€50"
       },
       "tiktokAd": {
         "hook": "first 3 seconds",
@@ -151,8 +151,8 @@ Return ONLY valid JSON array with exactly ${count} products:
       }
     },
     "projections": {
-      "monthlyRevenue": "£8,500",
-      "monthlyProfit": "£3,200",
+      "monthlyRevenue": "€8,500",
+      "monthlyProfit": "€3,200",
       "breakevenDays": 21,
       "roas": "3.2x",
       "cvr": "2.8%"
@@ -210,8 +210,8 @@ Return ONLY valid JSON matching the WinningProduct structure:
   "productName": "name",
   "category": "category",
   "estimatedMargin": "X%",
-  "buyPrice": "£X.XX",
-  "sellPrice": "£XX.XX",
+  "buyPrice": "€X.XX",
+  "sellPrice": "€XX.XX",
   "trendScore": 75,
   "demandSignals": [],
   "competitionLevel": "medium",
@@ -322,7 +322,7 @@ Return ONLY valid JSON array:
   {
     "name": "supplier name",
     "url": "actual URL",
-    "unitCost": "£X.XX",
+    "unitCost": "€X.XX",
     "shippingTime": "X-X days",
     "moq": 1,
     "quality": "4.5/5 stars",

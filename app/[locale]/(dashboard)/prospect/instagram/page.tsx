@@ -374,7 +374,7 @@ export default function InstagramAuditPage() {
                     <div className="space-y-2">
                       {audit.revenueOpportunities.map((opp, i) => (
                         <div key={i} className="flex items-start gap-2 text-sm">
-                          <span className="text-accent font-bold shrink-0">£</span>
+                          <span className="text-accent font-bold shrink-0">€</span>
                           <span className="text-dashText">{opp}</span>
                         </div>
                       ))}

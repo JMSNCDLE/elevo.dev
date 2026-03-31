@@ -434,7 +434,7 @@ export default function PAPage() {
               {/* Stats row */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <SummaryStatCard icon={<Users size={16} />} label="New Users" value={summary.todayStats.newUsers.toString()} color="text-blue-400" />
-                <SummaryStatCard icon={<DollarSign size={16} />} label="Revenue" value={`£${summary.todayStats.revenue.toFixed(2)}`} color="text-green-400" />
+                <SummaryStatCard icon={<DollarSign size={16} />} label="Revenue" value={`€${summary.todayStats.revenue.toFixed(2)}`} color="text-green-400" />
                 <SummaryStatCard icon={<Zap size={16} />} label="Credits Used" value={summary.todayStats.credits_used.toString()} color="text-purple-400" />
                 <SummaryStatCard icon={<AlertTriangle size={16} />} label="Errors" value={summary.todayStats.errors.toString()} color={summary.todayStats.errors > 0 ? 'text-red-400' : 'text-green-400'} />
               </div>

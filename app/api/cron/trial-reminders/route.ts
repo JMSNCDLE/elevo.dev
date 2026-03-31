@@ -30,7 +30,7 @@ ${emailDivider()}
   <li>No recibirás más informes semanales</li>
   <li>No podrás generar más contenido</li>
 </ul>
-<p>El plan Launch cuesta solo £39/mes — menos que una hora con un consultor de marketing.</p>
+<p>El plan Launch cuesta solo €39/mes — menos que una hora con un consultor de marketing.</p>
 ${emailButton('Mantener mi equipo de IA →', `${APP_URL}/es/pricing`)}
 <p style="font-size:13px;color:#71717a">¿Preguntas? Responde a este correo.</p>`
     : `<h2 style="color:#18181b;font-size:22px;margin:0 0 16px">Your free trial ends tomorrow</h2>
@@ -49,7 +49,7 @@ ${emailDivider()}
   <li>Weekly content briefs will stop</li>
   <li>You won't be able to generate new content</li>
 </ul>
-<p>The Launch plan is just £39/month — less than one hour with a marketing consultant.</p>
+<p>The Launch plan is just €39/month — less than one hour with a marketing consultant.</p>
 ${emailButton('Keep my AI team →', `${APP_URL}/en/pricing`)}
 <p style="font-size:13px;color:#71717a">Questions? Reply to this email.</p>`
 

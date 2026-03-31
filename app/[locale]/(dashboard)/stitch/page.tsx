@@ -651,7 +651,7 @@ export default function StitchPage() {
     </div>
     <div class="bg-gray-900 rounded-2xl p-6 shadow-2xl">
       <div class="space-y-3">
-        <div class="flex items-center gap-3 bg-white/5 rounded-lg p-3"><div class="w-2 h-2 rounded-full bg-green-400"></div><span class="text-white text-sm">Revenue this month: £12,400</span></div>
+        <div class="flex items-center gap-3 bg-white/5 rounded-lg p-3"><div class="w-2 h-2 rounded-full bg-green-400"></div><span class="text-white text-sm">Revenue this month: €12,400</span></div>
         <div class="flex items-center gap-3 bg-white/5 rounded-lg p-3"><div class="w-2 h-2 rounded-full bg-indigo-400"></div><span class="text-white text-sm">42 new leads generated</span></div>
         <div class="flex items-center gap-3 bg-white/5 rounded-lg p-3"><div class="w-2 h-2 rounded-full bg-yellow-400"></div><span class="text-white text-sm">AI running 12 tasks today</span></div>
       </div>
@@ -738,7 +738,7 @@ export default function StitchPage() {
   <div class="max-w-3xl mx-auto">
     <div class="flex justify-center gap-8 mb-10">
       <div><p class="text-3xl font-black text-white">400+</p><p class="text-gray-400 text-sm">Businesses</p></div>
-      <div><p class="text-3xl font-black text-white">£1.2M</p><p class="text-gray-400 text-sm">Revenue driven</p></div>
+      <div><p class="text-3xl font-black text-white">€1.2M</p><p class="text-gray-400 text-sm">Revenue driven</p></div>
       <div><p class="text-3xl font-black text-white">21</p><p class="text-gray-400 text-sm">AI agents</p></div>
     </div>
     <h2 class="text-5xl font-black text-white mb-6">Ready to grow?</h2>

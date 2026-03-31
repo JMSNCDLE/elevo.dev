@@ -112,7 +112,7 @@ Return a comprehensive JSON report:
       "risk": "low",
       "conflicts": ["list any conflicting marks found"],
       "recommendedClasses": [42, 35],
-      "estimatedCost": "£200-400",
+      "estimatedCost": "€200-400",
       "estimatedTimeline": "4-6 months",
       "filingPriority": "urgent",
       "notes": "First-to-file jurisdiction. File immediately."
@@ -139,7 +139,7 @@ Return a comprehensive JSON report:
       "step": 1,
       "jurisdiction": "UK IPO",
       "timeline": "File immediately",
-      "cost": "£200-400",
+      "cost": "€200-400",
       "action": "File UK trademark application for Classes 35, 42"
     }
   ],
@@ -153,7 +153,7 @@ Return a comprehensive JSON report:
       "strategy": "Domain fortress",
       "description": "Register all TLD variants + common misspellings",
       "timeToImplement": "This week",
-      "cost": "£50-100/year"
+      "cost": "€50-100/year"
     }
   ],
   "monitoring": {
@@ -192,7 +192,7 @@ Be specific to the "${brandName}" brand in the AI/SaaS space. Include real filin
           risk: 'low',
           conflicts: [],
           recommendedClasses: [35, 42],
-          estimatedCost: '£200–400',
+          estimatedCost: '€200–400',
           estimatedTimeline: '4–6 months',
           filingPriority: 'urgent',
           notes: 'File first — UK is first-to-file. Classes 35 (marketing) and 42 (software).',
@@ -254,7 +254,7 @@ Be specific to the "${brandName}" brand in the AI/SaaS space. Include real filin
           step: 1,
           jurisdiction: 'UK IPO',
           timeline: 'File this week',
-          cost: '£200–400',
+          cost: '€200–400',
           action: 'File UK trademark for Classes 35 + 42',
         },
         {
@@ -284,7 +284,7 @@ Be specific to the "${brandName}" brand in the AI/SaaS space. Include real filin
           strategy: 'Domain fortress',
           description: 'Register elevo.com, elevo.co.uk, getelevo.com, tryelevo.com, elevoapp.com',
           timeToImplement: 'This week',
-          cost: '~£50–100/year',
+          cost: '~€50–100/year',
         },
         {
           strategy: 'Social handle lock-in',

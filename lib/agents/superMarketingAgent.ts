@@ -195,7 +195,7 @@ Return ONLY valid JSON matching this exact structure:
         "name": "Campaign name",
         "platform": "Meta",
         "objective": "Lead generation",
-        "budget": "£X/day",
+        "budget": "€X/day",
         "audience": "Audience description",
         "creativeDirection": "What the ad looks/sounds like",
         "agentBrief": "Brief for ELEVO Ads Pro™"

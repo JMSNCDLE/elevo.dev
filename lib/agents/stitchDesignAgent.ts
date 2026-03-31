@@ -196,7 +196,7 @@ export async function generateFullWebsite(
     max_tokens: 12000,
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('high'),
-    system: `You are ELEVO Stitch™ (Mila) — a full-stack web designer who builds complete, beautiful websites for local businesses. You create production-ready HTML/Tailwind websites that look like they cost £5,000+.
+    system: `You are ELEVO Stitch™ (Mila) — a full-stack web designer who builds complete, beautiful websites for local businesses. You create production-ready HTML/Tailwind websites that look like they cost €5,000+.
 
 Style: ${style}
 Business locale: ${locale}

@@ -37,7 +37,7 @@ export default async function BillingPage({
     .single()
 
   const currencySymbol = (currency: string) =>
-    currency === 'gbp' ? '£' : currency === 'eur' ? '€' : '$'
+    currency === 'gbp' ? '€' : currency === 'eur' ? '€' : '$'
 
   // Calculate next billing date
   const today = new Date()
@@ -70,7 +70,7 @@ export default async function BillingPage({
             <div>
               <p className="text-sm text-dashMuted">Next payment</p>
               <p className="text-xl font-bold text-dashText">
-                £{planPrice.toFixed(2)} on {nextBillingDisplay}
+                €{planPrice.toFixed(2)} on {nextBillingDisplay}
               </p>
             </div>
             <div className="flex gap-3">

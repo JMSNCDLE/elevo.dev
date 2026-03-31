@@ -80,7 +80,7 @@ SITUATION:
 ${request.situation}
 
 Category: ${request.category}
-${request.currentCost ? `Current cost: ${request.businessProfile.country === 'United Kingdom' ? '£' : '$'}${request.currentCost} per month` : ''}
+${request.currentCost ? `Current cost: ${request.businessProfile.country === 'United Kingdom' ? '€' : '$'}${request.currentCost} per month` : ''}
 
 Search the web for real, currently available alternatives. Find actual products, services, or approaches with real pricing. Evaluate each one specifically for a ${request.businessProfile.category} business.
 
@@ -92,8 +92,8 @@ Return ONLY valid JSON:
     {
       "name": "<specific product, service, or approach name>",
       "type": "<e.g. SaaS Tool, Freelancer, Open Source, Process Change, Supplier>",
-      "estimatedCost": "<specific pricing, e.g. £29/month or Free>",
-      "estimatedSaving": "<saving vs current situation, e.g. £150/month or 5 hours/week>",
+      "estimatedCost": "<specific pricing, e.g. €29/month or Free>",
+      "estimatedSaving": "<saving vs current situation, e.g. €150/month or 5 hours/week>",
       "pros": ["<specific pro 1>", "<specific pro 2>", "<specific pro 3>"],
       "cons": ["<specific con 1>", "<specific con 2>"],
       "implementationEffort": "easy|medium|hard",

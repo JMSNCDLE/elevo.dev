@@ -11,9 +11,9 @@ import type { ViralStrategy } from '@/lib/agents/viralMarketingAgent'
 const PLATFORMS = ['TikTok', 'Instagram', 'Facebook', 'YouTube Shorts', 'LinkedIn', 'Twitter/X']
 const BUDGET_OPTIONS = [
   { value: 'zero', label: 'Zero budget (organic only)' },
-  { value: 'low', label: 'Low (£50-200/mo)' },
-  { value: 'medium', label: 'Medium (£200-500/mo)' },
-  { value: 'high', label: 'High (£500+/mo)' },
+  { value: 'low', label: 'Low (€50-200/mo)' },
+  { value: 'medium', label: 'Medium (€200-500/mo)' },
+  { value: 'high', label: 'High (€500+/mo)' },
 ]
 const GOAL_OPTIONS = [
   { value: 'followers', label: 'Grow followers' },

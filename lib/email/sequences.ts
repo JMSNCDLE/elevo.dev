@@ -90,9 +90,9 @@ ELEVO Team`,
 
 Quick question: do you know your ROAS?
 
-Return on Ad Spend = how much revenue you get back for every £1 you spend on ads.
+Return on Ad Spend = how much revenue you get back for every €1 you spend on ads.
 
-The industry average for local service businesses is 4:1. That means £1 spent → £4 earned.
+The industry average for local service businesses is 4:1. That means €1 spent → €4 earned.
 
 Most businesses we analyse are at 1.8:1 — they're losing money on ads without realising it.
 
@@ -121,7 +121,7 @@ Here's what you've built so far:
 
 If you don't upgrade, you keep access to all your data — but your agents stop working, your CRM automation pauses, and your weekly content briefs stop.
 
-The Launch plan is £39/month — less than one hour with a marketing consultant.
+The Launch plan is €39/month — less than one hour with a marketing consultant.
 
 [Keep ELEVO Working →] {{appUrl}}/pricing
 

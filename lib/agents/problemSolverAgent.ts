@@ -35,7 +35,7 @@ Services: ${business.services.join(', ')}
 USPs: ${business.unique_selling_points.join(', ')}
 ${business.description ? `Description: ${business.description}` : ''}
 ${business.target_audience ? `Target audience: ${business.target_audience}` : ''}
-${context?.totalRevenue ? `Total recorded revenue: £${context.totalRevenue}` : ''}
+${context?.totalRevenue ? `Total recorded revenue: €${context.totalRevenue}` : ''}
 ${context?.totalContacts ? `Total contacts: ${context.totalContacts}` : ''}
 ${context?.recentJobs ? `Recent jobs (30 days): ${context.recentJobs}` : ''}
 

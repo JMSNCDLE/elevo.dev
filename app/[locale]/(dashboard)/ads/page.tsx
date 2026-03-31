@@ -198,7 +198,7 @@ export default function AdsPage() {
                   <div className="flex gap-2">
                     <select value={currency} onChange={e => setCurrency(e.target.value)}
                       className="w-20 bg-dashBg border border-dashSurface2 rounded-lg px-2 py-2 text-sm text-dashText focus:outline-none focus:border-accent">
-                      <option value="GBP">£</option>
+                      <option value="GBP">€</option>
                       <option value="EUR">€</option>
                       <option value="USD">$</option>
                     </select>

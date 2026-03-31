@@ -31,8 +31,8 @@ Business context:
 - Services: ${business.services.join(', ')}
 
 Financial data:
-${params.monthlyRevenue ? `- Monthly revenue: £${params.monthlyRevenue}` : ''}
-${params.monthlyExpenses ? `- Monthly expenses: £${params.monthlyExpenses}` : ''}
+${params.monthlyRevenue ? `- Monthly revenue: €${params.monthlyRevenue}` : ''}
+${params.monthlyExpenses ? `- Monthly expenses: €${params.monthlyExpenses}` : ''}
 ${params.topExpenses ? `- Top expense categories: ${params.topExpenses}` : ''}
 ${params.revenueBreakdown ? `- Revenue breakdown: ${params.revenueBreakdown}` : ''}
 - Primary financial concern: ${params.financialConcern}

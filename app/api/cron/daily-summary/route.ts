@@ -39,7 +39,7 @@ export async function GET(request: Request) {
 
 TODAY'S STATS
 New Users: ${summary.todayStats.newUsers}
-Revenue: £${summary.todayStats.revenue.toFixed(2)}
+Revenue: €${summary.todayStats.revenue.toFixed(2)}
 Credits Used: ${summary.todayStats.credits_used}
 Errors: ${summary.todayStats.errors}
 
@@ -59,7 +59,7 @@ View full dashboard: ${process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.dev'}/a
 
     // WhatsApp daily summary to James
     const totalUsers = summary.todayStats.newUsers
-    const revenueStr = `£${summary.todayStats.revenue.toFixed(2)}`
+    const revenueStr = `€${summary.todayStats.revenue.toFixed(2)}`
     sendWhatsAppToJames(JAMES_ALERTS.dailySummary(totalUsers, revenueStr, totalUsers)).catch(console.error)
 
     return NextResponse.json({ ok: true, date: new Date().toISOString().split('T')[0] })

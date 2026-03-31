@@ -46,13 +46,22 @@ type ExtendedParams = Record<string, any>
  * 1. Always uses the non-streaming overload (returns Message, not Stream)
  * 2. Supports extended params (thinking, effort) not yet typed in SDK 0.32
  */
-export function createMessage(params: ExtendedParams): APIPromise<Anthropic.Message> {
+export async function createMessage(params: ExtendedParams): Promise<Anthropic.Message> {
   const client = getClient()
   // Strip unsupported params before sending to SDK
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { thinking, effort, ...safeParams } = params
+  const { thinking, effort, betas, ...safeParams } = params
+
+  console.log('[createMessage] Calling Anthropic:', {
+    model: safeParams.model,
+    max_tokens: safeParams.max_tokens,
+    messageCount: safeParams.messages?.length,
+    hasSystem: !!safeParams.system,
+    stream: !!safeParams.stream,
+  })
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (client.messages as any).create({ stream: false, ...safeParams }) as APIPromise<Anthropic.Message>
+  return (client.messages as any).create(safeParams)
 }
 
 // ─── Thinking Config ──────────────────────────────────────────────────────────

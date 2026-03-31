@@ -90,7 +90,7 @@ export default function CampaignsPage({}: {  }) {
             </div>
             <div>
               <label className="block text-sm font-medium text-dashMuted mb-1.5">Budget</label>
-              <input type="text" value={budget} onChange={e => setBudget(e.target.value)} placeholder="e.g. £200 or organic" className="w-full bg-dashSurface border border-dashSurface2 rounded-lg px-3 py-2.5 text-sm text-dashText placeholder:text-dashMuted focus:outline-none focus:ring-2 focus:ring-accent" />
+              <input type="text" value={budget} onChange={e => setBudget(e.target.value)} placeholder="e.g. €200 or organic" className="w-full bg-dashSurface border border-dashSurface2 rounded-lg px-3 py-2.5 text-sm text-dashText placeholder:text-dashMuted focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
           </div>
           <div>

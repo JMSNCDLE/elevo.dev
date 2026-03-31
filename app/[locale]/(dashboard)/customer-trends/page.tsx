@@ -163,7 +163,7 @@ export default function CustomerTrendsPage({}: {  }) {
                 <div>
                   <p className="text-sm font-semibold text-red-400">
                     {report.churnRisk.highRisk} customers at churn risk —{' '}
-                    £{report.churnRisk.estimatedRevenueLost.toLocaleString()} potential revenue loss
+                    €{report.churnRisk.estimatedRevenueLost.toLocaleString()} potential revenue loss
                   </p>
                 </div>
               </div>
@@ -206,7 +206,7 @@ export default function CustomerTrendsPage({}: {  }) {
                         <p className="text-xs text-dashMuted">{seg.percentageOfBase.toFixed(1)}% of base</p>
                       </div>
                     </div>
-                    <p className="text-xs text-dashMuted mb-3">Avg value: £{seg.averageValue.toLocaleString()}</p>
+                    <p className="text-xs text-dashMuted mb-3">Avg value: €{seg.averageValue.toLocaleString()}</p>
                     {seg.characteristics.length > 0 && (
                       <div className="flex flex-wrap gap-1 mb-3">
                         {seg.characteristics.map((c, j) => (
@@ -287,11 +287,11 @@ export default function CustomerTrendsPage({}: {  }) {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="bg-dashSurface rounded-lg p-4 border border-dashSurface2">
                 <p className="text-xs text-dashMuted mb-1">Average LTV</p>
-                <p className="text-xl font-bold text-dashText">£{report.lifetimeValueAnalysis.averageLTV.toLocaleString()}</p>
+                <p className="text-xl font-bold text-dashText">€{report.lifetimeValueAnalysis.averageLTV.toLocaleString()}</p>
               </div>
               <div className="bg-dashSurface rounded-lg p-4 border border-dashSurface2">
                 <p className="text-xs text-dashMuted mb-1">Top Segment LTV</p>
-                <p className="text-xl font-bold text-accent">£{report.lifetimeValueAnalysis.topSegmentLTV.toLocaleString()}</p>
+                <p className="text-xl font-bold text-accent">€{report.lifetimeValueAnalysis.topSegmentLTV.toLocaleString()}</p>
               </div>
               <div className="bg-dashSurface rounded-lg p-4 border border-dashSurface2 sm:col-span-1">
                 <p className="text-xs text-dashMuted mb-1">Growth Opportunity</p>

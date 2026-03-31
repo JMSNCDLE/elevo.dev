@@ -24,19 +24,19 @@ export async function POST(request: Request) {
 
   switch (type) {
     case 'newSale':
-      message = JAMES_ALERTS.newSale(data.plan ?? 'unknown', data.amount ?? '£0', data.email ?? 'unknown')
+      message = JAMES_ALERTS.newSale(data.plan ?? 'unknown', data.amount ?? '€0', data.email ?? 'unknown')
       break
     case 'newUser':
       message = JAMES_ALERTS.newUser(data.email ?? 'unknown', data.country ?? 'unknown')
       break
     case 'paymentFailed':
-      message = JAMES_ALERTS.paymentFailed(data.email ?? 'unknown', data.amount ?? '£0')
+      message = JAMES_ALERTS.paymentFailed(data.email ?? 'unknown', data.amount ?? '€0')
       break
     case 'criticalError':
       message = JAMES_ALERTS.criticalError(data.error ?? 'Unknown error', data.page ?? 'unknown')
       break
     case 'dailySummary':
-      message = JAMES_ALERTS.dailySummary(data.users ?? 0, data.revenue ?? '£0', data.newSignups ?? 0)
+      message = JAMES_ALERTS.dailySummary(data.users ?? 0, data.revenue ?? '€0', data.newSignups ?? 0)
       break
     case 'competitorAlert':
       message = JAMES_ALERTS.competitorAlert(data.competitor ?? 'unknown', data.action ?? 'unknown')

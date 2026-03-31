@@ -507,7 +507,7 @@ export default function CEOPage() {
             <h2 className="text-base font-semibold text-dashText mb-4">Build your growth strategy</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
               <div>
-                <label className="text-xs text-dashMuted mb-1 block">Current monthly revenue (£)</label>
+                <label className="text-xs text-dashMuted mb-1 block">Current monthly revenue (€)</label>
                 <input
                   type="number"
                   value={currentMRR}
@@ -517,7 +517,7 @@ export default function CEOPage() {
                 />
               </div>
               <div>
-                <label className="text-xs text-dashMuted mb-1 block">Target monthly revenue (£)</label>
+                <label className="text-xs text-dashMuted mb-1 block">Target monthly revenue (€)</label>
                 <input
                   type="number"
                   value={targetMRR}
@@ -640,12 +640,12 @@ export default function CEOPage() {
                 </select>
               </div>
               <div>
-                <label className="text-xs text-dashMuted mb-1 block">Ask amount (e.g. £250,000)</label>
+                <label className="text-xs text-dashMuted mb-1 block">Ask amount (e.g. €250,000)</label>
                 <input
                   type="text"
                   value={askAmount}
                   onChange={e => setAskAmount(e.target.value)}
-                  placeholder="e.g. £500,000"
+                  placeholder="e.g. €500,000"
                   className="w-full bg-dashSurface border border-dashSurface2 rounded-lg px-3 py-2 text-dashText text-sm"
                 />
               </div>

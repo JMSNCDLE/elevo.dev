@@ -141,7 +141,7 @@ Return ONLY valid JSON with this exact structure:
     "framework": "Recommended framework and why",
     "database": "Database recommendation",
     "hosting": "Hosting recommendation",
-    "estimatedMonthlyCost": "£X-Y per month breakdown"
+    "estimatedMonthlyCost": "€X-Y per month breakdown"
   },
   "buildPlan": [
     {
@@ -162,9 +162,9 @@ Return ONLY valid JSON with this exact structure:
     "goLiveChecklist": ["Item 1", "Item 2", "Item 3", "..."]
   },
   "commercial": {
-    "estimatedBuildCost": "£X,XXX",
+    "estimatedBuildCost": "€X,XXX",
     "estimatedTimeline": "X weeks",
-    "monthlySupportCost": "£XXX/month",
+    "monthlySupportCost": "€XXX/month",
     "roi": "Expected ROI description",
     "paybackPeriod": "e.g. 3 months"
   },

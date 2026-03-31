@@ -98,7 +98,7 @@ export default async function MissionControlPage({ params }: { params: Promise<{
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         <Link href={`/${locale}/analytics`} className="bg-dashCard border border-dashSurface2 rounded-xl p-3 hover:border-accent/30 transition-colors group">
           <p className="text-xs text-dashMuted mb-0.5">Revenue this month</p>
-          <p className="text-xl font-bold text-dashText">£{revenueThisMonth.toFixed(0)}</p>
+          <p className="text-xl font-bold text-dashText">€{revenueThisMonth.toFixed(0)}</p>
           <p className="text-xs text-accent group-hover:underline mt-0.5 flex items-center gap-0.5">
             <BarChart2 size={10} /> View analytics
           </p>
@@ -250,7 +250,7 @@ export default async function MissionControlPage({ params }: { params: Promise<{
                 <TrendingUp size={16} className="text-accent mt-0.5 shrink-0" />
                 <div>
                   <p className="text-sm font-medium text-dashText">Upgrade to Launch</p>
-                  <p className="text-xs text-dashMuted mt-0.5">100 credits/month + CRM. From £39/mo.</p>
+                  <p className="text-xs text-dashMuted mt-0.5">100 credits/month + CRM. From €39/mo.</p>
                 </div>
               </div>
             </Link>

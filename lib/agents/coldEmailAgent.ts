@@ -209,7 +209,7 @@ Return ONLY valid JSON:
     }
 
     const toolUses = response.content.filter(
-      (b): b is { type: 'tool_use'; id: string; name: string; input: unknown } =>
+      (b: { type: string }): b is { type: 'tool_use'; id: string; name: string; input: unknown } =>
         b.type === 'tool_use'
     )
 
@@ -218,7 +218,7 @@ Return ONLY valid JSON:
       break
     }
 
-    const toolResults = toolUses.map(t => ({
+    const toolResults = toolUses.map((t: { type: string; id: string; name: string; input: unknown }) => ({
       type: 'tool_result' as const,
       tool_use_id: t.id,
       content: `Search results for: ${JSON.stringify(t.input)}. [Web search results for ${input.businessName} in ${input.city}. Found business information, social presence, reviews, and industry context for personalisation.]`,

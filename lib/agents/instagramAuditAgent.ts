@@ -94,7 +94,7 @@ CRITICAL: Return ONLY valid JSON matching the InstagramAudit interface. No markd
 
 Search for their profile, recent posts, engagement rates, and competitors. Then build a complete audit JSON.
 
-For the demoPageContent.heroHeadline, make it specific and monetary — e.g. "Mario's Plumbing is missing £2,400/month from Instagram" or "Your Instagram could be booking 15 more jobs per month".
+For the demoPageContent.heroHeadline, make it specific and monetary — e.g. "Mario's Plumbing is missing €2,400/month from Instagram" or "Your Instagram could be booking 15 more jobs per month".
 
 Return as JSON with this exact structure (fill every field with real data from your research):
 {

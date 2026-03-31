@@ -220,8 +220,8 @@ Business locale: ${locale}`,
 Category: ${businessProfile.category}
 Location: ${businessProfile.city}, ${businessProfile.country}
 Services: ${businessProfile.services.join(', ')}
-Current MRR: £${currentMRR.toLocaleString()}
-Target MRR: £${targetMRR.toLocaleString()} (${multiplier.toFixed(1)}× growth)
+Current MRR: €${currentMRR.toLocaleString()}
+Target MRR: €${targetMRR.toLocaleString()} (${multiplier.toFixed(1)}× growth)
 Timeframe: ${timeframe}
 
 Build a comprehensive growth strategy to achieve this target. Research market benchmarks and growth tactics for this business category.
@@ -233,7 +233,7 @@ Return ONLY valid JSON:
       "lever": "Growth lever name",
       "description": "How it works for this business",
       "timeToImpact": "e.g. 30 days, 90 days",
-      "estimatedRevenue": "e.g. +£2,000/mo"
+      "estimatedRevenue": "e.g. +€2,000/mo"
     }
   ],
   "priorityMatrix": [
@@ -248,7 +248,7 @@ Return ONLY valid JSON:
     {
       "quarter": "Q1 2026",
       "milestone": "Milestone description",
-      "target": "e.g. £X MRR",
+      "target": "e.g. €X MRR",
       "keyActions": ["action1", "action2"]
     }
   ],
@@ -257,7 +257,7 @@ Return ONLY valid JSON:
       "role": "Role title",
       "when": "e.g. Month 3",
       "rationale": "Why this role at this point",
-      "estimatedCost": "e.g. £3,000/mo"
+      "estimatedCost": "e.g. €3,000/mo"
     }
   ],
   "financialProjections": [

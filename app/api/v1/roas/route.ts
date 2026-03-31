@@ -39,8 +39,8 @@ export async function POST(request: NextRequest) {
   const prompt = `Analyse the following ROAS data for ${bp?.name ?? 'a business'}:
 
 Platform: ${platform}
-Ad Spend: £${adSpend}
-Revenue: £${revenue}
+Ad Spend: €${adSpend}
+Revenue: €${revenue}
 ROAS: ${roas.toFixed(2)}x
 ${campaignData ? `Campaign data: ${JSON.stringify(campaignData)}` : ''}
 

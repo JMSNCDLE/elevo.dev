@@ -20,9 +20,9 @@ const DEMO_BUSINESS = {
 
 const DEMO_METRICS = [
   { label: 'Monthly calls', value: '41', icon: Phone, color: 'text-blue-600', bg: 'bg-blue-50' },
-  { label: 'Avg cost/lead', value: '£19', icon: DollarSign, color: 'text-green-600', bg: 'bg-green-50' },
+  { label: 'Avg cost/lead', value: '€19', icon: DollarSign, color: 'text-green-600', bg: 'bg-green-50' },
   { label: 'ROAS', value: '4.8:1', icon: TrendingUp, color: 'text-indigo-600', bg: 'bg-indigo-50' },
-  { label: 'Monthly ad spend', value: '£460', icon: BarChart2, color: 'text-orange-600', bg: 'bg-orange-50' },
+  { label: 'Monthly ad spend', value: '€460', icon: BarChart2, color: 'text-orange-600', bg: 'bg-orange-50' },
 ]
 
 const DEMO_RECENT_GENS = [
@@ -32,10 +32,10 @@ const DEMO_RECENT_GENS = [
 ]
 
 const DEMO_CAMPAIGNS = [
-  { name: 'Manchester Emergency Plumber', platform: 'Google', spend: '£180', calls: 18, roas: '5.2:1', status: 'winning' },
-  { name: 'Boiler Repair — Greater Manchester', platform: 'Google', spend: '£120', calls: 12, roas: '4.8:1', status: 'winning' },
-  { name: 'Plumber Near Me — Meta', platform: 'Meta', spend: '£100', calls: 8, roas: '3.1:1', status: 'paused' },
-  { name: 'Emergency Drain Unblocking', platform: 'Meta', spend: '£60', calls: 3, roas: '1.9:1', status: 'paused' },
+  { name: 'Manchester Emergency Plumber', platform: 'Google', spend: '€180', calls: 18, roas: '5.2:1', status: 'winning' },
+  { name: 'Boiler Repair — Greater Manchester', platform: 'Google', spend: '€120', calls: 12, roas: '4.8:1', status: 'winning' },
+  { name: 'Plumber Near Me — Meta', platform: 'Meta', spend: '€100', calls: 8, roas: '3.1:1', status: 'paused' },
+  { name: 'Emergency Drain Unblocking', platform: 'Meta', spend: '€60', calls: 3, roas: '1.9:1', status: 'paused' },
 ]
 
 const DEMO_CONTACTS = [
@@ -316,7 +316,7 @@ export default function DemoPage() {
             <div>
               <h2 className="text-xl font-bold text-gray-900">ELEVO ROAS™ Analysis</h2>
               <p className="text-sm text-gray-500 mt-0.5">
-                Mario&apos;s Plumbing · Total spend: <strong className="text-gray-700">£460</strong> ·
+                Mario&apos;s Plumbing · Total spend: <strong className="text-gray-700">€460</strong> ·
                 Overall ROAS: <strong className="text-green-700">4.8:1</strong> ·
                 Monthly calls: <strong className="text-gray-700">41</strong>
               </p>
@@ -330,7 +330,7 @@ export default function DemoPage() {
                 <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full mt-1 inline-block">Excellent</span>
               </div>
               <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm text-center">
-                <p className="text-3xl font-black text-gray-900">£460</p>
+                <p className="text-3xl font-black text-gray-900">€460</p>
                 <p className="text-xs text-gray-500 mt-1">Total ad spend</p>
               </div>
               <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm text-center">
@@ -388,7 +388,7 @@ export default function DemoPage() {
                 💡 ELEVO Recommendation
               </p>
               <p className="text-sm text-indigo-700">
-                Scale your 2 winning Google campaigns by 30% (from £300 → £390 combined budget).
+                Scale your 2 winning Google campaigns by 30% (from €300 → €390 combined budget).
                 Your Meta campaigns are below break-even — pause them and reallocate to Google Search.
                 Projected: +8 calls/month at the same cost-per-call.
               </p>

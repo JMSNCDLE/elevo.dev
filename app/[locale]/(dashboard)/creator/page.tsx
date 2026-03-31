@@ -185,7 +185,7 @@ export default function CreatorPage() {
                       <input
                         value={videoTopic}
                         onChange={e => setVideoTopic(e.target.value)}
-                        placeholder="e.g. How I made £10k in 30 days dropshipping"
+                        placeholder="e.g. How I made €10k in 30 days dropshipping"
                         className="w-full bg-[#141B24] border border-[#1E2A3B] rounded-lg px-3 py-2 text-sm text-[#EEF2FF] placeholder:text-[#64748B] focus:outline-none focus:border-[#6366F1]"
                       />
                     </div>

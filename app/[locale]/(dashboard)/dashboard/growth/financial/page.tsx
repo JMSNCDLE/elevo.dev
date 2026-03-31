@@ -77,11 +77,11 @@ export default function FinancialPage({}: {  }) {
         <div className="bg-dashCard rounded-xl border border-dashSurface2 p-6 space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-dashMuted mb-1.5">Monthly revenue (£)</label>
+              <label className="block text-sm font-medium text-dashMuted mb-1.5">Monthly revenue (€)</label>
               <input type="number" value={monthlyRevenue} onChange={e => setMonthlyRevenue(e.target.value)} placeholder="e.g. 8500" className="w-full bg-dashSurface border border-dashSurface2 rounded-lg px-3 py-2.5 text-sm text-dashText placeholder:text-dashMuted focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-dashMuted mb-1.5">Monthly expenses (£)</label>
+              <label className="block text-sm font-medium text-dashMuted mb-1.5">Monthly expenses (€)</label>
               <input type="number" value={monthlyExpenses} onChange={e => setMonthlyExpenses(e.target.value)} placeholder="e.g. 4200" className="w-full bg-dashSurface border border-dashSurface2 rounded-lg px-3 py-2.5 text-sm text-dashText placeholder:text-dashMuted focus:outline-none focus:ring-2 focus:ring-accent" />
             </div>
           </div>
