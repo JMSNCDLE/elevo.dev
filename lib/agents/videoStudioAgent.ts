@@ -4,6 +4,16 @@
 import { createMessage, MODELS, MAX_TOKENS } from './client'
 import type { BusinessProfile } from './types'
 
+function parseAgentJSON<T>(raw: string): T {
+  let cleaned = raw.replace(/```json?\n?/g, '').replace(/```\n?/g, '').trim()
+  try { return JSON.parse(cleaned) } catch {}
+  const match = cleaned.match(/\{[\s\S]*\}/)
+  if (match) {
+    try { return JSON.parse(match[0]) } catch {}
+  }
+  throw new Error('Failed to parse agent response as JSON')
+}
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface AvatarAdResult {
@@ -114,8 +124,7 @@ Return a JSON object with these exact fields:
   })
 
   const raw = message.content.find(b => b.type === 'text')?.text ?? '{}'
-  const json = raw.match(/\{[\s\S]*\}/)?.[0] ?? raw
-  return JSON.parse(json) as AvatarAdResult
+  return parseAgentJSON<AvatarAdResult>(raw)
 }
 
 // ─── Product URL to Video (Creatify-style) ────────────────────────────────────
@@ -170,8 +179,7 @@ Return a JSON object:
   })
 
   const raw = message.content.find(b => b.type === 'text')?.text ?? '{}'
-  const json = raw.match(/\{[\s\S]*\}/)?.[0] ?? raw
-  return JSON.parse(json) as ProductVideoResult
+  return parseAgentJSON<ProductVideoResult>(raw)
 }
 
 // ─── Voiceover Script (ElevenLabs-style) ─────────────────────────────────────
@@ -227,6 +235,5 @@ Return a JSON object:
   })
 
   const raw = message.content.find(b => b.type === 'text')?.text ?? '{}'
-  const json = raw.match(/\{[\s\S]*\}/)?.[0] ?? raw
-  return JSON.parse(json) as VoiceoverResult
+  return parseAgentJSON<VoiceoverResult>(raw)
 }

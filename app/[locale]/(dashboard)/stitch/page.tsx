@@ -86,7 +86,7 @@ export default function StitchPage() {
     setCompError('')
     setCompResult(null)
     try {
-      const res = await fetch(`/${locale}/api/stitch/component`, {
+      const res = await fetch(`/api/stitch/component`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ componentType, style: designStyle, description: compDescription, framework }),
@@ -109,7 +109,7 @@ export default function StitchPage() {
     setAnalyseError('')
     setAnalyseResult(null)
     try {
-      const res = await fetch(`/${locale}/api/stitch/analyse`, {
+      const res = await fetch(`/api/stitch/analyse`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ siteUrl, improvementGoal: improvementGoal || 'improve conversions and design' }),
@@ -130,7 +130,7 @@ export default function StitchPage() {
     setWebsiteError('')
     setWebsiteResult(null)
     try {
-      const res = await fetch(`/${locale}/api/stitch/website`, {
+      const res = await fetch(`/api/stitch/website`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pages: selectedPages, style: websiteStyle }),

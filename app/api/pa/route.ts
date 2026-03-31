@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { getClient, MODELS } from '@/lib/agents/client'
+import { sendEmail } from '@/lib/email/send'
+import { sendWhatsAppToJames } from '@/lib/notifications/whatsapp'
 
 const SYSTEM_PROMPT = `You are Aria, the ELEVO PA™ — a personal assistant for business owners using the ELEVO AI platform.
 
@@ -13,6 +15,14 @@ You help users with:
 3. **Business insights**: Summarise their recent activity — credits used, content generated, contacts added.
 4. **Quick actions**: Help draft emails, suggest posts, plan the day.
 5. **Reminders**: When asked to set a reminder, create a task with a due date.
+6. **Email**: When asked to send an email, respond with a JSON block:
+   \`\`\`json
+   {"action":"send_email","to":"email@example.com","subject":"...","body":"..."}
+   \`\`\`
+7. **WhatsApp to James**: When asked to contact/notify James or the owner, respond with:
+   \`\`\`json
+   {"action":"whatsapp_james","message":"..."}
+   \`\`\`
 
 Rules:
 - Be concise and action-oriented. Business owners are busy.
@@ -99,6 +109,29 @@ export async function POST(req: NextRequest) {
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ success: true })
+  }
+
+  // Handle direct email/WhatsApp actions
+  if (action === 'send_email') {
+    const { to, subject, body: emailBody } = body as { to?: string; subject?: string; body?: string; action: string }
+    if (!to || !subject || !emailBody) {
+      return NextResponse.json({ error: 'to, subject, and body are required' }, { status: 400 })
+    }
+    const result = await sendEmail({ to, subject, body: emailBody, agentName: 'PA Agent', userId: user.id })
+    return NextResponse.json({ success: result.success, action: 'email_sent' })
+  }
+
+  if (action === 'whatsapp_james') {
+    const { whatsappMessage } = body as { whatsappMessage?: string; action: string }
+    if (!whatsappMessage) {
+      return NextResponse.json({ error: 'whatsappMessage is required' }, { status: 400 })
+    }
+    try {
+      await sendWhatsAppToJames(whatsappMessage)
+      return NextResponse.json({ success: true, action: 'whatsapp_sent' })
+    } catch (err) {
+      return NextResponse.json({ error: 'WhatsApp send failed' }, { status: 500 })
+    }
   }
 
   // Chat with PA — stream response

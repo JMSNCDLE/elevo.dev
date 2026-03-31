@@ -8,7 +8,7 @@ import type { BusinessProfile } from '@/lib/agents/types'
 const CREDIT_COST = 10
 
 const Schema = z.object({
-  businessProfileId: z.string().uuid(),
+  businessProfileId: z.string().optional(),
   pages: z.array(z.string()).min(1),
   style: z.enum(['modern', 'minimal', 'bold', 'playful', 'luxury']),
   locale: z.string().default('en'),
@@ -37,13 +37,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Insufficient credits' }, { status: 402 })
   }
 
-  const { data: bp } = await supabase
-    .from('business_profiles')
-    .select('*')
-    .eq('id', parsed.data.businessProfileId)
-    .eq('user_id', user.id)
-    .single()
-
+  let bpQuery = supabase.from('business_profiles').select('*').eq('user_id', user.id)
+  if (parsed.data.businessProfileId) {
+    bpQuery = bpQuery.eq('id', parsed.data.businessProfileId)
+  } else {
+    bpQuery = bpQuery.eq('is_primary', true)
+  }
+  const { data: bp } = await bpQuery.single()
   if (!bp) return NextResponse.json({ error: 'Business profile not found' }, { status: 404 })
 
   try {
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
     // Save to stitch_designs
     await supabase.from('stitch_designs').insert({
       user_id: user.id,
-      business_profile_id: parsed.data.businessProfileId,
+      business_profile_id: bp.id,
       component_type: 'full-website',
       description: `Full website — pages: ${parsed.data.pages.join(', ')}`,
       code: result,

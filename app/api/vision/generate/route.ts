@@ -6,7 +6,7 @@ import { ADMIN_IDS } from '@/lib/admin'
 import type { BusinessProfile } from '@/lib/agents/types'
 
 const Schema = z.object({
-  businessProfileId: z.string().uuid(),
+  businessProfileId: z.string().min(1),
   imageType: z.enum([
     'ad_creative', 'social_graphic', 'product_mockup', 'brand_visual',
     'website_hero', 'logo_concept', 'restaurant_promo', 'lifestyle_photo',
@@ -47,12 +47,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Insufficient credits' }, { status: 402 })
   }
 
-  const { data: bp } = await supabase
-    .from('business_profiles')
-    .select('*')
-    .eq('id', parsed.data.businessProfileId)
-    .eq('user_id', user.id)
-    .single()
+  let bpQuery = supabase.from('business_profiles').select('*').eq('user_id', user.id)
+  if (parsed.data.businessProfileId === 'primary') {
+    bpQuery = bpQuery.eq('is_primary', true)
+  } else {
+    bpQuery = bpQuery.eq('id', parsed.data.businessProfileId)
+  }
+  const { data: bp } = await bpQuery.single()
   if (!bp) return NextResponse.json({ error: 'Business profile not found' }, { status: 404 })
 
   try {
