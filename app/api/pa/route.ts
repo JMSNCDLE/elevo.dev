@@ -134,6 +134,7 @@ User context:
 
   try {
     const client = getClient()
+    console.log('[pa] Starting stream with model:', MODELS.AGENT, 'messages:', messages.length)
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const stream = await (client.messages as any).create({
@@ -143,6 +144,7 @@ User context:
       messages,
       stream: true,
     })
+    console.log('[pa] Stream created successfully')
 
     const encoder = new TextEncoder()
     const readable = new ReadableStream({
@@ -168,7 +170,8 @@ User context:
       },
     })
   } catch (err) {
-    console.error('[pa]', err)
-    return NextResponse.json({ error: 'AI unavailable' }, { status: 500 })
+    const errorMsg = err instanceof Error ? err.message : String(err)
+    console.error('[pa] FULL ERROR:', errorMsg, err)
+    return NextResponse.json({ error: `AI error: ${errorMsg}` }, { status: 500 })
   }
 }

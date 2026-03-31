@@ -60,6 +60,7 @@ export function createToolRoute(systemPrompt: string) {
 
     try {
       const client = getClient()
+      console.log('[tool] Starting stream with model:', MODELS.AGENT, 'messages:', messages.length)
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const stream = await (client.messages as any).create({
@@ -69,6 +70,7 @@ export function createToolRoute(systemPrompt: string) {
         messages,
         stream: true,
       })
+      console.log('[tool] Stream created successfully')
 
       if (profile && !adminBypass) {
         await supabase
@@ -98,8 +100,9 @@ export function createToolRoute(systemPrompt: string) {
         headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-cache' },
       })
     } catch (err) {
-      console.error('[tool]', err)
-      return NextResponse.json({ error: 'AI unavailable' }, { status: 500 })
+      const errorMsg = err instanceof Error ? err.message : String(err)
+      console.error('[tool] FULL ERROR:', errorMsg, err)
+      return NextResponse.json({ error: `AI error: ${errorMsg}` }, { status: 500 })
     }
   }
 }

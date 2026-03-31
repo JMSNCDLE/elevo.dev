@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { createServerClient } from '@/lib/supabase/server'
 import { FileText, BookOpen, Share2, Star, Mail, Search, Zap, Users, TrendingUp, BarChart2 } from 'lucide-react'
 import { timeAgo } from '@/lib/utils'
+import { ADMIN_IDS } from '@/lib/admin'
 import ReturnBriefingComponent from '@/components/dashboard/ReturnBriefing'
 import RecommendedAgents from '@/components/dashboard/RecommendedAgents'
 import { generateReturnBriefing } from '@/lib/agents/projectMemoryAgent'
@@ -29,6 +30,8 @@ export default async function MissionControlPage({ params }: { params: Promise<{
   ])
 
   if (!profile) redirect(`/${locale}/login`)
+
+  const isAdminUser = ADMIN_IDS.includes(user.id)
 
   // Calculate return briefing
   let returnBriefing: ReturnBriefing | null = null
@@ -63,7 +66,7 @@ export default async function MissionControlPage({ params }: { params: Promise<{
 
   const contactCount = crmStats?.length ?? 0
   const lapsedCount = crmStats?.filter(c => c.status === 'lapsed' || c.status === 'at_risk').length ?? 0
-  const creditsRemaining = (profile.credits_limit ?? 20) - (profile.credits_used ?? 0)
+  const creditsRemaining = isAdminUser ? Infinity : (profile.credits_limit ?? 20) - (profile.credits_used ?? 0)
 
   const quickActions = [
     { href: `/${locale}/dashboard/content/gbp-posts`, label: 'GBP Post', icon: FileText, color: 'text-blue-400' },
@@ -113,7 +116,7 @@ export default async function MissionControlPage({ params }: { params: Promise<{
         <Link href={`/${locale}/analytics`} className="bg-dashCard border border-dashSurface2 rounded-xl p-3 hover:border-accent/30 transition-colors group">
           <p className="text-xs text-dashMuted mb-0.5">Credits used</p>
           <p className="text-xl font-bold text-dashText">
-            {profile.credits_used}/{profile.credits_limit}
+            {isAdminUser ? '∞ Unlimited' : `${profile.credits_used}/${profile.credits_limit}`}
           </p>
           <p className="text-xs text-accent group-hover:underline mt-0.5 flex items-center gap-0.5">
             <BarChart2 size={10} /> View analytics
@@ -133,9 +136,11 @@ export default async function MissionControlPage({ params }: { params: Promise<{
         <h1 className="text-3xl font-bold text-dashText">Mission Control</h1>
         <p className="text-dashMuted mt-1">
           Good {timeOfDay}{bp?.business_name ? `, ${bp.business_name}` : ''}.
-          {creditsRemaining > 0
-            ? ` You have ${creditsRemaining} credits remaining.`
-            : ' Your credits are used up — upgrade to continue.'}
+          {isAdminUser
+            ? ' You have unlimited credits.'
+            : creditsRemaining > 0
+              ? ` You have ${creditsRemaining} credits remaining.`
+              : ' Your credits are used up — upgrade to continue.'}
         </p>
       </div>
 
@@ -143,10 +148,10 @@ export default async function MissionControlPage({ params }: { params: Promise<{
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
         <div className="bg-dashCard rounded-xl border border-dashSurface2 p-4">
           <p className="text-xs text-dashMuted mb-1">Credits left</p>
-          <p className={`text-2xl font-bold ${creditsRemaining > 10 ? 'text-green-400' : creditsRemaining > 3 ? 'text-amber-400' : 'text-red-400'}`}>
-            {creditsRemaining}
+          <p className={`text-2xl font-bold ${isAdminUser ? 'text-indigo-400' : creditsRemaining > 10 ? 'text-green-400' : creditsRemaining > 3 ? 'text-amber-400' : 'text-red-400'}`}>
+            {isAdminUser ? '∞' : creditsRemaining}
           </p>
-          <p className="text-xs text-dashMuted">of {profile.credits_limit}</p>
+          <p className="text-xs text-dashMuted">{isAdminUser ? 'Unlimited' : `of ${profile.credits_limit}`}</p>
         </div>
         <div className="bg-dashCard rounded-xl border border-dashSurface2 p-4">
           <p className="text-xs text-dashMuted mb-1">Generations</p>
@@ -241,7 +246,7 @@ export default async function MissionControlPage({ params }: { params: Promise<{
           )}
 
           {/* Upgrade nudge for trial */}
-          {profile.plan === 'trial' && (
+          {!isAdminUser && profile.plan === 'trial' && (
             <Link
               href={`/${locale}/pricing`}
               className="block bg-accentDim rounded-xl border border-accent/20 p-5 hover:border-accent/40 transition-all"

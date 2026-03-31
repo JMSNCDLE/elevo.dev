@@ -58,7 +58,7 @@ export async function POST(request: Request) {
       // WhatsApp notification to James
       const { data: { user: buyerUser } } = await supabase.auth.admin.getUserById(userId)
       const buyerEmail = buyerUser?.email ?? 'unknown'
-      const amountTotal = session.amount_total ? `£${(session.amount_total / 100).toFixed(2)}` : '£0'
+      const amountTotal = session.amount_total ? `€${(session.amount_total / 100).toFixed(2)}` : '€0'
       sendWhatsAppToJames(JAMES_ALERTS.newSale(planId, amountTotal, buyerEmail)).catch(console.error)
       notifyNewSubscription(buyerEmail, planId, amountTotal).catch(console.error)
 
