@@ -48,20 +48,25 @@ type ExtendedParams = Record<string, any>
  */
 export function createMessage(params: ExtendedParams): APIPromise<Anthropic.Message> {
   const client = getClient()
+  // Strip unsupported params before sending to SDK
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { thinking, effort, ...safeParams } = params
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (client.messages as any).create({ stream: false, ...params }) as APIPromise<Anthropic.Message>
+  return (client.messages as any).create({ stream: false, ...safeParams }) as APIPromise<Anthropic.Message>
 }
 
 // ─── Thinking Config ──────────────────────────────────────────────────────────
 
 export function buildThinkingConfig() {
-  return { type: 'adaptive' as const }
+  // DISABLED: thinking parameter not supported in SDK 0.32.1
+  return {}
 }
 
 // ─── Output Config ────────────────────────────────────────────────────────────
 
-export function buildEffortConfig(effort: 'low' | 'medium' | 'high' | 'max') {
-  return { effort }
+export function buildEffortConfig(effort: 'low' | 'medium' | 'high' | 'max' = 'high') {
+  // DISABLED: effort parameter not supported in SDK 0.32.1
+  return {}
 }
 
 // ─── Tool: Web Search ─────────────────────────────────────────────────────────

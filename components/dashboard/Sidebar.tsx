@@ -368,20 +368,22 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
         <div className="flex items-center justify-between mb-1.5">
           <span className="text-xs text-dashMuted">Credits</span>
           <span className={`text-xs font-medium ${
-            creditsPct > 20 ? 'text-green-400' : creditsPct > 10 ? 'text-amber-400' : 'text-red-400'
+            (userId && isAdminId(userId)) ? 'text-indigo-400' : creditsPct > 20 ? 'text-green-400' : creditsPct > 10 ? 'text-amber-400' : 'text-red-400'
           }`}>
-            {creditsRemaining} left
+            {(userId && isAdminId(userId)) ? '∞ Unlimited' : `${creditsRemaining} left`}
           </span>
         </div>
-        <div className="w-full bg-dashCard rounded-full h-1.5">
-          <div
-            className={`h-1.5 rounded-full transition-all ${
-              creditsPct > 20 ? 'bg-green-500' : creditsPct > 10 ? 'bg-amber-500' : 'bg-red-500'
-            }`}
-            style={{ width: `${creditsPct}%` }}
-          />
-        </div>
-        {!isOrbit && (
+        {!(userId && isAdminId(userId)) && (
+          <div className="w-full bg-dashCard rounded-full h-1.5">
+            <div
+              className={`h-1.5 rounded-full transition-all ${
+                creditsPct > 20 ? 'bg-green-500' : creditsPct > 10 ? 'bg-amber-500' : 'bg-red-500'
+              }`}
+              style={{ width: `${creditsPct}%` }}
+            />
+          </div>
+        )}
+        {!isOrbit && !(userId && isAdminId(userId)) && (
           <Link
             href={`/${locale}/pricing`}
             className="mt-3 flex items-center justify-center gap-1.5 w-full py-2 bg-accent/10 text-accent text-xs font-semibold rounded-lg hover:bg-accent/20 transition-colors"
