@@ -1,18 +1,13 @@
 import { NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
+import { ADMIN_IDS } from '@/lib/admin'
 
 async function getAdminUser() {
   const supabase = await createServerClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { supabase, user: null, error: 'Unauthorised' }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .single()
-
-  if (!profile || profile.role !== 'admin') {
+  if (!ADMIN_IDS.includes(user.id)) {
     return { supabase, user: null, error: 'Admin access required' }
   }
 

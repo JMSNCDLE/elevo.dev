@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendEmail } from '@/lib/email/send'
 import { wrapEmail } from '@/lib/email/templates'
-import { isAdminId } from '@/lib/admin'
+import { ADMIN_IDS, isAdminId } from '@/lib/admin'
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.dev'
 const MAX_PROMO_PER_MONTH = 2
 
@@ -43,13 +43,12 @@ export async function POST(request: Request) {
   if (!adminCheck || !isAdminId(adminCheck)) {
     // Fallback: check via Supabase auth
     const cookieHeader = request.headers.get('cookie') ?? ''
-    // For server actions / API calls from dashboard, check profiles
+    // For server actions / API calls from dashboard, check admin IDs
     const authHeader = request.headers.get('authorization')
     if (authHeader) {
       const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''))
       if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-      const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-      if (profile?.role !== 'admin') return NextResponse.json({ error: 'Admin only' }, { status: 403 })
+      if (!ADMIN_IDS.includes(user.id)) return NextResponse.json({ error: 'Admin only' }, { status: 403 })
     } else {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }

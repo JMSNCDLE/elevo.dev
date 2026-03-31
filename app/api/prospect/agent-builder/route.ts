@@ -11,15 +11,17 @@ export async function POST(request: NextRequest) {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('plan, credits_remaining')
+    .select('plan, credits_used, credits_limit')
     .eq('id', user.id)
     .single()
   if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
 
-  if (!ADMIN_IDS.includes(user.id) && profile.plan !== 'galaxy') {
+  const isAdmin = ADMIN_IDS.includes(user.id)
+  if (!isAdmin && profile.plan !== 'galaxy') {
     return NextResponse.json({ error: 'Galaxy plan required' }, { status: 403 })
   }
-  if ((profile.credits_remaining ?? 0) < 5) {
+  const creditsRemaining = isAdmin ? Infinity : (profile.credits_limit ?? 20) - (profile.credits_used ?? 0)
+  if (creditsRemaining < 5) {
     return NextResponse.json({ error: 'Insufficient credits' }, { status: 402 })
   }
 
@@ -38,10 +40,12 @@ export async function POST(request: NextRequest) {
   try {
     const brief = await generateAgentBuildBrief(input, locale ?? 'en')
 
-    await supabase
-      .from('profiles')
-      .update({ credits_remaining: (profile.credits_remaining ?? 0) - 5 })
-      .eq('id', user.id)
+    if (!isAdmin) {
+      await supabase
+        .from('profiles')
+        .update({ credits_used: (profile.credits_used ?? 0) + 5 })
+        .eq('id', user.id)
+    }
 
     return NextResponse.json({ brief })
   } catch (err) {

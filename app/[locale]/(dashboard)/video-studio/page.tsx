@@ -31,7 +31,7 @@ const COMPARISON = [
   { feature: 'Avatar scripts', arcads: true, creatify: false, elevenlabs: false, elevo: true },
   { feature: 'URL to video', arcads: false, creatify: true, elevenlabs: false, elevo: true },
   { feature: 'Voiceover', arcads: false, creatify: false, elevenlabs: true, elevo: true },
-  { feature: 'Cinematic UGC', arcads: false, creatify: false, elevenlabs: false, elevo: true },
+  { feature: 'Cinematic UGC', arcads: false, creatify: false, elevenlabs: false, elevo: 'Coming soon' },
   { feature: 'CRM integration', arcads: false, creatify: false, elevenlabs: false, elevo: true },
   { feature: 'Auto-schedule', arcads: false, creatify: false, elevenlabs: false, elevo: true },
   { feature: 'Price', arcads: '€99+/mo', creatify: '€99+/mo', elevenlabs: '€22+/mo', elevo: '€29.99 add-on' },
@@ -232,17 +232,16 @@ export default function VideoStudioPage() {
               key: null,
               icon: Clapperboard,
               title: 'Cinematic UGC',
-              subtitle: 'Higgsfield style',
+              subtitle: 'Coming soon',
               desc: 'AI-generated cinematic scenes',
               best: 'Brand videos, social ads, product reveals',
               color: 'text-orange-400',
-              bg: 'hover:border-orange-500/40',
-              href: `/${locale}/ugc`,
+              bg: 'hover:border-orange-500/40 opacity-60 cursor-default',
             },
           ].map(item => (
             <div
               key={item.title}
-              onClick={() => item.href ? (window.location.href = item.href) : item.key && setMode(item.key)}
+              onClick={() => item.key && setMode(item.key)}
               className={cn(
                 'bg-dashCard border border-dashSurface2 rounded-xl p-5 cursor-pointer transition-all group',
                 item.bg

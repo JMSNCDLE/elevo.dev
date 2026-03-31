@@ -10,6 +10,7 @@ import {
   Plus, ChevronRight, X, MessageCircle, Phone,
 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 import { cn } from '@/lib/utils'
 import type { HealthCheckResult, DailySummary, PATask } from '@/lib/agents/paEngineerAgent'
 
@@ -92,8 +93,7 @@ export default function PAPage() {
   const checkAdmin = useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) { router.push(`/${locale}/login`); return }
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-    if (!profile || profile.role !== 'admin') {
+    if (!ADMIN_IDS.includes(user.id)) {
       router.push(`/${locale}/dashboard`)
     }
   }, [supabase, router, locale])

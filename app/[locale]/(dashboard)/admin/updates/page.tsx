@@ -8,6 +8,7 @@ import {
   Bot, ChevronRight, Star, CheckCircle2, Clock, BarChart2,
 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { ADMIN_IDS } from '@/lib/admin'
 import { cn } from '@/lib/utils'
 import type { AILandscapeReport } from '@/lib/agents/aiUpdateAgent'
 import { AGENT_PERSONAS } from '@/lib/agents/agentPersonas'
@@ -50,8 +51,7 @@ export default function AdminUpdatesPage() {
   const checkAdmin = useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) { router.push(`/${locale}/login`); return }
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-    if (!profile || profile.role !== 'admin') {
+    if (!ADMIN_IDS.includes(user.id)) {
       router.push(`/${locale}/dashboard`)
     }
   }, [supabase, router, locale])

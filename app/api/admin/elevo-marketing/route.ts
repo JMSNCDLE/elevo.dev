@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { generateViralPost } from '@/lib/agents/viralMarketingAgent'
+import { ADMIN_IDS } from '@/lib/admin'
 import type { BusinessProfile } from '@/lib/agents/types'
 
 export async function GET() {
@@ -8,8 +9,7 @@ export async function GET() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-  if (!profile || profile.role !== 'admin') return NextResponse.json({ error: 'Admin only' }, { status: 403 })
+  if (!ADMIN_IDS.includes(user.id)) return NextResponse.json({ error: 'Admin only' }, { status: 403 })
 
   const today = new Date()
   const queue = Array.from({ length: 7 }, (_, i) => {
@@ -90,8 +90,7 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const { data: profile } = await supabase.from('profiles').select('role, plan').eq('id', user.id).single()
-  if (!profile || profile.role !== 'admin') return NextResponse.json({ error: 'Admin only' }, { status: 403 })
+  if (!ADMIN_IDS.includes(user.id)) return NextResponse.json({ error: 'Admin only' }, { status: 403 })
 
   const { platform, topic } = await request.json()
 

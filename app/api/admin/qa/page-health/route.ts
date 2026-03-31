@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
+import { ADMIN_IDS } from '@/lib/admin'
 
 // GET /api/admin/qa/page-health?route=/en/dashboard/...
 // Admin only — checks if a dashboard route returns a non-error status
@@ -9,13 +10,7 @@ export async function GET(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .single()
-
-  if (!profile || profile.role !== 'admin') {
+  if (!ADMIN_IDS.includes(user.id)) {
     return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
   }
 

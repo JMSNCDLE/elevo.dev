@@ -18,7 +18,7 @@ const PLAN_CREDITS: Record<string, { credits_limit: number }> = {
   galaxy: { credits_limit: 999 },
 }
 
-const PLAN_PRICES_GBP: Record<string, number> = {
+const PLAN_PRICES_EUR: Record<string, number> = {
   launch: 39,
   orbit: 79,
   galaxy: 149,
@@ -80,7 +80,7 @@ export async function POST(request: Request) {
           .single()
 
         if (affiliate) {
-          const planPrice = PLAN_PRICES_GBP[planId] ?? 0
+          const planPrice = PLAN_PRICES_EUR[planId] ?? 0
           const tierLevel = (affiliate.tier as 1 | 2 | 3) ?? 1
           const commission = calculateCommission(planPrice, tierLevel)
 

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { Resend } from 'resend'
+import { ADMIN_IDS } from '@/lib/admin'
 
 // POST /api/admin/qa/send-test-email
 // Body: { type: 'confirmation' | 'receipt' | 'onboarding', email: string }
@@ -11,13 +12,7 @@ export async function POST(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .single()
-
-  if (!profile || profile.role !== 'admin') {
+  if (!ADMIN_IDS.includes(user.id)) {
     return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
   }
 
