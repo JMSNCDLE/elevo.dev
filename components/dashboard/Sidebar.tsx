@@ -14,6 +14,7 @@ import {
   ChevronRight, Library, Star, Paintbrush, ClipboardList, FlaskConical, Plug, Bell, Megaphone, Activity, ShoppingBag, Monitor, Camera, Phone, Server, UserPlus, GitBranch, Gift, CreditCard, Award, Package, Linkedin, Calendar,
 } from 'lucide-react'
 import { isAdminId } from '@/lib/admin'
+import { useTranslations } from 'next-intl'
 import { useAgentSearch } from '@/hooks/useAgentSearch'
 import AgentSearch from './AgentSearch'
 
@@ -49,6 +50,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
   const creditsRemaining = creditsLimit - creditsUsed
   const creditsPct = Math.max(0, (creditsRemaining / creditsLimit) * 100)
   const { open: openSearch } = useAgentSearch()
+  const ts = useTranslations('sidebar')
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -57,7 +59,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
 
   const sections: NavSection[] = [
     {
-      title: 'Overview',
+      title: ts('overview'),
       items: [
         { href: `/${locale}/dashboard`, label: 'Dashboard', icon: LayoutDashboard },
         { href: `/${locale}/chat`, label: 'Chat', icon: MessageSquare },
@@ -66,7 +68,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       ],
     },
     {
-      title: 'Marketing',
+      title: ts('marketing'),
       items: [
         { href: `/${locale}/market`, label: 'ELEVO Market™', icon: Zap, orbitOnly: true, badge: 'SUPER' },
         { href: `/${locale}/smm`, label: 'ELEVO SMM™', icon: Share2, orbitOnly: true },
@@ -78,7 +80,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       ],
     },
     {
-      title: 'Content & Marketing',
+      title: ts('contentMarketing'),
       items: [
         { href: `/${locale}/creator`, label: 'ELEVO Creator™', icon: Video, orbitOnly: true },
         { href: `/${locale}/clip`, label: 'ELEVO Clip™', icon: Scissors, orbitOnly: true },
@@ -89,13 +91,13 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       ],
     },
     {
-      title: 'Sales & Outreach',
+      title: ts('salesOutreach'),
       items: [
         { href: `/${locale}/tools/linkedin-client`, label: 'LinkedIn Client', icon: Linkedin, orbitOnly: true },
       ],
     },
     {
-      title: 'Threads Growth Suite',
+      title: ts('threadsGrowth'),
       items: [
         { href: `/${locale}/tools/threads-strategy`, label: 'Strategy', icon: TrendingUp, orbitOnly: true },
         { href: `/${locale}/tools/threads-audience`, label: 'Audience', icon: Users2, orbitOnly: true },
@@ -107,7 +109,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       ],
     },
     {
-      title: 'Design & Create',
+      title: ts('designCreate'),
       items: [
         { href: `/${locale}/create`, label: 'ELEVO Create™', icon: Palette, orbitOnly: true },
         { href: `/${locale}/vision`, label: 'ELEVO Vision™', icon: Eye, orbitOnly: true },
@@ -116,7 +118,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       ],
     },
     {
-      title: 'Intelligence',
+      title: ts('intelligence'),
       items: [
         { href: `/${locale}/ceo`, label: 'ELEVO CEO™', icon: Crown, galaxyOnly: true },
         { href: `/${locale}/spy`, label: 'ELEVO Spy™', icon: Shield, orbitOnly: true },
@@ -126,7 +128,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       ],
     },
     {
-      title: 'Tools',
+      title: ts('tools'),
       items: [
         { href: `/${locale}/docs`, label: 'ELEVO Docs™', icon: FileText },
         { href: `/${locale}/chat`, label: 'ELEVO Route™', icon: Bot },
@@ -137,27 +139,27 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       ],
     },
     {
-      title: 'Marketplace',
+      title: ts('marketplace'),
       items: [
         { href: `/${locale}/marketplace`, label: 'Marketplace', icon: ShoppingBag },
       ],
     },
     {
-      title: 'Ecommerce',
+      title: ts('ecommerce'),
       items: [
         { href: `/${locale}/drop`, label: 'ELEVO Drop™', icon: ShoppingCart, galaxyOnly: true },
         { href: `/${locale}/store`, label: 'Store Analytics', icon: Store, galaxyOnly: true },
       ],
     },
     {
-      title: 'Sales Tools',
+      title: ts('salesTools'),
       items: [
         { href: `/${locale}/prospect`, label: 'ELEVO Prospect™', icon: Target, galaxyOnly: true },
         { href: `/${locale}/prospect/agent-builder`, label: 'Agent Builder', icon: Bot, galaxyOnly: true },
       ],
     },
     {
-      title: 'Customers',
+      title: ts('customersSection'),
       items: [
         { href: `/${locale}/dashboard/customers`, label: 'All Contacts', icon: Users2 },
         { href: `/${locale}/customers/pipeline`, label: 'Sales Pipeline', icon: TrendingUp, orbitOnly: true },
@@ -168,7 +170,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       ],
     },
     {
-      title: 'Growth Tools',
+      title: ts('growthTools'),
       items: [
         { href: `/${locale}/sales-pipeline`, label: 'Sales Pipeline', icon: GitBranch, orbitOnly: true },
         { href: `/${locale}/tools/researcher`, label: 'Researcher', icon: Search, orbitOnly: true },
@@ -366,11 +368,11 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       {/* Credits bar */}
       <div className="px-4 py-4 border-t border-dashSurface2">
         <div className="flex items-center justify-between mb-1.5">
-          <span className="text-xs text-dashMuted">Credits</span>
+          <span className="text-xs text-dashMuted">{ts('credits')}</span>
           <span className={`text-xs font-medium ${
             (userId && isAdminId(userId)) ? 'text-indigo-400' : creditsPct > 20 ? 'text-green-400' : creditsPct > 10 ? 'text-amber-400' : 'text-red-400'
           }`}>
-            {(userId && isAdminId(userId)) ? '∞ Unlimited' : `${creditsRemaining} left`}
+            {(userId && isAdminId(userId)) ? '∞' : `${creditsRemaining} ${ts('left')}`}
           </span>
         </div>
         {!(userId && isAdminId(userId)) && (
@@ -389,7 +391,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
             className="mt-3 flex items-center justify-center gap-1.5 w-full py-2 bg-accent/10 text-accent text-xs font-semibold rounded-lg hover:bg-accent/20 transition-colors"
           >
             <TrendingUp size={13} />
-            Upgrade to Orbit
+            {ts('upgradeToOrbit')}
           </Link>
         )}
       </div>

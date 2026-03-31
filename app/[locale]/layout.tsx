@@ -30,6 +30,11 @@ export const metadata: Metadata = {
     'dcterms.rightsHolder': 'ELEVO AI Ltd™',
     'dcterms.rights': '© 2026 ELEVO AI Ltd™. All rights reserved.',
   },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+    shortcut: '/favicon.ico',
+  },
 }
 
 export default async function RootLocaleLayout({
