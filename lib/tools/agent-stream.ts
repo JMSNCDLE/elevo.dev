@@ -31,9 +31,10 @@ export function createToolRoute(systemPrompt: string) {
     }
 
     const body = await req.json()
-    const { message, conversationHistory = [] } = body as {
+    const { message, conversationHistory = [], locale = 'en' } = body as {
       message: string
       conversationHistory: ConversationMessage[]
+      locale?: string
     }
 
     if (!message?.trim()) {
@@ -66,7 +67,7 @@ export function createToolRoute(systemPrompt: string) {
       const stream = await (client.messages as any).create({
         model: MODELS.AGENT,
         max_tokens: 2048,
-        system: systemPrompt,
+        system: `You MUST respond entirely in ${locale === 'es' ? 'Spanish' : 'English'}. Every word must be in this language.\n\n${systemPrompt}`,
         messages,
         stream: true,
       })

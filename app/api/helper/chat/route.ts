@@ -36,9 +36,10 @@ export async function POST(req: NextRequest) {
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
   const body = await req.json()
-  const { message, conversationHistory = [] } = body as {
+  const { message, conversationHistory = [], locale = 'en' } = body as {
     message: string
     conversationHistory: ConversationMessage[]
+    locale?: string
   }
 
   if (!message?.trim()) {
@@ -59,7 +60,7 @@ export async function POST(req: NextRequest) {
     const response = await client.messages.create({
       model: MODELS.AGENT,
       max_tokens: 512,
-      system: SYSTEM_PROMPT,
+      system: `You MUST respond entirely in ${locale === 'es' ? 'Spanish' : 'English'}. Every word must be in this language.\n\n${SYSTEM_PROMPT}`,
       messages,
     })
 

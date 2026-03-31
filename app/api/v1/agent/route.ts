@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
   if (!parsed.success) return NextResponse.json({ error: 'Invalid input', details: parsed.error.flatten() }, { status: 400 })
 
   const { agent, prompt, businessProfileId, context } = parsed.data
+  const locale = (body.locale as string) || 'en'
 
   const supabase = await createServiceClient()
 
@@ -75,7 +76,7 @@ export async function POST(request: NextRequest) {
     const response = await createMessage({
       model: MODELS.AGENT,
       max_tokens: MAX_TOKENS.HIGH,
-      system: `You are ELEVO AI's ${agent} agent. ${AGENT_DESCRIPTIONS[agent]}. You help small business owners with expert, actionable advice.${businessContext}`,
+      system: `You MUST respond entirely in ${locale === 'es' ? 'Spanish' : 'English'}. Every word must be in this language.\n\nYou are ELEVO AI's ${agent} agent. ${AGENT_DESCRIPTIONS[agent]}. You help small business owners with expert, actionable advice.${businessContext}`,
       messages: [
         {
           role: 'user',

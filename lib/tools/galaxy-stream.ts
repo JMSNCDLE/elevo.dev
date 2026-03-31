@@ -21,7 +21,7 @@ export function createGalaxyToolRoute(systemPrompt: string) {
     }
 
     const body = await req.json()
-    const { message, conversationHistory = [] } = body as { message: string; conversationHistory: ConversationMessage[] }
+    const { message, conversationHistory = [], locale = 'en' } = body as { message: string; conversationHistory: ConversationMessage[]; locale?: string }
     if (!message?.trim()) return NextResponse.json({ error: 'message required' }, { status: 400 })
 
     const { data: bp } = await supabase.from('business_profiles').select('business_name, industry, city, country, unique_selling_points').eq('user_id', user.id).eq('is_primary', true).single()
@@ -35,7 +35,7 @@ export function createGalaxyToolRoute(systemPrompt: string) {
     try {
       const client = getClient()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const stream = await (client.messages as any).create({ model: MODELS.AGENT, max_tokens: 3000, system: systemPrompt, messages, stream: true })
+      const stream = await (client.messages as any).create({ model: MODELS.AGENT, max_tokens: 3000, system: `You MUST respond entirely in ${locale === 'es' ? 'Spanish' : 'English'}. Every word must be in this language.\n\n${systemPrompt}`, messages, stream: true })
 
       if (profile && !adminBypass) {
         await supabase.from('profiles').update({ credits_used: profile.credits_used + 2 }).eq('id', user.id)

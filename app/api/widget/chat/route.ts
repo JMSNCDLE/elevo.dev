@@ -11,6 +11,7 @@ const Schema = z.object({
     role: z.enum(['user', 'assistant']),
     content: z.string(),
   })).default([]),
+  locale: z.string().default('en'),
 })
 
 export async function POST(request: Request) {
@@ -18,7 +19,7 @@ export async function POST(request: Request) {
   const parsed = Schema.safeParse(body)
   if (!parsed.success) return NextResponse.json({ error: 'Invalid input' }, { status: 400 })
 
-  const { widgetId, message, sessionId, history } = parsed.data
+  const { widgetId, message, sessionId, history, locale } = parsed.data
 
   const supabase = await createServiceClient()
 
@@ -69,7 +70,7 @@ export async function POST(request: Request) {
     const response = await client.messages.create({
       model: MODELS.AGENT,
       max_tokens: MAX_TOKENS.LOW,
-      system: `${businessContext}\n\nYou are a friendly, helpful chat assistant for this business. Answer questions about services, pricing (if known), and general enquiries. If you don't know something specific, offer to connect the visitor with the team. Keep responses concise (2-4 sentences max). Never make up specific prices or appointments.`,
+      system: `You MUST respond entirely in ${locale === 'es' ? 'Spanish' : 'English'}. Every word must be in this language.\n\n${businessContext}\n\nYou are a friendly, helpful chat assistant for this business. Answer questions about services, pricing (if known), and general enquiries. If you don't know something specific, offer to connect the visitor with the team. Keep responses concise (2-4 sentences max). Never make up specific prices or appointments.`,
       messages,
     })
 

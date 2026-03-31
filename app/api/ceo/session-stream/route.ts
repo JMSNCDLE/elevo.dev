@@ -20,7 +20,7 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json()
-  const { question, context, decisionType, businessName } = body
+  const { question, context, decisionType, businessName, locale = 'en' } = body
 
   if (!question) return new Response('Question required', { status: 400 })
 
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
           max_tokens: 8000,
           ...buildEffortConfig('max'),
           tools: [WEB_SEARCH_TOOL],
-          system: `You are the ELEVO CEO™ — an elite AI C-suite executive. You are advising ${businessName ?? 'a business'} on a ${decisionType ?? 'business'} decision. Provide deep, strategic analysis. Think through all angles carefully.`,
+          system: `You MUST respond entirely in ${locale === 'es' ? 'Spanish' : 'English'}. Every word must be in this language.\n\nYou are the ELEVO CEO™ — an elite AI C-suite executive. You are advising ${businessName ?? 'a business'} on a ${decisionType ?? 'business'} decision. Provide deep, strategic analysis. Think through all angles carefully.`,
           messages: [
             {
               role: 'user',

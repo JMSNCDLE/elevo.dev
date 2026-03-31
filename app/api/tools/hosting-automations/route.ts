@@ -55,9 +55,10 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json()
-  const { message, conversationHistory = [] } = body as {
+  const { message, conversationHistory = [], locale = 'en' } = body as {
     message: string
     conversationHistory: ConversationMessage[]
+    locale?: string
   }
 
   if (!message?.trim()) {
@@ -78,7 +79,7 @@ export async function POST(req: NextRequest) {
     const stream = await (client.messages as any).create({
       model: MODELS.AGENT,
       max_tokens: 3000,
-      system: SYSTEM_PROMPT,
+      system: `You MUST respond entirely in ${locale === 'es' ? 'Spanish' : 'English'}. Every word must be in this language.\n\n${SYSTEM_PROMPT}`,
       messages,
       stream: true,
     })

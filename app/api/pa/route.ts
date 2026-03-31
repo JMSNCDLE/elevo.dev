@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
   const body = await req.json()
-  const { action, message, taskId, updates, conversationHistory = [] } = body
+  const { action, message, taskId, updates, conversationHistory = [], locale = 'en' } = body
 
   // Direct task operations
   if (action === 'create_task') {
@@ -173,7 +173,7 @@ User context:
     const stream = await (client.messages as any).create({
       model: MODELS.AGENT,
       max_tokens: 1024,
-      system: SYSTEM_PROMPT,
+      system: `You MUST respond entirely in ${locale === 'es' ? 'Spanish' : 'English'}. Every word must be in this language.\n\n${SYSTEM_PROMPT}`,
       messages,
       stream: true,
     })
