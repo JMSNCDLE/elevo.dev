@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useLocale } from 'next-intl'
+import { ADMIN_IDS } from '@/lib/admin'
 import {
   ShoppingCart, Package, Loader2, ChevronDown, ChevronUp, ExternalLink,
   TrendingUp, BarChart2, Star, Globe, Plus, CheckCircle2, AlertTriangle,
@@ -266,7 +267,7 @@ export default function DropPage({ params }: { params: Promise<{ locale: string 
       supabase.from('profiles').select('plan').eq('id', user.id).single(),
       supabase.from('business_profiles').select('id, business_name').eq('user_id', user.id),
     ])
-    setPlan(profileRes.data?.plan ?? 'trial')
+    setPlan(ADMIN_IDS.includes(user.id) ? 'galaxy' : (profileRes.data?.plan ?? 'trial'))
     setBusinessProfiles(bpRes.data ?? [])
     if (bpRes.data?.[0]) setBusinessProfileId(bpRes.data[0].id)
   }, [supabase])
