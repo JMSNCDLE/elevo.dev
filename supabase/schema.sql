@@ -1180,3 +1180,31 @@ ALTER TABLE email_campaigns ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "admin_only_campaigns" ON email_campaigns FOR ALL USING (
   auth.uid() = '5dc15dea-4633-441b-b37a-5406e7235114'::uuid
 );
+
+-- ─── Agent Conversation Memory ──────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS agent_conversations (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+  agent TEXT NOT NULL,
+  language TEXT DEFAULT 'en',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_agent_conv_user ON agent_conversations(user_id, agent);
+ALTER TABLE agent_conversations ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_agent_conversations" ON agent_conversations FOR ALL USING (auth.uid() = user_id);
+
+CREATE TABLE IF NOT EXISTS agent_messages (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  conversation_id UUID REFERENCES agent_conversations(id) ON DELETE CASCADE,
+  role TEXT NOT NULL CHECK (role IN ('user', 'assistant', 'tool')),
+  content TEXT NOT NULL,
+  tool_name TEXT,
+  metadata JSONB,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_agent_msg_conv ON agent_messages(conversation_id, created_at);
+ALTER TABLE agent_messages ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_agent_messages" ON agent_messages FOR ALL USING (
+  conversation_id IN (SELECT id FROM agent_conversations WHERE user_id = auth.uid())
+);

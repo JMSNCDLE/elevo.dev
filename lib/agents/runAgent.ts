@@ -1,5 +1,6 @@
 import { createMessage, MODELS, extractText } from './client'
 import { getUserContext } from '@/lib/auth/getUserContext'
+import { getOrCreateConversation, loadMessages, saveMessage, formatMessagesForClaude } from './memory'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -14,11 +15,13 @@ export type AgentResponse = {
 export type RunAgentParams = {
   agent: string
   messages: Array<{ role: 'user' | 'assistant'; content: string }>
+  input?: string           // single user input (memory-backed)
   systemPrompt?: string
   tools?: unknown[]
   maxRetries?: number
   maxTokens?: number
   model?: string
+  useMemory?: boolean      // opt-in to conversation memory
 }
 
 // ─── System Prompt Builder ───────────────────────────────────────────────────
@@ -81,19 +84,39 @@ function handleResponse(response: { content: Array<{ type: string; text?: string
 export async function runAgent({
   agent,
   messages,
+  input,
   systemPrompt,
   tools = [],
   maxRetries = 2,
   maxTokens = 4000,
   model,
+  useMemory = false,
 }: RunAgentParams): Promise<AgentResponse> {
   const ctx = await getUserContext()
   const system = buildSystemPrompt(agent, ctx.language, systemPrompt)
 
+  // Memory-backed mode: load history + save messages
+  let conversationId: string | null = null
+  let finalMessages = messages
+
+  if (useMemory && input && ctx.user) {
+    const convo = await getOrCreateConversation(ctx.user.id, agent, ctx.supabase, ctx.locale)
+    if (convo) {
+      conversationId = convo.id
+      const history = await loadMessages(convo.id, ctx.supabase)
+      const formattedHistory = formatMessagesForClaude(history)
+      finalMessages = [...formattedHistory, { role: 'user' as const, content: input }]
+      await saveMessage({ conversationId: convo.id, role: 'user', content: input, supabase: ctx.supabase })
+    } else {
+      // Memory unavailable — fall back to direct messages
+      finalMessages = input ? [{ role: 'user' as const, content: input }] : messages
+    }
+  }
+
   const params: Record<string, unknown> = {
     model: model ?? MODELS.AGENT,
     system,
-    messages,
+    messages: finalMessages,
     max_tokens: maxTokens,
   }
 
@@ -126,7 +149,18 @@ export async function runAgent({
     }
   }
 
-  return attempt(maxRetries)
+  const result = await attempt(maxRetries)
+
+  // Save assistant response to memory
+  if (useMemory && conversationId && ctx.user) {
+    if (result.type === 'text' && result.content) {
+      await saveMessage({ conversationId, role: 'assistant', content: result.content, supabase: ctx.supabase })
+    } else if (result.type === 'tool_result') {
+      await saveMessage({ conversationId, role: 'tool', content: JSON.stringify(result.result), toolName: result.tool, supabase: ctx.supabase })
+    }
+  }
+
+  return result
 }
 
 // ─── Convenience: Run agent and extract text ─────────────────────────────────
