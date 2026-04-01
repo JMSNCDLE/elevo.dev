@@ -146,7 +146,8 @@
     "admin": "Admin",
     "credits": "Créditos",
     "left": "restantes",
-    "upgradeToOrbit": "Actualizar a Orbit"
+    "upgradeToOrbit": "Actualizar a Orbit",
+    "professional": "Profesional"
   },
   "generator": {
     "topic": "Tema o resumen",

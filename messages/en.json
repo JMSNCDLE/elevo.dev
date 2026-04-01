@@ -146,7 +146,8 @@
     "admin": "Admin",
     "credits": "Credits",
     "left": "left",
-    "upgradeToOrbit": "Upgrade to Orbit"
+    "upgradeToOrbit": "Upgrade to Orbit",
+    "professional": "Professional"
   },
   "generator": {
     "topic": "Topic or brief",

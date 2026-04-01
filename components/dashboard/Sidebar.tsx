@@ -11,7 +11,7 @@ import {
   ShoppingCart, Store,
   Target, Mail, Settings as SettingsIcon,
   Users2, BarChart2, DollarSign, TrendingDown, Rocket,
-  ChevronRight, Library, Star, Paintbrush, ClipboardList, FlaskConical, Plug, Bell, Megaphone, Activity, ShoppingBag, Monitor, Camera, Phone, Server, UserPlus, GitBranch, Gift, CreditCard, Award, Package, Linkedin, Calendar,
+  ChevronRight, Library, Star, Paintbrush, ClipboardList, FlaskConical, Plug, Bell, Megaphone, Activity, ShoppingBag, Monitor, Camera, Phone, Server, UserPlus, GitBranch, Gift, CreditCard, Award, Package, Linkedin, Calendar, Scale, Calculator,
 } from 'lucide-react'
 import { isAdminId } from '@/lib/admin'
 import { useTranslations } from 'next-intl'
@@ -125,6 +125,13 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
         { href: `/${locale}/competitive-intel`, label: 'Competitive Intel', icon: Shield, galaxyOnly: true, badge: 'GALAXY' },
         { href: `/${locale}/tools/hosting-automations`, label: 'Hosting Automations', icon: Server, galaxyOnly: true, badge: 'GALAXY' },
         { href: `/${locale}/seo`, label: 'ELEVO Rank™', icon: Search },
+      ],
+    },
+    {
+      title: ts('professional'),
+      items: [
+        { href: `/${locale}/accountant`, label: 'ELEVO Accountant™', icon: Calculator, orbitOnly: true, badge: 'NEW' },
+        { href: `/${locale}/lawyer`, label: 'ELEVO Lawyer™', icon: Scale, orbitOnly: true, badge: 'NEW' },
       ],
     },
     {
