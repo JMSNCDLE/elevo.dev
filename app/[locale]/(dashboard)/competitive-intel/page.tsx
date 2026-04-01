@@ -100,6 +100,11 @@ export default function CompetitiveIntelPage() {
 
   if (loading) return <div className="p-6 flex items-center justify-center min-h-[400px]"><Loader2 className="w-6 h-6 text-purple-400 animate-spin" /></div>
 
+  // Loading state
+  if (plan === null) {
+    return <div className="min-h-screen bg-dashBg flex items-center justify-center"><div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" /></div>
+  }
+
   // Galaxy-only upgrade gate
   if (plan !== 'galaxy') {
     return (

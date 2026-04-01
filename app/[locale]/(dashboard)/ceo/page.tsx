@@ -53,7 +53,7 @@ export default function CEOPage() {
   const supabase = createBrowserClient()
 
   const [tab, setTab] = useState<Tab>('session')
-  const [plan, setPlan] = useState<string>('trial')
+  const [plan, setPlan] = useState<string | null>(null)
   const [businessProfiles, setBusinessProfiles] = useState<Array<{ id: string; business_name: string }>>([])
   const [selectedProfile, setSelectedProfile] = useState('')
 
@@ -103,6 +103,10 @@ export default function CEOPage() {
   }, [supabase])
 
   const isGalaxy = plan === 'galaxy'
+
+  if (plan === null) {
+    return <div className="min-h-screen bg-dashBg flex items-center justify-center"><div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" /></div>
+  }
 
   if (!isGalaxy) {
     return (
