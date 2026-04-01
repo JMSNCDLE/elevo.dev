@@ -61,6 +61,14 @@ export function parseAgentJSON<T = unknown>(text: string): T {
 // ─── Response Handler ────────────────────────────────────────────────────────
 
 function handleResponse(response: { content: Array<{ type: string; text?: string; name?: string; input?: unknown }> }): AgentResponse {
+  // Guard against HTML responses (routing error)
+  if (response && typeof response === 'object' && 'content' in response) {
+    const firstText = response.content.find(c => c.type === 'text')
+    if (firstText && typeof firstText.text === 'string' && firstText.text.trim().startsWith('<!DOCTYPE')) {
+      return { type: 'error', message: 'Received HTML instead of JSON — likely a routing error' }
+    }
+  }
+
   // 1. Tool call detected
   const toolCall = response.content.find(c => c.type === 'tool_use')
   if (toolCall && 'name' in toolCall) {

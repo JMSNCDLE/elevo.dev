@@ -6,9 +6,12 @@ import { planWorkflow } from './planner'
 import { runAgent } from './runAgent'
 import { executeToolCall } from '@/lib/tools/actions/router'
 import { logAgentRun } from './logger'
+import { isSensitiveTool } from '@/lib/tools/actions/registry'
 import { getUserContext } from '@/lib/auth/getUserContext'
 
-const MAX_STEPS = 8
+const MAX_STEPS = 10
+const MAX_WORKFLOW_RUNTIME_MS = 10 * 60 * 1000 // 10 minutes
+const STEP_TIMEOUT_MS = 90000 // 90 seconds
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SB = any
@@ -74,6 +77,31 @@ export async function executeNextStep(workflowId: string) {
 
   if (!workflow || workflow.status !== 'running') return
 
+  // Check workflow timeout (10 min max)
+  const workflowAge = Date.now() - new Date(workflow.created_at).getTime()
+  if (workflowAge > MAX_WORKFLOW_RUNTIME_MS) {
+    await ctx.supabase.from('workflows')
+      .update({ status: 'failed', error: 'Workflow timed out (10 min max)', updated_at: new Date().toISOString() })
+      .eq('id', workflowId)
+    return
+  }
+
+  // Check for stuck steps (running > 90s) and recover
+  const { data: stuckSteps } = await ctx.supabase
+    .from('workflow_steps')
+    .select('*')
+    .eq('workflow_id', workflowId)
+    .eq('status', 'running')
+
+  for (const stuck of stuckSteps ?? []) {
+    const stepAge = Date.now() - new Date(stuck.created_at).getTime()
+    if (stepAge > STEP_TIMEOUT_MS) {
+      await ctx.supabase.from('workflow_steps')
+        .update({ status: 'error', error: 'Step timed out (90s)', completed_at: new Date().toISOString() })
+        .eq('id', stuck.id)
+    }
+  }
+
   // Get next pending step
   const { data: steps } = await ctx.supabase
     .from('workflow_steps')
@@ -85,16 +113,30 @@ export async function executeNextStep(workflowId: string) {
 
   const step = steps?.[0]
   if (!step) {
-    // All steps done
-    await ctx.supabase
-      .from('workflows')
+    await ctx.supabase.from('workflows')
       .update({ status: 'completed', completed_at: new Date().toISOString(), updated_at: new Date().toISOString() })
       .eq('id', workflowId)
     return
   }
 
-  // Mark running
-  await ctx.supabase.from('workflow_steps').update({ status: 'running' }).eq('id', step.id)
+  // Sensitive tool check — pause workflow for user confirmation
+  if (step.tool && isSensitiveTool(step.tool)) {
+    await ctx.supabase.from('workflows')
+      .update({ status: 'paused', updated_at: new Date().toISOString() })
+      .eq('id', workflowId)
+    return // Frontend shows confirmation UI
+  }
+
+  // Atomic claim — prevent duplicate execution
+  const { data: claimed } = await ctx.supabase
+    .from('workflow_steps')
+    .update({ status: 'running' })
+    .eq('id', step.id)
+    .eq('status', 'pending')
+    .select()
+    .single()
+
+  if (!claimed) return // Another execution already claimed this step
 
   const start = Date.now()
 
@@ -145,12 +187,13 @@ export async function executeNextStep(workflowId: string) {
     // Log (fire and forget)
     logAgentRun(ctx.supabase, {
       userId: ctx.user.id,
-      agent: `workflow:${workflow.agent}`,
+      agent: `workflow:${workflow.agent}:step_${step.step_index}`,
       status: 'success',
       input: step.description,
       output: JSON.stringify(output).slice(0, 2000),
       durationMs: Date.now() - start,
       toolUsed: step.tool,
+      locale: ctx.locale,
     })
 
   } catch (error: unknown) {
@@ -171,12 +214,13 @@ export async function executeNextStep(workflowId: string) {
 
     logAgentRun(ctx.supabase, {
       userId: ctx.user.id,
-      agent: `workflow:${workflow.agent}`,
+      agent: `workflow:${workflow.agent}:step_${step.step_index}`,
       status: 'error',
       input: step.description,
       error: msg,
       durationMs: Date.now() - start,
       toolUsed: step.tool,
+      locale: ctx.locale,
     })
   }
 }
@@ -197,6 +241,10 @@ async function resolveStepReferences(inputStr: string, workflowId: string, supab
     const step = completedSteps?.find((s: { step_index: number }) => s.step_index === idx)
     if (step?.output) {
       resolved = resolved.replace(ref, JSON.stringify(step.output))
+    } else {
+      // Replace missing references with null — never let broken refs corrupt downstream
+      console.warn(`[workflow] Step ${idx} output missing for ref ${ref}`)
+      resolved = resolved.replace(ref, 'null')
     }
   }
   return resolved

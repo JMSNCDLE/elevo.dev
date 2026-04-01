@@ -32,7 +32,12 @@ export async function executeToolCall(
   }
 
   try {
-    const result = await tool.execute(toolInput, ctx)
+    let result = await tool.execute(toolInput, ctx)
+    // Validate output shape
+    if (result && typeof result === 'object' && typeof result.success !== 'boolean') {
+      console.warn(`[router] Tool ${toolName} returned invalid shape — wrapping`)
+      result = { success: true, data: result }
+    }
     return { type: 'executed', tool: toolName, input: toolInput, result }
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : String(error)
