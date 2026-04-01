@@ -1,6 +1,16 @@
 // ─── Agent Run Logger ────────────────────────────────────────────────────────
 // Logs every agent call to Supabase for observability.
 // NEVER blocks the response — fire and forget with silent error handling.
+//
+// SQL migration (run in Supabase SQL Editor if not already done):
+//   ALTER TABLE agent_runs ADD COLUMN IF NOT EXISTS trace_id UUID;
+//   CREATE INDEX IF NOT EXISTS idx_agent_runs_trace_id ON agent_runs(trace_id);
+
+import { randomUUID } from 'crypto'
+
+export function generateTraceId(): string {
+  return randomUUID()
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SB = any
@@ -29,6 +39,7 @@ export async function logAgentRun(supabase: SB, data: {
   toolUsed?: string
   plan?: string
   locale?: string
+  traceId?: string
 }) {
   try {
     await supabase.from('agent_runs').insert({
@@ -45,6 +56,7 @@ export async function logAgentRun(supabase: SB, data: {
       tool_used: data.toolUsed ?? null,
       plan: data.plan ?? null,
       locale: data.locale ?? null,
+      trace_id: data.traceId ?? null,
     })
   } catch (logError) {
     // NEVER block the response if logging fails

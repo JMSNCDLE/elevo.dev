@@ -123,7 +123,10 @@
     "upgradeDesc": "100 créditos/mes + CRM. Desde €39/mes.",
     "morning": "días",
     "afternoon": "tardes",
-    "evening": "noches"
+    "evening": "noches",
+    "welcomeMorning": "Buenos días, {name}",
+    "welcomeAfternoon": "Buenas tardes, {name}",
+    "welcomeEvening": "Buenas noches, {name}"
   },
   "sidebar": {
     "overview": "Resumen",

@@ -64,8 +64,7 @@ export default async function MissionControlPage({ params }: { params: Promise<{
   const jobsThisMonth = (revenueData ?? []).reduce((s, r) => s + (r.total_jobs ?? 0), 0)
 
   const hour = now.getHours()
-  const timeOfDayKey = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'
-  const timeOfDay = t(timeOfDayKey as 'morning' | 'afternoon' | 'evening')
+  const welcomeKey = hour < 12 ? 'welcomeMorning' : hour < 17 ? 'welcomeAfternoon' : 'welcomeEvening'
 
   const contactCount = crmStats?.length ?? 0
   const lapsedCount = crmStats?.filter(c => c.status === 'lapsed' || c.status === 'at_risk').length ?? 0
@@ -138,7 +137,7 @@ export default async function MissionControlPage({ params }: { params: Promise<{
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-dashText">{t('title')}</h1>
         <p className="text-dashMuted mt-1">
-          {t('welcome', { timeOfDay, name: bp?.business_name ?? '' })}
+          {t(welcomeKey, { name: bp?.business_name ?? '' })}
           {isAdminUser
             ? ` ${t('welcomeCredits', { count: '∞' })}`
             : creditsRemaining > 0
