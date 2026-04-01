@@ -1233,3 +1233,41 @@ CREATE INDEX IF NOT EXISTS idx_agent_runs_user ON agent_runs(user_id, created_at
 ALTER TABLE agent_runs ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "own_agent_runs" ON agent_runs FOR SELECT USING (auth.uid() = user_id);
 CREATE POLICY "insert_agent_runs" ON agent_runs FOR INSERT WITH CHECK (true);
+
+-- ─── Autonomous Workflows ───────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS workflows (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+  agent TEXT NOT NULL,
+  goal TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending','planning','running','paused','completed','failed')),
+  current_step INTEGER DEFAULT 0,
+  total_steps INTEGER DEFAULT 0,
+  error TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  completed_at TIMESTAMPTZ
+);
+CREATE INDEX IF NOT EXISTS idx_workflows_user ON workflows(user_id, status);
+ALTER TABLE workflows ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_workflows" ON workflows FOR ALL USING (auth.uid() = user_id);
+
+CREATE TABLE IF NOT EXISTS workflow_steps (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  workflow_id UUID REFERENCES workflows(id) ON DELETE CASCADE,
+  step_index INTEGER NOT NULL,
+  description TEXT NOT NULL,
+  tool TEXT,
+  input JSONB,
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending','running','done','error','skipped')),
+  output JSONB,
+  error TEXT,
+  duration_ms INTEGER,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  completed_at TIMESTAMPTZ
+);
+CREATE INDEX IF NOT EXISTS idx_workflow_steps ON workflow_steps(workflow_id, step_index);
+ALTER TABLE workflow_steps ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_workflow_steps" ON workflow_steps FOR ALL USING (
+  workflow_id IN (SELECT id FROM workflows WHERE user_id = auth.uid())
+);
