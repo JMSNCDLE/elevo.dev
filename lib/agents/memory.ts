@@ -1,15 +1,10 @@
 // ─── Agent Conversation Memory ───────────────────────────────────────────────
 // Persistent multi-turn memory for agent conversations.
-// Tables: agent_conversations + agent_messages (see schema migration below).
-// Uses the Supabase client from getUserContext() — no new client creation.
+// Tables: agent_conversations + agent_messages
+// Uses Supabase client from getUserContext() — no new client creation.
 
-type SupabaseClient = {
-  from: (table: string) => {
-    select: (...args: unknown[]) => unknown
-    insert: (...args: unknown[]) => unknown
-    update: (...args: unknown[]) => unknown
-  }
-}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type SB = any
 
 export interface ConversationRecord {
   id: string
@@ -33,34 +28,33 @@ export interface MessageRecord {
 export async function getOrCreateConversation(
   userId: string,
   agent: string,
-  supabase: SupabaseClient,
+  supabase: SB,
   language = 'en'
 ): Promise<ConversationRecord | null> {
-  // Find the most recent conversation for this user + agent (within last 24h)
-  const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
-
-  const { data: existing } = await (supabase
-    .from('agent_conversations')
-    .select('*') as unknown as Promise<{ data: ConversationRecord[] | null }>)
-    .catch(() => ({ data: null })) as { data: ConversationRecord[] | null }
-
-  // If tables don't exist yet, return null gracefully
-  if (existing === null) return null
-
-  // Filter in memory since we can't chain easily with the generic type
-  const recent = (existing as ConversationRecord[])
-    ?.filter((c: ConversationRecord) => c.user_id === userId && c.agent === agent && c.updated_at > oneDayAgo)
-    ?.sort((a: ConversationRecord, b: ConversationRecord) => b.updated_at.localeCompare(a.updated_at))
-    ?.[0]
-
-  if (recent) return recent
-
   try {
-    const { data: created } = await (supabase
+    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+
+    const { data: existing } = await supabase
       .from('agent_conversations')
-      .insert({ user_id: userId, agent, language }) as unknown as Promise<{ data: ConversationRecord | null }>)
-    return created
+      .select('*')
+      .eq('user_id', userId)
+      .eq('agent', agent)
+      .gte('updated_at', oneDayAgo)
+      .order('updated_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+
+    if (existing) return existing as ConversationRecord
+
+    const { data: created } = await supabase
+      .from('agent_conversations')
+      .insert({ user_id: userId, agent, language })
+      .select()
+      .single()
+
+    return created as ConversationRecord
   } catch {
+    // Tables may not exist yet — graceful degradation
     return null
   }
 }
@@ -76,7 +70,7 @@ export async function saveMessage({
   role: 'user' | 'assistant' | 'tool'
   content: string
   toolName?: string
-  supabase: SupabaseClient
+  supabase: SB
 }): Promise<void> {
   try {
     await supabase.from('agent_messages').insert({
@@ -89,28 +83,26 @@ export async function saveMessage({
     await supabase
       .from('agent_conversations')
       .update({ updated_at: new Date().toISOString() })
+      .eq('id', conversationId)
   } catch {
-    // Don't fail the agent call if memory save fails
     console.warn('[memory] Failed to save message')
   }
 }
 
 export async function loadMessages(
   conversationId: string,
-  supabase: SupabaseClient,
+  supabase: SB,
   limit = 20
 ): Promise<MessageRecord[]> {
   try {
-    const { data } = await (supabase
+    const { data } = await supabase
       .from('agent_messages')
-      .select('*') as unknown as Promise<{ data: MessageRecord[] | null }>)
+      .select('*')
+      .eq('conversation_id', conversationId)
+      .order('created_at', { ascending: true })
+      .limit(limit)
 
-    if (!data) return []
-
-    return (data as MessageRecord[])
-      .filter((m: MessageRecord) => m.conversation_id === conversationId)
-      .sort((a: MessageRecord, b: MessageRecord) => a.created_at.localeCompare(b.created_at))
-      .slice(-limit)
+    return (data ?? []) as MessageRecord[]
   } catch {
     return []
   }
