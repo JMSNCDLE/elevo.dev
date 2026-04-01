@@ -8,7 +8,7 @@ import {
   Loader2, ChevronDown, ChevronUp
 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
-import { ADMIN_IDS } from '@/lib/admin'
+import { useUserContext } from '@/lib/hooks/useUserContext'
 import AgentStatusIndicator from '@/components/shared/AgentStatusIndicator'
 import ActionExplanation from '@/components/shared/ActionExplanation'
 import UpgradePrompt from '@/components/shared/UpgradePrompt'
@@ -40,8 +40,8 @@ const COMPARISON = [
 export default function VideoStudioPage() {
   const locale = useLocale()
   const supabase = createBrowserClient()
+  const { plan, isAdmin, loading: contextLoading } = useUserContext()
 
-  const [plan, setPlan] = useState<string>('trial')
   const [bp, setBp] = useState<BusinessProfile | null>(null)
   const [mode, setMode] = useState<Mode>(null)
   const [status, setStatus] = useState<Status>('idle')
@@ -74,17 +74,13 @@ export default function VideoStudioPage() {
   const fetchProfile = useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
-    const [profileRes, bpRes] = await Promise.all([
-      supabase.from('profiles').select('plan').eq('id', user.id).single(),
-      supabase.from('business_profiles').select('*').eq('user_id', user.id).eq('is_primary', true).single(),
-    ])
-    setPlan(ADMIN_IDS.includes(user!.id) ? 'galaxy' : (profileRes.data?.plan ?? 'trial'))
-    setBp(bpRes.data)
+    const { data: bpData } = await supabase.from('business_profiles').select('*').eq('user_id', user.id).eq('is_primary', true).single()
+    setBp(bpData)
   }, [supabase])
 
   useEffect(() => { fetchProfile() }, [fetchProfile])
 
-  const isOrbit = plan === 'orbit' || plan === 'galaxy'
+  const isOrbit = plan === 'orbit' || plan === 'galaxy' || isAdmin
 
   async function generate() {
     if (!bp) return
@@ -126,6 +122,8 @@ export default function VideoStudioPage() {
       setStatus('error')
     }
   }
+
+  if (contextLoading) return <div className="min-h-screen bg-dashBg flex items-center justify-center"><div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" /></div>
 
   if (!isOrbit) {
     return (

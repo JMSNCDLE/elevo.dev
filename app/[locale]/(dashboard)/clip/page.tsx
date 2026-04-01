@@ -8,7 +8,7 @@ import {
   CheckCircle2, Zap,
 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
-import { ADMIN_IDS } from '@/lib/admin'
+import { useUserContext } from '@/lib/hooks/useUserContext'
 import AgentStatusIndicator from '@/components/shared/AgentStatusIndicator'
 import ActionExplanation from '@/components/shared/ActionExplanation'
 import UpgradePrompt from '@/components/shared/UpgradePrompt'
@@ -36,7 +36,7 @@ const VIRAL_CONFIG = {
 export default function ClipPage({ params }: { params: Promise<{ locale: string }> }) {
   const locale = useLocale()
   const supabase = createBrowserClient()
-  const [plan, setPlan] = useState<string>('trial')
+  const { plan, isAdmin, loading: contextLoading } = useUserContext()
   const [bp, setBp] = useState<BusinessProfile | null>(null)
   const [businessProfileId, setBusinessProfileId] = useState('')
   const [businessProfiles, setBusinessProfiles] = useState<Array<{ id: string; business_name: string }>>([])
@@ -57,15 +57,11 @@ export default function ClipPage({ params }: { params: Promise<{ locale: string 
   const fetchProfile = useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
-    const [profileRes, bpRes] = await Promise.all([
-      supabase.from('profiles').select('plan').eq('id', user.id).single(),
-      supabase.from('business_profiles').select('*').eq('user_id', user.id),
-    ])
-    setPlan(ADMIN_IDS.includes(user!.id) ? 'galaxy' : (profileRes.data?.plan ?? 'trial'))
-    setBusinessProfiles(bpRes.data ?? [])
-    if (bpRes.data?.[0]) {
-      setBp(bpRes.data[0] as BusinessProfile)
-      setBusinessProfileId(bpRes.data[0].id)
+    const { data: bpRes } = await supabase.from('business_profiles').select('*').eq('user_id', user.id)
+    setBusinessProfiles(bpRes ?? [])
+    if (bpRes?.[0]) {
+      setBp(bpRes[0] as BusinessProfile)
+      setBusinessProfileId(bpRes[0].id)
     }
   }, [supabase])
 
@@ -73,7 +69,10 @@ export default function ClipPage({ params }: { params: Promise<{ locale: string 
     fetchProfile()
   }, [fetchProfile])
 
-  if (plan !== 'orbit' && plan !== 'galaxy') {
+  if (contextLoading) return <div className="min-h-screen bg-dashBg flex items-center justify-center"><div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" /></div>
+
+  const isOrbit = plan === 'orbit' || plan === 'galaxy' || isAdmin
+  if (!isOrbit) {
     return (
       <div className="min-h-screen bg-dashBg p-8">
         <UpgradePrompt

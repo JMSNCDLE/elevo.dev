@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useLocale } from 'next-intl'
-import { ADMIN_IDS } from '@/lib/admin'
+import { useUserContext } from '@/lib/hooks/useUserContext'
 import {
   ShoppingCart, Package, Loader2, ChevronDown, ChevronUp, ExternalLink,
   TrendingUp, BarChart2, Star, Globe, Plus, CheckCircle2, AlertTriangle,
@@ -238,7 +238,7 @@ function ProductCard({ product, onSave, locale }: { product: WinningProduct; onS
 export default function DropPage({ params }: { params: Promise<{ locale: string }> }) {
   const locale = useLocale()
   const supabase = createBrowserClient()
-  const [plan, setPlan] = useState<string>('trial')
+  const { plan, isAdmin, loading: contextLoading } = useUserContext()
   const [tab, setTab] = useState<Tab>('finder')
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError] = useState<string | null>(null)
@@ -263,13 +263,9 @@ export default function DropPage({ params }: { params: Promise<{ locale: string 
   const fetchProfile = useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
-    const [profileRes, bpRes] = await Promise.all([
-      supabase.from('profiles').select('plan').eq('id', user.id).single(),
-      supabase.from('business_profiles').select('id, business_name').eq('user_id', user.id),
-    ])
-    setPlan(ADMIN_IDS.includes(user.id) ? 'galaxy' : (profileRes.data?.plan ?? 'trial'))
-    setBusinessProfiles(bpRes.data ?? [])
-    if (bpRes.data?.[0]) setBusinessProfileId(bpRes.data[0].id)
+    const { data: bpRes } = await supabase.from('business_profiles').select('id, business_name').eq('user_id', user.id)
+    setBusinessProfiles(bpRes ?? [])
+    if (bpRes?.[0]) setBusinessProfileId(bpRes[0].id)
   }, [supabase])
 
   const fetchMyProducts = useCallback(async () => {
@@ -284,7 +280,9 @@ export default function DropPage({ params }: { params: Promise<{ locale: string 
     fetchMyProducts()
   }, [fetchProfile, fetchMyProducts])
 
-  if (plan !== 'galaxy') {
+  if (contextLoading) return <div className="min-h-screen bg-dashBg flex items-center justify-center"><div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" /></div>
+
+  if (plan !== 'galaxy' && !isAdmin) {
     return (
       <div className="min-h-screen bg-dashBg p-8">
         <UpgradePrompt

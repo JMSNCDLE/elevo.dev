@@ -64,7 +64,8 @@ export default async function MissionControlPage({ params }: { params: Promise<{
   const jobsThisMonth = (revenueData ?? []).reduce((s, r) => s + (r.total_jobs ?? 0), 0)
 
   const hour = now.getHours()
-  const timeOfDay = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'
+  const timeOfDayKey = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'
+  const timeOfDay = t(timeOfDayKey as 'morning' | 'afternoon' | 'evening')
 
   const contactCount = crmStats?.length ?? 0
   const lapsedCount = crmStats?.filter(c => c.status === 'lapsed' || c.status === 'at_risk').length ?? 0

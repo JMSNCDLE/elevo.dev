@@ -16,7 +16,7 @@ import {
   XCircle,
 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
-import { ADMIN_IDS } from '@/lib/admin'
+import { useUserContext } from '@/lib/hooks/useUserContext'
 import UpgradePrompt from '@/components/shared/UpgradePrompt'
 import AgentStatusIndicator from '@/components/shared/AgentStatusIndicator'
 import { cn } from '@/lib/utils'
@@ -89,7 +89,7 @@ function fmt(sym: string, value: number) {
 export default function FinancesPage({}: {  }) {
   const locale = useLocale()
   const supabase = createBrowserClient()
-  const [plan, setPlan] = useState<string>('trial')
+  const { plan, isAdmin, loading: contextLoading } = useUserContext()
   const [bp, setBp] = useState<BusinessProfile | null>(null)
   const [rawData, setRawData] = useState('')
   const [dataType, setDataType] = useState<DataType>('pl')
@@ -103,17 +103,15 @@ export default function FinancesPage({}: {  }) {
     const load = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
-      const [{ data: prof }, { data: bpData }] = await Promise.all([
-        supabase.from('profiles').select('plan').eq('id', user.id).single(),
-        supabase.from('business_profiles').select('*').eq('user_id', user.id).eq('is_primary', true).single(),
-      ])
-      if (prof) setPlan(ADMIN_IDS.includes(user.id) ? 'galaxy' : prof.plan)
+      const { data: bpData } = await supabase.from('business_profiles').select('*').eq('user_id', user.id).eq('is_primary', true).single()
       if (bpData) setBp(bpData as BusinessProfile)
     }
     load()
   }, [])
 
-  if (plan === 'trial' || plan === 'launch') {
+  if (contextLoading) return <div className="min-h-screen bg-dashBg flex items-center justify-center"><div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" /></div>
+
+  if ((plan === 'trial' || plan === 'launch') && !isAdmin) {
     return <UpgradePrompt locale={locale} feature="Financial Intelligence" />
   }
 

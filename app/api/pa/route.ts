@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { getClient, MODELS } from '@/lib/agents/client'
+import { ADMIN_IDS } from '@/lib/admin'
 import { sendEmail } from '@/lib/email/send'
 import { sendWhatsAppToJames } from '@/lib/notifications/whatsapp'
 
@@ -150,11 +151,14 @@ export async function POST(req: NextRequest) {
   const profile = profileResult.data
   const bp = bpResult.data
 
+  const effectivePlan = ADMIN_IDS.includes(user.id) ? 'galaxy' : (profile?.plan || 'trial')
+  const isAdminUser = ADMIN_IDS.includes(user.id)
+
   const contextBlock = `
 User context:
 - Business: ${bp?.business_name || 'Unknown'} (${bp?.industry || 'Unknown industry'}, ${bp?.city || 'Unknown city'})
-- Plan: ${profile?.plan || 'trial'}
-- Credits: ${(profile?.credits_limit || 0) - (profile?.credits_used || 0)} remaining of ${profile?.credits_limit || 0}
+- Plan: ${effectivePlan}
+- Credits: ${isAdminUser ? 'Unlimited' : `${(profile?.credits_limit || 0) - (profile?.credits_used || 0)} remaining of ${profile?.credits_limit || 0}`}
 - Pending tasks (${pendingTasks.length}): ${pendingTasks.map(t => `[${t.priority}] ${t.title}`).join(', ') || 'None'}
 - Today: ${new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}`
 
