@@ -1275,3 +1275,36 @@ CREATE POLICY "own_workflow_steps" ON workflow_steps FOR ALL USING (
 -- ─── Notification preferences ───────────────────────────────────────────────
 ALTER TABLE profiles ADD COLUMN IF NOT EXISTS notify_email BOOLEAN DEFAULT true;
 ALTER TABLE profiles ADD COLUMN IF NOT EXISTS notify_whatsapp BOOLEAN DEFAULT true;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS onboarding_completed BOOLEAN DEFAULT false;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS business_industry TEXT;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS business_size TEXT;
+
+-- ─── Campaigns ──────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS campaigns (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+  goal TEXT NOT NULL,
+  channels TEXT[] DEFAULT '{}',
+  duration TEXT DEFAULT '7 days',
+  plan JSONB,
+  status TEXT DEFAULT 'draft' CHECK (status IN ('draft','active','paused','completed','failed')),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE campaigns ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "own_campaigns_v2" ON campaigns;
+CREATE POLICY "own_campaigns_v2" ON campaigns FOR ALL USING (auth.uid() = user_id);
+
+-- ─── Client Shares (Galaxy white-label) ─────────────────────────────────────
+CREATE TABLE IF NOT EXISTS client_shares (
+  id TEXT PRIMARY KEY,
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+  agent_slug TEXT NOT NULL,
+  client_name TEXT,
+  expires_at TIMESTAMPTZ NOT NULL,
+  views INTEGER DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE client_shares ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "own_shares" ON client_shares;
+CREATE POLICY "own_shares" ON client_shares FOR ALL USING (auth.uid() = user_id);

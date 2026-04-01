@@ -7,6 +7,7 @@ import { ADMIN_IDS } from '@/lib/admin'
 import { getTranslations } from 'next-intl/server'
 import ReturnBriefingComponent from '@/components/dashboard/ReturnBriefing'
 import RecommendedAgents from '@/components/dashboard/RecommendedAgents'
+import MetricsWidget from '@/components/dashboard/MetricsWidget'
 import { generateReturnBriefing } from '@/lib/agents/projectMemoryAgent'
 import type { ReturnBriefing } from '@/lib/agents/projectMemoryAgent'
 
@@ -98,6 +99,9 @@ export default async function MissionControlPage({ params }: { params: Promise<{
           businessName={bp?.business_name}
         />
       )}
+
+      {/* Activity metrics */}
+      <MetricsWidget />
 
       {/* Mini analytics strip */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
