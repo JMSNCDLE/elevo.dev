@@ -576,7 +576,8 @@
     "signInButton": "Iniciar sesión →",
     "noAccount": "¿No tienes una cuenta?",
     "signUpLink": "Regístrate gratis",
-    "securityNote": "Cifrado SSL · Cumple con RGPD · ™ ELEVO AI"
+    "securityNote": "Cifrado SSL · Cumple con RGPD · ™ ELEVO AI",
+    "keepMeSignedIn": "Mantener sesión iniciada"
   },
   "errors": {
     "authRequired": "Por favor inicia sesión para continuar",

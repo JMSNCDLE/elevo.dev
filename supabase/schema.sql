@@ -1271,3 +1271,7 @@ ALTER TABLE workflow_steps ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "own_workflow_steps" ON workflow_steps FOR ALL USING (
   workflow_id IN (SELECT id FROM workflows WHERE user_id = auth.uid())
 );
+
+-- ─── Notification preferences ───────────────────────────────────────────────
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS notify_email BOOLEAN DEFAULT true;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS notify_whatsapp BOOLEAN DEFAULT true;

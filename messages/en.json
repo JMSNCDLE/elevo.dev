@@ -576,7 +576,8 @@
     "signInButton": "Sign in →",
     "noAccount": "Don't have an account?",
     "signUpLink": "Sign up free",
-    "securityNote": "SSL encrypted · GDPR compliant · ™ ELEVO AI"
+    "securityNote": "SSL encrypted · GDPR compliant · ™ ELEVO AI",
+    "keepMeSignedIn": "Keep me signed in"
   },
   "errors": {
     "authRequired": "Please sign in to continue",

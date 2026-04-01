@@ -12,6 +12,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [rememberMe, setRememberMe] = useState(false)
   const router = useRouter()
   const params = useParams()
   const locale = (params?.locale as string) ?? 'en'
@@ -26,7 +27,10 @@ export default function LoginPage() {
     const supabase = createBrowserClient()
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) { setError(error.message); setLoading(false) }
-    else { router.push(`/${locale}/dashboard`) }
+    else {
+      if (rememberMe) localStorage.setItem('elevo-remember-me', 'true')
+      router.push(`/${locale}/dashboard`)
+    }
   }
 
   return (
@@ -57,7 +61,11 @@ export default function LoginPage() {
               className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900"
               placeholder="••••••••" />
           </div>
-          <div className="flex justify-end">
+          <div className="flex items-center justify-between">
+            <label className="flex items-center gap-2 text-sm text-gray-500 cursor-pointer">
+              <input type="checkbox" checked={rememberMe} onChange={e => setRememberMe(e.target.checked)} className="rounded border-gray-300" />
+              {t('keepMeSignedIn')}
+            </label>
             <Link href={`/${locale}/forgot-password`} className="text-sm text-indigo-600 hover:underline">{t('forgotPassword')}</Link>
           </div>
           {error && <p className="text-red-500 text-sm bg-red-50 px-3 py-2 rounded-lg">{error}</p>}
