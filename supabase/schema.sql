@@ -1208,3 +1208,28 @@ ALTER TABLE agent_messages ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "own_agent_messages" ON agent_messages FOR ALL USING (
   conversation_id IN (SELECT id FROM agent_conversations WHERE user_id = auth.uid())
 );
+
+-- ─── Agent Run Logs (Observability) ─────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS agent_runs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES profiles(id) ON DELETE SET NULL,
+  agent TEXT NOT NULL,
+  status TEXT NOT NULL CHECK (status IN ('success', 'error')),
+  error_type TEXT,
+  input TEXT,
+  output TEXT,
+  error TEXT,
+  duration_ms INTEGER,
+  tokens_input INTEGER,
+  tokens_output INTEGER,
+  tool_used TEXT,
+  plan TEXT,
+  locale TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_agent_runs_agent ON agent_runs(agent, created_at);
+CREATE INDEX IF NOT EXISTS idx_agent_runs_status ON agent_runs(status, created_at);
+CREATE INDEX IF NOT EXISTS idx_agent_runs_user ON agent_runs(user_id, created_at);
+ALTER TABLE agent_runs ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_agent_runs" ON agent_runs FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "insert_agent_runs" ON agent_runs FOR INSERT WITH CHECK (true);

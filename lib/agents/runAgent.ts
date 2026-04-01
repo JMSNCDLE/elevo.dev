@@ -1,6 +1,7 @@
 import { createMessage, MODELS, extractText } from './client'
 import { getUserContext } from '@/lib/auth/getUserContext'
 import { getOrCreateConversation, loadMessages, saveMessage, formatMessagesForClaude } from './memory'
+import { logAgentRun } from './logger'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -149,7 +150,9 @@ export async function runAgent({
     }
   }
 
+  const start = Date.now()
   const result = await attempt(maxRetries)
+  const durationMs = Date.now() - start
 
   // Save assistant response to memory
   if (useMemory && conversationId && ctx.user) {
@@ -159,6 +162,20 @@ export async function runAgent({
       await saveMessage({ conversationId, role: 'tool', content: JSON.stringify(result.result), toolName: result.tool, supabase: ctx.supabase })
     }
   }
+
+  // Log to observability (fire and forget — never blocks response)
+  logAgentRun(ctx.supabase, {
+    userId: ctx.user?.id,
+    agent,
+    status: result.type === 'error' ? 'error' : 'success',
+    input: input ?? JSON.stringify(finalMessages.slice(-1)).slice(0, 2000),
+    output: result.type === 'text' ? result.content?.slice(0, 2000) : JSON.stringify(result).slice(0, 2000),
+    error: result.type === 'error' ? result.message : undefined,
+    durationMs,
+    toolUsed: result.tool,
+    plan: ctx.plan,
+    locale: ctx.locale,
+  })
 
   return result
 }
