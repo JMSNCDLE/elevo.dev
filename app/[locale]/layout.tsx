@@ -35,9 +35,27 @@ export const metadata: Metadata = {
       { url: '/favicon.ico', sizes: 'any' },
       { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
     ],
-    apple: '/apple-touch-icon.png',
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
     shortcut: '/favicon.ico',
+  },
+  manifest: '/manifest.json',
+  authors: [{ name: 'ELEVO AI' }],
+  creator: 'ELEVO AI',
+  openGraph: {
+    title: 'ELEVO AI™ — All-in-One AI Business Platform',
+    description: '54+ AI agents to run your entire business. Marketing, sales, content, CRM, automation — all in one platform.',
+    url: 'https://elevo.dev',
+    siteName: 'ELEVO AI',
+    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ELEVO AI™ — All-in-One AI Business Platform',
+    description: '54+ AI agents to run your entire business. Try free.',
+    images: ['/og-image.png'],
   },
 }
 

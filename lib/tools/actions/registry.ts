@@ -3,12 +3,16 @@ import { sendEmailTool } from './send-email'
 import { createTaskTool } from './create-task'
 import { createContactTool } from './create-contact'
 import { whatsappNotifyTool } from './whatsapp-notify'
+import { generateImageTool } from './generate-image'
+import { generateDocumentTool } from './generate-document'
 
 const allTools: ToolDefinition[] = [
   sendEmailTool,
   createTaskTool,
   createContactTool,
   whatsappNotifyTool,
+  generateImageTool,
+  generateDocumentTool,
 ]
 
 /** Get Anthropic-compatible tool schemas (without execute function) */
