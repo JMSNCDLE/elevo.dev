@@ -4,6 +4,8 @@ import { useState, useRef, useCallback } from 'react'
 import { useParams } from 'next/navigation'
 import { Upload, Send, Loader2, Calculator, Receipt, PieChart, FileText, DollarSign, TrendingUp } from 'lucide-react'
 import { useUserContext } from '@/lib/hooks/useUserContext'
+import { useWorkflowProgress } from '@/lib/hooks/useWorkflowProgress'
+import WorkflowProgress from '@/components/chat/WorkflowProgress'
 import { cn } from '@/lib/utils'
 
 type Tab = 'upload' | 'chat' | 'tax' | 'expenses'
@@ -42,6 +44,7 @@ export default function AccountantPage() {
   const [uploading, setUploading] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
 
+  const workflow = useWorkflowProgress('accountant')
   const isOrbit = plan === 'orbit' || plan === 'galaxy' || isAdmin
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -69,6 +72,7 @@ export default function AccountantPage() {
     setMessages(prev => [...prev, { role: 'user', content: text }])
     setLoading(true)
     setStreaming('')
+    workflow.start()
 
     try {
       const res = await fetch('/api/accountant', {
@@ -92,9 +96,10 @@ export default function AccountantPage() {
         full += decoder.decode(value, { stream: true })
         setStreaming(full)
       }
+      workflow.complete()
       setMessages(prev => [...prev, { role: 'assistant', content: full }])
       setStreaming('')
-    } catch { setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, something went wrong. Please try again.' }]) }
+    } catch { workflow.error(); setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, something went wrong. Please try again.' }]) }
     finally { setLoading(false) }
   }, [input, loading, messages, docText, docName, locale])
 
@@ -143,6 +148,7 @@ export default function AccountantPage() {
                 </div>
               </div>
             ))}
+            <WorkflowProgress steps={workflow.steps} estimatedTimeMs={workflow.estimatedTime} startedAt={workflow.startedAt} visible={workflow.visible} />
             {streaming && (
               <div className="max-w-2xl"><div className="bg-dashCard text-dashText border border-dashSurface2 rounded-xl px-4 py-3 text-sm"><pre className="whitespace-pre-wrap font-sans">{streaming}</pre></div></div>
             )}
