@@ -2,6 +2,8 @@ import { createMessage, MODELS, extractText } from './client'
 import { getUserContext } from '@/lib/auth/getUserContext'
 import { getOrCreateConversation, loadMessages, saveMessage, formatMessagesForClaude } from './memory'
 import { logAgentRun } from './logger'
+import { withRetry } from './retry'
+import { canExecute, recordSuccess, recordFailure } from './circuitBreaker'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -133,33 +135,43 @@ export async function runAgent({
     params.tools = tools
   }
 
-  async function attempt(retriesLeft: number): Promise<AgentResponse> {
+  async function executeWithResilience(): Promise<AgentResponse> {
+    // Circuit breaker check
+    if (!canExecute('anthropic')) {
+      return { type: 'error', message: 'Our AI service is temporarily busy. Please try again in 30 seconds.' }
+    }
+
     try {
-      console.log(`[runAgent:${agent}] Calling Anthropic (model: ${params.model}, msgs: ${messages.length}, retries left: ${retriesLeft})`)
-      const response = await createMessage(params)
+      const response = await withRetry(
+        async () => {
+          console.log(`[runAgent:${agent}] Calling Anthropic (model: ${params.model}, msgs: ${finalMessages.length})`)
+          return createMessage(params)
+        },
+        {
+          maxRetries: 2,
+          initialDelayMs: 1500,
+          maxDelayMs: 10000,
+          onRetry: (attempt, error, delay) => {
+            const err = error as { message?: string }
+            console.warn(`[runAgent:${agent}] Retry ${attempt} after ${Math.round(delay)}ms — ${err?.message ?? 'unknown'}`)
+          },
+        }
+      )
+
+      recordSuccess('anthropic')
       console.log(`[runAgent:${agent}] Response received (${response.content.length} blocks)`)
       return handleResponse(response as { content: Array<{ type: string; text?: string; name?: string; input?: unknown }> })
     } catch (error: unknown) {
+      recordFailure('anthropic')
       const err = error as { status?: number; message?: string }
-      if (retriesLeft <= 0) {
-        const msg = err?.message ?? 'Unknown error'
-        console.error(`[runAgent:${agent}] FAILED after retries:`, msg)
-        return { type: 'error', message: `Agent error: ${msg}` }
-      }
-      // Overloaded — wait longer
-      if (err?.status === 529) {
-        console.warn(`[runAgent:${agent}] Overloaded, retrying in 1s...`)
-        await new Promise(r => setTimeout(r, 1000))
-      } else {
-        console.warn(`[runAgent:${agent}] Error (status: ${err?.status}), retrying in 500ms...`)
-        await new Promise(r => setTimeout(r, 500))
-      }
-      return attempt(retriesLeft - 1)
+      const msg = err?.message ?? 'Unknown error'
+      console.error(`[runAgent:${agent}] FAILED:`, msg)
+      return { type: 'error', message: `Agent error: ${msg}` }
     }
   }
 
   const start = Date.now()
-  const result = await attempt(maxRetries)
+  const result = await executeWithResilience()
   const durationMs = Date.now() - start
 
   // Save assistant response to memory
