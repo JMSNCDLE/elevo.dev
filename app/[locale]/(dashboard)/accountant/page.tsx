@@ -42,16 +42,7 @@ export default function AccountantPage() {
   const [uploading, setUploading] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
 
-  if (ctxLoading) return <div className="min-h-screen bg-dashBg flex items-center justify-center"><div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" /></div>
   const isOrbit = plan === 'orbit' || plan === 'galaxy' || isAdmin
-  if (!isOrbit) return (
-    <div className="p-8 max-w-2xl mx-auto text-center">
-      <Calculator size={48} className="text-accent mx-auto mb-4 opacity-50" />
-      <h1 className="text-2xl font-bold text-dashText mb-2">ELEVO Accountant™</h1>
-      <p className="text-dashMuted mb-6">Professional AI financial analyst. Available on Orbit plan and above.</p>
-      <a href={`/${locale}/pricing`} className="inline-block px-6 py-3 bg-accent text-white font-semibold rounded-xl hover:bg-indigo-700 transition-colors">Upgrade to Orbit →</a>
-    </div>
-  )
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
@@ -109,6 +100,11 @@ export default function AccountantPage() {
 
   return (
     <div className="flex flex-col h-[calc(100vh-56px)] md:h-screen">
+      {ctxLoading ? (
+        <div className="flex-1 flex items-center justify-center"><div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" /></div>
+      ) : !isOrbit ? (
+        <div className="flex-1 flex items-center justify-center p-8"><div className="max-w-2xl text-center"><Calculator size={48} className="text-accent mx-auto mb-4 opacity-50" /><h1 className="text-2xl font-bold text-dashText mb-2">ELEVO Accountant™</h1><p className="text-dashMuted mb-6">Available on Orbit plan and above.</p><a href={`/${locale}/pricing`} className="inline-block px-6 py-3 bg-accent text-white font-semibold rounded-xl">Upgrade to Orbit →</a></div></div>
+      ) : (<>
       {/* Header */}
       <div className="px-6 py-4 border-b border-dashSurface2 flex items-center justify-between shrink-0">
         <div>
@@ -195,6 +191,7 @@ export default function AccountantPage() {
           </div>
         </div>
       )}
+      </>)}
     </div>
   )
 }
