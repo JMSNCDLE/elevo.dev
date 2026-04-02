@@ -109,7 +109,7 @@ export default function MarketingPlannerPage() {
           </div>
           <h1 className="text-2xl font-bold text-white mb-2">Marketing Planner™</h1>
           <p className="text-dashMuted mb-6">
-            Upgrade to Orbit (€79/mo) to unlock your 24/7 AI marketing strategist. Get marketing plans, content calendars, ad briefs, SEO strategies, and budget recommendations.
+            Upgrade to Orbit (€49.99/mo) to unlock your 24/7 AI marketing strategist. Get marketing plans, content calendars, ad briefs, SEO strategies, and budget recommendations.
           </p>
           <Link href={`/${locale}/pricing`} className="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-colors">
             Upgrade to Orbit →

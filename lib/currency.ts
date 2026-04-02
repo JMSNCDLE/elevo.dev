@@ -8,19 +8,19 @@ export const CURRENCY_SYMBOLS: Record<Currency, string> = {
 
 export const PLAN_PRICES: Record<string, Record<Currency, { monthly: number; annual: number }>> = {
   launch: {
-    EUR: { monthly: 39, annual: 32 },
-    GBP: { monthly: 34, annual: 28 },
-    USD: { monthly: 39, annual: 32 },
+    EUR: { monthly: 29.99, annual: 24.99 },
+    GBP: { monthly: 25.99, annual: 21.99 },
+    USD: { monthly: 29.99, annual: 24.99 },
   },
   orbit: {
-    EUR: { monthly: 79, annual: 65 },
-    GBP: { monthly: 69, annual: 57 },
-    USD: { monthly: 79, annual: 65 },
+    EUR: { monthly: 49.99, annual: 41.99 },
+    GBP: { monthly: 43.99, annual: 36.99 },
+    USD: { monthly: 49.99, annual: 41.99 },
   },
   galaxy: {
-    EUR: { monthly: 149, annual: 124 },
-    GBP: { monthly: 129, annual: 107 },
-    USD: { monthly: 149, annual: 124 },
+    EUR: { monthly: 79.99, annual: 66.99 },
+    GBP: { monthly: 69.99, annual: 58.99 },
+    USD: { monthly: 79.99, annual: 66.99 },
   },
 }
 

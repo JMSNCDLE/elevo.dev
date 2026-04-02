@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     default: 'ELEVO AI™ — Create and Boost Your Business Powered by AI',
     template: '%s | ELEVO AI™',
   },
-  description: '54+ AI agents that replace your entire team — content, marketing, sales, CRM, analytics. Lower your customer acquisition cost. From €39/month.',
+  description: '54+ AI agents that replace your entire team — content, marketing, sales, CRM, analytics. Lower your customer acquisition cost. From €29.99/month.',
   keywords: ['AI', 'business AI', 'local business', 'marketing AI', 'content creation', 'CRM AI', 'ELEVO AI', 'boost your business'],
   metadataBase: new URL('https://elevo.dev'),
   verification: {

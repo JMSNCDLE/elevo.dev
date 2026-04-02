@@ -22,7 +22,7 @@ export async function generateMetadata({
       default: 'ELEVO AI™ — Create and Boost Your Business Powered by AI',
       template: '%s | ELEVO AI™',
     },
-    description: 'Create and boost your business powered by AI — every aspect taken care of. 54+ AI agents for content, ads, CRM, SEO, and more. From €39/month.',
+    description: 'Create and boost your business powered by AI — every aspect taken care of. 54+ AI agents for content, ads, CRM, SEO, and more. From €29.99/month.',
     keywords: [
       'AI for local businesses', 'business AI', 'marketing AI', 'ROAS analysis',
       'Google Business Profile', 'local SEO AI', 'content automation', 'CRM AI',
@@ -39,13 +39,13 @@ export async function generateMetadata({
       url: `${base}/${locale}`,
       siteName: 'ELEVO AI™',
       title: 'ELEVO AI™ — Create and Boost Your Business Powered by AI',
-      description: 'Create and boost your business powered by AI — every aspect taken care of. From €39/month.',
+      description: 'Create and boost your business powered by AI — every aspect taken care of. From €29.99/month.',
       images: [{ url: `${base}/api/og?title=Create+and+Boost+Your+Business+Powered+by+AI`, width: 1200, height: 630 }],
     },
     twitter: {
       card: 'summary_large_image',
       title: 'ELEVO AI™ — Create and Boost Your Business Powered by AI',
-      description: '54+ AI agents replace your entire team. From €39/month.',
+      description: '54+ AI agents replace your entire team. From €29.99/month.',
       images: [`${base}/api/og?title=Create+and+Boost+Your+Business+Powered+by+AI`],
     },
     robots: { index: true, follow: true },
@@ -92,7 +92,7 @@ function JsonLd() {
       '@type': 'FAQPage',
       mainEntity: [
         { '@type': 'Question', name: 'What is ELEVO AI™?', acceptedAnswer: { '@type': 'Answer', text: 'ELEVO AI™ helps you create and boost your business powered by AI — every aspect taken care of. 54+ AI agents that replace your entire team handle content, ads, SEO, CRM, and more.' } },
-        { '@type': 'Question', name: 'How much does ELEVO AI cost?', acceptedAnswer: { '@type': 'Answer', text: 'Plans start at €39/month with a 7-day free trial.' } },
+        { '@type': 'Question', name: 'How much does ELEVO AI cost?', acceptedAnswer: { '@type': 'Answer', text: 'Plans start at €29.99/month with a 7-day free trial.' } },
         { '@type': 'Question', name: 'Does ELEVO AI replace a marketing agency?', acceptedAnswer: { '@type': 'Answer', text: 'For most local businesses, yes. ELEVO AI generates more content, more consistently, at a fraction of the agency cost.' } },
         { '@type': 'Question', name: 'Is ELEVO AI GDPR compliant?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. GDPR-compliant, bank-grade encryption, data never used for AI training.' } },
       ],

@@ -42,6 +42,9 @@ export default function VideoStudioPage() {
   const supabase = createBrowserClient()
   const { plan, isAdmin, loading: contextLoading } = useUserContext()
 
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
+
   const [bp, setBp] = useState<BusinessProfile | null>(null)
   const [mode, setMode] = useState<Mode>(null)
   const [status, setStatus] = useState<Status>('idle')
@@ -122,6 +125,8 @@ export default function VideoStudioPage() {
       setStatus('error')
     }
   }
+
+  if (!mounted) return <div className="flex flex-col h-[calc(100vh-56px)] md:h-screen"><div className="flex-1 flex items-center justify-center"><div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" /></div></div>
 
   if (contextLoading) return <div className="min-h-screen bg-dashBg flex items-center justify-center"><div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" /></div>
 

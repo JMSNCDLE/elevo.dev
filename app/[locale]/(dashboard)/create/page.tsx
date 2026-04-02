@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useUserContext } from '@/lib/hooks/useUserContext'
 import { Palette, Image, Film, FileText, Layout, CreditCard, Mail, Youtube, Sparkles, Loader2 } from 'lucide-react'
 
@@ -19,11 +19,16 @@ const STYLES = ['Minimal', 'Bold', 'Professional', 'Playful', 'Elegant']
 
 export default function CreatePage() {
   const { plan, isAdmin, loading: contextLoading } = useUserContext()
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
+
   const [selected, setSelected] = useState<string | null>(null)
   const [prompt, setPrompt] = useState('')
   const [style, setStyle] = useState('Professional')
   const [generating, setGenerating] = useState(false)
   const [result, setResult] = useState<string | null>(null)
+
+  if (!mounted) return <div className="flex flex-col h-[calc(100vh-56px)] md:h-screen"><div className="flex-1 flex items-center justify-center"><div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" /></div></div>
 
   if (contextLoading) {
     return <div className="min-h-screen bg-dashBg flex items-center justify-center"><div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" /></div>

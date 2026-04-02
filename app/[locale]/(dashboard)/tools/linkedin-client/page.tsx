@@ -9,7 +9,7 @@ export default createToolPage({
   cursorColor: 'bg-blue-400',
   icon: Linkedin,
   greeting: "I'm the ELEVO LinkedIn Client Generator — I build targeted LinkedIn outreach campaigns that convert connections into clients. Tell me about your business and target clients.",
-  upgradeCopy: 'Upgrade to Orbit (€79/mo) to unlock the LinkedIn Client Generator.',
+  upgradeCopy: 'Upgrade to Orbit (€49.99/mo) to unlock the LinkedIn Client Generator.',
   quickActions: [
     { label: 'Full Campaign', prompt: 'Create a complete LinkedIn outreach campaign for my business. Include profile optimisation, connection requests, content plan, and DM sequences.', icon: FileText },
     { label: 'Profile Optimise', prompt: 'Optimise my LinkedIn profile for client attraction: headline, about section, featured section recommendations.', icon: Users },

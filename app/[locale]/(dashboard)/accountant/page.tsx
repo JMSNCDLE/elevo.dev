@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useParams } from 'next/navigation'
 import { Upload, Send, Loader2, Calculator, Receipt, PieChart, FileText, DollarSign, TrendingUp } from 'lucide-react'
 import { useUserContext } from '@/lib/hooks/useUserContext'
@@ -31,6 +31,9 @@ export default function AccountantPage() {
   const { plan, isAdmin, loading: ctxLoading } = useUserContext()
   const params = useParams()
   const locale = (params?.locale as string) ?? 'en'
+
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
 
   const [tab, setTab] = useState<Tab>('chat')
   const [messages, setMessages] = useState<Msg[]>([
@@ -102,6 +105,8 @@ export default function AccountantPage() {
     } catch { workflow.error(); setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, something went wrong. Please try again.' }]) }
     finally { setLoading(false) }
   }, [input, loading, messages, docText, docName, locale])
+
+  if (!mounted) return <div className="flex flex-col h-[calc(100vh-56px)] md:h-screen"><div className="flex-1 flex items-center justify-center"><div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" /></div></div>
 
   return (
     <div className="flex flex-col h-[calc(100vh-56px)] md:h-screen">

@@ -29,9 +29,9 @@ interface DunningEvent {
 
 const PLAN_INFO: Record<string, { label: string; price: string; icon: React.ElementType; color: string }> = {
   trial: { label: 'Free Trial', price: '€0', icon: Zap, color: 'text-gray-400' },
-  launch: { label: 'Launch', price: '€39/mo', icon: Rocket, color: 'text-blue-400' },
-  orbit: { label: 'Orbit', price: '€79/mo', icon: Zap, color: 'text-indigo-400' },
-  galaxy: { label: 'Galaxy', price: '€149/mo', icon: Crown, color: 'text-purple-400' },
+  launch: { label: 'Launch', price: '€29.99/mo', icon: Rocket, color: 'text-blue-400' },
+  orbit: { label: 'Orbit', price: '€49.99/mo', icon: Zap, color: 'text-indigo-400' },
+  galaxy: { label: 'Galaxy', price: '€79.99/mo', icon: Crown, color: 'text-purple-400' },
 }
 
 export default function BillingPage() {

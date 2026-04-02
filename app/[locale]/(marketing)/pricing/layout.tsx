@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Pricing — Launch, Orbit & Galaxy Plans',
-  description: 'ELEVO AI pricing plans from €39/month. Launch for solo operators, Orbit for growing businesses, Galaxy for agencies. 7-day free trial on every plan.',
+  description: 'ELEVO AI pricing plans from €29.99/month. Launch for solo operators, Orbit for growing businesses, Galaxy for agencies. 7-day free trial on every plan.',
   keywords: ['ELEVO AI pricing', 'AI business tools pricing', 'marketing AI cost', 'affordable AI for business'],
 }
 

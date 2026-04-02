@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import { Megaphone, Loader2, CheckCircle2, Calendar, Mail, Share2, FileText, TrendingUp } from 'lucide-react'
 import { useUserContext } from '@/lib/hooks/useUserContext'
@@ -26,6 +26,9 @@ export default function CampaignsPage() {
   const { plan, isAdmin, loading: ctxLoading } = useUserContext()
   const params = useParams()
   const locale = (params?.locale as string) ?? 'en'
+
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
 
   const [goal, setGoal] = useState('')
   const [channels, setChannels] = useState<string[]>(['email', 'social'])
@@ -60,6 +63,8 @@ export default function CampaignsPage() {
       setGenerating(false)
     }
   }
+
+  if (!mounted) return <div className="flex flex-col h-[calc(100vh-56px)] md:h-screen"><div className="flex-1 flex items-center justify-center"><div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" /></div></div>
 
   return (
     <div className="p-6 max-w-4xl mx-auto">

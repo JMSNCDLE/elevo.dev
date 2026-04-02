@@ -11,7 +11,7 @@ export default createToolPage({
   cursorColor: 'bg-blue-400',
   icon: Monitor,
   greeting: "I'm the ELEVO Facebook Ads Machine — I build complete Meta ad campaigns that convert. I can create ad copy, target audiences, plan budgets, design A/B tests, and predict performance. What would you like to build?",
-  upgradeCopy: 'Upgrade to Orbit (€79/mo) to unlock the Facebook Ads Machine — build complete Meta ad campaigns with AI-powered targeting, copy, and budget optimisation.',
+  upgradeCopy: 'Upgrade to Orbit (€49.99/mo) to unlock the Facebook Ads Machine — build complete Meta ad campaigns with AI-powered targeting, copy, and budget optimisation.',
   quickActions: [
     { label: 'Build Campaign', prompt: 'Build a complete Facebook ad campaign for my business. Include objective, audience, ad copy, budget, and A/B test plan.', icon: FileText },
     { label: 'Ad Copy', prompt: 'Write 5 high-converting Facebook ad copy variations for my business. Include headlines, primary text, descriptions, and CTAs.', icon: Zap },

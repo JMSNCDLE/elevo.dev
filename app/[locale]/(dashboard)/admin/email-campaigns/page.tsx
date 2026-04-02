@@ -38,7 +38,7 @@ const TEMPLATES = [
     subject_es: 'Desbloquea 300 créditos/mes y más de 15 agentes premium',
     body_en: `<h2 style="color:#18181b;font-size:20px;margin:0 0 16px">Ready for the next level?</h2>
 <p>You've been using ELEVO AI and we think you're ready for more.</p>
-<p><strong>ELEVO Orbit™ (€79/month)</strong> unlocks:</p>
+<p><strong>ELEVO Orbit™ (€49.99/month)</strong> unlocks:</p>
 <ul style="line-height:2">
 <li><strong>300 credits/month</strong> (vs 20 on trial, 100 on Launch)</li>
 <li><strong>ELEVO Spy™</strong> — competitor intelligence with weekly monitoring</li>
@@ -50,7 +50,7 @@ const TEMPLATES = [
 <div style="margin:24px 0;text-align:center"><a href="https://elevo.dev/en/pricing" style="display:inline-block;background:#6366F1;color:#fff;font-weight:600;padding:14px 32px;border-radius:10px;text-decoration:none">Upgrade to Orbit →</a></div>`,
     body_es: `<h2 style="color:#18181b;font-size:20px;margin:0 0 16px">¿Listo para el siguiente nivel?</h2>
 <p>Has estado usando ELEVO AI y creemos que estás listo para más.</p>
-<p><strong>ELEVO Orbit™ (€79/mes)</strong> desbloquea:</p>
+<p><strong>ELEVO Orbit™ (€49.99/mes)</strong> desbloquea:</p>
 <ul style="line-height:2">
 <li><strong>300 créditos/mes</strong> (vs 20 en prueba, 100 en Launch)</li>
 <li><strong>ELEVO Spy™</strong> — inteligencia competitiva con monitoreo semanal</li>
@@ -68,7 +68,7 @@ const TEMPLATES = [
     subject_en: 'Go unlimited with ELEVO Galaxy™',
     subject_es: 'Sin límites con ELEVO Galaxy™',
     body_en: `<h2 style="color:#18181b;font-size:20px;margin:0 0 16px">Unlock everything ELEVO has to offer</h2>
-<p><strong>ELEVO Galaxy™ (€149/month)</strong> is the ultimate plan:</p>
+<p><strong>ELEVO Galaxy™ (€79.99/month)</strong> is the ultimate plan:</p>
 <ul style="line-height:2">
 <li><strong>999 credits/month</strong> — practically unlimited</li>
 <li><strong>ELEVO Drop™</strong> — AI dropshipping product finder</li>

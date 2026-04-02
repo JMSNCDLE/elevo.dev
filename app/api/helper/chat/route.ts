@@ -19,7 +19,7 @@ ELEVO AI features:
 - Advisor: Problem Solver, Live Assistant, All Agents (various plans)
 - Admin: ELEVO PA™, ELEVO Spy™, QA Suite, ELEVO Update™ (admin only)
 
-Plans: Trial (free, 7 days) → Launch (€39/mo) → Orbit (€79/mo) → Galaxy (€149/mo)
+Plans: Trial (free, 7 days) → Launch (€29.99/mo) → Orbit (€49.99/mo) → Galaxy (€79.99/mo)
 Credits reset monthly. Most tools cost 1-3 credits. Problem Solver costs 2.
 
 Answer helpfully and concisely. If you don't know something specific, guide the user to the relevant section of the dashboard or suggest they contact support.

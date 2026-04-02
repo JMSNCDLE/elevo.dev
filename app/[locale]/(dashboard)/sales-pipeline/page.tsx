@@ -116,7 +116,7 @@ export default function SalesPipelinePage() {
         <div className="bg-dashCard border border-white/5 rounded-2xl p-10 text-center">
           <Lock className="w-10 h-10 text-dashMuted mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-white mb-2">Sales Pipeline</h1>
-          <p className="text-dashMuted mb-6">Upgrade to Orbit (€79/mo) to unlock a full sales pipeline with lead tracking, quick actions, and analytics.</p>
+          <p className="text-dashMuted mb-6">Upgrade to Orbit (€49.99/mo) to unlock a full sales pipeline with lead tracking, quick actions, and analytics.</p>
           <Link href={`/${locale}/pricing`} className="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-colors">Upgrade to Orbit →</Link>
         </div>
       </div>

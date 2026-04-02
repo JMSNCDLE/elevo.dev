@@ -41,6 +41,9 @@ export default function ClipPage({ params }: { params: Promise<{ locale: string 
   const [businessProfileId, setBusinessProfileId] = useState('')
   const [businessProfiles, setBusinessProfiles] = useState<Array<{ id: string; business_name: string }>>([])
 
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
+
   const [inputMode, setInputMode] = useState<InputMode>('url')
   const [sourceUrl, setSourceUrl] = useState('')
   const [transcript, setTranscript] = useState('')
@@ -68,6 +71,8 @@ export default function ClipPage({ params }: { params: Promise<{ locale: string 
   useEffect(() => {
     fetchProfile()
   }, [fetchProfile])
+
+  if (!mounted) return <div className="flex flex-col h-[calc(100vh-56px)] md:h-screen"><div className="flex-1 flex items-center justify-center"><div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" /></div></div>
 
   if (contextLoading) return <div className="min-h-screen bg-dashBg flex items-center justify-center"><div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" /></div>
 

@@ -293,7 +293,7 @@ export default function MarketplacePage() {
             <div className="bg-dashCard border border-white/5 rounded-2xl p-10 text-center">
               <Lock className="w-10 h-10 text-dashMuted mx-auto mb-4" />
               <h2 className="text-xl font-bold text-white mb-2">Post Jobs on the Marketplace</h2>
-              <p className="text-dashMuted mb-6">Upgrade to Orbit (€79/mo) to post up to 3 jobs per month, or Galaxy (€149/mo) for unlimited.</p>
+              <p className="text-dashMuted mb-6">Upgrade to Orbit (€49.99/mo) to post up to 3 jobs per month, or Galaxy (€79.99/mo) for unlimited.</p>
               <Link href={`/${locale}/pricing`} className="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-colors">
                 Upgrade now →
               </Link>

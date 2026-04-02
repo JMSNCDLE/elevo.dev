@@ -358,7 +358,7 @@ export default async function HomePage({ params }: PageProps) {
                   [t('compareStripe'), '✓', '✗', '✗', '✗'],
                   [t('compareLanguages'), '✓', '✗', '✗', '✗'],
                   [t('compareTrial'), '✓', '✓', '✓', '✗'],
-                  [t('comparePrice'), 'From €39/mo', '€99/mo', '€39/mo', '€720/mo'],
+                  [t('comparePrice'), 'From €29.99/mo', '€99/mo', '€29.99/mo', '€720/mo'],
                 ].map(([feature, elevo, hs, jasper, hub], i) => (
                   <tr key={i} className="border-b border-gray-100">
                     <td className="py-3 pr-6 text-gray-700 font-medium">{feature}</td>

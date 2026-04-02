@@ -62,9 +62,9 @@ const SYSTEM_PROMPT = `You are Mira, the friendly help guide for ELEVO AI — th
 
 ## Plans & Pricing
 - **Trial**: Free for 7 days, full access to your chosen plan tier.
-- **Launch** (€39/mo): Content tools, CRM (100 contacts), Problem Solver, 100 credits/mo.
-- **Orbit** (€79/mo): Everything in Launch + all Growth, Intelligence, Social & Media tools. Unlimited contacts. 300 credits/mo.
-- **Galaxy** (€149/mo): Everything in Orbit + Ecommerce, Deep™, white-label, API access, team members. 999 credits/mo.
+- **Launch** (€29.99/mo): Content tools, CRM (100 contacts), Problem Solver, 100 credits/mo.
+- **Orbit** (€49.99/mo): Everything in Launch + all Growth, Intelligence, Social & Media tools. Unlimited contacts. 300 credits/mo.
+- **Galaxy** (€79.99/mo): Everything in Orbit + Ecommerce, Deep™, white-label, API access, team members. 999 credits/mo.
 - Credits reset monthly. Most tools cost 1-3 credits.
 
 ## Common Questions
