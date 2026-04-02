@@ -1308,3 +1308,22 @@ CREATE TABLE IF NOT EXISTS client_shares (
 ALTER TABLE client_shares ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "own_shares" ON client_shares;
 CREATE POLICY "own_shares" ON client_shares FOR ALL USING (auth.uid() = user_id);
+
+-- ─── Idempotent Action Logs ─────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS action_logs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  action TEXT NOT NULL,
+  idempotency_key TEXT NOT NULL,
+  payload JSONB DEFAULT '{}',
+  result JSONB DEFAULT '{}',
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'completed', 'failed')),
+  source TEXT NOT NULL DEFAULT 'manual' CHECK (source IN ('manual', 'workflow', 'next_action', 'retry', 'agent')),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  completed_at TIMESTAMPTZ,
+  UNIQUE(idempotency_key)
+);
+CREATE INDEX IF NOT EXISTS idx_action_logs_key ON action_logs(idempotency_key);
+CREATE INDEX IF NOT EXISTS idx_action_logs_user ON action_logs(user_id, created_at DESC);
+ALTER TABLE action_logs ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_action_logs" ON action_logs FOR ALL USING (auth.uid() = user_id);
