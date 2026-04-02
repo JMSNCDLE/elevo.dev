@@ -1327,3 +1327,21 @@ CREATE INDEX IF NOT EXISTS idx_action_logs_key ON action_logs(idempotency_key);
 CREATE INDEX IF NOT EXISTS idx_action_logs_user ON action_logs(user_id, created_at DESC);
 ALTER TABLE action_logs ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "own_action_logs" ON action_logs FOR ALL USING (auth.uid() = user_id);
+
+-- ─── Usage Tracking (Cost Guard) ────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS usage_tracking (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  date DATE NOT NULL DEFAULT CURRENT_DATE,
+  requests_count INTEGER DEFAULT 0,
+  tokens_input INTEGER DEFAULT 0,
+  tokens_output INTEGER DEFAULT 0,
+  estimated_cost_cents INTEGER DEFAULT 0,
+  workflow_steps INTEGER DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(user_id, date)
+);
+CREATE INDEX IF NOT EXISTS idx_usage_tracking ON usage_tracking(user_id, date);
+ALTER TABLE usage_tracking ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own_usage" ON usage_tracking FOR ALL USING (auth.uid() = user_id);
