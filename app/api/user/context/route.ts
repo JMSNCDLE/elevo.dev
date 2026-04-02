@@ -13,5 +13,6 @@ export async function GET() {
     userId: ctx.user.id,
     creditsUsed: ctx.profile?.credits_used ?? 0,
     creditsLimit: ctx.profile?.credits_limit ?? 20,
+    onboardingCompleted: ctx.profile?.onboarding_completed ?? false,
   })
 }

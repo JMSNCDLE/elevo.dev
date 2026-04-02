@@ -11,6 +11,7 @@ interface UserContextState {
   userId: string
   creditsUsed: number
   creditsLimit: number
+  onboardingCompleted: boolean
   loading: boolean
 }
 
@@ -24,6 +25,7 @@ export function useUserContext(): UserContextState {
     userId: '',
     creditsUsed: 0,
     creditsLimit: 20,
+    onboardingCompleted: false,
     loading: true,
   })
 
@@ -41,6 +43,7 @@ export function useUserContext(): UserContextState {
             userId: data.userId ?? '',
             creditsUsed: data.creditsUsed ?? 0,
             creditsLimit: data.creditsLimit ?? 20,
+            onboardingCompleted: data.onboardingCompleted ?? false,
             loading: false,
           })
         } else {
