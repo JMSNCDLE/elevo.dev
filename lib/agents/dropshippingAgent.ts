@@ -99,7 +99,7 @@ Return ONLY valid JSON array with exactly ${count} products:
     "category": "product category",
     "estimatedMargin": "e.g. 65%",
     "buyPrice": "e.g. €4.50",
-    "sellPrice": "e.g. €29.99",
+    "sellPrice": "e.g. €39",
     "trendScore": 85,
     "demandSignals": ["TikTok viral with 2M views", "Amazon bestseller rank #42"],
     "competitionLevel": "low",

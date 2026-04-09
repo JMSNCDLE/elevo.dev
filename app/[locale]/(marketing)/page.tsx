@@ -7,7 +7,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'ELEVO AI™ — Create and Boost Your Business Powered by AI',
-  description: 'Create and boost your business powered by AI — every aspect taken care of. 54+ AI agents for content, marketing, ads, CRM, SEO, and analytics. 7-day free trial.',
+  description: 'Create and boost your business powered by AI — every aspect taken care of. 60+ AI agents for content, marketing, ads, CRM, SEO, and analytics. 7-day free trial.',
   keywords: ['AI for business', 'business AI tools', 'marketing AI', 'local business AI', 'ELEVO AI', 'AI agents', 'content automation', 'CRM AI', 'SEO AI'],
 }
 
@@ -358,7 +358,7 @@ export default async function HomePage({ params }: PageProps) {
                   [t('compareStripe'), '✓', '✗', '✗', '✗'],
                   [t('compareLanguages'), '✓', '✗', '✗', '✗'],
                   [t('compareTrial'), '✓', '✓', '✓', '✗'],
-                  [t('comparePrice'), 'From €29.99/mo', '€99/mo', '€29.99/mo', '€720/mo'],
+                  [t('comparePrice'), 'From €39/mo', '€99/mo', '€39/mo', '€720/mo'],
                 ].map(([feature, elevo, hs, jasper, hub], i) => (
                   <tr key={i} className="border-b border-gray-100">
                     <td className="py-3 pr-6 text-gray-700 font-medium">{feature}</td>

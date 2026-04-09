@@ -120,7 +120,7 @@
     "viewAnalytics": "View analytics",
     "importAdData": "Import ad data",
     "upgradeToLaunch": "Upgrade to Launch",
-    "upgradeDesc": "100 credits/month + CRM. From €29.99/mo.",
+    "upgradeDesc": "100 credits/month + CRM. From €39/mo.",
     "morning": "morning",
     "afternoon": "afternoon",
     "evening": "evening",
@@ -200,7 +200,7 @@
     "heroTitle1": "Create and boost",
     "heroTitle2": "your business",
     "heroTitle3": "powered by AI.",
-    "heroSubtitle": "54+ AI agents that replace your entire team — content, marketing, sales, CRM, and analytics. 24/7, at a fraction of the cost.",
+    "heroSubtitle": "60+ AI agents that replace your entire team — content, marketing, sales, CRM, and analytics. 24/7, at a fraction of the cost.",
     "startTrial": "Start your 7-day free trial →",
     "watchDemo": "Watch demo",
     "trialNote": "7-day free trial on every plan. Cancel anytime.",
@@ -389,12 +389,12 @@
   },
   "about": {
     "metaTitle": "About ELEVO AI",
-    "metaDescription": "ELEVO AI — 54+ AI agents that replace your entire team. Built for local businesses, ecommerce, creators, and agencies.",
+    "metaDescription": "ELEVO AI — 60+ AI agents that replace your entire team. Built for local businesses, ecommerce, creators, and agencies.",
     "title": "About ELEVO AI",
     "paragraph1": "ELEVO AI is the platform that replaces the need for employees with AI agents that work 24/7. We built it because we believe every business — from a solo freelancer to a growing agency — deserves an AI-powered team without the overhead.",
-    "paragraph2": "With 54+ AI agents across marketing, sales, content, analytics, and operations, ELEVO handles the work that used to require a full team. Each agent is purpose-built for a specific role: writing content, managing social media, running ad campaigns, closing deals, and more.",
+    "paragraph2": "With 60+ AI agents across marketing, sales, content, analytics, and operations, ELEVO handles the work that used to require a full team. Each agent is purpose-built for a specific role: writing content, managing social media, running ad campaigns, closing deals, and more.",
     "paragraph3": "Founded by James Carlin, ELEVO AI is headquartered in the United Kingdom and serves businesses across Europe, the US, and beyond. Our mission is simple: lower your customer acquisition cost and help you grow faster — with AI doing the heavy lifting.",
-    "paragraph4": "Plans start at €29.99/month. Every plan includes a 7-day free trial.",
+    "paragraph4": "Plans start at €39/month. Every plan includes a 7-day free trial.",
     "startTrial": "Start free trial",
     "contactUs": "Contact us"
   },
@@ -537,7 +537,7 @@
     "founded": "Founded: 2026",
     "founder": "Founder: James Carlin",
     "product": "Product: AI operating system for local businesses",
-    "agents": "54+ AI agents, 12 languages",
+    "agents": "60+ AI agents, 12 languages",
     "backHome": "← Back to home"
   },
   "signup": {

@@ -108,7 +108,7 @@ export default function ExecutionCoachPage() {
           </div>
           <h1 className="text-2xl font-bold text-white mb-2">Execution Coach™</h1>
           <p className="text-dashMuted mb-6">
-            Upgrade to Orbit (€49.99/mo) to unlock your 24/7 execution expert. Get roadmaps, KPIs, weekly tasks, progress reviews, and accountability checks.
+            Upgrade to Orbit (€79/mo) to unlock your 24/7 execution expert. Get roadmaps, KPIs, weekly tasks, progress reviews, and accountability checks.
           </p>
           <Link href={`/${locale}/pricing`} className="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-colors">
             Upgrade to Orbit →

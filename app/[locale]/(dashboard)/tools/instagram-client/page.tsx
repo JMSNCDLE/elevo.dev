@@ -11,7 +11,7 @@ export default createToolPage({
   cursorColor: 'bg-pink-400',
   icon: Camera,
   greeting: "I'm the ELEVO Instagram Client Machine — I help you turn followers into paying clients. I create DM scripts, lead generation strategies, content plans, hashtag research, bio optimisation, and story selling sequences. What would you like to work on?",
-  upgradeCopy: 'Upgrade to Orbit (€49.99/mo) to unlock the Instagram Client Machine — turn your followers into paying clients with AI-powered DM scripts, content strategies, and conversion funnels.',
+  upgradeCopy: 'Upgrade to Orbit (€79/mo) to unlock the Instagram Client Machine — turn your followers into paying clients with AI-powered DM scripts, content strategies, and conversion funnels.',
   quickActions: [
     { label: 'DM Scripts', prompt: 'Write warm and cold DM outreach scripts for acquiring clients on Instagram. Include opener, value pitch, and CTA.', icon: MessageSquare },
     { label: 'Lead Strategy', prompt: 'Create a complete Instagram lead generation strategy for my business. Include content types, posting schedule, and conversion funnel.', icon: Users },

@@ -11,7 +11,7 @@ export default createToolPage({
   cursorColor: 'bg-sky-400',
   icon: Search,
   greeting: "I'm the ELEVO Researcher — I create structured research reports with market data, competitive analysis, and actionable recommendations. Tell me what you want to research and I'll deliver a comprehensive report. What topic should I investigate?",
-  upgradeCopy: 'Upgrade to Orbit (€49.99/mo) to unlock the Researcher — get AI-powered market research with competitive analysis, opportunity mapping, and actionable recommendations.',
+  upgradeCopy: 'Upgrade to Orbit (€79/mo) to unlock the Researcher — get AI-powered market research with competitive analysis, opportunity mapping, and actionable recommendations.',
   quickActions: [
     { label: 'Full Report', prompt: 'Create a comprehensive research report on my industry. Include market overview, opportunities, competitive landscape, key data, and actionable recommendations.', icon: FileText },
     { label: 'Competitor Research', prompt: 'Research my top 5-10 competitors. Compare their offerings, pricing, strengths, weaknesses, and market positioning.', icon: Users },

@@ -116,7 +116,7 @@ export default function SalesStrategistPage() {
           </div>
           <h1 className="text-2xl font-bold text-white mb-2">Sales Strategist™</h1>
           <p className="text-dashMuted mb-6">
-            Upgrade to Orbit (€49.99/mo) to unlock your 24/7 AI sales expert. Get sales plans, lead scoring, outreach templates, pipeline strategies, and conversion optimisation.
+            Upgrade to Orbit (€79/mo) to unlock your 24/7 AI sales expert. Get sales plans, lead scoring, outreach templates, pipeline strategies, and conversion optimisation.
           </p>
           <Link
             href={`/${locale}/pricing`}

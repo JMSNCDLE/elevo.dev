@@ -11,7 +11,7 @@ export default createToolPage({
   cursorColor: 'bg-teal-400',
   icon: UserPlus,
   greeting: "I'm the ELEVO Client Onboarding Kit — I create complete client onboarding packages that set projects up for success. Tell me about your new client and I'll generate a welcome email, kickoff agenda, questionnaire, timeline, and expectations document. Who are we onboarding?",
-  upgradeCopy: 'Upgrade to Orbit (€49.99/mo) to unlock the Client Onboarding Kit — generate complete onboarding packages with welcome emails, kickoff agendas, questionnaires, and timelines.',
+  upgradeCopy: 'Upgrade to Orbit (€79/mo) to unlock the Client Onboarding Kit — generate complete onboarding packages with welcome emails, kickoff agendas, questionnaires, and timelines.',
   quickActions: [
     { label: 'Full Kit', prompt: 'Create a complete client onboarding kit. I\'ll tell you about the client and you generate everything: welcome email, kickoff agenda, questionnaire, timeline, and expectations document.', icon: FileText },
     { label: 'Welcome Email', prompt: 'Write a warm, personal welcome email for a new client. Tone: excited, professional, and genuinely happy to work with them.', icon: Mail },

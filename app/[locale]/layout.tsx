@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     default: 'ELEVO AI™ — Create and Boost Your Business Powered by AI',
     template: '%s | ELEVO AI™',
   },
-  description: '54+ AI agents that replace your entire team — content, marketing, sales, CRM, analytics. Lower your customer acquisition cost. From €29.99/month.',
+  description: '60+ AI agents that replace your entire team — content, marketing, sales, CRM, analytics. Lower your customer acquisition cost. From €39/month.',
   keywords: ['AI', 'business AI', 'local business', 'marketing AI', 'content creation', 'CRM AI', 'ELEVO AI', 'boost your business'],
   metadataBase: new URL('https://elevo.dev'),
   verification: {
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   creator: 'ELEVO AI',
   openGraph: {
     title: 'ELEVO AI™ — All-in-One AI Business Platform',
-    description: '54+ AI agents to run your entire business. Marketing, sales, content, CRM, automation — all in one platform.',
+    description: '60+ AI agents to run your entire business. Marketing, sales, content, CRM, automation — all in one platform.',
     url: 'https://elevo.dev',
     siteName: 'ELEVO AI',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'ELEVO AI™ — All-in-One AI Business Platform',
-    description: '54+ AI agents to run your entire business. Try free.',
+    description: '60+ AI agents to run your entire business. Try free.',
     images: ['/og-image.png'],
   },
 }

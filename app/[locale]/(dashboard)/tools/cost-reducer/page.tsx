@@ -11,7 +11,7 @@ export default createToolPage({
   cursorColor: 'bg-amber-400',
   icon: TrendingDown,
   greeting: "I'm the ELEVO Cost Reducer — I analyse your business expenses and find specific, actionable ways to cut costs. Tell me about your monthly expenses and I'll identify savings opportunities, tool consolidation, and automation possibilities. How much are you spending?",
-  upgradeCopy: 'Upgrade to Orbit (€49.99/mo) to unlock the Cost Reducer — find hidden savings, consolidate tools, and automate expensive manual processes.',
+  upgradeCopy: 'Upgrade to Orbit (€79/mo) to unlock the Cost Reducer — find hidden savings, consolidate tools, and automate expensive manual processes.',
   quickActions: [
     { label: 'Full Analysis', prompt: 'Analyse my business costs and generate a complete optimisation report. I\'ll list my monthly expenses by category.', icon: FileText },
     { label: 'Tool Consolidation', prompt: 'I use multiple software tools. Help me consolidate them into fewer, more cost-effective alternatives. I\'ll list my current stack.', icon: Layers },

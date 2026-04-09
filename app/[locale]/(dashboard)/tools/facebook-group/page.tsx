@@ -11,7 +11,7 @@ export default createToolPage({
   cursorColor: 'bg-blue-400',
   icon: Users2,
   greeting: "I'm the ELEVO Facebook Group Machine — I help you grow, engage, and monetise Facebook groups. I create growth strategies, engagement posts, lead capture systems, content calendars, and monetisation plans. What would you like to build?",
-  upgradeCopy: 'Upgrade to Orbit (€49.99/mo) to unlock the Facebook Group Machine — grow and monetise your Facebook group with AI-powered strategies, content, and automation.',
+  upgradeCopy: 'Upgrade to Orbit (€79/mo) to unlock the Facebook Group Machine — grow and monetise your Facebook group with AI-powered strategies, content, and automation.',
   quickActions: [
     { label: 'Growth Strategy', prompt: 'Create a Facebook group growth strategy for my business. Include organic tactics, cross-promotion, and member activation plan.', icon: TrendingUp },
     { label: 'Engagement Posts', prompt: 'Generate 10 high-engagement post templates for my Facebook group. Include questions, polls, value posts, and discussion starters.', icon: MessageSquare },

@@ -12,10 +12,10 @@ interface CreditsDepletedProps {
 }
 
 const PLAN_CONFIG: Record<string, { refreshTime: string; upgradeTo?: string; price: string }> = {
-  trial: { refreshTime: '24 hours', upgradeTo: 'Launch', price: '€29.99/mo' },
-  launch: { refreshTime: '12 hours', upgradeTo: 'Orbit', price: '€49.99/mo' },
-  orbit: { refreshTime: '6–8 hours', upgradeTo: 'Galaxy', price: '€79.99/mo' },
-  galaxy: { refreshTime: '2–3 hours', price: '€79.99/mo' },
+  trial: { refreshTime: '24 hours', upgradeTo: 'Launch', price: '€39/mo' },
+  launch: { refreshTime: '12 hours', upgradeTo: 'Orbit', price: '€79/mo' },
+  orbit: { refreshTime: '6–8 hours', upgradeTo: 'Galaxy', price: '€149/mo' },
+  galaxy: { refreshTime: '2–3 hours', price: '€149/mo' },
 }
 
 export default function CreditsDepleted({ plan, creditsUsed, creditsLimit, userId }: CreditsDepletedProps) {

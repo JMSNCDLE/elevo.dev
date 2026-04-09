@@ -11,7 +11,7 @@ export default createToolPage({
   cursorColor: 'bg-violet-400',
   icon: FileText,
   greeting: "I'm the ELEVO Proposal Builder — I create professional business proposals that close deals. Tell me about the project, client, and your services, and I'll generate a complete proposal with executive summary, scope, timeline, pricing, and terms. Ready to win a deal?",
-  upgradeCopy: 'Upgrade to Orbit (€49.99/mo) to unlock the Proposal Builder — generate professional business proposals with executive summaries, pricing tables, timelines, and terms.',
+  upgradeCopy: 'Upgrade to Orbit (€79/mo) to unlock the Proposal Builder — generate professional business proposals with executive summaries, pricing tables, timelines, and terms.',
   quickActions: [
     { label: 'Full Proposal', prompt: 'Create a complete business proposal for a client. I\'ll describe the project and you generate everything: executive summary, scope, deliverables, timeline, pricing, terms, and next steps.', icon: FileText },
     { label: 'Pricing Table', prompt: 'Help me build a professional pricing table for my proposal. I need line items, quantities, rates, discounts, and totals formatted clearly.', icon: DollarSign },

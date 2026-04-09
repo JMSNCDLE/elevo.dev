@@ -11,7 +11,7 @@ export default createToolPage({
   cursorColor: 'bg-red-400',
   icon: Phone,
   greeting: "I'm the ELEVO Cold Call Script Generator — I create complete cold call scripts with opening hooks, qualifying questions, objection handling, and closing techniques. Tell me what you're selling and who you're calling, and I'll write a script you can use today.",
-  upgradeCopy: 'Upgrade to Orbit (€49.99/mo) to unlock the Cold Call Script Generator — get AI-written call scripts with objection handling, qualifying questions, and voicemail scripts.',
+  upgradeCopy: 'Upgrade to Orbit (€79/mo) to unlock the Cold Call Script Generator — get AI-written call scripts with objection handling, qualifying questions, and voicemail scripts.',
   quickActions: [
     { label: 'Full Script', prompt: 'Create a complete cold call script for my business. Include opening hook, value prop, qualifying questions, objection handling for 5 common objections, closing, and voicemail script.', icon: FileText },
     { label: 'Objection Handling', prompt: 'Give me responses to the 10 most common cold call objections: no budget, no time, not interested, already have a solution, send me info, need to think, wrong person, call back later, too expensive, happy with current provider.', icon: Shield },

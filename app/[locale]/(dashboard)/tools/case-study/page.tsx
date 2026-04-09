@@ -9,7 +9,7 @@ export default createToolPage({
   cursorColor: 'bg-emerald-400',
   icon: Award,
   greeting: "I'm the ELEVO Case Study Builder — I create case studies that prove your value and close deals. Tell me about a client success story.",
-  upgradeCopy: 'Upgrade to Launch (€29.99/mo) to unlock the Case Study Builder.',
+  upgradeCopy: 'Upgrade to Launch (€39/mo) to unlock the Case Study Builder.',
   quickActions: [
     { label: 'Full Case Study', prompt: 'Create a complete 800-1200 word case study. I will provide the client, challenge, solution, and results.', icon: FileText },
     { label: 'One-Pager', prompt: 'Create a condensed single-page case study with key stats highlighted.', icon: FileText },

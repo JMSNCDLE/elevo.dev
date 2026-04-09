@@ -106,7 +106,7 @@ export default function DeepPage() {
             </div>
             <p className="text-sm text-[#9CA3AF] mb-4">
               ELEVO Deep™ handles your most complex business challenges using Claude Opus with maximum effort.
-              It requires the Galaxy plan (€79.99/mo).
+              It requires the Galaxy plan (€149/mo).
             </p>
             <Link
               href={`/${locale}/pricing`}

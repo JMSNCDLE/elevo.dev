@@ -143,7 +143,7 @@ export default function OnboardingWizard({ onComplete }: { onComplete: () => voi
           <div className="text-center">
             <Rocket size={48} className="text-accent mx-auto mb-4" />
             <h1 className="text-2xl font-bold text-dashText mb-2">Your AI team is ready!</h1>
-            <p className="text-dashMuted mb-6">{businessName}, your personalised AI team of 54+ agents is set up. Let&apos;s get your first win.</p>
+            <p className="text-dashMuted mb-6">{businessName}, your personalised AI team of 60+ agents is set up. Let&apos;s get your first win.</p>
             <button onClick={finish} disabled={saving} className="w-full py-3 bg-accent text-white font-semibold rounded-xl disabled:opacity-50">
               {saving ? <Loader2 size={16} className="animate-spin mx-auto" /> : 'Launch my dashboard →'}
             </button>

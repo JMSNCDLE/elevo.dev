@@ -69,7 +69,7 @@ export default function CompetitiveIntelPage() {
       })
 
       if (res.status === 403) {
-        setMessages(prev => [...prev, { role: 'assistant', content: 'Competitive Intelligence™ is exclusively available on the Galaxy plan (€79.99/mo). Upgrade to unlock our most powerful strategic agent.' }])
+        setMessages(prev => [...prev, { role: 'assistant', content: 'Competitive Intelligence™ is exclusively available on the Galaxy plan (€149/mo). Upgrade to unlock our most powerful strategic agent.' }])
         setChatLoading(false)
         return
       }
@@ -121,7 +121,7 @@ export default function CompetitiveIntelPage() {
             Our most powerful strategic agent. Monitor competitors, analyse market trends, benchmark pricing, identify feature gaps, and find opportunities others miss.
           </p>
           <Link href={`/${locale}/pricing`} className="inline-block px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-purple-500/20">
-            Upgrade to Galaxy — €79.99/mo →
+            Upgrade to Galaxy — €149/mo →
           </Link>
           <p className="text-xs text-dashMuted mt-4">2 credits per query · Unlimited strategic depth</p>
         </div>

@@ -231,7 +231,7 @@ export async function generateELEVOOwnAds(
       country: 'United Kingdom',
       tone_of_voice: 'confident, direct, no-fluff',
       target_audience: marketDescriptions[targetMarket],
-      unique_selling_points: ['54+ AI agents', '4 pillars in one platform', 'Replaces €500/mo of tools', 'From €39/month'],
+      unique_selling_points: ['60+ AI agents', '4 pillars in one platform', 'Replaces €500/mo of tools', 'From €39/month'],
       is_primary: true,
     } as BusinessProfile,
     platform: targetMarket === 'global_agencies' || targetMarket === 'uk_professional' ? 'linkedin' : 'meta',
@@ -241,7 +241,7 @@ export async function generateELEVOOwnAds(
     targetLocation: targetMarket === 'spain_hospitality' ? 'Spain' : 'United Kingdom',
     campaignDuration: '30 days',
     productOrService: 'ELEVO AI — AI operating system for local businesses',
-    uniqueSellingPoint: '54+ AI agents from €39/month — replaces €500+ of separate tools',
+    uniqueSellingPoint: '60+ AI agents from €39/month — replaces €500+ of separate tools',
     locale,
   }
 

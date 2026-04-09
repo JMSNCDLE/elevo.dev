@@ -63,7 +63,7 @@ export default function HostingAutomationsPage() {
       })
 
       if (res.status === 403) {
-        setMessages(prev => [...prev, { role: 'assistant', content: 'Hosting Automations™ is exclusively available on the Galaxy plan (€79.99/mo).' }])
+        setMessages(prev => [...prev, { role: 'assistant', content: 'Hosting Automations™ is exclusively available on the Galaxy plan (€149/mo).' }])
         setChatLoading(false)
         return
       }
@@ -105,7 +105,7 @@ export default function HostingAutomationsPage() {
           <h1 className="text-2xl font-bold text-white mb-2">Hosting Automations™</h1>
           <p className="text-dashMuted mb-6">Optimise your hosting, reduce costs, generate server configs, and plan for scale.</p>
           <Link href={`/${locale}/pricing`} className="inline-block px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-purple-500/20">
-            Upgrade to Galaxy — €79.99/mo →
+            Upgrade to Galaxy — €149/mo →
           </Link>
         </div>
       </div>

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Pricing — Launch, Orbit & Galaxy Plans',
-  description: 'ELEVO AI pricing plans from €29.99/month. Launch for solo operators, Orbit for growing businesses, Galaxy for agencies. 7-day free trial on every plan.',
+  description: 'ELEVO AI pricing plans from €39/month. Launch for solo operators, Orbit for growing businesses, Galaxy for agencies. 7-day free trial on every plan.',
   keywords: ['ELEVO AI pricing', 'AI business tools pricing', 'marketing AI cost', 'affordable AI for business'],
 }
 
@@ -10,7 +10,7 @@ const pricingSchema = {
   '@context': 'https://schema.org',
   '@type': 'Product',
   name: 'ELEVO AI™',
-  description: 'AI operating system for local businesses — 54+ AI agents for content, marketing, sales, CRM, and analytics.',
+  description: 'AI operating system for local businesses — 60+ AI agents for content, marketing, sales, CRM, and analytics.',
   brand: { '@type': 'Brand', name: 'ELEVO AI' },
   offers: [
     { '@type': 'Offer', name: 'Launch', price: '39', priceCurrency: 'EUR', priceValidUntil: '2027-12-31', availability: 'https://schema.org/InStock', url: 'https://elevo.dev/en/pricing' },

@@ -42,7 +42,7 @@ export default function TrademarkPage() {
   const supabase = createBrowserClient()
 
   const [brandName, setBrandName] = useState('ELEVO AI')
-  const [description, setDescription] = useState('AI-powered business management platform with 54+ AI agents for local businesses')
+  const [description, setDescription] = useState('AI-powered business management platform with 60+ AI agents for local businesses')
   const [selectedJurisdictions, setSelectedJurisdictions] = useState<string[]>(['UK', 'EU', 'US'])
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError] = useState<string | null>(null)
