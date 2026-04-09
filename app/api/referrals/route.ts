@@ -49,7 +49,7 @@ export async function GET() {
 
   return NextResponse.json({
     code: profile.referral_code,
-    link: `https://elevo.dev?ref=${profile.referral_code}`,
+    link: `https://elevo.dev/en/signup?ref=${profile.referral_code}`,
     stats: { totalReferrals, subscribed, pendingEarnings, paidEarnings },
     referrals: referrals ?? [],
   })

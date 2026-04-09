@@ -1360,3 +1360,14 @@ ALTER TABLE build_agent_reports ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "admin_read_build_reports" ON build_agent_reports FOR SELECT USING (true);
 CREATE POLICY "service_insert_build_reports" ON build_agent_reports FOR INSERT WITH CHECK (true);
 CREATE POLICY "service_update_build_reports" ON build_agent_reports FOR UPDATE USING (true);
+
+-- Phase 48: Waitlist
+CREATE TABLE IF NOT EXISTS waitlist (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  email TEXT UNIQUE NOT NULL,
+  source TEXT DEFAULT 'website',
+  signed_up_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE waitlist ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "service_insert_waitlist" ON waitlist FOR INSERT WITH CHECK (true);
+CREATE POLICY "public_count_waitlist" ON waitlist FOR SELECT USING (true);
