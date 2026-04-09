@@ -112,7 +112,7 @@ export default function PricingPage() {
   ];
 
   const FEATURE_ROWS: FeatureRow[] = [
-    { feature: t('ftCredits'), launch: '100', orbit: '300', galaxy: '999' },
+    { feature: t('ftCredits'), launch: '500', orbit: '1,500', galaxy: '5,000' },
     { feature: t('ftProfiles'), launch: '1', orbit: '3', galaxy: '15' },
     { feature: t('ftGBP'), launch: true, orbit: true, galaxy: true },
     { feature: t('ftBlog'), launch: true, orbit: true, galaxy: true },

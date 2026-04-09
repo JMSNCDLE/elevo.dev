@@ -374,24 +374,7 @@ export default async function HomePage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* ── SECTION 8: PRICING ───────────────────────────────────────────────── */}
-      <section className="bg-[#FFFEF9] py-24 px-6">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl sm:text-5xl font-black text-gray-900 tracking-tight">
-              {t('pricingTitle')}
-            </h2>
-            <p className="text-gray-500 mt-4">{t('pricingSubtitle')}</p>
-          </div>
-          <HomePricingCards />
-          <div className="text-center mt-8">
-            <TrademarkSlogan className="mb-2" />
-            <p className="text-gray-400 text-sm">{t('trialNote')}</p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── SECTION 8B: WHY HIRE WHEN AI WORKS 24/7? ──────────────────────── */}
+      {/* ── SECTION 8: WHY HIRE WHEN AI WORKS 24/7? ──────────────────────── */}
       <section className="bg-[#050507] py-24 px-6 border-b border-white/5">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
@@ -434,6 +417,23 @@ export default async function HomePage({ params }: PageProps) {
             >
               {t('startReplacing')}
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SECTION 8B: PRICING ───────────────────────────────────────────────── */}
+      <section className="bg-[#FFFEF9] py-24 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl sm:text-5xl font-black text-gray-900 tracking-tight">
+              {t('pricingTitle')}
+            </h2>
+            <p className="text-gray-500 mt-4">{t('pricingSubtitle')}</p>
+          </div>
+          <HomePricingCards />
+          <div className="text-center mt-8">
+            <TrademarkSlogan className="mb-2" />
+            <p className="text-gray-400 text-sm">{t('trialNote')}</p>
           </div>
         </div>
       </section>

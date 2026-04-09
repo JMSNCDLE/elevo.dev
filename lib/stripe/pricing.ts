@@ -32,7 +32,7 @@ export const PLANS: PlanConfig[] = [
     badge: null,
     prices: { gbp: 34, usd: 39, eur: 39 },
     annualPrices: { gbp: 336, usd: 384, eur: 384 },
-    credits: 100,
+    credits: 500,
     features: [
       'Google Business Profile posts',
       'Blog posts & review responses',
@@ -56,7 +56,7 @@ export const PLANS: PlanConfig[] = [
     highlight: true,
     prices: { gbp: 69, usd: 79, eur: 79 },
     annualPrices: { gbp: 684, usd: 780, eur: 780 },
-    credits: 300,
+    credits: 1500,
     features: [
       'Everything in Launch',
       'Sales & Proposals AI',
@@ -82,7 +82,7 @@ export const PLANS: PlanConfig[] = [
     badge: 'Best Value',
     prices: { gbp: 129, usd: 149, eur: 149 },
     annualPrices: { gbp: 1284, usd: 1488, eur: 1488 },
-    credits: 999,
+    credits: 5000,
     features: [
       'Everything in Orbit',
       'Unlimited credits',

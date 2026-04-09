@@ -463,19 +463,19 @@ The local businesses that embrace AI marketing tools in 2026 will look back in a
     `,
   },
   {
-    slug: '38-ai-agents-run-your-business',
-    title: '38 AI Agents That Can Run Your Business While You Sleep',
+    slug: '60-plus-ai-agents-run-your-business',
+    title: '60+ AI Agents That Can Run Your Business While You Sleep',
     category: 'Product',
     categoryColor: 'purple',
     readingTime: '10 min read',
     date: 'March 2026',
-    excerpt: 'ELEVO AI gives every local business access to 38 specialised AI agents — each one an expert in a different part of running your business.',
+    excerpt: 'ELEVO AI gives every local business access to 60+ specialised AI agents — each one an expert in a different part of running your business.',
     content: `
-## What if you had 38 AI agents working for you — for less than the cost of one employee?
+## What if you had 60+ AI agents working for you — for less than the cost of one employee?
 
 Most local businesses operate with a small team. Often, it's just the owner doing everything: marketing, customer service, bookkeeping, social media, ads, content creation, and somehow still finding time to actually deliver the service they sell.
 
-ELEVO AI changes that equation. It gives every business access to 38 specialised AI agents — each one trained to handle a specific part of running a business. Together, they form an AI workforce that operates around the clock.
+ELEVO AI changes that equation. It gives every business access to 60+ specialised AI agents — each one trained to handle a specific part of running a business. Together, they form an AI workforce that operates around the clock.
 
 Here's what each agent does and how it helps your business grow.
 
@@ -579,7 +579,7 @@ These agents ensure potential customers can find your business when they search.
 
 **Inbox™ — Email Management Agent:** Manages your business inbox, drafts responses, prioritises messages, and ensures nothing important gets missed.
 
-## The power of 38 agents working together
+## The power of 60+ agents working together
 
 The real magic isn't any single agent — it's how they work together. When a customer leaves a review, Sage drafts a response while Pulse updates the CRM and Deep analyses the sentiment trend. When Leo identifies a high-performing ad, Bolt allocates more budget to it while Create generates fresh ad copy.
 
@@ -671,7 +671,7 @@ Scattered tools create data silos. An AI OS creates a single source of truth for
 
 ELEVO wasn't designed as a collection of features. It was designed as an operating system — a single platform where every function is connected, every agent can access shared data, and every action triggers intelligent follow-up across the system.
 
-With 38 AI agents covering content, ads, CRM, analytics, social media, email, SEO, and more — all sharing the same data and working together — ELEVO replaces the entire tool stack.
+With 60+ AI agents covering content, ads, CRM, analytics, social media, email, SEO, and more — all sharing the same data and working together — ELEVO replaces the entire tool stack.
 
 **The pricing comparison:**
 

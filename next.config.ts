@@ -29,6 +29,13 @@ const nextConfig: NextConfig = {
       'recharts',
     ],
   },
+  redirects: async () => [
+    {
+      source: '/:locale/blog/38-ai-agents-run-your-business',
+      destination: '/:locale/blog/60-plus-ai-agents-run-your-business',
+      permanent: true,
+    },
+  ],
   headers: async () => [
     {
       source: '/(.*)',
