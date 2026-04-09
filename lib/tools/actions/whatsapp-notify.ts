@@ -1,23 +1,23 @@
 import type { ToolDefinition } from './types'
-import { sendWhatsAppToJames } from '@/lib/notifications/whatsapp'
+import { sendTelegramToJames } from '@/lib/notifications/telegram'
 
 export const whatsappNotifyTool: ToolDefinition = {
   name: 'send_whatsapp',
-  description: 'Send a WhatsApp notification to James (admin). Use for urgent updates.',
+  description: 'Send a Telegram notification to James (admin). Use for urgent updates.',
   input_schema: {
     type: 'object',
     properties: {
-      message: { type: 'string', description: 'The message to send via WhatsApp' },
+      message: { type: 'string', description: 'The message to send via Telegram' },
     },
     required: ['message'],
   },
   sensitive: true,
   async execute(input) {
     try {
-      await sendWhatsAppToJames(input.message as string)
-      return { success: true, message: 'WhatsApp notification sent' }
+      await sendTelegramToJames(input.message as string)
+      return { success: true, message: 'Telegram notification sent' }
     } catch {
-      return { success: false, message: 'WhatsApp notification failed' }
+      return { success: false, message: 'Telegram notification failed' }
     }
   },
 }

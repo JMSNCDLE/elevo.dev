@@ -1,11 +1,11 @@
-import { sendWhatsAppToJames } from './whatsapp'
+import { sendTelegramToJames } from './telegram'
 import { sendEmail } from '../email/send'
 import { createClient } from '@supabase/supabase-js'
 
 const JAMES_EMAIL = 'jamescn.2504@gmail.com'
 
 type NotificationType = 'signup' | 'subscription' | 'churn' | 'alert' | 'daily_summary' | 'weekly_insight' | 'agent_insight'
-type Channel = 'whatsapp' | 'email' | 'both'
+type Channel = 'telegram' | 'email' | 'both'
 
 interface NotifyParams {
   type: NotificationType
@@ -36,12 +36,12 @@ async function logNotification(params: NotifyParams & { status: string }) {
 
 export async function notifyOwner(params: NotifyParams): Promise<boolean> {
   const channel = params.channel ?? 'both'
-  let whatsappOk = true
+  let telegramOk = true
   let emailOk = true
 
-  // WhatsApp
-  if (channel === 'whatsapp' || channel === 'both') {
-    whatsappOk = await sendWhatsAppToJames(`*${params.title}*\n\n${params.message}`)
+  // Telegram
+  if (channel === 'telegram' || channel === 'both') {
+    telegramOk = await sendTelegramToJames(`<b>${params.title}</b>\n\n${params.message}`)
   }
 
   // Email
@@ -55,10 +55,10 @@ export async function notifyOwner(params: NotifyParams): Promise<boolean> {
     emailOk = result.success
   }
 
-  const status = whatsappOk && emailOk ? 'sent' : 'failed'
+  const status = telegramOk && emailOk ? 'sent' : 'failed'
   await logNotification({ ...params, status })
 
-  return whatsappOk || emailOk
+  return telegramOk || emailOk
 }
 
 // ─── Pre-built notification templates ────────────────────────────────────────

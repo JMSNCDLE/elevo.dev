@@ -4,7 +4,7 @@
 
 import { registerAction } from '@/lib/core/executeAction'
 import { sendEmail } from '@/lib/email/send'
-import { sendWhatsAppToJames } from '@/lib/notifications/whatsapp'
+import { sendTelegramToJames } from '@/lib/notifications/telegram'
 import { createServerClient } from '@/lib/supabase/server'
 
 // ─── Send Email ──────────────────────────────────────────────────────────────
@@ -49,10 +49,17 @@ registerAction('create_contact', async (payload, userId) => {
   return { created: true, contactId: data?.id }
 })
 
-// ─── WhatsApp Notify ─────────────────────────────────────────────────────────
+// ─── Telegram Notify ────────────────────────────────────────────────────────
 registerAction('whatsapp_notify', async (payload) => {
   const { message } = payload as { message?: string }
   if (!message) throw new Error('message is required')
-  await sendWhatsAppToJames(message)
+  await sendTelegramToJames(message)
+  return { sent: true }
+})
+
+registerAction('telegram_notify', async (payload) => {
+  const { message } = payload as { message?: string }
+  if (!message) throw new Error('message is required')
+  await sendTelegramToJames(message)
   return { sent: true }
 })

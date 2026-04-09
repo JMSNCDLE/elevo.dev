@@ -2,7 +2,7 @@ import twilio from 'twilio'
 
 const JAMES_WHATSAPP = 'whatsapp:+34679444783'
 
-export async function sendWhatsAppToJames(message: string): Promise<boolean> {
+export async function sendTelegramToJames(message: string): Promise<boolean> {
   try {
     const client = twilio(
       process.env.TWILIO_ACCOUNT_SID,

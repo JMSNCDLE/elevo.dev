@@ -1,5 +1,5 @@
 import { sendEmail } from '@/lib/email/send'
-import { sendWhatsAppToJames } from '@/lib/notifications/whatsapp'
+import { sendTelegramToJames } from '@/lib/notifications/telegram'
 
 interface ToolCall {
   name: string
@@ -23,14 +23,15 @@ export async function executeTool(toolCall: ToolCall, ctx: { userId?: string; su
       return { success: result.success, message: result.success ? 'Email sent' : 'Email failed' }
     }
 
-    case 'whatsapp_james': {
+    case 'whatsapp_james':
+    case 'telegram_james': {
       const { message } = input as { message?: string }
       if (!message) return { success: false, message: 'Missing message' }
       try {
-        await sendWhatsAppToJames(message)
-        return { success: true, message: 'WhatsApp sent to James' }
+        await sendTelegramToJames(message)
+        return { success: true, message: 'Telegram sent to James' }
       } catch {
-        return { success: false, message: 'WhatsApp send failed' }
+        return { success: false, message: 'Telegram send failed' }
       }
     }
 

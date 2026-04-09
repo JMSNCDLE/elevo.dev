@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { ADMIN_IDS } from '@/lib/admin'
-import { sendWhatsAppToJames, JAMES_ALERTS } from '@/lib/notifications/whatsapp'
+import { sendTelegramToJames, JAMES_ALERTS } from '@/lib/notifications/telegram'
 
 export async function POST(request: Request) {
   const supabase = await createServerClient()
@@ -40,6 +40,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unknown notification type' }, { status: 400 })
   }
 
-  const success = await sendWhatsAppToJames(message)
+  const success = await sendTelegramToJames(message)
   return NextResponse.json({ success })
 }

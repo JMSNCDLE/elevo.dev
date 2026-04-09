@@ -3,7 +3,7 @@ import Stripe from 'stripe'
 import { createServiceClient } from '@/lib/supabase/server'
 import { sendEmail, sendSequenceEmail } from '@/lib/email/send'
 import { calculateCommission } from '@/lib/affiliate'
-import { sendWhatsAppToJames, JAMES_ALERTS } from '@/lib/notifications/whatsapp'
+import { sendTelegramToJames, JAMES_ALERTS } from '@/lib/notifications/telegram'
 import { notifyNewSubscription, notifyChurn } from '@/lib/notifications/notify-owner'
 
 let _stripe: Stripe | null = null
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
       const { data: { user: buyerUser } } = await supabase.auth.admin.getUserById(userId)
       const buyerEmail = buyerUser?.email ?? 'unknown'
       const amountTotal = session.amount_total ? `€${(session.amount_total / 100).toFixed(2)}` : '€0'
-      sendWhatsAppToJames(JAMES_ALERTS.newSale(planId, amountTotal, buyerEmail)).catch(console.error)
+      sendTelegramToJames(JAMES_ALERTS.newSale(planId, amountTotal, buyerEmail)).catch(console.error)
       notifyNewSubscription(buyerEmail, planId, amountTotal).catch(console.error)
 
       // Mark discount code as used if one was applied
@@ -247,7 +247,7 @@ export async function POST(request: Request) {
         const failedEmail = failedUser?.email ?? 'unknown'
         const failedCurrency = invoice.currency === 'gbp' ? '£' : invoice.currency === 'eur' ? '€' : '$'
         const failedAmount = invoice.amount_due ? `${failedCurrency}${(invoice.amount_due / 100).toFixed(2)}` : `${failedCurrency}0`
-        sendWhatsAppToJames(JAMES_ALERTS.paymentFailed(failedEmail, failedAmount)).catch(console.error)
+        sendTelegramToJames(JAMES_ALERTS.paymentFailed(failedEmail, failedAmount)).catch(console.error)
 
         // Create dunning event
         await supabase.from('dunning_events').insert({
@@ -295,7 +295,7 @@ The ELEVO AI Team`,
     if (newSubProfile) {
       const { data: { user: newUser } } = await supabase.auth.admin.getUserById(newSubProfile.id)
       const newEmail = newUser?.email ?? 'unknown'
-      sendWhatsAppToJames(JAMES_ALERTS.newUser(newEmail, 'UK')).catch(console.error)
+      sendTelegramToJames(JAMES_ALERTS.newUser(newEmail, 'UK')).catch(console.error)
     }
   }
 

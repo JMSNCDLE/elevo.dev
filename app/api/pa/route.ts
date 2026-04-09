@@ -3,7 +3,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import { getClient, MODELS } from '@/lib/agents/client'
 import { ADMIN_IDS } from '@/lib/admin'
 import { sendEmail } from '@/lib/email/send'
-import { sendWhatsAppToJames } from '@/lib/notifications/whatsapp'
+import { sendTelegramToJames } from '@/lib/notifications/telegram'
 
 const SYSTEM_PROMPT = `You are Aria, the ELEVO PA™ — a personal assistant for business owners using the ELEVO AI platform.
 
@@ -128,7 +128,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'whatsappMessage is required' }, { status: 400 })
     }
     try {
-      await sendWhatsAppToJames(whatsappMessage)
+      await sendTelegramToJames(whatsappMessage)
       return NextResponse.json({ success: true, action: 'whatsapp_sent' })
     } catch (err) {
       return NextResponse.json({ error: 'WhatsApp send failed' }, { status: 500 })

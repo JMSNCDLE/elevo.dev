@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { generateDailySummary } from '@/lib/agents/paEngineerAgent'
 import { sendEmail } from '@/lib/email/send'
-import { sendWhatsAppToJames, JAMES_ALERTS } from '@/lib/notifications/whatsapp'
+import { sendTelegramToJames, JAMES_ALERTS } from '@/lib/notifications/telegram'
 
 export async function GET(request: Request) {
   const secret = request.headers.get('x-cron-secret')
@@ -60,7 +60,7 @@ View full dashboard: ${process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.dev'}/a
     // WhatsApp daily summary to James
     const totalUsers = summary.todayStats.newUsers
     const revenueStr = `€${summary.todayStats.revenue.toFixed(2)}`
-    sendWhatsAppToJames(JAMES_ALERTS.dailySummary(totalUsers, revenueStr, totalUsers)).catch(console.error)
+    sendTelegramToJames(JAMES_ALERTS.dailySummary(totalUsers, revenueStr, totalUsers)).catch(console.error)
 
     return NextResponse.json({ ok: true, date: new Date().toISOString().split('T')[0] })
   } catch (err) {
