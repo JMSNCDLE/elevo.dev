@@ -1345,3 +1345,18 @@ CREATE TABLE IF NOT EXISTS usage_tracking (
 CREATE INDEX IF NOT EXISTS idx_usage_tracking ON usage_tracking(user_id, date);
 ALTER TABLE usage_tracking ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "own_usage" ON usage_tracking FOR ALL USING (auth.uid() = user_id);
+
+-- Phase 47: Build Agent Reports
+CREATE TABLE IF NOT EXISTS build_agent_reports (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  report JSONB NOT NULL,
+  fix_plan TEXT,
+  issues_count INTEGER DEFAULT 0,
+  critical_count INTEGER DEFAULT 0,
+  resolved BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE build_agent_reports ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "admin_read_build_reports" ON build_agent_reports FOR SELECT USING (true);
+CREATE POLICY "service_insert_build_reports" ON build_agent_reports FOR INSERT WITH CHECK (true);
+CREATE POLICY "service_update_build_reports" ON build_agent_reports FOR UPDATE USING (true);

@@ -20,6 +20,7 @@
     { "path": "/api/cron/smm-daily", "schedule": "0 9 * * *" },
     { "path": "/api/cron/trial-welcome", "schedule": "0 10 * * *" },
     { "path": "/api/cron/trial-progress", "schedule": "0 10 * * *" },
-    { "path": "/api/cron/seo-monitor", "schedule": "0 3 * * *" }
+    { "path": "/api/cron/seo-monitor", "schedule": "0 3 * * *" },
+    { "path": "/api/agents/daily-build", "schedule": "0 6 * * *" }
   ]
 }

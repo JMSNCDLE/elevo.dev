@@ -351,6 +351,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
               { href: `/${locale}/admin/pa`, label: 'ELEVO PA™', icon: ClipboardList },
               { href: `/${locale}/admin/email-campaigns`, label: 'Email Campaigns', icon: Megaphone },
               { href: `/${locale}/admin/seo`, label: 'SEO Monitor', icon: Globe },
+              { href: `/${locale}/admin/build-agent`, label: 'Build Agent', icon: Server },
             ].map(item => {
               const active = isActive(item.href)
               return (
