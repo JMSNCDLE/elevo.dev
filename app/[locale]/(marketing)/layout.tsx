@@ -189,6 +189,7 @@ export default async function MarketingLayout({
                 links: [
                   { label: t('footerFeatures'), href: '#features' },
                   { label: t('footerPricing'), href: '/pricing' },
+                  { label: t('footerCompare'), href: '/compare' },
                   { label: t('footerBlog'), href: '/blog' },
                   { label: t('footerUpdates'), href: '/changelog' },
                   { label: t('footerStatus'), href: '/status' },

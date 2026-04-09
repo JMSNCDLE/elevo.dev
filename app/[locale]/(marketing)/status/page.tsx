@@ -42,18 +42,23 @@ export default function StatusPage() {
     for (const endpoint of ENDPOINTS) {
       const start = performance.now()
       try {
-        const res = await fetch(endpoint.path, { method: 'HEAD' }).catch(() =>
-          fetch(endpoint.path, { method: 'OPTIONS' }).catch(() => null)
-        )
+        const controller = new AbortController()
+        const timeout = setTimeout(() => controller.abort(), 8000)
+        const res = await fetch(endpoint.path, {
+          method: 'GET',
+          signal: controller.signal,
+        }).catch(() => null)
+        clearTimeout(timeout)
         const elapsed = Math.round(performance.now() - start)
 
         if (!res) {
           results.push({ name: endpoint.name, status: 'down', responseMs: elapsed })
         } else if (res.status >= 500) {
           results.push({ name: endpoint.name, status: 'down', responseMs: elapsed })
-        } else if (elapsed > 3000) {
+        } else if (elapsed > 5000) {
           results.push({ name: endpoint.name, status: 'degraded', responseMs: elapsed })
         } else {
+          // 200, 401, 403, 404, 405 all mean the server is responding
           results.push({ name: endpoint.name, status: 'operational', responseMs: elapsed })
         }
       } catch {

@@ -29,6 +29,7 @@ export default function Nav({ locale }: NavProps) {
     { href: `/${locale}/#features`, label: t('navFeatures') },
     { href: `/${locale}/#how-it-works`, label: t('navHowItWorks') },
     { href: `/${locale}/pricing`, label: t('navPricing') },
+    { href: `/${locale}/compare`, label: t('navCompare') },
     { href: `/${locale}/blog`, label: t('navBlog') },
   ]
 

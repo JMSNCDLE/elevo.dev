@@ -70,6 +70,27 @@ export default async function ComparePage({ params }: PageProps) {
         </div>
       </section>
 
+      {/* Individual comparisons */}
+      <section className="pb-16 px-6">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Detailed comparisons</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { name: 'Jasper', slug: 'jasper', price: '$39/mo', desc: 'AI writing tool' },
+              { name: 'HubSpot', slug: 'hubspot', price: '$720/mo', desc: 'Marketing & CRM suite' },
+              { name: 'Copy.ai', slug: 'copy-ai', price: '$49/mo', desc: 'AI copywriter' },
+              { name: 'ChatGPT', slug: 'chatgpt', price: '$20/mo', desc: 'General AI chatbot' },
+            ].map(c => (
+              <Link key={c.slug} href={`/${locale}/compare/${c.slug}`} className="rounded-xl border border-gray-200 p-5 hover:border-indigo-300 hover:shadow-md transition-all group">
+                <h3 className="font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors">ELEVO vs {c.name}</h3>
+                <p className="text-xs text-gray-400 mt-1">{c.desc} &middot; {c.price}</p>
+                <p className="text-xs text-indigo-600 mt-3 font-medium">View comparison &rarr;</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-20 px-6 bg-gray-50 border-t border-gray-100">
         <div className="max-w-xl mx-auto text-center">
