@@ -358,11 +358,20 @@ html { scroll-behavior: smooth; }
 /* Mobile global */
 html { -webkit-overflow-scrolling: touch; overflow-x: hidden; scroll-behavior: smooth }
 body { overflow-x: hidden; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased }
-button, a { min-height: 44px }
 .safe-bottom { padding-bottom: env(safe-area-inset-bottom,0) }
-@media (max-width: 768px) {
+.safe-top { padding-top: env(safe-area-inset-top,0) }
+.mobile-scroll { -webkit-overflow-scrolling: touch; overflow-y: auto }
+
+/* Mobile-only: 44px touch targets per WCAG, prevent iOS zoom on input focus */
+@media (max-width: 767px) {
   input, textarea, select { font-size: 16px !important }
+  input:not([type="checkbox"]):not([type="radio"]),
+  textarea, select { min-height: 48px }
+  button:not(.no-min):not([class*="w-"][class*="h-"]),
+  [role="button"]:not(.no-min) { min-height: 44px }
   .comparison-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch }
+  /* Faster tap response */
+  a, button { touch-action: manipulation }
 }
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(14px) }

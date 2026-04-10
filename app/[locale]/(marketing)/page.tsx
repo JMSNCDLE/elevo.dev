@@ -35,7 +35,7 @@ export default async function HomePage({ params }: PageProps) {
             ✦ Now with ELEVO CEO™
           </div>
 
-          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white tracking-tight leading-none mb-8 trademark-protected" data-protected>
+          <h1 className="text-4xl sm:text-6xl lg:text-8xl font-black text-white tracking-tight leading-tight sm:leading-none mb-6 sm:mb-8 trademark-protected" data-protected>
             {t('heroTitle1')}<br />
             {t('heroTitle2')}{' '}
             <span className="gradient-text-hero">{t('heroTitle3')}</span>
@@ -47,16 +47,16 @@ export default async function HomePage({ params }: PageProps) {
 
           <TrademarkSlogan className="mb-10" />
 
-          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8 px-4 sm:px-0">
             <Link
               href={`/${locale}/signup`}
-              className="inline-flex items-center justify-center bg-indigo-600 text-white font-semibold px-8 py-3 rounded-full hover:bg-indigo-500 transition-colors shadow-lg shadow-indigo-500/25"
+              className="inline-flex items-center justify-center bg-indigo-600 text-white font-semibold px-8 py-3 rounded-full hover:bg-indigo-500 transition-colors shadow-lg shadow-indigo-500/25 w-full sm:w-auto"
             >
               {t('startTrial')} →
             </Link>
             <Link
               href={`/${locale}/demo`}
-              className="inline-flex items-center justify-center border border-white/20 text-white px-8 py-3 rounded-full hover:bg-white/5 transition-colors"
+              className="inline-flex items-center justify-center border border-white/20 text-white px-8 py-3 rounded-full hover:bg-white/5 transition-colors w-full sm:w-auto"
             >
               See it in action →
             </Link>

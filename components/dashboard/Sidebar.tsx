@@ -197,22 +197,23 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
   return (
     <>
       {/* Mobile hamburger bar */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-dashSurface border-b border-dashSurface2 px-4 py-3 flex items-center justify-between">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-dashSurface border-b border-dashSurface2 px-3 h-14 flex items-center justify-between safe-top">
+        <button
+          onClick={() => setMobileOpen(v => !v)}
+          className="w-11 h-11 flex items-center justify-center rounded-lg bg-dashCard text-dashMuted hover:text-white transition-colors no-min"
+          aria-label="Toggle menu"
+        >
+          {mobileOpen ? (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+          ) : (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 12h18M3 6h18M3 18h18" /></svg>
+          )}
+        </button>
         <div className="flex items-center gap-2">
           <Image src="/logo.svg" alt="ELEVO AI™" width={28} height={28} className="rounded-lg logo-spin" />
           <span className="font-bold text-dashText text-sm">ELEVO AI</span>
         </div>
-        <button
-          onClick={() => setMobileOpen(v => !v)}
-          className="w-9 h-9 flex items-center justify-center rounded-lg bg-dashCard text-dashMuted hover:text-white transition-colors"
-          aria-label="Toggle menu"
-        >
-          {mobileOpen ? (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
-          ) : (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 12h18M3 6h18M3 18h18" /></svg>
-          )}
-        </button>
+        <div className="w-11 h-11" />
       </div>
 
       {/* Overlay for mobile */}
