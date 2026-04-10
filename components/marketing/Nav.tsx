@@ -36,11 +36,10 @@ export default function Nav({ locale }: NavProps) {
 
   const headerStyle = mounted && scrolled
     ? {
-        background: 'rgba(255, 252, 248, 0.95)',
+        background: 'rgba(5, 5, 7, 0.85)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(0,0,0,0.06)',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
       }
     : {
         background: 'transparent',
@@ -54,19 +53,16 @@ export default function Nav({ locale }: NavProps) {
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link href={`/${locale}`} className="flex items-center gap-2 shrink-0">
-          <Image src="/logo.png" alt="ELEVO AI™" width={36} height={36} className="rounded-lg shadow-sm" priority />
-          <span
-            className="text-xl font-black tracking-tight"
-            style={{ color: '#0f172a' }}
-          >
+          <Image src="/logo.png" alt="ELEVO AI™" width={48} height={48} className="shrink-0" priority />
+          <span className="text-xl font-black tracking-tight text-white">
             ELEVO AI™
           </span>
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-white/70">
           {links.map(link => (
-            <Link key={link.href} href={link.href} className="hover:text-indigo-600 transition-colors">
+            <Link key={link.href} href={link.href} className="hover:text-white transition-colors">
               {link.label}
             </Link>
           ))}
@@ -77,7 +73,7 @@ export default function Nav({ locale }: NavProps) {
           <LanguageSwitcher />
           <Link
             href={`/${locale}/login`}
-            className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors px-3 py-2"
+            className="text-sm font-medium text-white/70 hover:text-white transition-colors px-3 py-2"
           >
             {t('navSignIn')}
           </Link>
@@ -96,7 +92,7 @@ export default function Nav({ locale }: NavProps) {
           </Link>
           <button
             onClick={() => setMobileOpen(o => !o)}
-            className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
+            className="p-2 text-white/70 hover:text-white transition-colors"
             aria-label="Toggle menu"
           >
             {mobileOpen ? <X size={20} /> : <Menu size={20} />}
@@ -106,19 +102,19 @@ export default function Nav({ locale }: NavProps) {
 
       {/* Mobile panel */}
       {mobileOpen && (
-        <div className="md:hidden bg-white border-b border-gray-100 px-6 py-4 space-y-1">
+        <div className="md:hidden bg-[#050507] border-b border-white/10 px-6 py-4 space-y-1">
           {links.map(link => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="block text-sm font-medium text-gray-700 hover:text-indigo-600 py-2.5 border-b border-gray-50 last:border-0"
+              className="block text-sm font-medium text-white/70 hover:text-white py-2.5 border-b border-white/5 last:border-0"
             >
               {link.label}
             </Link>
           ))}
           <div className="pt-3 flex gap-3">
-            <Link href={`/${locale}/login`} className="flex-1 text-center py-2.5 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg">
+            <Link href={`/${locale}/login`} className="flex-1 text-center py-2.5 text-sm font-medium text-white/70 border border-white/15 rounded-lg">
               {t('navSignIn')}
             </Link>
             <Link href={`/${locale}/signup`} className="flex-1 text-center py-2.5 text-sm font-semibold text-white bg-indigo-600 rounded-lg">

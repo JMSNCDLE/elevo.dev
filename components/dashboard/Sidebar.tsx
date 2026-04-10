@@ -231,8 +231,8 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       {/* Logo */}
       <div className="px-4 py-5 border-b border-dashSurface2">
         <div className="flex items-center gap-2">
-          <Image src="/logo.png" alt="ELEVO AI™" width={32} height={32} className="rounded-lg" priority />
-          <span className="font-bold text-dashText text-base">ELEVO AI</span>
+          <Image src="/logo.png" alt="ELEVO AI™" width={48} height={48} className="shrink-0" priority />
+          <span className="font-bold text-white text-base">ELEVO AI</span>
         </div>
         {businessName && (
           <p className="text-xs text-dashMuted mt-1 truncate">{businessName}</p>
