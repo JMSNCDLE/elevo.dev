@@ -521,6 +521,27 @@ export default async function HomePage({ params }: PageProps) {
         </div>
       </section>
 
+      {/* ── SECTION 8C: STOP PAYING CTA ─────────────────────────────────────── */}
+      <section className="bg-[#050507] py-24 md:py-32 px-6 border-t border-white/5">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight mb-6">
+            {t('stopPayingTitle')}<br />{t('stopPayingTitle2')}
+          </h2>
+          <p className="text-lg md:text-xl text-white/60 mb-10 max-w-2xl mx-auto">
+            {t('stopPayingSubtitle')}
+          </p>
+          <Link
+            href={`/${locale}/signup`}
+            className="inline-flex items-center justify-center bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-full px-8 py-3 text-lg transition-colors shadow-lg shadow-indigo-500/25"
+          >
+            {t('stopPayingButton')}
+          </Link>
+          <p className="text-sm text-white/40 mt-4">
+            {t('stopPayingTrial')}
+          </p>
+        </div>
+      </section>
+
       {/* ── SECTION 9: TESTIMONIALS ──────────────────────────────────────────── */}
       <section className="bg-[#050507] py-24 px-6">
         <div className="max-w-5xl mx-auto trademark-protected" data-protected>
