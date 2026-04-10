@@ -1,59 +1,36 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendEmail } from '@/lib/email/send'
-import { wrapEmail, emailButton, emailStatRow, emailDivider } from '@/lib/email/templates'
+import { buildTrialReminderEmail, type TrialReminderVariant } from '@/lib/email/flows'
 
 const CRON_SECRET = process.env.CRON_SECRET
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://elevo.dev'
 
-function buildReminderHtml(
-  locale: string,
-  firstName: string,
-  stats: { contentGenerated: number; contactsAdded: number; creditsUsed: number }
-): string {
-  const isEs = locale === 'es'
+interface ProfileRow {
+  id: string
+  email: string | null
+  full_name: string | null
+  credits_used: number | null
+  trial_ends_at: string | null
+  plan: string | null
+  email_trial_reminders_enabled: boolean | null
+  trial_reminder_sent_3d: boolean | null
+  trial_reminder_sent_1d: boolean | null
+  trial_reminder_sent_0d: boolean | null
+}
 
-  const content = isEs
-    ? `<h2 style="color:#18181b;font-size:22px;margin:0 0 16px">Tu prueba gratis termina mañana</h2>
-<p>Hola ${firstName}, tu período de prueba de 7 días termina mañana.</p>
-<p style="font-weight:600;color:#18181b">Esto es lo que has construido:</p>
-<table cellpadding="0" cellspacing="0" border="0" style="width:100%;margin:16px 0;background:#f4f4f5;border-radius:8px;padding:4px">
-  ${emailStatRow('Contenido creado', stats.contentGenerated)}
-  ${emailStatRow('Contactos en CRM', stats.contactsAdded)}
-  ${emailStatRow('Créditos usados', stats.creditsUsed)}
-</table>
-${emailDivider()}
-<p style="font-weight:600;color:#dc2626">Si no actualizas, mañana perderás:</p>
-<ul style="color:#3f3f46;font-size:14px;line-height:2">
-  <li>Tus agentes de IA dejarán de trabajar</li>
-  <li>La automatización de CRM se pausará</li>
-  <li>No recibirás más informes semanales</li>
-  <li>No podrás generar más contenido</li>
-</ul>
-<p>El plan Launch cuesta solo €39/mes — menos que una hora con un consultor de marketing.</p>
-${emailButton('Mantener mi equipo de IA →', `${APP_URL}/es/pricing`)}
-<p style="font-size:13px;color:#71717a">¿Preguntas? Responde a este correo.</p>`
-    : `<h2 style="color:#18181b;font-size:22px;margin:0 0 16px">Your free trial ends tomorrow</h2>
-<p>Hey ${firstName}, your 7-day trial ends tomorrow.</p>
-<p style="font-weight:600;color:#18181b">Here's what you've built:</p>
-<table cellpadding="0" cellspacing="0" border="0" style="width:100%;margin:16px 0;background:#f4f4f5;border-radius:8px;padding:4px">
-  ${emailStatRow('Content created', stats.contentGenerated)}
-  ${emailStatRow('Contacts in CRM', stats.contactsAdded)}
-  ${emailStatRow('Credits used', stats.creditsUsed)}
-</table>
-${emailDivider()}
-<p style="font-weight:600;color:#dc2626">If you don't upgrade, tomorrow you'll lose:</p>
-<ul style="color:#3f3f46;font-size:14px;line-height:2">
-  <li>Your AI agents will stop working</li>
-  <li>CRM automation will pause</li>
-  <li>Weekly content briefs will stop</li>
-  <li>You won't be able to generate new content</li>
-</ul>
-<p>The Launch plan is just €39/month — less than one hour with a marketing consultant.</p>
-${emailButton('Keep my AI team →', `${APP_URL}/en/pricing`)}
-<p style="font-size:13px;color:#71717a">Questions? Reply to this email.</p>`
+function pickVariant(profile: ProfileRow): TrialReminderVariant | null {
+  if (!profile.trial_ends_at) return null
+  const now = Date.now()
+  const ends = new Date(profile.trial_ends_at).getTime()
+  const hoursUntil = (ends - now) / (1000 * 60 * 60)
 
-  return wrapEmail(content, { locale })
+  // Day-of: trial expired in last 24 hours
+  if (hoursUntil <= 0 && hoursUntil > -24 && !profile.trial_reminder_sent_0d) return '0d'
+  // 1-day: trial ends in 0–36 hours
+  if (hoursUntil > 0 && hoursUntil <= 36 && !profile.trial_reminder_sent_1d) return '1d'
+  // 3-day: trial ends in 60–84 hours (centred on 72)
+  if (hoursUntil > 60 && hoursUntil <= 84 && !profile.trial_reminder_sent_3d) return '3d'
+  return null
 }
 
 export async function GET(request: Request) {
@@ -62,45 +39,40 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY!
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!url || !key) return NextResponse.json({ error: 'Supabase env missing' }, { status: 500 })
   const supabase = createClient(url, key)
 
-  // Day 6 users only: created between 5.5 and 6.5 days ago
-  const sixDaysAgo = new Date(Date.now() - 6 * 24 * 60 * 60 * 1000)
-  const fiveHalfDaysAgo = new Date(Date.now() - 5.5 * 24 * 60 * 60 * 1000)
-  const sixHalfDaysAgo = new Date(Date.now() - 6.5 * 24 * 60 * 60 * 1000)
+  const fourDaysAgo = new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString()
+  const fourDaysAhead = new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString()
 
   const { data: users, error } = await supabase
     .from('profiles')
-    .select('id, email, full_name, credits_used, created_at')
+    .select('id, email, full_name, credits_used, trial_ends_at, plan, email_trial_reminders_enabled, trial_reminder_sent_3d, trial_reminder_sent_1d, trial_reminder_sent_0d')
     .eq('plan', 'trial')
-    .gte('created_at', sixHalfDaysAgo.toISOString())
-    .lte('created_at', fiveHalfDaysAgo.toISOString())
-    .is('trial_reminder_sent_at', null)
-    .limit(50)
+    .gte('trial_ends_at', fourDaysAgo)
+    .lte('trial_ends_at', fourDaysAhead)
+    .limit(200)
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
-  const results = { sent: 0, errors: 0 }
+  const results = { sent: 0, skipped: 0, errors: 0, byVariant: { '3d': 0, '1d': 0, '0d': 0 } }
 
-  for (const user of users ?? []) {
+  for (const user of (users ?? []) as ProfileRow[]) {
     try {
+      if (user.email_trial_reminders_enabled === false) { results.skipped++; continue }
+
+      const variant = pickVariant(user)
+      if (!variant) { results.skipped++; continue }
+
       const { data: { user: authUser } } = await supabase.auth.admin.getUserById(user.id)
       const email = authUser?.email ?? user.email
-      if (!email) continue
+      if (!email) { results.skipped++; continue }
 
-      // Check unsubscribe
-      const { data: unsub } = await supabase
-        .from('email_preferences')
-        .select('marketing_emails')
-        .eq('user_id', user.id)
-        .single()
-      if (unsub?.marketing_emails === false) continue
-
-      const firstName = (user.full_name as string | null)?.split(' ')[0] ?? 'there'
+      const firstName = (user.full_name ?? 'there').split(' ')[0]
       const locale = (authUser?.user_metadata?.locale as string) ?? 'en'
 
       // Gather stats
@@ -114,29 +86,33 @@ export async function GET(request: Request) {
         .select('id', { count: 'exact', head: true })
         .eq('user_id', user.id)
 
-      const subject = locale === 'es'
-        ? 'Tu prueba gratis termina mañana — no pierdas tu equipo de IA'
-        : "Your free trial ends tomorrow — don't lose your AI team"
+      const { subject, html } = buildTrialReminderEmail(
+        user.id,
+        firstName,
+        variant,
+        {
+          contentGenerated: contentGenerated ?? 0,
+          contactsAdded: contactsAdded ?? 0,
+          creditsUsed: user.credits_used ?? 0,
+        },
+        locale
+      )
 
       await sendEmail({
         to: email,
         subject,
-        html: buildReminderHtml(locale, firstName, {
-          contentGenerated: contentGenerated ?? 0,
-          contactsAdded: contactsAdded ?? 0,
-          creditsUsed: user.credits_used ?? 0,
-        }),
-        agentName: 'Trial Reminder',
+        html,
+        agentName: `Trial Reminder ${variant}`,
         userId: user.id,
       })
 
-      await supabase
-        .from('profiles')
-        .update({ trial_reminder_sent_at: new Date().toISOString() })
-        .eq('id', user.id)
+      const flagCol = `trial_reminder_sent_${variant}`
+      await supabase.from('profiles').update({ [flagCol]: true }).eq('id', user.id)
 
       results.sent++
-    } catch {
+      results.byVariant[variant]++
+    } catch (err) {
+      console.error('[trial-reminders] error for user', user.id, err)
       results.errors++
     }
   }

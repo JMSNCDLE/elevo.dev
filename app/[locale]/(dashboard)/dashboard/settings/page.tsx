@@ -7,6 +7,7 @@ import { Loader2, Save, Plus, X } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
 import toast from 'react-hot-toast'
 import type { BusinessProfile } from '@/lib/agents/types'
+import EmailPreferences from '@/components/dashboard/EmailPreferences'
 
 const toneOptions = ['Professional and friendly', 'Casual and approachable', 'Expert and authoritative', 'Warm and personal', 'Bold and energetic', 'Calm and reassuring']
 
@@ -165,6 +166,8 @@ export default function SettingsPage({}: {  }) {
           {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
           {saving ? 'Saving...' : 'Save settings'}
         </button>
+
+        <EmailPreferences />
       </div>
     </div>
   )
