@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import Image from 'next/image'
 import Nav from '@/components/marketing/Nav'
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider'
 import ClientPopups from '@/components/marketing/ClientPopups'
@@ -169,9 +170,7 @@ export default async function MarketingLayout({
             {/* Brand col */}
             <div className="md:col-span-2">
               <Link href={`/${locale}`} className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-black text-sm">E</span>
-                </div>
+                <Image src="/icon.svg" alt="ELEVO AI" width={32} height={32} className="rounded-lg" />
                 <span className="text-lg font-black text-white">ELEVO AI™</span>
               </Link>
               <p className="text-sm leading-relaxed max-w-xs mb-5">

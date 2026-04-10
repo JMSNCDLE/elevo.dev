@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Menu, X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
@@ -53,12 +54,7 @@ export default function Nav({ locale }: NavProps) {
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link href={`/${locale}`} className="flex items-center gap-2 shrink-0">
-          <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center shadow-sm"
-            style={{ background: 'linear-gradient(135deg, #6366F1, #8B5CF6)' }}
-          >
-            <span className="text-white font-black text-sm">E</span>
-          </div>
+          <Image src="/icon.svg" alt="ELEVO AI" width={32} height={32} className="rounded-lg shadow-sm" />
           <span
             className="text-xl font-black tracking-tight"
             style={{ color: '#0f172a' }}

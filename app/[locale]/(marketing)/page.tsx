@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { CheckCircle2 } from 'lucide-react'
 import { HomePricingCards, HomeComparisonPrice, HomeOrbitPrice } from '@/components/marketing/HomePricing'
 import TrademarkSlogan from '@/components/shared/TrademarkSlogan'
@@ -49,9 +50,9 @@ export default async function HomePage({ params }: PageProps) {
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
             <Link
               href={`/${locale}/signup`}
-              className="inline-flex items-center justify-center bg-white text-gray-900 font-semibold px-8 py-3 rounded-full hover:bg-white/90 transition-colors"
+              className="inline-flex items-center justify-center bg-indigo-600 text-white font-semibold px-8 py-3 rounded-full hover:bg-indigo-500 transition-colors shadow-lg shadow-indigo-500/25"
             >
-              {t('startTrial')}
+              {t('startTrial')} →
             </Link>
             <Link
               href="#features"
@@ -72,9 +73,7 @@ export default async function HomePage({ params }: PageProps) {
               {/* Sidebar */}
               <div className="w-56 bg-[#0e1117] border-r border-white/5 p-4 shrink-0 hidden md:block">
                 <div className="flex items-center gap-2 mb-6">
-                  <div className="w-7 h-7 bg-indigo-600 rounded-lg flex items-center justify-center">
-                    <span className="text-white font-black text-xs">E</span>
-                  </div>
+                  <Image src="/icon.svg" alt="ELEVO AI" width={28} height={28} className="rounded-lg" />
                   <span className="text-white font-black text-sm">ELEVO AI™</span>
                 </div>
                 <div className="space-y-1">
@@ -302,6 +301,90 @@ export default async function HomePage({ params }: PageProps) {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ── SECTION 5B: AI IMAGE/VIDEO GENERATION DEMO ──────────────────────── */}
+      <section className="bg-[#080810] py-24 px-6 border-t border-white/5">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="text-xs font-bold text-purple-400 uppercase tracking-widest block mb-4">AI Creative Studio</span>
+            <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight">
+              Create stunning visuals with AI
+            </h2>
+            <p className="text-white/50 mt-4 text-lg max-w-2xl mx-auto">
+              Text to image. Text to video. Just describe what you want.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Text-to-Image demo */}
+            <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="bg-purple-500/15 text-purple-400 px-3 py-1 rounded-full text-xs font-semibold">
+                  ELEVO Create™
+                </span>
+                <span className="text-white/30 text-xs">Text to Image</span>
+              </div>
+              <div className="terminal mb-4">
+                <div className="terminal-bar">
+                  <div className="t-dot t-red" />
+                  <div className="t-dot t-yellow" />
+                  <div className="t-dot t-green" />
+                  <span className="text-white/30 text-xs ml-2">ELEVO Create™</span>
+                </div>
+                <div className="p-4 text-sm space-y-1.5">
+                  <p className="text-white/40"># Prompt:</p>
+                  <p className="text-green-400">&quot;A cat wearing a top hat, walking confidently towards a refrigerator, cinematic lighting, photorealistic&quot;</p>
+                  <p className="text-white/40 mt-2"># Generating with Flux Pro...</p>
+                  <p className="text-yellow-400">✓ Image generated in 4.2s</p>
+                </div>
+              </div>
+              <div className="aspect-video bg-gradient-to-br from-purple-900 via-indigo-800 to-blue-900 rounded-xl flex items-center justify-center">
+                <div className="text-center text-white">
+                  <p className="text-5xl mb-2">🎩🐱</p>
+                  <p className="text-sm text-white/50">AI-generated image preview</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Text-to-Video demo */}
+            <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="bg-blue-500/15 text-blue-400 px-3 py-1 rounded-full text-xs font-semibold">
+                  ELEVO Studio™
+                </span>
+                <span className="text-white/30 text-xs">Text to Video</span>
+              </div>
+              <div className="terminal mb-4">
+                <div className="terminal-bar">
+                  <div className="t-dot t-red" />
+                  <div className="t-dot t-yellow" />
+                  <div className="t-dot t-green" />
+                  <span className="text-white/30 text-xs ml-2">ELEVO Studio™</span>
+                </div>
+                <div className="p-4 text-sm space-y-1.5">
+                  <p className="text-white/40"># Prompt:</p>
+                  <p className="text-green-400">&quot;A cat in a top hat strolling towards a fridge, opens the door, grabs milk, smooth camera follow&quot;</p>
+                  <p className="text-white/40 mt-2"># Generating with Runway ML...</p>
+                  <p className="text-yellow-400">✓ Video generated in 28s</p>
+                </div>
+              </div>
+              <div className="aspect-video bg-gradient-to-br from-blue-900 via-purple-800 to-pink-900 rounded-xl flex items-center justify-center relative overflow-hidden">
+                <div className="text-center text-white">
+                  <p className="text-5xl mb-2">🎬🐱</p>
+                  <p className="text-sm text-white/50">AI-generated video preview</p>
+                  <div className="mt-3 bg-white/10 rounded-full px-4 py-2 inline-flex items-center gap-2 text-sm">
+                    <span>▶</span> <span>Play preview</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p className="text-center text-white/30 mt-8 text-sm">
+            Powered by Flux Pro, SDXL, and Runway ML. Available on Orbit and Galaxy plans.
+          </p>
         </div>
       </section>
 
