@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, MessageSquare, Zap, Share2, Globe,
@@ -198,9 +199,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       {/* Mobile hamburger bar */}
       <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-dashSurface border-b border-dashSurface2 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 bg-accent rounded-lg flex items-center justify-center">
-            <Rocket size={14} className="text-white" />
-          </div>
+          <Image src="/logo.svg" alt="ELEVO AI™" width={28} height={28} className="rounded-lg logo-spin" />
           <span className="font-bold text-dashText text-sm">ELEVO AI</span>
         </div>
         <button
@@ -231,9 +230,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       {/* Logo */}
       <div className="px-4 py-5 border-b border-dashSurface2">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 bg-accent rounded-lg flex items-center justify-center">
-            <Rocket size={14} className="text-white" />
-          </div>
+          <Image src="/logo.svg" alt="ELEVO AI™" width={32} height={32} className="rounded-lg logo-spin" priority />
           <span className="font-bold text-dashText text-base">ELEVO AI</span>
         </div>
         {businessName && (

@@ -341,6 +341,20 @@ html { scroll-behavior: smooth; }
   color: white;
 }
 
+/* Logo rotation */
+@keyframes logo-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.logo-spin {
+  animation: logo-rotate 12s linear infinite;
+  transform-origin: center center;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo-spin { animation: none; }
+}
+
 /* Mobile global */
 html { -webkit-overflow-scrolling: touch; overflow-x: hidden; scroll-behavior: smooth }
 body { overflow-x: hidden; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased }

@@ -73,7 +73,7 @@ export default async function HomePage({ params }: PageProps) {
               {/* Sidebar */}
               <div className="w-56 bg-[#0e1117] border-r border-white/5 p-4 shrink-0 hidden md:block">
                 <div className="flex items-center gap-2 mb-6">
-                  <Image src="/logo.svg" alt="ELEVO AI™" width={28} height={28} className="rounded-lg" />
+                  <Image src="/logo.svg" alt="ELEVO AI™" width={28} height={28} className="rounded-lg logo-spin" />
                   <span className="text-white font-black text-sm">ELEVO AI™</span>
                 </div>
                 <div className="space-y-1">
