@@ -89,7 +89,7 @@ ELEVO does all of it. From £39/month.
 → ELEVO Connect — CRM that closes
 → ELEVO Studio — video that converts
 
-21 agents. 40+ dashboard pages. 12 languages.
+60+ agents. 90+ dashboard pages. 12 languages.
 
 Try free for 7 days: elevo.ai
 ```

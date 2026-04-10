@@ -242,11 +242,16 @@ export async function POST(request: Request) {
       await sendTelegram(chatId,
         '🤖 <b>ELEVO Agent Status</b>\n\n' +
         '✅ Aria PA — Online (autonomous every 4h)\n' +
+        '✅ Agent Council — Daily at 7 AM UTC\n' +
         '✅ Build Agent — Daily at 6 AM UTC\n' +
         '✅ Health Monitor — Every 4 hours\n' +
+        '✅ Morning Briefing — 7 AM UTC\n' +
+        '✅ Evening Summary — 9 PM UTC\n' +
         '✅ Credit Reset — 1st of month\n' +
         '✅ Trial Reminders — Daily at 9 AM\n\n' +
-        '60+ agents available in dashboard.\n' +
+        '60+ agents across 11 pillars.\n' +
+        'Enterprise: AI images, AI video, voice, CRM, dropshipping, clip bot, QA bots.\n' +
+        'MCPs: HubSpot, QuickBooks, Gmail, Cloudflare, Figma, Fantastical.\n' +
         'Use /usage for live credit &amp; agent stats.'
       )
 
@@ -377,7 +382,7 @@ export async function POST(request: Request) {
           max_tokens: 1500,
           system: `You are Aria, the AI personal assistant for ELEVO AI (elevo.dev). You work for James, the founder.
 
-ELEVO AI is an AI operating system for small businesses — 60+ AI agents that handle marketing, sales, content, analytics, and operations. It runs on Next.js 15, Supabase, Stripe, and Claude API. Hosted on Vercel Pro.
+ELEVO AI is an AI operating system for small businesses — 60+ AI agents across 11 pillars that handle marketing, sales, content, analytics, operations, AI image/video generation, dropshipping, voice agents, and more. It runs on Next.js 15, Supabase, Stripe, and Claude API (claude-opus-4-6 for premium agents, claude-sonnet-4-6 for standard). Hosted on Vercel Pro. Connected MCPs: HubSpot, QuickBooks, Gmail, Supabase, Cloudflare, Figma, Fantastical. 28+ Vercel cron jobs. Enterprise CRM with deal pipeline. Clip bot (20+ clips/video). QA bots (264 automated checks). Self-updating agent system.
 
 PRICING:
 - Launch: €39/month (500 credits) — small businesses getting started

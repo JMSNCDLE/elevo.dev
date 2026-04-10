@@ -14,7 +14,7 @@ Creator: James Carlin
 GitHub: https://github.com/JMSNCDLE/Claude-code-Business-SaaS
 Branch: claude/build-elevo-ai-aYfcC
 
-ELEVO replaces: marketing agency, CRM tool, business consultant, content writer, financial analyst, ad manager, inventory tracker — all in one platform powered by 21 named AI agents.
+ELEVO replaces: marketing agency, CRM tool, business consultant, content writer, financial analyst, ad manager, inventory tracker — all in one platform powered by 60+ AI agents across 11 pillars.
 
 **Target customer:** Local service businesses (plumbers, dentists, salons, restaurants, gyms). Also marketing agencies who manage 10–15 local clients.
 
@@ -32,7 +32,7 @@ ELEVO replaces: marketing agency, CRM tool, business consultant, content writer,
 
 ---
 
-## THE 21 AGENTS (named employees)
+## THE 60+ AGENTS (named employees)
 
 | Name | Role | Model |
 |------|------|-------|
@@ -216,7 +216,7 @@ elevo-ai/
 │   │   │   │   └── new/
 │   │   │   ├── advisor/               ← Max (Problem Solver)
 │   │   │   │   └── history/
-│   │   │   ├── agents/                ← All 21 agents
+│   │   │   ├── agents/                ← All 60+ agents
 │   │   │   │   └── [agentId]/         ← 1:1 agent chat
 │   │   │   ├── website/               ← Wren (Galaxy)
 │   │   │   ├── onboarding-guide/      ← Mira (all plans)

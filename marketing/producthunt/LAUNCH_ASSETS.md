@@ -1,7 +1,7 @@
 # ELEVO — ProductHunt Launch Pack
 
 ## Tagline (max 60 chars)
-"21 AI agents running your entire business operation"
+"60+ AI agents running your entire business operation"
 
 ## Short Description (max 260 chars)
 "ELEVO gives every local business a team of 21 AI agents — they write your content, analyse your ad spend, manage your customers, track your finances, and solve any business problem. In seconds. From £39/month."
@@ -31,7 +31,7 @@ Happy to answer any questions — what feature would you most want to try first?
 
 1. Mission Control dashboard — dark theme, full layout
 2. ROAS Dashboard — showing Leo's analysis with channel breakdown
-3. Agent Team page — all 21 agents as employee cards
+3. Agent Team page — all 60+ agents as employee cards
 4. Problem Solver in action — showing a response to a bad review problem
 5. Google Optimisation Score — GBP audit with 30-day plan
 6. Conversation Flow Builder — WhatsApp automation
@@ -44,8 +44,8 @@ Happy to answer any questions — what feature would you most want to try first?
 ### If asked "How does it compare to ChatGPT?"
 "ChatGPT is general-purpose. ELEVO is built specifically for local businesses — every agent knows your city, your category, your customers. You can't paste your P&L into ChatGPT and get a financial health score with specific cost-saving opportunities for a plumber in Manchester. ELEVO can."
 
-### If asked "Is it really 21 agents?"
-"Yes — each one is a named specialist with a personality and a role. Leo handles ROAS, Flora handles finances, Geo handles Google optimisation. You can talk to any of them 1:1 or let the Orchestrator coordinate them for complex tasks."
+### If asked "Is it really 60+ agents?"
+"Yes — each one is a named specialist with a personality and a role across 11 pillars. Leo handles ROAS, Flora handles finances, Geo handles Google optimisation, Aria commands them all as your AI PA. You can talk to any of them 1:1 or let the Orchestrator coordinate them for complex tasks. Plus AI image generation, AI video generation, competitor intelligence, voice agents, and more."
 
 ### If asked about pricing
 "Launch is £39/month — that's less than one hour with a marketing consultant. Orbit (£79) is where most businesses land because it includes unlimited generations and the financial/ROAS intelligence suite. 7-day free trial with payment upfront — we found this converts much better than no-card trials."

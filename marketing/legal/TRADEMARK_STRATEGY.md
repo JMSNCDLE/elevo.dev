@@ -63,7 +63,7 @@ ELEVO AI™ is building a global brand in the AI/SaaS space. This document outli
 ### Class 42 (PRIMARY — File in all jurisdictions)
 **Description:** Computer software as a service (SaaS); AI-powered software for business management; Providing online non-downloadable software for content creation, advertising management, customer relationship management, and business analytics.
 
-**Why critical:** This covers the core ELEVO AI platform — all 21 agents, the dashboard, and every feature.
+**Why critical:** This covers the core ELEVO AI platform — all 60+ agents, the dashboard, and every feature.
 
 ### Class 35 (PRIMARY — File in all jurisdictions)
 **Description:** Business management services provided by artificial intelligence; Marketing and advertising services; Customer relationship management services; Business process outsourcing services using AI.

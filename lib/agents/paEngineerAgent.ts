@@ -158,7 +158,7 @@ const EXPECTED_TABLES = [
 // ─── 1. runHealthCheck ────────────────────────────────────────────────────────
 
 export async function runHealthCheck(appUrl: string): Promise<HealthCheckResult> {
-  const prompt = `You are Aria, ELEVO PA™ — the personal engineer for the ELEVO AI SaaS platform.
+  const prompt = `You are Aria, ELEVO PA™ — the top-level personal engineer and AI commander for the ELEVO AI SaaS platform.
 Perform a thorough static analysis health check of the ELEVO AI application.
 
 App URL: ${appUrl}
@@ -170,14 +170,22 @@ Known API endpoints (${KNOWN_API_ROUTES.length}): ${KNOWN_API_ROUTES.join(', ')}
 
 Expected database tables (${EXPECTED_TABLES.length}): ${EXPECTED_TABLES.join(', ')}
 
-Based on your knowledge of the ELEVO codebase (Next.js 14, Supabase, Stripe, Anthropic, Vercel),
-perform a comprehensive health check analysis. Return a realistic assessment.
+PLATFORM CONTEXT:
+- ELEVO AI is a UK-based AI SaaS for local businesses with 60+ AI agents across 11 pillars
+- Tech stack: Next.js 15 App Router, Supabase (Auth + PostgreSQL + RLS), Stripe billing, Anthropic Claude API (claude-opus-4-6 / claude-sonnet-4-6), Vercel Pro hosting
+- Pricing: Launch €39/mo (500 credits), Orbit €79/mo (1,500 credits), Galaxy €149/mo (5,000 credits) — all with 7-day free trial
+- 28+ Vercel cron jobs running daily schedules
+- Integrations: Telegram bot, Replicate API (AI images), Runway ML (AI video), CJDropshipping, ElevenLabs + Vapi (voice), Google Workspace, Resend email
+- Connected MCPs: HubSpot, QuickBooks, Gmail, Supabase, Cloudflare, Figma, Fantastical
+- Aria has live data access via /api/aria/platform-stats, /api/aria/agent-stats, /api/aria/revenue-stats, /api/aria/health
+- Aria has admin actions with 3-tier risk approval (LOW: auto-execute, MEDIUM: execute+notify, HIGH: ask James via Telegram first)
+- Product Hunt launch: April 28, 2026
 
 Key things to check:
 - All pages use correct auth patterns (createServerClient from @/lib/supabase/server)
 - All admin routes check profiles.role === 'admin'
 - Credits deducted AFTER success only, using direct Supabase update (no increment_credits_used RPC)
-- security headers in next.config.ts (X-Frame-Options, X-Content-Type-Options, etc.)
+- Security headers in next.config.ts (X-Frame-Options, X-Content-Type-Options, etc.)
 - All growth pages (sales/research/strategy/financial/management/campaigns) are Orbit+ only
 - Stripe webhook handles invoice.payment_succeeded, customer.subscription events
 - i18n routing via next-intl with 12 locales
@@ -226,9 +234,11 @@ export async function generateDailySummary(userId: string): Promise<DailySummary
 Generate an upbeat, energetic daily summary for James.
 Today's date: ${new Date().toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
 
-James has built ELEVO AI — an AI operating system for local businesses with 21+ agents across 5 pillars.
-The platform includes content generation, growth tools, intelligence features, CRM, social media management,
-e-commerce tools, and video studio capabilities.
+James has built ELEVO AI — an AI operating system for local businesses with 60+ AI agents across 11 pillars (visibility, growth, customers, intelligence, media, ecommerce, support, marketing, admin, design, tools).
+The platform includes content generation, growth tools, intelligence features, enterprise CRM with deal pipeline, social media management, e-commerce/dropshipping, AI image generation (Replicate/Flux Pro), AI video generation (Runway ML), video studio, clip bot, competitor intelligence, voice agents (ElevenLabs/Vapi), and QA testing bots.
+Aria (ELEVO PA™) is the top-level agent commanding all others, with live data access via 4 API routes (/api/aria/platform-stats, /api/aria/agent-stats, /api/aria/revenue-stats, /api/aria/health) and admin actions with 3-tier risk approval system.
+Product Hunt launch: April 28, 2026. Pricing: Launch €39/mo, Orbit €79/mo, Galaxy €149/mo (all with 7-day free trial).
+Connected MCPs: HubSpot, QuickBooks, Gmail, Supabase, Cloudflare, Figma, Fantastical. Telegram bot with 13+ commands. 28+ Vercel cron jobs.
 
 Generate a realistic daily summary. Make it motivating, direct, and actionable.
 
@@ -268,7 +278,7 @@ export async function analyseError(
   error: string,
   context: string
 ): Promise<{ diagnosis: string; rootCause: string; fix: string; preventionSteps: string[] }> {
-  const prompt = `You are Aria, ELEVO PA™ — a senior full-stack engineer specialising in Next.js 14, TypeScript, Supabase, and Anthropic AI.
+  const prompt = `You are Aria, ELEVO PA™ — a senior full-stack engineer specialising in Next.js 15, TypeScript, Supabase, and Anthropic Claude API.
 
 Analyse this error and provide a precise diagnosis:
 

@@ -59,17 +59,33 @@ export async function scanAILandscape(locale: string): Promise<AILandscapeReport
     thinking: buildThinkingConfig(),
     ...buildEffortConfig('high'),
     tools: [WEB_SEARCH_TOOL],
-    system: `You are ELEVO Update™ — Pulse, the AI landscape monitor for ELEVO AI. Your job is to scan the internet weekly and identify new AI models, tools, and trends that are relevant to ELEVO AI — an AI SaaS platform for local businesses in the UK. ELEVO uses Claude models (Opus and Sonnet) for all its agents. You assess threats from competitors (Jasper, Copy.ai, Writesonic, GrowthBar, Surfer SEO, SEMrush, HubSpot AI, Mailchimp, etc.) and recommend what ELEVO should build next to stay ahead. Return comprehensive JSON with no placeholders.`,
+    system: `You are ELEVO Update™ — Pulse, the AI landscape monitor for ELEVO AI. Your job is to scan the internet weekly and identify new AI models, tools, and trends that are relevant to ELEVO AI — a UK-based AI SaaS platform for local businesses with 60+ AI agents across 11 pillars.
+
+ELEVO uses Claude models (claude-opus-4-6 for premium agents, claude-sonnet-4-6 for standard agents). The platform runs on Next.js 15, Supabase, Stripe, and Vercel Pro.
+
+Current capabilities: content generation, enterprise CRM with deal pipeline, AI image generation (Replicate/Flux Pro/SDXL), AI video generation (Runway ML), dropshipping (CJDropshipping), clip bot (20+ clips/video), competitor intelligence, voice agents (ElevenLabs/Vapi), QA testing bots (Playwright, 264 automated checks), self-updating agent system, Telegram bot with 13+ commands, 28+ Vercel crons.
+
+Connected MCPs/integrations: HubSpot, QuickBooks, Gmail, Supabase, Cloudflare, Figma, Fantastical, Google Workspace, Resend.
+
+Pricing: Launch €39/mo (500 credits), Orbit €79/mo (1,500 credits), Galaxy €149/mo (5,000 credits) — all with 7-day free trial.
+
+Product Hunt launch: April 28, 2026.
+
+You assess threats from competitors (Jasper, Copy.ai, Writesonic, GrowthBar, Surfer SEO, SEMrush, HubSpot AI, Mailchimp, Canva, Buffer, etc.) and recommend what ELEVO should build next to stay ahead. Return comprehensive JSON with no placeholders.`,
     messages: [
       {
         role: 'user',
         content: `Perform a full AI landscape scan for ELEVO AI today.
 
-ELEVO AI is a UK-based AI SaaS for local businesses. It uses Claude Opus 4-6 and Sonnet 4-6 for all 25+ agents covering content, growth, intelligence, media, customers, and ecommerce.
+ELEVO AI is a UK-based AI SaaS for local businesses with 60+ AI agents across 11 pillars (visibility, growth, customers, intelligence, media, ecommerce, support, marketing, admin, design, tools).
 
 Current ELEVO agents use these models:
-- Orchestrator / Problem Solver / Dropshipping / Spy / Viral: claude-opus-4-6
+- Premium agents (Market, CEO, ROAS, Finance, Solve, Create, Spy, Viral, Prospect, Drop, Update, Deep): claude-opus-4-6
 - All other agents: claude-sonnet-4-6
+
+Enterprise features: AI image generation (Replicate/Flux Pro), AI video generation (Runway ML), dropshipping (CJDropshipping), clip bot, enterprise CRM, voice agents (ElevenLabs/Vapi), QA testing bots, self-updating agents, Telegram bot (13+ commands), competitor pricing database.
+Connected MCPs: HubSpot, QuickBooks, Gmail, Supabase, Cloudflare, Figma, Fantastical.
+Product Hunt launch: April 28, 2026.
 
 Search the web for:
 1. New AI model releases from Anthropic, OpenAI, Google, Meta, Mistral, Cohere (last 30 days)
