@@ -29,7 +29,7 @@ export default async function DashboardLayout({
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id, plan, credits_used, credits_limit, trial_ends_at, subscription_status, created_at')
+    .select('id, plan, credits_used, credits_limit, trial_ends_at, subscription_status, created_at, onboarding_completed')
     .eq('id', user.id)
     .single()
 
@@ -42,12 +42,10 @@ export default async function DashboardLayout({
     .eq('is_primary', true)
     .single()
 
-  // Redirect to onboarding if not complete
-  if (!primaryBp?.onboarding_complete) {
-    const { pathname } = new URL(`http://x/${locale}/dashboard`)
-    if (!pathname.includes('onboarding')) {
-      redirect(`/${locale}/onboarding`)
-    }
+  // Redirect to onboarding if neither flag is set (new user, never started or finished the wizard)
+  const hasOnboarded = profile.onboarding_completed === true || primaryBp?.onboarding_complete === true
+  if (!hasOnboarded) {
+    redirect(`/${locale}/onboarding`)
   }
 
   const effectivePlan = getEffectivePlan(user.id, profile.plan)
