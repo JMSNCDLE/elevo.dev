@@ -14,35 +14,25 @@ export async function GET() {
 
     // === TASK 1: Morning Briefing (7 AM UTC) ===
     if (hour === 7) {
-      const { count: userCount } = await supabase
-        .from('profiles')
-        .select('*', { count: 'exact', head: true })
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevo.dev'
 
-      const { count: trialCount } = await supabase
-        .from('profiles')
-        .select('*', { count: 'exact', head: true })
-        .eq('subscription_status', 'trialing')
-
-      const { data: recentSignups } = await supabase
-        .from('profiles')
-        .select('email, created_at')
-        .order('created_at', { ascending: false })
-        .limit(5)
-
-      const { data: latestReport } = await supabase
-        .from('build_agent_reports')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .single()
+      const [platformRes, revenueRes, agentRes] = await Promise.all([
+        fetch(`${baseUrl}/api/aria/platform-stats`, { headers: { 'x-aria-internal': 'true' } }).then(r => r.ok ? r.json() : null).catch(() => null),
+        fetch(`${baseUrl}/api/aria/revenue-stats`, { headers: { 'x-aria-internal': 'true' } }).then(r => r.ok ? r.json() : null).catch(() => null),
+        fetch(`${baseUrl}/api/aria/agent-stats`, { headers: { 'x-aria-internal': 'true' } }).then(r => r.ok ? r.json() : null).catch(() => null),
+      ])
 
       const briefing = `🌅 <b>ELEVO Daily Briefing</b>\n` +
         `📅 ${now.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}\n\n` +
-        `👥 Total users: ${userCount || 0}\n` +
-        `🆓 On trial: ${trialCount || 0}\n` +
-        `💰 MRR: Check Stripe dashboard\n\n` +
-        `📊 Last build check: ${latestReport?.issues_count ?? '?'} issues (${latestReport?.critical_count ?? '?'} critical)\n\n` +
-        `🆕 Recent signups:\n${recentSignups?.map(s => `• ${s.email} (${new Date(s.created_at).toLocaleDateString('en-GB')})`).join('\n') || 'None'}\n\n` +
+        `👥 Users: ${platformRes?.users?.total || '?'} total (${platformRes?.users?.today || 0} today, ${platformRes?.users?.this_week || 0} this week)\n` +
+        `🆓 Trials: ${platformRes?.subscriptions?.active_trials || 0}\n` +
+        `💳 Paid: ${platformRes?.subscriptions?.paid || 0}\n` +
+        `📋 Waitlist: ${platformRes?.waitlist || 0}\n\n` +
+        `💰 MRR: ${revenueRes?.mrr?.amount_eur || 'N/A'}\n` +
+        `📈 7-day revenue: ${revenueRes?.revenue_7d?.amount_eur || 'N/A'}\n\n` +
+        `🔥 Credits used: ${agentRes?.credits?.today || 0} today\n` +
+        `🔨 Build: ${agentRes?.latest_build_report ? `${agentRes.latest_build_report.issues} issues (${agentRes.latest_build_report.critical} critical)` : 'No report'}\n` +
+        `⚠️ Pending tasks: ${agentRes?.pending_high_priority?.length || 0}\n\n` +
         `✅ Aria is monitoring. All systems checked.`
 
       await sendTelegramToJames(briefing)
