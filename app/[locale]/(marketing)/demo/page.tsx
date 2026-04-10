@@ -1,526 +1,315 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import {
-  Phone, DollarSign, TrendingUp, Users, FileText, BarChart2,
-  Star, Mail, CheckCircle, ArrowRight, Zap, Eye, Lock
+  DollarSign, Briefcase, Users, TrendingUp, Zap, Lock, ArrowRight,
+  Megaphone, Calendar, Eye, Receipt, Image as ImageIcon, Crown,
+  Mail, BarChart3, Target, Send,
 } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { useParams } from 'next/navigation'
 
-// ─── Demo static data for Mario's Plumbing ───────────────────────────────────
+// ─── Demo data — Maria's Bakery ──────────────────────────────────────────────
 
-const DEMO_BUSINESS = {
-  name: "Mario's Emergency Plumbing",
-  city: 'Manchester',
-  plan: 'Orbit',
-  creditsUsed: 53,
-  creditsLimit: 300,
+const DEMO_DATA = {
+  user: {
+    name: "Maria's Bakery",
+    plan: 'Orbit',
+    creditsRemaining: 847,
+    creditsTotal: 1500,
+  },
+  stats: {
+    revenueThisMonth: 12450,
+    jobsThisMonth: 34,
+    creditsUsed: 653,
+    roas: 4.2,
+    contactsInCRM: 287,
+    generationsRecent: 156,
+    lapsedAtRisk: 3,
+  },
+  activity: [
+    { agent: 'ELEVO Market™', action: 'Published GBP post: Weekend Special 🥐', time: '2h ago', icon: Megaphone, color: 'text-pink-600 bg-pink-50' },
+    { agent: 'ELEVO SMM™', action: 'Scheduled 5 Instagram posts for next week', time: '4h ago', icon: Calendar, color: 'text-blue-600 bg-blue-50' },
+    { agent: 'ELEVO Spy™', action: "New competitor alert: 'Sweet Treats' opened nearby", time: '6h ago', icon: Eye, color: 'text-red-600 bg-red-50' },
+    { agent: 'ELEVO Accountant™', action: 'Scanned 3 invoices, €2,340 total', time: 'Yesterday', icon: Receipt, color: 'text-green-600 bg-green-50' },
+    { agent: 'ELEVO Creator™', action: 'Generated 8 social media images', time: 'Yesterday', icon: ImageIcon, color: 'text-purple-600 bg-purple-50' },
+    { agent: 'ELEVO CEO™', action: 'Weekly briefing ready — revenue up 18%', time: '2 days ago', icon: Crown, color: 'text-amber-600 bg-amber-50' },
+  ],
+  recommendedAgents: [
+    { name: 'Sales Strategist', desc: 'Close more deals', icon: Target },
+    { name: 'Email Machine', desc: 'Nurture leads', icon: Mail },
+    { name: 'Analytics', desc: 'Track everything', icon: BarChart3 },
+  ],
+  contacts: [
+    { name: 'Sophie L.', last: 'Ordered birthday cake — 2 days ago', status: 'active' },
+    { name: 'James K.', last: 'Inquired about catering — 1 week ago', status: 'active' },
+    { name: 'Hannah M.', last: 'Last order 6 weeks ago', status: 'at_risk' },
+    { name: 'Ben W.', last: 'No order in 3 months', status: 'lapsed' },
+  ],
+  campaigns: [
+    { name: 'Wedding Cakes — Local', platform: 'Instagram', spend: 240, leads: 18, roas: '5.2x', status: 'winning' },
+    { name: 'Sourdough Subscription', platform: 'Google', spend: 180, leads: 12, roas: '4.8x', status: 'winning' },
+    { name: 'Birthday Cake Orders', platform: 'Facebook', spend: 120, leads: 9, roas: '3.5x', status: 'good' },
+  ],
 }
 
-const DEMO_METRICS = [
-  { label: 'Monthly calls', value: '41', icon: Phone, color: 'text-blue-600', bg: 'bg-blue-50' },
-  { label: 'Avg cost/lead', value: '€19', icon: DollarSign, color: 'text-green-600', bg: 'bg-green-50' },
-  { label: 'ROAS', value: '4.8:1', icon: TrendingUp, color: 'text-indigo-600', bg: 'bg-indigo-50' },
-  { label: 'Monthly ad spend', value: '€460', icon: BarChart2, color: 'text-orange-600', bg: 'bg-orange-50' },
-]
-
-const DEMO_RECENT_GENS = [
-  { type: 'GBP Post', snippet: '"Emergency Plumber Manchester — available 24/7..."', time: '2 hours ago' },
-  { type: 'Review Response', snippet: '"Thank you Sarah, we\'re glad we could fix your burst pipe..."', time: '1 day ago' },
-  { type: 'Blog Post', snippet: '"5 Signs You Need an Emergency Plumber in Manchester"', time: '3 days ago' },
-]
-
-const DEMO_CAMPAIGNS = [
-  { name: 'Manchester Emergency Plumber', platform: 'Google', spend: '€180', calls: 18, roas: '5.2:1', status: 'winning' },
-  { name: 'Boiler Repair — Greater Manchester', platform: 'Google', spend: '€120', calls: 12, roas: '4.8:1', status: 'winning' },
-  { name: 'Plumber Near Me — Meta', platform: 'Meta', spend: '€100', calls: 8, roas: '3.1:1', status: 'paused' },
-  { name: 'Emergency Drain Unblocking', platform: 'Meta', spend: '€60', calls: 3, roas: '1.9:1', status: 'paused' },
-]
-
-const DEMO_CONTACTS = [
-  { name: 'Sarah K.', type: 'Residential', lastContact: '3 days ago', status: 'active' },
-  { name: 'David M.', type: 'Commercial', lastContact: '1 week ago', status: 'at_risk' },
-  { name: 'Emma R.', type: 'Residential', lastContact: '2 weeks ago', status: 'lapsed' },
-]
-
-type DemoTab = 'mission-control' | 'content' | 'roas' | 'crm'
-
-// ─── Tooltip ─────────────────────────────────────────────────────────────────
-
-function DisabledOverlay() {
+function DisabledHover({ label = 'Sign up to use' }: { label?: string }) {
   return (
-    <div className="absolute inset-0 flex items-center justify-center rounded-xl group cursor-not-allowed">
-      <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900/80 text-white text-xs px-3 py-1.5 rounded-lg flex items-center gap-1.5">
+    <div className="absolute inset-0 flex items-center justify-center rounded-xl group cursor-not-allowed opacity-0 hover:opacity-100 bg-gray-900/40 backdrop-blur-[1px] transition-opacity">
+      <div className="bg-gray-900 text-white text-xs px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-lg">
         <Lock size={11} />
-        Sign up to use
+        {label}
       </div>
     </div>
   )
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
-
 export default function DemoPage() {
-  const [tab, setTab] = useState<DemoTab>('mission-control')
-
-  const TABS: Array<{ key: DemoTab; label: string }> = [
-    { key: 'mission-control', label: 'Mission Control' },
-    { key: 'content', label: 'Content Generator' },
-    { key: 'roas', label: 'ROAS Analysis' },
-    { key: 'crm', label: 'CRM' },
-  ]
+  const params = useParams()
+  const locale = (params?.locale as string) ?? 'en'
+  const { user, stats, activity, recommendedAgents, contacts, campaigns } = DEMO_DATA
+  const creditsPercent = ((user.creditsTotal - user.creditsRemaining) / user.creditsTotal) * 100
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Top banner */}
-      <div className="bg-indigo-600 text-white py-3 px-4 text-center">
-        <p className="text-sm font-medium">
-          This is a live demo — no login required. See ELEVO AI™ in action.{' '}
-          <Link href="/signup" className="underline font-semibold hover:text-indigo-200 ml-2">
-            Start your free trial →
+    <div className="min-h-screen bg-gray-50">
+      {/* Demo banner */}
+      <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white py-3 px-4 sticky top-0 z-50 shadow-lg">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 flex-wrap">
+          <p className="text-sm font-medium flex items-center gap-2">
+            <span className="text-lg">🎯</span>
+            <span>You&apos;re viewing a demo — This is what your dashboard could look like!</span>
+          </p>
+          <Link
+            href={`/${locale}/signup`}
+            className="text-sm font-semibold bg-white text-indigo-700 px-4 py-1.5 rounded-full hover:bg-indigo-50 transition-colors whitespace-nowrap"
+          >
+            Start free trial →
           </Link>
-        </p>
+        </div>
       </div>
 
-      {/* Demo header */}
-      <div className="border-b border-gray-100 bg-white sticky top-0 z-30">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      {/* Dashboard header */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-sm">
+            <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center text-white font-bold">
               M
             </div>
             <div>
-              <p className="text-sm font-bold text-gray-900">{DEMO_BUSINESS.name}</p>
-              <p className="text-xs text-gray-500">{DEMO_BUSINESS.city} · {DEMO_BUSINESS.plan} plan</p>
+              <p className="text-base font-bold text-gray-900">{user.name}</p>
+              <p className="text-xs text-gray-500">{user.plan} plan · 4.2★ from 287 reviews</p>
             </div>
           </div>
-
-          <div className="flex items-center gap-4">
-            {/* Credits bar */}
-            <div className="hidden sm:block">
+          <div className="hidden sm:flex items-center gap-3">
+            <div>
               <div className="flex items-center gap-2">
-                <div className="w-24 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-indigo-500 rounded-full"
-                    style={{ width: `${((DEMO_BUSINESS.creditsLimit - DEMO_BUSINESS.creditsUsed) / DEMO_BUSINESS.creditsLimit) * 100}%` }}
-                  />
+                <div className="w-32 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-full bg-indigo-500 rounded-full" style={{ width: `${creditsPercent}%` }} />
                 </div>
-                <span className="text-xs text-gray-500">
-                  {DEMO_BUSINESS.creditsLimit - DEMO_BUSINESS.creditsUsed} credits left
+                <span className="text-xs text-gray-500 font-medium tabular-nums">
+                  {user.creditsRemaining}/{user.creditsTotal}
                 </span>
               </div>
+              <p className="text-[10px] text-gray-400 mt-0.5 text-right">credits remaining</p>
             </div>
-            <Link
-              href="/signup"
-              className="px-4 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-colors flex items-center gap-1.5"
-            >
-              <Zap size={13} />
-              Try free
-            </Link>
           </div>
-        </div>
-
-        {/* Tab bar */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex gap-0 overflow-x-auto">
-          {TABS.map(t => (
-            <button
-              key={t.key}
-              onClick={() => setTab(t.key)}
-              className={cn(
-                'px-4 py-3 text-sm font-medium border-b-2 whitespace-nowrap transition-colors',
-                tab === t.key
-                  ? 'border-indigo-600 text-indigo-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700'
-              )}
-            >
-              {t.label}
-            </button>
-          ))}
         </div>
       </div>
 
-      {/* Tab content */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* Mission Control title */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-1">Mission Control</h1>
+          <p className="text-sm text-gray-500">Welcome back, Maria. Here&apos;s how your bakery is doing.</p>
+        </div>
 
-        {/* ── Mission Control ── */}
-        {tab === 'mission-control' && (
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-xl font-bold text-gray-900">Mission Control</h2>
-              <p className="text-sm text-gray-500 mt-0.5">Good morning — here&apos;s how Mario&apos;s Plumbing is performing.</p>
+        {/* KPI cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
+                <DollarSign className="w-4 h-4 text-green-600" />
+              </div>
+              <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Revenue</span>
             </div>
+            <p className="text-3xl font-black text-gray-900 tabular-nums">€{stats.revenueThisMonth.toLocaleString()}</p>
+            <p className="text-xs text-green-600 font-medium mt-1">↑ 18% vs last month</p>
+          </div>
 
-            {/* Metric cards */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {DEMO_METRICS.map(m => {
-                const Icon = m.icon
+          <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
+                <Briefcase className="w-4 h-4 text-blue-600" />
+              </div>
+              <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Jobs</span>
+            </div>
+            <p className="text-3xl font-black text-gray-900 tabular-nums">{stats.jobsThisMonth}</p>
+            <p className="text-xs text-gray-500 mt-1">this month</p>
+          </div>
+
+          <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-8 h-8 bg-indigo-50 rounded-lg flex items-center justify-center">
+                <TrendingUp className="w-4 h-4 text-indigo-600" />
+              </div>
+              <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">ROAS</span>
+            </div>
+            <p className="text-3xl font-black text-gray-900 tabular-nums">{stats.roas}x</p>
+            <p className="text-xs text-indigo-600 font-medium mt-1">€4.20 per €1 spent</p>
+          </div>
+
+          <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-8 h-8 bg-purple-50 rounded-lg flex items-center justify-center">
+                <Users className="w-4 h-4 text-purple-600" />
+              </div>
+              <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Contacts</span>
+            </div>
+            <p className="text-3xl font-black text-gray-900 tabular-nums">{stats.contactsInCRM}</p>
+            <p className="text-xs text-amber-600 font-medium mt-1">{stats.lapsedAtRisk} at risk</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Activity feed */}
+          <div className="lg:col-span-2 bg-white border border-gray-100 rounded-2xl shadow-sm">
+            <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+              <div>
+                <h2 className="text-lg font-bold text-gray-900">Agent Activity</h2>
+                <p className="text-xs text-gray-500">Your AI team is working 24/7</p>
+              </div>
+              <span className="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full">
+                {stats.generationsRecent} actions this week
+              </span>
+            </div>
+            <div className="divide-y divide-gray-50">
+              {activity.map((item, i) => {
+                const Icon = item.icon
                 return (
-                  <div key={m.label} className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm">
-                    <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center mb-3', m.bg)}>
-                      <Icon size={16} className={m.color} />
+                  <div key={i} className="flex items-start gap-3 px-6 py-4 hover:bg-gray-50/50 transition-colors">
+                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${item.color}`}>
+                      <Icon className="w-4 h-4" />
                     </div>
-                    <p className="text-2xl font-bold text-gray-900">{m.value}</p>
-                    <p className="text-xs text-gray-500 mt-0.5">{m.label}</p>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-baseline justify-between gap-3">
+                        <p className="text-sm font-semibold text-gray-900 truncate">{item.agent}</p>
+                        <span className="text-xs text-gray-400 shrink-0">{item.time}</span>
+                      </div>
+                      <p className="text-sm text-gray-600 mt-0.5">{item.action}</p>
+                    </div>
                   </div>
                 )
               })}
             </div>
+          </div>
 
-            {/* Recent generations */}
-            <div className="bg-white border border-gray-100 rounded-xl shadow-sm p-5">
-              <h3 className="text-sm font-semibold text-gray-800 mb-4">Recent AI generations</h3>
+          {/* Right column */}
+          <div className="space-y-6">
+            {/* Recommended agents */}
+            <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5">
+              <h2 className="text-base font-bold text-gray-900 mb-1">Try next</h2>
+              <p className="text-xs text-gray-500 mb-4">Recommended for your bakery</p>
+              <div className="space-y-2">
+                {recommendedAgents.map(agent => {
+                  const Icon = agent.icon
+                  return (
+                    <div key={agent.name} className="relative flex items-center gap-3 p-3 rounded-xl border border-gray-100 hover:border-indigo-200 hover:bg-indigo-50/30 transition-colors cursor-pointer">
+                      <div className="w-8 h-8 bg-indigo-50 rounded-lg flex items-center justify-center shrink-0">
+                        <Icon className="w-4 h-4 text-indigo-600" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold text-gray-900">{agent.name}</p>
+                        <p className="text-xs text-gray-500">{agent.desc}</p>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-gray-400" />
+                      <DisabledHover />
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Top campaigns */}
+            <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5">
+              <h2 className="text-base font-bold text-gray-900 mb-4">Top campaigns</h2>
               <div className="space-y-3">
-                {DEMO_RECENT_GENS.map((g, i) => (
-                  <div key={i} className="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
-                    <div className="w-7 h-7 bg-indigo-50 rounded-lg flex items-center justify-center shrink-0">
-                      <FileText size={12} className="text-indigo-600" />
+                {campaigns.map(c => (
+                  <div key={c.name}>
+                    <div className="flex items-baseline justify-between mb-1">
+                      <p className="text-sm font-semibold text-gray-900 truncate pr-2">{c.name}</p>
+                      <span className="text-xs font-bold text-green-600 tabular-nums">{c.roas}</span>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold text-gray-700">{g.type}</p>
-                      <p className="text-xs text-gray-500 truncate">{g.snippet}</p>
-                    </div>
-                    <span className="text-xs text-gray-400 whitespace-nowrap shrink-0">{g.time}</span>
+                    <p className="text-xs text-gray-500">{c.platform} · €{c.spend} spend · {c.leads} leads</p>
                   </div>
                 ))}
               </div>
             </div>
-
-            {/* Quick actions — disabled */}
-            <div>
-              <h3 className="text-sm font-semibold text-gray-800 mb-3">Quick actions</h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                {['GBP Post', 'Blog Post', 'Review Response', 'ROAS Analysis'].map(action => (
-                  <div key={action} className="relative">
-                    <button
-                      disabled
-                      className="w-full flex items-center gap-2 p-3 bg-gray-50 border border-gray-100 rounded-xl text-sm text-gray-400 cursor-not-allowed opacity-60"
-                    >
-                      <Zap size={14} className="text-gray-300" />
-                      {action}
-                    </button>
-                    <DisabledOverlay />
-                  </div>
-                ))}
-              </div>
-              <p className="text-xs text-gray-400 mt-2 text-center">
-                <Link href="/signup" className="text-indigo-600 underline">Sign up free</Link> to use all generators
-              </p>
-            </div>
           </div>
-        )}
+        </div>
 
-        {/* ── Content Generator ── */}
-        {tab === 'content' && (
-          <div className="space-y-6">
+        {/* CRM preview */}
+        <div className="mt-6 bg-white border border-gray-100 rounded-2xl shadow-sm">
+          <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
             <div>
-              <h2 className="text-xl font-bold text-gray-900">ELEVO Write™ — GBP Post</h2>
-              <p className="text-sm text-gray-500 mt-0.5">Pre-generated example for Mario&apos;s Emergency Plumbing</p>
+              <h2 className="text-lg font-bold text-gray-900">Customers</h2>
+              <p className="text-xs text-gray-500">{stats.contactsInCRM} total · {stats.lapsedAtRisk} need attention</p>
             </div>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Input side */}
-              <div className="space-y-4">
-                <div className="bg-gray-50 border border-gray-100 rounded-xl p-4">
-                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Input</h3>
-                  <div className="space-y-3">
-                    <div>
-                      <label className="block text-xs text-gray-500 mb-1">Content type</label>
-                      <div className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-700">
-                        Google Business Profile Post
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-xs text-gray-500 mb-1">Topic</label>
-                      <div className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-700">
-                        Emergency plumber available 24/7 in Manchester
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-xs text-gray-500 mb-1">Tone</label>
-                      <div className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-700">
-                        Professional, urgent, local
-                      </div>
-                    </div>
+            <button className="text-xs font-semibold text-indigo-600 hover:text-indigo-700">View all →</button>
+          </div>
+          <div className="divide-y divide-gray-50">
+            {contacts.map(c => (
+              <div key={c.name} className="flex items-center justify-between px-6 py-3.5">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center text-sm font-semibold text-gray-600">
+                    {c.name[0]}
                   </div>
-                  <div className="relative mt-3">
-                    <button
-                      disabled
-                      className="w-full py-2.5 bg-indigo-200 text-white text-sm font-semibold rounded-xl cursor-not-allowed opacity-60"
-                    >
-                      Generate with ELEVO Write™
-                    </button>
-                    <DisabledOverlay />
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900">{c.name}</p>
+                    <p className="text-xs text-gray-500">{c.last}</p>
                   </div>
                 </div>
+                <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${
+                  c.status === 'active' ? 'text-green-700 bg-green-50' :
+                  c.status === 'at_risk' ? 'text-amber-700 bg-amber-50' :
+                  'text-red-700 bg-red-50'
+                }`}>
+                  {c.status === 'active' ? 'Active' : c.status === 'at_risk' ? 'At risk' : 'Lapsed'}
+                </span>
               </div>
+            ))}
+          </div>
+        </div>
 
-              {/* Output side */}
-              <div className="space-y-4">
-                <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-5">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-5 h-5 bg-indigo-600 rounded-full flex items-center justify-center">
-                      <CheckCircle size={11} className="text-white" />
-                    </div>
-                    <span className="text-xs font-semibold text-indigo-700">Generated by ELEVO Write™</span>
-                  </div>
-                  <div className="bg-white rounded-xl p-4 text-sm text-gray-800 leading-relaxed shadow-sm">
-                    <p className="font-bold text-gray-900 mb-2">🔧 Emergency Plumber Manchester — Available 24/7</p>
-                    <p>
-                      Burst pipe at 2am? Boiler breakdown before work? Mario&apos;s Emergency Plumbing is Manchester&apos;s
-                      most trusted 24/7 plumber — same-day response guaranteed.
-                    </p>
-                    <br />
-                    <p>
-                      ✅ Burst pipes &amp; leaks<br />
-                      ✅ Boiler emergencies<br />
-                      ✅ Blocked drains &amp; toilets<br />
-                      ✅ Central heating faults
-                    </p>
-                    <br />
-                    <p>
-                      Covering Manchester, Salford, Trafford &amp; surrounding areas. No call-out fee before 10pm.
-                      Fully insured, Gas Safe registered.
-                    </p>
-                    <br />
-                    <p className="font-semibold">📞 Call now: 0161 XXX XXXX</p>
-                  </div>
-                  <div className="flex gap-2 mt-3">
-                    <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">Quality: 94/100</span>
-                    <span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full">SEO: Optimised</span>
-                    <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">238 chars</span>
-                  </div>
-                </div>
-
-                <div className="bg-indigo-600 rounded-xl p-5 text-white">
-                  <p className="text-sm font-bold mb-1">Like what you see?</p>
-                  <p className="text-xs text-indigo-200 mb-3">
-                    Sign up free and generate unlimited GBP posts, blog articles, social captions, email sequences and more.
-                  </p>
-                  <Link
-                    href="/signup"
-                    className="flex items-center justify-center gap-2 w-full py-2.5 bg-white text-indigo-700 text-sm font-semibold rounded-xl hover:bg-indigo-50 transition-colors"
-                  >
-                    Sign up to use ELEVO Write™
-                    <ArrowRight size={14} />
-                  </Link>
-                </div>
-              </div>
+        {/* Locked chat input */}
+        <div className="mt-6 bg-white border border-gray-100 rounded-2xl shadow-sm p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <Zap className="w-4 h-4 text-indigo-600" />
+            <h2 className="text-base font-bold text-gray-900">Chat with your AI team</h2>
+          </div>
+          <div className="relative">
+            <div className="flex items-center gap-2 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl">
+              <input
+                type="text"
+                disabled
+                placeholder="Sign up to chat with your AI agents..."
+                className="flex-1 bg-transparent text-sm text-gray-400 focus:outline-none cursor-not-allowed"
+              />
+              <button disabled className="w-9 h-9 bg-gray-200 rounded-lg flex items-center justify-center cursor-not-allowed">
+                <Send className="w-4 h-4 text-gray-400" />
+              </button>
             </div>
           </div>
-        )}
+        </div>
 
-        {/* ── ROAS Analysis ── */}
-        {tab === 'roas' && (
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-xl font-bold text-gray-900">ELEVO ROAS™ Analysis</h2>
-              <p className="text-sm text-gray-500 mt-0.5">
-                Mario&apos;s Plumbing · Total spend: <strong className="text-gray-700">€460</strong> ·
-                Overall ROAS: <strong className="text-green-700">4.8:1</strong> ·
-                Monthly calls: <strong className="text-gray-700">41</strong>
-              </p>
-            </div>
-
-            {/* Summary row */}
-            <div className="grid grid-cols-3 gap-4">
-              <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm text-center">
-                <p className="text-3xl font-black text-indigo-600">4.8:1</p>
-                <p className="text-xs text-gray-500 mt-1">Overall ROAS</p>
-                <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full mt-1 inline-block">Excellent</span>
-              </div>
-              <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm text-center">
-                <p className="text-3xl font-black text-gray-900">€460</p>
-                <p className="text-xs text-gray-500 mt-1">Total ad spend</p>
-              </div>
-              <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm text-center">
-                <p className="text-3xl font-black text-gray-900">41</p>
-                <p className="text-xs text-gray-500 mt-1">Calls generated</p>
-              </div>
-            </div>
-
-            {/* Campaign table */}
-            <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden">
-              <div className="px-5 py-4 border-b border-gray-100">
-                <h3 className="text-sm font-semibold text-gray-800">Campaigns</h3>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="bg-gray-50">
-                      <th className="text-left px-4 py-3 text-xs font-medium text-gray-500">Campaign</th>
-                      <th className="text-left px-4 py-3 text-xs font-medium text-gray-500">Platform</th>
-                      <th className="text-left px-4 py-3 text-xs font-medium text-gray-500">Spend</th>
-                      <th className="text-left px-4 py-3 text-xs font-medium text-gray-500">Calls</th>
-                      <th className="text-left px-4 py-3 text-xs font-medium text-gray-500">ROAS</th>
-                      <th className="text-left px-4 py-3 text-xs font-medium text-gray-500">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {DEMO_CAMPAIGNS.map((c, i) => (
-                      <tr key={i} className="border-t border-gray-50 hover:bg-gray-50/50">
-                        <td className="px-4 py-3 text-gray-800 font-medium">{c.name}</td>
-                        <td className="px-4 py-3 text-gray-500">{c.platform}</td>
-                        <td className="px-4 py-3 text-gray-800">{c.spend}</td>
-                        <td className="px-4 py-3 text-gray-800">{c.calls}</td>
-                        <td className="px-4 py-3 font-semibold text-gray-800">{c.roas}</td>
-                        <td className="px-4 py-3">
-                          {c.status === 'winning' ? (
-                            <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full border border-green-200">
-                              Winning
-                            </span>
-                          ) : (
-                            <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full border border-gray-200">
-                              Paused
-                            </span>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            {/* Recommendation */}
-            <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-5">
-              <p className="text-sm font-semibold text-indigo-800 mb-1">
-                💡 ELEVO Recommendation
-              </p>
-              <p className="text-sm text-indigo-700">
-                Scale your 2 winning Google campaigns by 30% (from €300 → €390 combined budget).
-                Your Meta campaigns are below break-even — pause them and reallocate to Google Search.
-                Projected: +8 calls/month at the same cost-per-call.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <Link
-                href="/signup"
-                className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-colors"
-              >
-                Get ROAS analysis for your business
-                <ArrowRight size={14} />
-              </Link>
-            </div>
-          </div>
-        )}
-
-        {/* ── CRM ── */}
-        {tab === 'crm' && (
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-xl font-bold text-gray-900">ELEVO Sage™ — CRM</h2>
-              <p className="text-sm text-gray-500 mt-0.5">3 contacts shown · AI-powered follow-up recommendations</p>
-            </div>
-
-            <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden">
-              <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
-                <h3 className="text-sm font-semibold text-gray-800">
-                  <Users size={14} className="inline mr-1.5 text-indigo-500" />
-                  Contacts
-                </h3>
-                <div className="relative">
-                  <button
-                    disabled
-                    className="px-3 py-1.5 text-xs text-white bg-indigo-300 rounded-lg cursor-not-allowed flex items-center gap-1"
-                  >
-                    <Mail size={11} />
-                    AI Follow-up
-                  </button>
-                  <DisabledOverlay />
-                </div>
-              </div>
-              <div>
-                {DEMO_CONTACTS.map((c, i) => (
-                  <div
-                    key={i}
-                    className={cn(
-                      'flex items-center justify-between px-5 py-4 border-b border-gray-50 last:border-b-0',
-                      i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'
-                    )}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-700 text-sm font-bold">
-                        {c.name.charAt(0)}
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold text-gray-800">{c.name}</p>
-                        <p className="text-xs text-gray-500">{c.type} · Last contact {c.lastContact}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <span className={cn(
-                        'text-xs px-2 py-0.5 rounded-full border',
-                        c.status === 'active' ? 'bg-green-50 text-green-700 border-green-200' :
-                        c.status === 'at_risk' ? 'bg-yellow-50 text-yellow-700 border-yellow-200' :
-                        'bg-gray-100 text-gray-500 border-gray-200'
-                      )}>
-                        {c.status === 'active' ? 'Active' : c.status === 'at_risk' ? 'At risk' : 'Lapsed'}
-                      </span>
-                      <div className="relative">
-                        <button
-                          disabled
-                          className="p-1.5 text-gray-300 cursor-not-allowed"
-                        >
-                          <Eye size={13} />
-                        </button>
-                        <DisabledOverlay />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* CRM CTA */}
-            <div className="bg-indigo-600 rounded-xl p-6 text-white text-center">
-              <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center mx-auto mb-3">
-                <Users size={20} />
-              </div>
-              <p className="text-base font-bold mb-1">Sign up to unlock the full CRM</p>
-              <p className="text-sm text-indigo-200 mb-4">
-                Manage unlimited contacts, log interactions, get AI-drafted follow-up messages, and never lose a customer again.
-              </p>
-              <Link
-                href="/signup"
-                className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-indigo-700 text-sm font-semibold rounded-xl hover:bg-indigo-50 transition-colors"
-              >
-                Sign up to unlock full CRM →
-              </Link>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Bottom CTA bar */}
-      <div className="border-t border-gray-100 bg-white py-8 px-4">
-        <div className="max-w-2xl mx-auto text-center">
-          <p className="text-2xl font-black text-gray-900 mb-2">
-            Ready to grow your business like Mario&apos;s?
-          </p>
-          <p className="text-gray-500 text-sm mb-6">
-            Start your 7-day free trial. Cancel any time.
-          </p>
-          <div className="flex items-center justify-center gap-3 flex-wrap">
-            <Link
-              href="/signup"
-              className="px-8 py-3 text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-colors flex items-center gap-2"
-            >
-              <Zap size={15} />
-              Start free trial
-            </Link>
-            <Link
-              href="/pricing"
-              className="px-6 py-3 text-sm font-semibold text-gray-600 border border-gray-200 hover:border-gray-300 rounded-xl transition-colors"
-            >
-              View pricing
-            </Link>
-          </div>
-          <p className="text-xs text-gray-400 mt-4 flex items-center justify-center gap-4">
-            <span className="flex items-center gap-1"><CheckCircle size={11} className="text-green-500" /> 7-day free trial</span>
-            <span className="flex items-center gap-1"><Star size={11} className="text-yellow-400" /> 4.9/5 rating</span>
-          </p>
+        {/* Bottom CTA */}
+        <div className="mt-10 text-center bg-gradient-to-br from-indigo-600 to-purple-600 rounded-3xl p-10 shadow-xl">
+          <h2 className="text-3xl font-bold text-white mb-2">This could be your dashboard.</h2>
+          <p className="text-indigo-100 mb-6">Start your 7-day free trial. No credit card friction. Cancel anytime.</p>
+          <Link
+            href={`/${locale}/signup`}
+            className="inline-flex items-center justify-center bg-white text-indigo-700 font-bold px-8 py-3.5 rounded-full hover:bg-indigo-50 transition-colors shadow-lg"
+          >
+            Start free trial →
+          </Link>
         </div>
       </div>
     </div>
