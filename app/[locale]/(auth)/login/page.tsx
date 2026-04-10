@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter, useParams } from 'next/navigation'
 import { createBrowserClient } from '@/lib/supabase/client'
 import { useTranslations } from 'next-intl'
@@ -38,9 +39,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md px-8 py-10 bg-white rounded-2xl shadow-lg border border-gray-100">
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-6">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">E</span>
-            </div>
+            <Image src="/logo.svg" alt="ELEVO AI™" width={32} height={32} className="rounded-lg logo-spin" priority />
             <span className="font-bold text-gray-900">ELEVO AI</span>
           </div>
           <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>

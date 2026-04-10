@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import Image from 'next/image'
 import { Send, X, MessageCircle, Loader2, Sparkles } from 'lucide-react'
 import type { AssistantMessage } from '@/lib/agents/types'
 
@@ -106,9 +107,7 @@ export default function LiveAssistantPanel({ businessProfileId }: LiveAssistantP
             {messages.map((msg, i) => (
               <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 {msg.role === 'assistant' && (
-                  <div className="w-5 h-5 bg-accent rounded-full flex items-center justify-center mr-1.5 mt-1 shrink-0">
-                    <span className="text-white text-xs font-bold">E</span>
-                  </div>
+                  <Image src="/logo.svg" alt="ELEVO" width={20} height={20} className="rounded-full mr-1.5 mt-1 shrink-0" />
                 )}
                 <div
                   className={`max-w-[85%] px-3 py-2 rounded-xl text-sm leading-relaxed ${
@@ -124,9 +123,7 @@ export default function LiveAssistantPanel({ businessProfileId }: LiveAssistantP
 
             {loading && (
               <div className="flex justify-start">
-                <div className="w-5 h-5 bg-accent rounded-full flex items-center justify-center mr-1.5 mt-1 shrink-0">
-                  <span className="text-white text-xs font-bold">E</span>
-                </div>
+                <Image src="/logo.svg" alt="ELEVO" width={20} height={20} className="rounded-full mr-1.5 mt-1 shrink-0" />
                 <div className="bg-dashSurface px-3 py-2 rounded-xl rounded-bl-sm">
                   <Loader2 size={14} className="text-accent animate-spin" />
                 </div>

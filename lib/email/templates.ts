@@ -17,10 +17,10 @@ export function wrapEmail(content: string, opts?: { unsubscribeUrl?: string; loc
   <div style="background:#ffffff;border-radius:12px;padding:40px 32px;border:1px solid #e4e4e7">
     <div style="margin-bottom:28px">
       <table cellpadding="0" cellspacing="0" border="0"><tr>
-        <td style="background:#6366F1;width:32px;height:32px;border-radius:8px;text-align:center;vertical-align:middle">
-          <span style="color:#ffffff;font-weight:800;font-size:16px;line-height:32px">E</span>
+        <td style="vertical-align:middle">
+          <img src="https://elevo.dev/logo.svg" alt="ELEVO AI" width="32" height="32" style="display:block;border-radius:8px"/>
         </td>
-        <td style="padding-left:10px;font-weight:800;font-size:18px;color:#18181b">ELEVO AI</td>
+        <td style="padding-left:10px;font-weight:800;font-size:18px;color:#18181b;vertical-align:middle">ELEVO AI</td>
       </tr></table>
     </div>
     <div style="font-size:15px;line-height:1.7;color:#3f3f46">
