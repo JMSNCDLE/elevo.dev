@@ -78,8 +78,13 @@ export default async function ComparePage({ params }: PageProps) {
             {[
               { name: 'Jasper', slug: 'jasper', price: '$39/mo', desc: 'AI writing tool' },
               { name: 'HubSpot', slug: 'hubspot', price: '$720/mo', desc: 'Marketing & CRM suite' },
-              { name: 'Copy.ai', slug: 'copy-ai', price: '$49/mo', desc: 'AI copywriter' },
+              { name: 'Hootsuite', slug: 'hootsuite', price: '€99/mo', desc: 'Social media scheduler' },
               { name: 'ChatGPT', slug: 'chatgpt', price: '$20/mo', desc: 'General AI chatbot' },
+              { name: 'Copy.ai', slug: 'copy-ai', price: '$49/mo', desc: 'AI copywriter' },
+              { name: 'Buffer', slug: 'buffer', price: '$6/mo', desc: 'Social media scheduler' },
+              { name: 'Mailchimp', slug: 'mailchimp', price: '$13/mo', desc: 'Email marketing' },
+              { name: 'Semrush', slug: 'semrush', price: '$139/mo', desc: 'SEO & marketing toolkit' },
+              { name: 'Canva', slug: 'canva', price: '$15/mo', desc: 'Design & graphics tool' },
             ].map(c => (
               <Link key={c.slug} href={`/${locale}/compare/${c.slug}`} className="rounded-xl border border-gray-200 p-5 hover:border-indigo-300 hover:shadow-md transition-all group">
                 <h3 className="font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors">ELEVO vs {c.name}</h3>
