@@ -96,7 +96,7 @@ export default function SignupPage() {
       <div className="w-full max-w-md px-8 py-10 bg-white rounded-2xl shadow-lg border border-gray-100">
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-6">
-            <Image src="/logo.svg" alt="ELEVO AI™" width={32} height={32} className="rounded-lg logo-spin" priority />
+            <Image src="/logo.svg" alt="ELEVO AI™" width={32} height={32} className="rounded-lg" priority />
             <span className="font-bold text-gray-900">ELEVO AI</span>
           </div>
           <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>

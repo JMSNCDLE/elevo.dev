@@ -170,7 +170,7 @@ export default async function MarketingLayout({
             {/* Brand col */}
             <div className="md:col-span-2">
               <Link href={`/${locale}`} className="flex items-center gap-2 mb-4">
-                <Image src="/logo.svg" alt="ELEVO AI™" width={32} height={32} className="rounded-lg logo-spin" />
+                <Image src="/logo.svg" alt="ELEVO AI™" width={32} height={32} className="rounded-lg" />
                 <span className="text-lg font-black text-white">ELEVO AI™</span>
               </Link>
               <p className="text-sm leading-relaxed max-w-xs mb-5">

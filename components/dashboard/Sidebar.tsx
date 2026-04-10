@@ -210,7 +210,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
           )}
         </button>
         <div className="flex items-center gap-2">
-          <Image src="/logo.svg" alt="ELEVO AI™" width={28} height={28} className="rounded-lg logo-spin" />
+          <Image src="/logo.svg" alt="ELEVO AI™" width={28} height={28} className="rounded-lg" />
           <span className="font-bold text-dashText text-sm">ELEVO AI</span>
         </div>
         <div className="w-11 h-11" />
@@ -231,7 +231,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       {/* Logo */}
       <div className="px-4 py-5 border-b border-dashSurface2">
         <div className="flex items-center gap-2">
-          <Image src="/logo.svg" alt="ELEVO AI™" width={32} height={32} className="rounded-lg logo-spin" priority />
+          <Image src="/logo.svg" alt="ELEVO AI™" width={32} height={32} className="rounded-lg" priority />
           <span className="font-bold text-dashText text-base">ELEVO AI</span>
         </div>
         {businessName && (

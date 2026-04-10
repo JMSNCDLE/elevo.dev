@@ -3,7 +3,7 @@ const sharp = require('sharp')
 const fs = require('fs')
 const path = require('path')
 
-const svgPath = path.join(__dirname, '../public/logo.svg')
+const svgPath = path.join(__dirname, '../public/logo-large.svg')
 const svg = fs.readFileSync(svgPath)
 
 async function generate() {
@@ -14,29 +14,31 @@ async function generate() {
     { name: 'apple-touch-icon.png', size: 180 },
     { name: 'icon-192.png', size: 192 },
     { name: 'icon-512.png', size: 512 },
-    { name: 'og-image.png', size: 1200, height: 630 },
   ]
 
-  for (const { name, size, height } of sizes) {
-    const img = sharp(svg)
-    if (height) {
-      // OG image: center logo on dark background
-      const logoBuffer = await sharp(svg).resize(400, 400).png().toBuffer()
-      await sharp({
-        create: { width: 1200, height: 630, channels: 4, background: { r: 5, g: 5, b: 7, alpha: 1 } },
-      })
-        .composite([{ input: logoBuffer, gravity: 'center' }])
-        .png()
-        .toFile(path.join(__dirname, '../public', name))
-    } else {
-      await img.resize(size, size).png().toFile(path.join(__dirname, '../public', name))
-    }
-    console.log(`✓ ${name}`)
+  for (const { name, size } of sizes) {
+    await sharp(svg).resize(size, size).png().toFile(path.join(__dirname, '../public', name))
+    console.log(`✓ ${name} (${size}x${size})`)
   }
 
-  // favicon.ico — use 32x32 PNG (browsers handle it fine)
+  // favicon.ico — 32x32 PNG (browsers accept this)
   await sharp(svg).resize(32, 32).png().toFile(path.join(__dirname, '../public/favicon.ico'))
   console.log('✓ favicon.ico')
+
+  // OG image: 1200x630, dark background, 200x200 cube centered
+  const ogWidth = 1200
+  const ogHeight = 630
+  const logoSize = 200
+  const logoBuffer = await sharp(svg).resize(logoSize, logoSize).png().toBuffer()
+  await sharp({
+    create: { width: ogWidth, height: ogHeight, channels: 4, background: { r: 10, g: 10, b: 20, alpha: 1 } },
+  })
+    .composite([{ input: logoBuffer, gravity: 'center' }])
+    .png()
+    .toFile(path.join(__dirname, '../public/og-image.png'))
+  console.log('✓ og-image.png (1200x630)')
+
+  console.log('\n🎉 All icons regenerated with 3D cube logo!')
 }
 
 generate().catch(err => {

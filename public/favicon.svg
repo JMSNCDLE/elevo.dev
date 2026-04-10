@@ -1,13 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 40 40">
   <defs>
-    <linearGradient id="logoGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#6366F1"/>
-      <stop offset="100%" stop-color="#818CF8"/>
+    <linearGradient id="lf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#6D28D9"/>
+    </linearGradient>
+    <linearGradient id="rf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#06B6D4"/>
+    </linearGradient>
+    <linearGradient id="tf" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#2563EB"/>
     </linearGradient>
   </defs>
-  <rect width="32" height="32" rx="8" fill="#0A0A14"/>
-  <rect x="8" y="6" width="16" height="3.5" rx="1.2" fill="url(#logoGrad)"/>
-  <rect x="8" y="14" width="11" height="3.5" rx="1.2" fill="url(#logoGrad)"/>
-  <rect x="8" y="22" width="16" height="3.5" rx="1.2" fill="url(#logoGrad)"/>
-  <rect x="8" y="6" width="3.5" height="19.5" rx="1.2" fill="url(#logoGrad)"/>
+  <polygon points="8,18 20,11 20,28 8,35" fill="url(#lf)"/>
+  <polygon points="20,11 32,18 32,35 20,28" fill="url(#rf)"/>
+  <polygon points="8,18 20,11 32,18 20,25" fill="url(#tf)" opacity="0.85"/>
+  <polygon points="13,14 14.5,12.5 16,14 14.5,15.5" fill="white" opacity="0.9"/>
 </svg>
