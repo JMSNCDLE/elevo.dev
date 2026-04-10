@@ -65,6 +65,8 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
         { href: `/${locale}/chat`, label: 'Chat', icon: MessageSquare },
         { href: `/${locale}/referrals`, label: 'Refer & Earn', icon: Gift },
         { href: `/${locale}/billing`, label: 'Billing', icon: CreditCard },
+        { href: `/${locale}/lawyer`, label: 'ELEVO Lawyer™', icon: Scale, orbitOnly: true, badge: 'NEW' },
+        { href: `/${locale}/accountant`, label: 'ELEVO Accountant™', icon: Calculator, orbitOnly: true, badge: 'NEW' },
       ],
     },
     {
@@ -125,13 +127,6 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
         { href: `/${locale}/competitive-intel`, label: 'Competitive Intel', icon: Shield, galaxyOnly: true, badge: 'GALAXY' },
         { href: `/${locale}/tools/hosting-automations`, label: 'Hosting Automations', icon: Server, galaxyOnly: true, badge: 'GALAXY' },
         { href: `/${locale}/seo`, label: 'ELEVO Rank™', icon: Search },
-      ],
-    },
-    {
-      title: ts('professional'),
-      items: [
-        { href: `/${locale}/accountant`, label: 'ELEVO Accountant™', icon: Calculator, orbitOnly: true, badge: 'NEW' },
-        { href: `/${locale}/lawyer`, label: 'ELEVO Lawyer™', icon: Scale, orbitOnly: true, badge: 'NEW' },
       ],
     },
     {
