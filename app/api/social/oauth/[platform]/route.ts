@@ -19,7 +19,14 @@ export async function GET(
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const state = `${user.id}:${platform}:${Date.now()}`
-  const url = getOAuthUrl(platform as SocialPlatform, state)
-
-  return NextResponse.redirect(url)
+  try {
+    const url = getOAuthUrl(platform as SocialPlatform, state)
+    return NextResponse.redirect(url)
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'OAuth setup error'
+    return NextResponse.json(
+      { error: 'coming_soon', message, platform },
+      { status: 503 }
+    )
+  }
 }

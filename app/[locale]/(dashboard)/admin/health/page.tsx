@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLocale } from 'next-intl'
-import { Heart, RefreshCw, Loader2, CheckCircle, AlertTriangle, XCircle, Clock } from 'lucide-react'
+import { Heart, RefreshCw, Loader2, CheckCircle, AlertTriangle, XCircle, Clock, Key } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
 import { isAdminId } from '@/lib/admin'
 
@@ -12,6 +12,13 @@ interface ServiceCheck {
   status: 'operational' | 'degraded' | 'down' | 'checking'
   responseMs: number
   detail: string
+}
+
+interface KeyStatus {
+  name: string
+  label: string
+  critical: boolean
+  configured: boolean
 }
 
 const SERVICES = [
@@ -35,6 +42,7 @@ export default function AdminHealthPage() {
   const [checks, setChecks] = useState<ServiceCheck[]>(
     SERVICES.map(s => ({ name: s.name, status: 'checking', responseMs: 0, detail: 'Checking...' }))
   )
+  const [keys, setKeys] = useState<KeyStatus[]>([])
   const [running, setRunning] = useState(false)
   const [lastRun, setLastRun] = useState<Date | null>(null)
 
@@ -82,6 +90,10 @@ export default function AdminHealthPage() {
         }
       }
     }
+
+    // Fetch API key status (admin-only endpoint)
+    const keysRes = await fetch('/api/admin/keys-status').then(r => r.json()).catch(() => null)
+    if (keysRes?.keys) setKeys(keysRes.keys)
 
     setChecks(results)
     setLastRun(new Date())
@@ -157,6 +169,52 @@ export default function AdminHealthPage() {
           </div>
         ))}
       </div>
+
+      {/* API Keys section */}
+      {keys.length > 0 && (
+        <div className="space-y-3">
+          <div className="flex items-center gap-2 mt-2">
+            <Key className="w-4 h-4 text-dashMuted" />
+            <h2 className="text-sm font-semibold text-white">API Keys & Integrations</h2>
+            <span className="text-xs text-dashMuted">
+              {keys.filter(k => k.configured).length}/{keys.length} configured
+            </span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {keys.map(k => (
+              <div
+                key={k.name}
+                className={`flex items-center justify-between px-4 py-3 rounded-xl border ${
+                  k.configured
+                    ? 'bg-green-500/5 border-green-500/15'
+                    : k.critical
+                    ? 'bg-red-500/5 border-red-500/15'
+                    : 'bg-yellow-500/5 border-yellow-500/15'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  {k.configured ? (
+                    <CheckCircle className="w-4 h-4 text-green-400 shrink-0" />
+                  ) : k.critical ? (
+                    <XCircle className="w-4 h-4 text-red-400 shrink-0" />
+                  ) : (
+                    <AlertTriangle className="w-4 h-4 text-yellow-400 shrink-0" />
+                  )}
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-white truncate">{k.label}</p>
+                    <p className="text-[10px] text-dashMuted font-mono truncate">{k.name}</p>
+                  </div>
+                </div>
+                <span className={`text-[10px] font-bold uppercase tracking-wide ${
+                  k.configured ? 'text-green-400' : k.critical ? 'text-red-400' : 'text-yellow-400'
+                }`}>
+                  {k.configured ? 'Set' : k.critical ? 'Missing' : 'Optional'}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
