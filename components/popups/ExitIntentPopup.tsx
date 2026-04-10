@@ -1,31 +1,12 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { usePathname } from 'next/navigation'
 import { X, Zap } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
-const STORAGE_KEY = 'elevo_exit_popup_v1'
-const COOLDOWN_DAYS = 1
-
-function isCooledDown(): boolean {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    if (!stored) return false
-    const ts = parseInt(stored, 10)
-    const daysSince = (Date.now() - ts) / (1000 * 60 * 60 * 24)
-    return daysSince < COOLDOWN_DAYS
-  } catch {
-    return false
-  }
-}
-
-function setCooldown() {
-  try {
-    localStorage.setItem(STORAGE_KEY, String(Date.now()))
-  } catch {
-    // localStorage not available
-  }
-}
+const SESSION_KEY = 'elevo_exit_shown'
+const MIN_DELAY_MS = 15000
 
 export default function ExitIntentPopup() {
   const [shown, setShown] = useState(false)
@@ -35,43 +16,41 @@ export default function ExitIntentPopup() {
   const [businessType, setBusinessType] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const pathname = usePathname()
 
   const t = useTranslations('exitPopup')
   const BUSINESS_TYPES = [t('typePlumber'), t('typeElectrician'), t('typeRoofer'), t('typeBuilder'), t('typeRestaurant'), t('typeCafe'), t('typeSalon'), t('typeDental'), t('typeRetail'), t('typeOther')]
 
+  // Only enable on homepage (e.g. /en, /es, /fr — path is /locale only)
+  const isHomepage = /^\/[a-z]{2}$/.test(pathname)
+
   const handleMouseLeave = useCallback((e: MouseEvent) => {
     if (e.clientY < 10) {
-      if (!isCooledDown()) {
-        setShown(true)
-      }
+      setShown(true)
+      sessionStorage.setItem(SESSION_KEY, 'true')
       document.removeEventListener('mouseleave', handleMouseLeave)
     }
   }, [])
 
   useEffect(() => {
-    if (isCooledDown()) return
+    if (!isHomepage) return
+    if (sessionStorage.getItem(SESSION_KEY)) return
 
-    // Exit intent: fire when mouse leaves viewport (desktop)
-    const exitTimeout = setTimeout(() => {
-      document.addEventListener('mouseleave', handleMouseLeave)
-    }, 3000)
-
-    // Timer: show after 15 seconds on page if not already shown
-    const timerTimeout = setTimeout(() => {
-      if (!isCooledDown()) {
-        setShown(true)
+    // Only attach exit-intent listener after 15 seconds on page
+    const timer = setTimeout(() => {
+      if (!sessionStorage.getItem(SESSION_KEY)) {
+        document.addEventListener('mouseleave', handleMouseLeave)
       }
-    }, 15000)
+    }, MIN_DELAY_MS)
 
     return () => {
-      clearTimeout(exitTimeout)
-      clearTimeout(timerTimeout)
+      clearTimeout(timer)
       document.removeEventListener('mouseleave', handleMouseLeave)
     }
-  }, [handleMouseLeave])
+  }, [isHomepage, handleMouseLeave])
 
   function handleClose() {
-    setCooldown()
+    sessionStorage.setItem(SESSION_KEY, 'true')
     setShown(false)
   }
 
@@ -93,11 +72,10 @@ export default function ExitIntentPopup() {
         }),
       })
       setSubmitted(true)
-      setCooldown()
+      sessionStorage.setItem(SESSION_KEY, 'true')
     } catch {
-      // Fail silently — still show success
       setSubmitted(true)
-      setCooldown()
+      sessionStorage.setItem(SESSION_KEY, 'true')
     } finally {
       setLoading(false)
     }

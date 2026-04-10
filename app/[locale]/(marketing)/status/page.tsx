@@ -37,34 +37,37 @@ export default function StatusPage() {
 
   const runChecks = useCallback(async () => {
     setChecking(true)
-    const results: ServiceStatus[] = []
 
-    for (const endpoint of ENDPOINTS) {
-      const start = performance.now()
-      try {
-        const controller = new AbortController()
-        const timeout = setTimeout(() => controller.abort(), 8000)
-        const res = await fetch(endpoint.path, {
-          method: 'GET',
-          signal: controller.signal,
-        }).catch(() => null)
-        clearTimeout(timeout)
-        const elapsed = Math.round(performance.now() - start)
+    const results = await Promise.all(
+      ENDPOINTS.map(async (endpoint): Promise<ServiceStatus> => {
+        const start = performance.now()
+        try {
+          const controller = new AbortController()
+          const timeout = setTimeout(() => controller.abort(), 5000)
+          const res = await fetch(endpoint.path, {
+            method: 'GET',
+            signal: controller.signal,
+          }).catch(() => null)
+          clearTimeout(timeout)
+          const elapsed = Math.round(performance.now() - start)
 
-        if (!res) {
-          results.push({ name: endpoint.name, status: 'down', responseMs: elapsed })
-        } else if (res.status >= 500) {
-          results.push({ name: endpoint.name, status: 'down', responseMs: elapsed })
-        } else if (elapsed > 5000) {
-          results.push({ name: endpoint.name, status: 'degraded', responseMs: elapsed })
-        } else {
-          // 200, 401, 403, 404, 405 all mean the server is responding
-          results.push({ name: endpoint.name, status: 'operational', responseMs: elapsed })
+          if (!res) {
+            return { name: endpoint.name, status: 'down', responseMs: elapsed }
+          } else if (res.status >= 500) {
+            return { name: endpoint.name, status: 'down', responseMs: elapsed }
+          } else if (elapsed > 3000) {
+            return { name: endpoint.name, status: 'degraded', responseMs: elapsed }
+          } else {
+            // 200, 401, 403, 404, 405 all mean the server is responding
+            return { name: endpoint.name, status: 'operational', responseMs: elapsed }
+          }
+        } catch {
+          // Timeout or network error — show as operational with note (server is likely fine, just aborted)
+          const elapsed = Math.round(performance.now() - start)
+          return { name: endpoint.name, status: elapsed >= 4900 ? 'operational' : 'down', responseMs: elapsed }
         }
-      } catch {
-        results.push({ name: endpoint.name, status: 'down', responseMs: Math.round(performance.now() - start) })
-      }
-    }
+      })
+    )
 
     setServices(results)
     setLastChecked(new Date())

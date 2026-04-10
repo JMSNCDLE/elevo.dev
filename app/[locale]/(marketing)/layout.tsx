@@ -152,7 +152,7 @@ export default async function MarketingLayout({
 
   return (
     <SmoothScrollProvider>
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-[#050507] flex flex-col">
       <JsonLd />
       <ScrollProgress />
       <CustomCursor />
