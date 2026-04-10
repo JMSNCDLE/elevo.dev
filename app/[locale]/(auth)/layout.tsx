@@ -6,7 +6,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
     <div className="min-h-screen bg-white flex flex-col">
       <header className="px-6 py-5 border-b border-gray-100">
         <Link href="/" className="flex items-center gap-2 w-fit">
-          <Image src="/logo.svg" alt="ELEVO AI™" width={32} height={32} className="rounded-lg" priority />
+          <Image src="/logo.png" alt="ELEVO AI™" width={32} height={32} className="rounded-lg" priority />
           <span className="text-xl font-bold text-gray-900">ELEVO AI</span>
         </Link>
       </header>

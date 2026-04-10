@@ -54,7 +54,7 @@ export default function Nav({ locale }: NavProps) {
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link href={`/${locale}`} className="flex items-center gap-2 shrink-0">
-          <Image src="/logo.svg" alt="ELEVO AI™" width={36} height={36} className="rounded-lg shadow-sm" priority />
+          <Image src="/logo.png" alt="ELEVO AI™" width={36} height={36} className="rounded-lg shadow-sm" priority />
           <span
             className="text-xl font-black tracking-tight"
             style={{ color: '#0f172a' }}
