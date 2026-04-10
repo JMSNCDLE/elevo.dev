@@ -1,9 +1,20 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  // Fast path: lightweight health check (default)
+  // Use ?deep=true for full diagnostic including live Anthropic API call
+  const deep = req.nextUrl.searchParams.get('deep') === 'true'
+
+  if (!deep) {
+    return NextResponse.json({
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+    })
+  }
+
+  // Deep diagnostic mode (slow — calls Anthropic API)
   const checks: Record<string, string> = {}
 
-  // Check Anthropic API key
   const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey) {
     checks.anthropic = 'MISSING — ANTHROPIC_API_KEY not set'
@@ -12,7 +23,6 @@ export async function GET() {
   } else {
     checks.anthropic = 'Key loaded (sk-ant-...)'
 
-    // REAL API test — actually call Anthropic to verify key works
     try {
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
@@ -39,7 +49,6 @@ export async function GET() {
     }
   }
 
-  // Check env vars
   checks.supabase_url = process.env.NEXT_PUBLIC_SUPABASE_URL ? 'Set' : 'MISSING'
   checks.supabase_anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'Set' : 'MISSING'
   checks.supabase_service = process.env.SUPABASE_SERVICE_ROLE_KEY ? 'Set' : 'MISSING'

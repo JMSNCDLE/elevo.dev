@@ -17,6 +17,13 @@ const STATUS_STYLES = {
   checking: { dot: 'bg-gray-300 animate-pulse', text: 'text-gray-400', label: 'Checking...' },
 }
 
+function getTimeColor(ms: number | null): string {
+  if (ms === null) return 'text-gray-400'
+  if (ms < 500) return 'text-green-600'
+  if (ms < 1500) return 'text-yellow-600'
+  return 'text-red-600'
+}
+
 const ENDPOINTS = [
   { name: 'ELEVO Dashboard', path: '/api/health' },
   { name: 'AI Agents', path: '/api/help-bot' },
@@ -122,7 +129,7 @@ export default function StatusPage() {
                 <span className="text-sm font-medium text-gray-800">{service.name}</span>
                 <div className="flex items-center gap-3">
                   {service.responseMs !== null && (
-                    <span className="text-[11px] text-gray-400 font-mono">{service.responseMs}ms</span>
+                    <span className={`text-[11px] font-mono font-semibold ${getTimeColor(service.responseMs)}`}>{service.responseMs}ms</span>
                   )}
                   <div className="flex items-center gap-1.5">
                     <span className={`w-2 h-2 rounded-full ${style.dot}`} />
