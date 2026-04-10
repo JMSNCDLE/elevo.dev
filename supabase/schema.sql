@@ -1371,3 +1371,29 @@ CREATE TABLE IF NOT EXISTS waitlist (
 ALTER TABLE waitlist ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "service_insert_waitlist" ON waitlist FOR INSERT WITH CHECK (true);
 CREATE POLICY "public_count_waitlist" ON waitlist FOR SELECT USING (true);
+
+-- Phase 49: Aria Approval Queue
+CREATE TABLE IF NOT EXISTS aria_approval_queue (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  action_type TEXT NOT NULL,
+  action_description TEXT NOT NULL,
+  risk_level TEXT NOT NULL CHECK (risk_level IN ('low', 'medium', 'high')),
+  action_payload JSONB DEFAULT '{}',
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected', 'executed', 'expired')),
+  requested_at TIMESTAMPTZ DEFAULT NOW(),
+  responded_at TIMESTAMPTZ,
+  executed_at TIMESTAMPTZ,
+  telegram_message_id BIGINT
+);
+CREATE INDEX IF NOT EXISTS idx_approval_queue_pending ON aria_approval_queue(status) WHERE status = 'pending';
+ALTER TABLE aria_approval_queue ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "service_all_approvals" ON aria_approval_queue FOR ALL USING (true);
+
+-- Phase 49: Platform Settings
+CREATE TABLE IF NOT EXISTS platform_settings (
+  key TEXT PRIMARY KEY,
+  value JSONB NOT NULL DEFAULT '{}',
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE platform_settings ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "service_all_settings" ON platform_settings FOR ALL USING (true);

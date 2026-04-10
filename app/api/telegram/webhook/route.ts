@@ -1,8 +1,14 @@
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
+import { createClient } from '@supabase/supabase-js'
+import { findApprovalByPrefix, getPendingApprovals, updateApprovalStatus, markExecuted } from '@/lib/aria/approvals'
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevo.dev'
+
+function getSupabase() {
+  return createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
+}
 
 async function sendTelegram(chatId: string | number, text: string) {
   if (!BOT_TOKEN) return
@@ -244,6 +250,101 @@ export async function POST(request: Request) {
         'Use /usage for live credit &amp; agent stats.'
       )
 
+    } else if (command.startsWith('/approve')) {
+      const approvalId = text.replace('/approve', '').trim()
+      if (!approvalId) {
+        await sendTelegram(chatId, '⚠️ Usage: /approve &lt;id&gt;')
+        return NextResponse.json({ ok: true })
+      }
+      try {
+        const match = await findApprovalByPrefix(approvalId)
+        if (!match) {
+          await sendTelegram(chatId, `❌ No pending approval matching "${approvalId}"`)
+          return NextResponse.json({ ok: true })
+        }
+        await updateApprovalStatus(match.id!, 'approved')
+        const payload = match.action_payload as Record<string, any>
+        if (payload?.endpoint) {
+          try {
+            const res = await fetch(`${BASE_URL}${payload.endpoint}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'x-aria-internal': 'true' },
+              body: JSON.stringify(payload.body || {}),
+            })
+            const result = await res.json()
+            await markExecuted(match.id!)
+            await sendTelegram(chatId, `✅ <b>Approved &amp; Executed</b>\n\n${match.action_description}\n\nResult: ${JSON.stringify(result).substring(0, 200)}`)
+          } catch (execErr: unknown) {
+            await sendTelegram(chatId, `⚠️ Approved but execution failed: ${execErr instanceof Error ? execErr.message : 'Unknown'}`)
+          }
+        } else {
+          await sendTelegram(chatId, `✅ <b>Approved:</b> ${match.action_description}\n\n(No auto-execute endpoint — manual action needed)`)
+        }
+      } catch (err: unknown) {
+        await sendTelegram(chatId, `❌ Error: ${err instanceof Error ? err.message : 'Unknown'}`)
+      }
+
+    } else if (command.startsWith('/reject')) {
+      const approvalId = text.replace('/reject', '').trim()
+      if (!approvalId) {
+        await sendTelegram(chatId, '⚠️ Usage: /reject &lt;id&gt;')
+        return NextResponse.json({ ok: true })
+      }
+      try {
+        const match = await findApprovalByPrefix(approvalId)
+        if (!match) {
+          await sendTelegram(chatId, `❌ No pending approval matching "${approvalId}"`)
+          return NextResponse.json({ ok: true })
+        }
+        await updateApprovalStatus(match.id!, 'rejected')
+        await sendTelegram(chatId, `❌ <b>Rejected:</b> ${match.action_description}`)
+      } catch (err: unknown) {
+        await sendTelegram(chatId, `❌ Error: ${err instanceof Error ? err.message : 'Unknown'}`)
+      }
+
+    } else if (command === '/pending') {
+      try {
+        const pending = await getPendingApprovals()
+        if (pending.length === 0) {
+          await sendTelegram(chatId, '✅ No pending approvals')
+          return NextResponse.json({ ok: true })
+        }
+        const list = pending.map((p, i) =>
+          `${i + 1}. ${p.risk_level === 'high' ? '🔴' : '🟡'} ${p.action_description}\n   ID: <code>${(p.id || '').substring(0, 8)}</code> | ${new Date(p.requested_at || '').toLocaleString('en-GB')}`
+        ).join('\n\n')
+        await sendTelegram(chatId, `📋 <b>Pending Approvals (${pending.length})</b>\n\n${list}\n\nReply /approve &lt;id&gt; or /reject &lt;id&gt;`)
+      } catch (err: unknown) {
+        await sendTelegram(chatId, `❌ Error: ${err instanceof Error ? err.message : 'Unknown'}`)
+      }
+
+    } else if (command.startsWith('/email')) {
+      const parts = text.replace('/email', '').trim()
+      if (!parts) {
+        await sendTelegram(chatId, '⚠️ Usage: /email user@email.com Subject | Body')
+        return NextResponse.json({ ok: true })
+      }
+      const pipeIdx = parts.indexOf('|')
+      const beforePipe = pipeIdx > -1 ? parts.substring(0, pipeIdx).trim() : ''
+      const afterPipe = pipeIdx > -1 ? parts.substring(pipeIdx + 1).trim() : ''
+      const spaceIdx = beforePipe.indexOf(' ')
+      const emailMatch = spaceIdx > -1 && afterPipe ? [null, beforePipe.substring(0, spaceIdx), beforePipe.substring(spaceIdx + 1).trim(), afterPipe] : null
+      if (!emailMatch) {
+        await sendTelegram(chatId, '⚠️ Format: /email user@email.com Subject | Body text')
+        return NextResponse.json({ ok: true })
+      }
+      const [, toEmail, subjectLine, bodyText] = emailMatch
+      try {
+        const res = await fetch(`${BASE_URL}/api/aria/admin/email`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-aria-internal': 'true' },
+          body: JSON.stringify({ action: 'send_single', to: toEmail, subject: subjectLine, html: `<p>${bodyText}</p>` }),
+        })
+        const result = await res.json()
+        await sendTelegram(chatId, result.success ? `✅ Email sent to ${toEmail}\nSubject: ${subjectLine}` : `❌ Email failed: ${result.error || 'Unknown error'}`)
+      } catch (err: unknown) {
+        await sendTelegram(chatId, `❌ Email error: ${err instanceof Error ? err.message : 'Unknown'}`)
+      }
+
     } else if (command === '/help') {
       await sendTelegram(chatId,
         '📋 <b>Aria Commands</b>\n\n' +
@@ -256,9 +357,13 @@ export async function POST(request: Request) {
         '/status — Quick page status check\n' +
         '/briefing — Generate daily briefing\n' +
         '/agents — Agent overview\n' +
-        '/chatid — Show your chat ID\n' +
-        '/help — This message\n\n' +
-        'You can also just ask me anything — I have live access to platform data.'
+        '/chatid — Show your chat ID\n\n' +
+        '<b>🔐 Admin Actions</b>\n' +
+        '/email — Send email (format: /email to Subject | Body)\n' +
+        '/pending — View pending approval requests\n' +
+        '/approve — Approve a pending action\n' +
+        '/reject — Reject a pending action\n\n' +
+        'I can also manage users, run agents, and modify settings — just ask.\nHigh-risk actions need your /approve first.'
       )
 
     } else {
@@ -285,6 +390,15 @@ KEY DATES:
 - Target: first 100 paying customers within 90 days of launch
 
 YOUR ROLE: You are James's right hand. You monitor the platform, provide business intelligence, execute low-risk tasks autonomously, and flag high-risk decisions for approval. You speak concisely and actionably — no fluff. When you have live data, cite specific numbers. When asked about something you don't have data for, say so clearly.
+
+ADMIN CAPABILITIES:
+You can take actions on the ELEVO platform using a 3-tier risk system:
+
+LOW RISK (just do it): Fetch any data, generate reports, run health checks.
+MEDIUM RISK (do it, then tell James): Send a single email, flag a user, reset credits, run an agent.
+HIGH RISK (ask James FIRST via /approve): Suspend/delete users, toggle agents, send bulk emails, modify settings/billing.
+
+When James asks you to do something HIGH RISK, explain what you'll do and tell him you're sending an approval request. Don't just do it.
 
 Format responses for Telegram using HTML tags: <b>, <i>, <code>.
 ${liveContext}`,
