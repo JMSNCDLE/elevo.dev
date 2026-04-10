@@ -1,6 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#4F46E5"/>
-  <text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle"
-        fill="white" font-family="system-ui, -apple-system, sans-serif"
-        font-size="20" font-weight="700">E</text>
+  <defs>
+    <linearGradient id="logoGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#818CF8"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="8" fill="#0A0A14"/>
+  <rect x="8" y="6" width="16" height="3.5" rx="1.2" fill="url(#logoGrad)"/>
+  <rect x="8" y="14" width="11" height="3.5" rx="1.2" fill="url(#logoGrad)"/>
+  <rect x="8" y="22" width="16" height="3.5" rx="1.2" fill="url(#logoGrad)"/>
+  <rect x="8" y="6" width="3.5" height="19.5" rx="1.2" fill="url(#logoGrad)"/>
 </svg>
