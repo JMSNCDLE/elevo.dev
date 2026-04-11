@@ -63,6 +63,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       title: ts('overview'),
       items: [
         { href: `/${locale}/dashboard`, label: 'Dashboard', icon: LayoutDashboard },
+        { href: `/${locale}/dashboard/teams`, label: 'Agent Teams', icon: Users2, badge: 'NEW' },
         { href: `/${locale}/chat`, label: 'Chat', icon: MessageSquare },
         { href: `/${locale}/referrals`, label: 'Refer & Earn', icon: Gift },
         { href: `/${locale}/billing`, label: 'Billing', icon: CreditCard },
