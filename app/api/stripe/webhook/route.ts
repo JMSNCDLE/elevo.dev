@@ -55,6 +55,21 @@ export async function POST(request: Request) {
         billing_anchor_day: anchorDay,
       }).eq('id', userId)
 
+      // Loyalty bonus: grant 1 free custom agent on every successful subscription/upgrade
+      try {
+        const { data: bonusProfile } = await supabase
+          .from('profiles')
+          .select('bonus_agents_available')
+          .eq('id', userId)
+          .single()
+        await supabase
+          .from('profiles')
+          .update({ bonus_agents_available: (bonusProfile?.bonus_agents_available ?? 0) + 1 })
+          .eq('id', userId)
+      } catch (err) {
+        console.error('[stripe/webhook] bonus agent grant failed:', err)
+      }
+
       // WhatsApp notification to James
       const { data: { user: buyerUser } } = await supabase.auth.admin.getUserById(userId)
       const buyerEmail = buyerUser?.email ?? 'unknown'

@@ -41,21 +41,44 @@ export default function PricingCheckoutButton({
         return
       }
 
-      const r = await fetch('/api/stripe/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ planId, currency: 'eur', annual }),
-      })
-      const data = await r.json()
-      if (data.url) {
+      let r: Response
+      try {
+        r = await fetch('/api/stripe/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ planId, currency: 'eur', annual }),
+        })
+      } catch (netErr) {
+        console.error('[checkout] network error:', netErr)
+        alert('Network error — please check your connection and try again.')
+        return
+      }
+
+      // Try JSON first; if the server crashed and returned HTML, surface that too
+      let data: { url?: string; error?: string; code?: string } = {}
+      const text = await r.text()
+      try {
+        data = text ? JSON.parse(text) : {}
+      } catch {
+        console.error('[checkout] non-JSON response:', text.slice(0, 500))
+        alert(`Server error (${r.status}). Our team has been notified.`)
+        return
+      }
+
+      if (r.ok && data.url) {
         window.location.href = data.url
         return
       }
-      console.error('Checkout error:', data.error)
-      alert(typeof data.error === 'string' ? data.error : 'Could not start checkout. Please try again.')
-    } catch (err) {
-      console.error('Checkout failed:', err)
-      alert('Connection error. Please try again.')
+
+      // Auth error → bounce to login with plan preserved
+      if (r.status === 401 || data.code === 'unauthorized') {
+        try { sessionStorage.setItem('elevo_pending_plan', planId) } catch {}
+        router.push(`/${locale}/login?redirect=${encodeURIComponent(`/${locale}/pricing`)}&plan=${planId}`)
+        return
+      }
+
+      console.error('[checkout] api error:', r.status, data)
+      alert(data.error ?? `Could not start checkout (${r.status}). Please try again.`)
     } finally {
       setLoading(false)
     }
