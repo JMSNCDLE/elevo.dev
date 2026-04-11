@@ -31,6 +31,19 @@ export default async function HomePage({ params }: PageProps) {
         <div className="glow-orb glow-orb-2" />
 
         <div className="relative z-10 max-w-5xl mx-auto text-center">
+          <div className="flex justify-center mb-8" style={{ perspective: '1000px' }}>
+            <div className="cube-hero-spin">
+              <Image
+                src="/logo.png"
+                alt="ELEVO AI"
+                width={120}
+                height={120}
+                className="w-20 h-20 md:w-[120px] md:h-[120px]"
+                priority
+              />
+            </div>
+          </div>
+
           <div className="v-badge mx-auto mb-8 w-fit">
             ✦ Now with ELEVO CEO™
           </div>

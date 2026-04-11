@@ -355,6 +355,26 @@ html { scroll-behavior: smooth; }
   .logo-spin { animation: none; }
 }
 
+/* Hero cube — Y-axis 3D rotation with purple-blue glow */
+@keyframes cube-rotate {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
+}
+.cube-hero-spin {
+  animation: cube-rotate 8s linear infinite;
+  transform-style: preserve-3d;
+  will-change: transform;
+  filter:
+    drop-shadow(0 0 20px rgba(120, 80, 255, 0.4))
+    drop-shadow(0 0 60px rgba(60, 140, 255, 0.2));
+}
+.cube-hero-spin:hover {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cube-hero-spin { animation: none; }
+}
+
 /* Mobile global */
 html { -webkit-overflow-scrolling: touch; overflow-x: hidden; scroll-behavior: smooth }
 body { overflow-x: hidden; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased }
