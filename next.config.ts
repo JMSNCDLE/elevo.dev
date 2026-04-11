@@ -35,6 +35,11 @@ const nextConfig: NextConfig = {
       destination: '/:locale/blog/60-plus-ai-agents-run-your-business',
       permanent: true,
     },
+    {
+      source: '/:locale/customers/pipeline',
+      destination: '/:locale/sales-pipeline',
+      permanent: true,
+    },
   ],
   headers: async () => [
     {
