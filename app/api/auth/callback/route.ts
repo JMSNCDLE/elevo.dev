@@ -4,6 +4,7 @@ import type { NextRequest } from 'next/server'
 import { cookies } from 'next/headers'
 import { sendEmail } from '@/lib/email/send'
 import { buildWelcomeEmail } from '@/lib/email/flows'
+import { sendTelegramNotification } from '@/lib/notifications/telegram'
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -61,6 +62,11 @@ export async function GET(request: NextRequest) {
         .from('profiles')
         .update({ email_welcome_sent: true, last_active_at: new Date().toISOString() })
         .eq('id', data.user.id)
+
+      // Notify James via Telegram (fire-and-forget)
+      sendTelegramNotification({
+        text: `🎉 <b>New ELEVO Signup</b>\n\nEmail: ${data.user.email}\nName: ${firstName}\nLocale: ${locale}\nPlan: Free trial`,
+      }).catch(() => {})
     }
   } catch (err) {
     console.error('[auth/callback] welcome email error:', err)

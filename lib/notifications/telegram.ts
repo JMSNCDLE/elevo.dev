@@ -1,10 +1,27 @@
 const TELEGRAM_API = 'https://api.telegram.org/bot'
 
-export async function sendTelegramToJames(message: string): Promise<boolean> {
+interface TelegramSendOptions {
+  chatId?: string
+  text: string
+  parseMode?: 'HTML' | 'Markdown'
+}
+
+/**
+ * Send a Telegram message. Resolves chat ID in this order:
+ *   1. Explicit chatId argument
+ *   2. JAMES_TELEGRAM_CHAT_ID (personal — Production only)
+ *   3. TELEGRAM_CHAT_ID (general bot)
+ */
+export async function sendTelegramNotification({
+  chatId,
+  text,
+  parseMode = 'HTML',
+}: TelegramSendOptions): Promise<boolean> {
   const token = process.env.TELEGRAM_BOT_TOKEN
-  const chatId = process.env.TELEGRAM_CHAT_ID
-  if (!token || !chatId) {
-    console.warn('Telegram not configured: missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID')
+  const targetChatId =
+    chatId || process.env.JAMES_TELEGRAM_CHAT_ID || process.env.TELEGRAM_CHAT_ID
+  if (!token || !targetChatId) {
+    console.warn('Telegram not configured: missing TELEGRAM_BOT_TOKEN or chat ID')
     return false
   }
 
@@ -13,16 +30,29 @@ export async function sendTelegramToJames(message: string): Promise<boolean> {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        chat_id: chatId,
-        text: message,
-        parse_mode: 'HTML',
+        chat_id: targetChatId,
+        text,
+        parse_mode: parseMode,
       }),
     })
-    return res.ok
+    if (!res.ok) {
+      console.error('Telegram API error:', await res.text())
+      return false
+    }
+    return true
   } catch (error) {
     console.error('Telegram send failed:', error)
     return false
   }
+}
+
+/**
+ * Legacy helper — kept for backwards compatibility with existing call sites
+ * (stripe webhook, cron jobs, aria-autonomous). New code should use
+ * sendTelegramNotification directly.
+ */
+export async function sendTelegramToJames(message: string): Promise<boolean> {
+  return sendTelegramNotification({ text: message })
 }
 
 export const JAMES_ALERTS = {
