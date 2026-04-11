@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { Menu, X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
+import DemoRequestModal from '@/components/marketing/DemoRequestModal'
 
 interface NavProps {
   locale: string
@@ -16,6 +17,7 @@ export default function Nav({ locale }: NavProps) {
   const [mounted, setMounted] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [demoOpen, setDemoOpen] = useState(false)
 
   useEffect(() => {
     setMounted(true)
@@ -71,6 +73,12 @@ export default function Nav({ locale }: NavProps) {
         {/* Desktop CTAs */}
         <div className="hidden md:flex items-center gap-3">
           <LanguageSwitcher />
+          <button
+            onClick={() => setDemoOpen(true)}
+            className="text-sm font-medium text-white/70 hover:text-white transition-colors px-3 py-2"
+          >
+            Request demo
+          </button>
           <Link
             href={`/${locale}/login`}
             className="text-sm font-medium text-white/70 hover:text-white transition-colors px-3 py-2"
@@ -113,6 +121,12 @@ export default function Nav({ locale }: NavProps) {
               {link.label}
             </Link>
           ))}
+          <button
+            onClick={() => { setMobileOpen(false); setDemoOpen(true) }}
+            className="block w-full text-left text-sm font-medium text-white/70 hover:text-white py-2.5 border-b border-white/5"
+          >
+            Request demo
+          </button>
           <div className="pt-3 flex gap-3">
             <Link href={`/${locale}/login`} className="flex-1 text-center py-2.5 text-sm font-medium text-white/70 border border-white/15 rounded-lg">
               {t('navSignIn')}
@@ -123,6 +137,7 @@ export default function Nav({ locale }: NavProps) {
           </div>
         </div>
       )}
+      <DemoRequestModal open={demoOpen} onClose={() => setDemoOpen(false)} />
     </header>
   )
 }
