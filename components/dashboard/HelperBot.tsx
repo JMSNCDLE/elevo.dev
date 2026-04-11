@@ -33,6 +33,19 @@ export default function HelperBot() {
     }
   }, [open, minimised])
 
+  // Auto-open on first dashboard visit (one-time, persisted in localStorage)
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    try {
+      if (localStorage.getItem('elevo_helper_seen')) return
+    } catch { return }
+    const t = setTimeout(() => {
+      setOpen(true)
+      try { localStorage.setItem('elevo_helper_seen', '1') } catch { /* ignore */ }
+    }, 2000)
+    return () => clearTimeout(t)
+  }, [])
+
   const sendMessage = useCallback(async () => {
     if (!input.trim() || loading) return
     const userMessage = input.trim()
