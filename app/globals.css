@@ -355,24 +355,32 @@ html { scroll-behavior: smooth; }
   .logo-spin { animation: none; }
 }
 
-/* Hero cube — Y-axis 3D rotation with purple-blue glow */
-@keyframes cube-rotate {
-  from { transform: rotateY(0deg); }
-  to   { transform: rotateY(360deg); }
+/* True 3D CSS cube — 6 faces, tumbles on Y + X axes */
+@keyframes cube-spin {
+  0%   { transform: rotateY(0deg) rotateX(0deg); }
+  100% { transform: rotateY(360deg) rotateX(360deg); }
 }
-.cube-hero-spin {
-  animation: cube-rotate 8s linear infinite;
+.logo-3d-scene {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter:
+    drop-shadow(0 0 20px rgba(120, 80, 255, 0.3))
+    drop-shadow(0 0 50px rgba(60, 140, 255, 0.15));
+}
+.logo-3d-cube {
   transform-style: preserve-3d;
   will-change: transform;
-  filter:
-    drop-shadow(0 0 20px rgba(120, 80, 255, 0.4))
-    drop-shadow(0 0 60px rgba(60, 140, 255, 0.2));
+  animation: cube-spin 10s linear infinite;
 }
-.cube-hero-spin:hover {
+.logo-3d-face {
+  background: transparent;
+}
+.logo-3d-cube:hover {
   animation-play-state: paused;
 }
 @media (prefers-reduced-motion: reduce) {
-  .cube-hero-spin { animation: none; }
+  .logo-3d-cube { animation: none !important; }
 }
 
 /* Mobile global */
