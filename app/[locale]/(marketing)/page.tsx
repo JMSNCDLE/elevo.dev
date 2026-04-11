@@ -42,7 +42,7 @@ export default async function HomePage({ params }: PageProps) {
           </div>
 
           <div className="v-badge mx-auto mb-8 w-fit">
-            ✦ Now with ELEVO CEO™
+            ✦ {t('heroBadge')}
           </div>
 
           <h1 className="text-4xl sm:text-6xl lg:text-8xl font-black text-white tracking-tight leading-tight sm:leading-none mb-6 sm:mb-8 trademark-protected" data-protected>
@@ -68,7 +68,7 @@ export default async function HomePage({ params }: PageProps) {
               href={`/${locale}/demo`}
               className="inline-flex items-center justify-center border border-white/20 text-white px-8 py-3 rounded-full hover:bg-white/5 transition-colors w-full sm:w-auto"
             >
-              See it in action →
+              {t('seeItInAction')}
             </Link>
           </div>
 
@@ -318,12 +318,12 @@ export default async function HomePage({ params }: PageProps) {
       <section className="bg-[#080810] py-24 px-6 border-t border-white/5">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <span className="text-xs font-bold text-purple-400 uppercase tracking-widest block mb-4">AI Creative Studio</span>
+            <span className="text-xs font-bold text-purple-400 uppercase tracking-widest block mb-4">{t('creativeStudioEyebrow')}</span>
             <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight">
-              Create stunning visuals with AI
+              {t('creativeStudioTitle')}
             </h2>
             <p className="text-white/50 mt-4 text-lg max-w-2xl mx-auto">
-              Text to image. Text to video. Just describe what you want.
+              {t('creativeStudioSubtitle')}
             </p>
           </div>
 
@@ -334,7 +334,7 @@ export default async function HomePage({ params }: PageProps) {
                 <span className="bg-purple-500/15 text-purple-400 px-3 py-1 rounded-full text-xs font-semibold">
                   ELEVO Create™
                 </span>
-                <span className="text-white/30 text-xs">Text to Image</span>
+                <span className="text-white/30 text-xs">{t('creativeStudioTextToImage')}</span>
               </div>
               <div className="terminal mb-4">
                 <div className="terminal-bar">
@@ -353,7 +353,7 @@ export default async function HomePage({ params }: PageProps) {
               <div className="aspect-video bg-gradient-to-br from-purple-900 via-indigo-800 to-blue-900 rounded-xl flex items-center justify-center">
                 <div className="text-center text-white">
                   <p className="text-5xl mb-2">🎩🐱</p>
-                  <p className="text-sm text-white/50">AI-generated image preview</p>
+                  <p className="text-sm text-white/50">{t('creativeStudioImagePreview')}</p>
                 </div>
               </div>
             </div>
@@ -364,7 +364,7 @@ export default async function HomePage({ params }: PageProps) {
                 <span className="bg-blue-500/15 text-blue-400 px-3 py-1 rounded-full text-xs font-semibold">
                   ELEVO Studio™
                 </span>
-                <span className="text-white/30 text-xs">Text to Video</span>
+                <span className="text-white/30 text-xs">{t('creativeStudioTextToVideo')}</span>
               </div>
               <div className="terminal mb-4">
                 <div className="terminal-bar">
@@ -383,9 +383,9 @@ export default async function HomePage({ params }: PageProps) {
               <div className="aspect-video bg-gradient-to-br from-blue-900 via-purple-800 to-pink-900 rounded-xl flex items-center justify-center relative overflow-hidden">
                 <div className="text-center text-white">
                   <p className="text-5xl mb-2">🎬🐱</p>
-                  <p className="text-sm text-white/50">AI-generated video preview</p>
+                  <p className="text-sm text-white/50">{t('creativeStudioVideoPreview')}</p>
                   <div className="mt-3 bg-white/10 rounded-full px-4 py-2 inline-flex items-center gap-2 text-sm">
-                    <span>▶</span> <span>Play preview</span>
+                    <span>▶</span> <span>{t('creativeStudioPlayPreview')}</span>
                   </div>
                 </div>
               </div>
@@ -393,7 +393,7 @@ export default async function HomePage({ params }: PageProps) {
           </div>
 
           <p className="text-center text-white/30 mt-8 text-sm">
-            Powered by Flux Pro, SDXL, and Runway ML. Available on Orbit and Galaxy plans.
+            {t('creativeStudioFooter')}
           </p>
         </div>
       </section>
