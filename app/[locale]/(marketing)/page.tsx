@@ -24,7 +24,7 @@ export default async function HomePage({ params }: PageProps) {
     <main className="overflow-hidden">
 
       {/* ── SECTION 1: HERO ──────────────────────────────────────────────────── */}
-      <section className="bg-[#050507] relative overflow-hidden min-h-screen flex flex-col justify-center px-6 py-32">
+      <section className="bg-[#0A0A14] relative overflow-hidden min-h-screen flex flex-col justify-center px-6 py-32">
         <div className="grid-overlay" />
         <div className="hero-beam" />
         <div className="glow-orb glow-orb-1" />
@@ -32,20 +32,20 @@ export default async function HomePage({ params }: PageProps) {
 
         <div className="relative z-10 max-w-5xl mx-auto text-center">
           <div className="flex justify-center mb-10">
-            <div className="logo-static-glow">
+            <div className="logo-hero-glow">
               <Image
-                src="/logo.png"
+                src="/logo.svg"
                 alt="ELEVO AI"
-                width={220}
-                height={220}
-                quality={100}
-                className="logo-static w-[140px] h-[140px] md:w-[220px] md:h-[220px]"
+                width={100}
+                height={100}
+                unoptimized
+                className="logo-hero w-[70px] h-[70px] md:w-[100px] md:h-[100px]"
                 priority
               />
             </div>
           </div>
 
-          <div className="v-badge mx-auto mb-8 w-fit">
+          <div className="mx-auto mb-8 w-fit inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#8B5CF6]/30 bg-[#8B5CF6]/5 text-[#A78BFA] text-xs font-medium">
             ✦ {t('heroBadge')}
           </div>
 
@@ -64,7 +64,7 @@ export default async function HomePage({ params }: PageProps) {
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8 px-4 sm:px-0">
             <Link
               href={`/${locale}/signup`}
-              className="inline-flex items-center justify-center bg-indigo-600 text-white font-semibold px-8 py-3 rounded-full hover:bg-indigo-500 transition-colors shadow-lg shadow-indigo-500/25 w-full sm:w-auto"
+              className="btn-brand inline-flex items-center justify-center text-white font-semibold px-8 py-3 rounded-full transition-colors shadow-lg shadow-[#8B5CF6]/30 w-full sm:w-auto"
             >
               {t('startTrial')} →
             </Link>
@@ -87,7 +87,7 @@ export default async function HomePage({ params }: PageProps) {
               {/* Sidebar */}
               <div className="w-56 bg-[#0e1117] border-r border-white/5 p-4 shrink-0 hidden md:block">
                 <div className="flex items-center gap-2 mb-6">
-                  <Image src="/logo.png" alt="ELEVO AI™" width={28} height={28} quality={100} className="rounded-lg" />
+                  <Image src="/logo.svg" alt="ELEVO AI™" width={24} height={24} unoptimized className="rounded-lg" />
                   <span className="text-white font-black text-sm">ELEVO AI™</span>
                 </div>
                 <div className="space-y-1">
@@ -141,13 +141,13 @@ export default async function HomePage({ params }: PageProps) {
               </div>
             </div>
             {/* Fade mask */}
-            <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-[#050507] to-transparent pointer-events-none" />
+            <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-[#0A0A14] to-transparent pointer-events-none" />
           </div>
         </div>
       </section>
 
       {/* ── SECTION 2: LOGOS ─────────────────────────────────────────────────── */}
-      <section className="bg-[#080810] border-y border-white/5 py-12 overflow-hidden">
+      <section className="bg-[#0F0F1E] border-y border-white/5 py-12 overflow-hidden">
         <p className="text-white/40 text-sm text-center mb-6">{t('trustedBusinesses')}</p>
         <div className="flex gap-12 animate-[marquee_25s_linear_infinite] whitespace-nowrap w-max">
           {[t('bizRestaurants'), t('bizHairSalons'), t('bizPlumbers'), t('bizDentists'), t('bizGyms'), t('bizRetailers'), t('bizAccountants'), t('bizEstateAgents'), t('bizSolicitors'), t('bizElectricians'), t('bizCleaners'), t('bizPhysiotherapists'), t('bizRestaurants'), t('bizHairSalons'), t('bizPlumbers'), t('bizDentists'), t('bizGyms'), t('bizRetailers'), t('bizAccountants'), t('bizEstateAgents'), t('bizSolicitors'), t('bizElectricians'), t('bizCleaners'), t('bizPhysiotherapists')].map((type, i) => (
@@ -158,7 +158,7 @@ export default async function HomePage({ params }: PageProps) {
       </section>
 
       {/* ── SECTIONS 3-5: FEATURE ROWS ───────────────────────────────────────── */}
-      <section id="features" className="bg-[#050507] py-24">
+      <section id="features" className="bg-[#0A0A14] py-24">
 
         {/* Row 1: ROAS Intelligence */}
         <div className="max-w-6xl mx-auto px-6 py-16">
@@ -319,7 +319,7 @@ export default async function HomePage({ params }: PageProps) {
       </section>
 
       {/* ── SECTION 5B: AI IMAGE/VIDEO GENERATION DEMO ──────────────────────── */}
-      <section className="bg-[#080810] py-24 px-6 border-t border-white/5">
+      <section className="bg-[#0F0F1E] py-24 px-6 border-t border-white/5">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <span className="text-xs font-bold text-purple-400 uppercase tracking-widest block mb-4">{t('creativeStudioEyebrow')}</span>
@@ -403,7 +403,7 @@ export default async function HomePage({ params }: PageProps) {
       </section>
 
       {/* ── SECTION 6: STATS ─────────────────────────────────────────────────── */}
-      <section className="bg-[#030305] py-24 relative overflow-hidden">
+      <section className="bg-[#0A0A14] py-24 relative overflow-hidden">
         <div className="grid-overlay" />
         <div className="relative z-10 max-w-5xl mx-auto px-6">
           <div className="section-divider mb-16" />
@@ -472,7 +472,7 @@ export default async function HomePage({ params }: PageProps) {
       </section>
 
       {/* ── SECTION 8: WHY HIRE WHEN AI WORKS 24/7? ──────────────────────── */}
-      <section className="bg-[#050507] py-24 px-6 border-b border-white/5">
+      <section className="bg-[#0A0A14] py-24 px-6 border-b border-white/5">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight">
@@ -536,7 +536,7 @@ export default async function HomePage({ params }: PageProps) {
       </section>
 
       {/* ── SECTION 8C: STOP PAYING CTA ─────────────────────────────────────── */}
-      <section className="bg-[#050507] py-24 md:py-32 px-6 border-t border-white/5">
+      <section className="bg-[#0A0A14] py-24 md:py-32 px-6 border-t border-white/5">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight mb-6">
             {t('stopPayingTitle')}<br />{t('stopPayingTitle2')}
@@ -557,7 +557,7 @@ export default async function HomePage({ params }: PageProps) {
       </section>
 
       {/* ── SECTION 9: TESTIMONIALS ──────────────────────────────────────────── */}
-      <section className="bg-[#050507] py-24 px-6">
+      <section className="bg-[#0A0A14] py-24 px-6">
         <div className="max-w-5xl mx-auto trademark-protected" data-protected>
           <div className="text-center mb-12">
             <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight">
@@ -603,7 +603,7 @@ export default async function HomePage({ params }: PageProps) {
       </section>
 
       {/* ── SECTION 10: FINAL CTA ────────────────────────────────────────────── */}
-      <section className="bg-[#050507] py-32 px-6 relative overflow-hidden">
+      <section className="bg-[#0A0A14] py-32 px-6 relative overflow-hidden">
         <div className="hero-beam" />
         <div className="grid-overlay" />
         <div className="relative z-10 max-w-3xl mx-auto text-center">

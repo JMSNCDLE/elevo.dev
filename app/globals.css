@@ -3,6 +3,21 @@
 @tailwind utilities;
 
 :root {
+  /* Brand palette — purple→blue gradient from logo */
+  --brand-purple: #8B5CF6;
+  --brand-purple-light: #A78BFA;
+  --brand-purple-dark: #7C3AED;
+  --brand-blue: #3B82F6;
+  --brand-blue-light: #60A5FA;
+  --brand-gradient: linear-gradient(135deg, #8B5CF6, #3B82F6);
+  --brand-gradient-soft: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(59, 130, 246, 0.15));
+
+  /* Backgrounds — navy, NOT pure black */
+  --bg-primary: #0A0A14;
+  --bg-secondary: #0F0F1E;
+  --bg-tertiary: #141428;
+  --bg-card: #16162A;
+
   --color-accent: #6366F1;
   --color-accent-light: #818CF8;
   --color-accent-dim: rgba(99, 102, 241, 0.15);
@@ -241,7 +256,7 @@ html { scroll-behavior: smooth; }
   transform: translateX(-50%);
   width: 900px;
   height: 600px;
-  background: radial-gradient(ellipse at 50% 0%, rgba(99,102,241,0.28) 0%, rgba(139,92,246,0.1) 35%, transparent 65%);
+  background: radial-gradient(ellipse at 50% 0%, rgba(139, 92, 246, 0.28) 0%, rgba(59, 130, 246, 0.10) 35%, transparent 65%);
   pointer-events: none;
   z-index: 0;
 }
@@ -254,13 +269,13 @@ html { scroll-behavior: smooth; }
 .glow-orb-1 {
   width: 500px; height: 500px;
   top: 5%; left: -10%;
-  background: radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.16) 0%, transparent 70%);
   animation: orb-float 9s ease-in-out infinite;
 }
 .glow-orb-2 {
   width: 400px; height: 400px;
   top: 15%; right: -8%;
-  background: radial-gradient(circle, rgba(167,139,250,0.14) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.14) 0%, transparent 70%);
   animation: orb-float 13s ease-in-out infinite reverse;
 }
 @keyframes orb-float {
@@ -273,8 +288,8 @@ html { scroll-behavior: smooth; }
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    linear-gradient(rgba(139, 92, 246, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 92, 246, 0.04) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 .glass-card {
@@ -355,33 +370,46 @@ html { scroll-behavior: smooth; }
   .logo-spin { animation: none; }
 }
 
-/* ===== Static logo with fringe-killing drop-shadows ===== */
-.logo-static {
-  /* Triple dark halo masks any white anti-aliasing fringe from PNG export */
-  filter:
-    drop-shadow(0 0 1px rgba(10, 5, 30, 1))
-    drop-shadow(0 0 2px rgba(10, 5, 30, 0.9))
-    drop-shadow(0 0 3px rgba(10, 5, 30, 0.8));
+/* ===== Hero logo — subtle float animation ===== */
+@keyframes logo-float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25%      { transform: translateY(-6px) rotate(1deg); }
+  50%      { transform: translateY(0px)  rotate(0deg); }
+  75%      { transform: translateY(-3px) rotate(-1deg); }
 }
-
-/* Subtle purple radial glow wrapper for hero placement */
-.logo-static-glow {
+.logo-hero {
+  animation: logo-float 6s ease-in-out infinite;
+  will-change: transform;
+}
+.logo-hero-glow {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
-.logo-static-glow::before {
+.logo-hero-glow::before {
   content: '';
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 200%;
-  height: 200%;
+  width: 240%;
+  height: 240%;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.18) 0%, rgba(59, 130, 246, 0.08) 40%, transparent 70%);
   pointer-events: none;
   z-index: -1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo-hero { animation: none; }
+}
+
+/* ===== Brand gradient button ===== */
+.btn-brand {
+  background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+.btn-brand:hover {
+  filter: brightness(1.1);
 }
 
 /* Mobile global */

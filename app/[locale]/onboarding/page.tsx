@@ -189,7 +189,7 @@ export default function OnboardingPage() {
         {/* Logo + progress */}
         <div className="text-center mb-10">
           <div className="flex items-center justify-center gap-2 mb-6">
-            <Image src="/logo.png" alt="ELEVO AI™" width={48} height={48} quality={100} className="rounded-lg" priority />
+            <Image src="/logo.svg" alt="ELEVO AI™" width={48} height={48} unoptimized className="rounded-lg" priority />
             <span className="text-xl font-black text-white">ELEVO AI™</span>
           </div>
           <div className="flex justify-center gap-2">

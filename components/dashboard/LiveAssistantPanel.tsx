@@ -107,7 +107,7 @@ export default function LiveAssistantPanel({ businessProfileId }: LiveAssistantP
             {messages.map((msg, i) => (
               <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 {msg.role === 'assistant' && (
-                  <Image src="/logo.png" alt="ELEVO" width={20} height={20} className="rounded-full mr-1.5 mt-1 shrink-0" />
+                  <Image src="/logo.svg" alt="ELEVO" width={20} height={20} unoptimized className="mr-1.5 mt-1 shrink-0" />
                 )}
                 <div
                   className={`max-w-[85%] px-3 py-2 rounded-xl text-sm leading-relaxed ${
@@ -123,7 +123,7 @@ export default function LiveAssistantPanel({ businessProfileId }: LiveAssistantP
 
             {loading && (
               <div className="flex justify-start">
-                <Image src="/logo.png" alt="ELEVO" width={20} height={20} className="rounded-full mr-1.5 mt-1 shrink-0" />
+                <Image src="/logo.svg" alt="ELEVO" width={20} height={20} unoptimized className="mr-1.5 mt-1 shrink-0" />
                 <div className="bg-dashSurface px-3 py-2 rounded-xl rounded-bl-sm">
                   <Loader2 size={14} className="text-accent animate-spin" />
                 </div>
