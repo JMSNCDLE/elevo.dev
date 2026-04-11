@@ -157,7 +157,7 @@ export default function PricingPage() {
   const visibleRows = tableExpanded ? FEATURE_ROWS : FEATURE_ROWS.slice(0, 10);
 
   return (
-    <main className="bg-white min-h-screen">
+    <div className="bg-white">
       {/* -- 1. Header -- */}
       <section className="pt-20 pb-10 px-4 text-center">
         <div className="max-w-3xl mx-auto">
@@ -448,6 +448,6 @@ export default function PricingPage() {
           </a>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
