@@ -1,62 +1,64 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
-import {
-  Search, TrendingUp, AlertTriangle, CheckCircle2,
-  Loader2, Plus, X, ChevronRight, Globe, BookOpen
-} from 'lucide-react'
-import { createBrowserClient } from '@/lib/supabase/client'
+import { useState, useEffect } from 'react'
+import { Search, Plus, X, Loader2, Printer, Clock, ArrowLeft } from 'lucide-react'
 import AgentStatusIndicator from '@/components/shared/AgentStatusIndicator'
-import ActionExplanation from '@/components/shared/ActionExplanation'
-import CopyButton from '@/components/shared/CopyButton'
-import { cn } from '@/lib/utils'
-import type { SEOAuditResult } from '@/lib/agents/seoAgent'
+import SEOAuditResults from '@/components/dashboard/SEOAuditResults'
+import type { ComprehensiveAuditResult } from '@/lib/agents/seoAgent'
 
 type Status = 'idle' | 'auditing' | 'done' | 'error'
 
-const PRIORITY_COLOR = {
-  critical: 'text-red-400 bg-red-500/10',
-  high: 'text-orange-400 bg-orange-500/10',
-  medium: 'text-yellow-400 bg-yellow-500/10',
+interface AuditHistoryItem {
+  id: string
+  domain: string | null
+  seo_score: number | null
+  status: string
+  audit_depth: string | null
+  created_at: string
+  overview?: ComprehensiveAuditResult['overview']
+  keyword_analysis?: ComprehensiveAuditResult['keywords']
+  technical_issues?: ComprehensiveAuditResult['technicalIssues']
+  content_plan?: ComprehensiveAuditResult['contentPlan']
+  competitor_data?: ComprehensiveAuditResult['competitors']
 }
+
+const COUNTRIES = [
+  { code: 'us', label: 'United States' },
+  { code: 'uk', label: 'United Kingdom' },
+  { code: 'es', label: 'Spain' },
+  { code: 'de', label: 'Germany' },
+  { code: 'fr', label: 'France' },
+  { code: 'au', label: 'Australia' },
+  { code: 'ca', label: 'Canada' },
+  { code: 'nl', label: 'Netherlands' },
+  { code: 'ie', label: 'Ireland' },
+]
 
 const DEFAULT_KEYWORDS = [
   'AI for local business',
   'local business marketing software',
-  'ROAS tool small business',
   'Google Business Profile tool',
-  'AI CRM local business',
 ]
 
 export default function SEOPage() {
-  const supabase = createBrowserClient()
   const [domain, setDomain] = useState('elevo.dev')
   const [keywords, setKeywords] = useState<string[]>(DEFAULT_KEYWORDS)
   const [newKeyword, setNewKeyword] = useState('')
+  const [competitors, setCompetitors] = useState('')
+  const [locale, setLocale] = useState('en')
+  const [country, setCountry] = useState('us')
+  const [depth, setDepth] = useState<'quick' | 'full' | 'deep'>('quick')
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError] = useState<string | null>(null)
-  const [result, setResult] = useState<SEOAuditResult | null>(null)
-  const [locale, setLocale] = useState('en')
-  const [activeTab, setActiveTab] = useState<'issues' | 'gaps' | 'topics' | 'backlinks' | 'plan'>('issues')
+  const [result, setResult] = useState<ComprehensiveAuditResult | null>(null)
+  const [history, setHistory] = useState<AuditHistoryItem[]>([])
 
-  async function runAudit() {
-    setStatus('auditing')
-    setError(null)
-    try {
-      const res = await fetch('/api/seo/audit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ domain, keywords, locale }),
-      })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error ?? 'Audit failed')
-      setResult(data.result)
-      setStatus('done')
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Audit failed')
-      setStatus('error')
-    }
-  }
+  useEffect(() => {
+    fetch('/api/seo/audits')
+      .then(r => r.json())
+      .then(d => { if (d.audits) setHistory(d.audits) })
+      .catch(() => {})
+  }, [])
 
   function addKeyword() {
     const kw = newKeyword.trim()
@@ -66,66 +68,171 @@ export default function SEOPage() {
     }
   }
 
+  async function runAudit() {
+    setStatus('auditing')
+    setError(null)
+    try {
+      const competitorDomains = competitors.split(',').map(c => c.trim()).filter(Boolean).slice(0, 3)
+      const res = await fetch('/api/seo/audit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ domain, keywords, locale, targetCountry: country, competitorDomains, depth }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(typeof data.error === 'string' ? data.error : 'Audit failed')
+      setResult(data.result)
+      setStatus('done')
+      // refresh history
+      fetch('/api/seo/audits').then(r => r.json()).then(d => { if (d.audits) setHistory(d.audits) }).catch(() => {})
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Audit failed')
+      setStatus('error')
+    }
+  }
+
+  function loadFromHistory(item: AuditHistoryItem) {
+    if (item.status !== 'complete' || !item.overview) return
+    setResult({
+      overview: item.overview,
+      keywords: item.keyword_analysis ?? [],
+      relatedKeywords: [],
+      technicalIssues: item.technical_issues ?? [],
+      contentPlan: item.content_plan ?? [],
+      competitors: item.competitor_data ?? [],
+    })
+    setDomain(item.domain ?? '')
+    setStatus('done')
+  }
+
   return (
-    <div className="p-6 space-y-6 max-w-4xl">
+    <div className="p-6 max-w-6xl mx-auto">
       {/* Header */}
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-accent/10 rounded-xl flex items-center justify-center">
-          <Search size={20} className="text-accent" />
+      <div className="flex items-center justify-between mb-6 print:hidden">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 bg-accent/15 border border-accent/30 rounded-2xl flex items-center justify-center">
+            <Search className="w-6 h-6 text-accent" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-white">ELEVO Rank™</h1>
+            <p className="text-sm text-dashMuted">Ahrefs-level SEO audit & content strategy</p>
+          </div>
         </div>
-        <div>
-          <h1 className="text-2xl font-bold text-dashText">ELEVO Rank™</h1>
-          <p className="text-dashMuted text-sm">SEO audit and content strategy for your website</p>
-        </div>
+        {status === 'done' && (
+          <button
+            onClick={() => window.print()}
+            className="flex items-center gap-2 px-4 py-2 bg-dashCard border border-dashSurface2 hover:bg-dashSurface2 text-white text-sm font-medium rounded-xl transition-colors"
+          >
+            <Printer className="w-4 h-4" />
+            Download PDF
+          </button>
+        )}
       </div>
 
-      {/* Setup form */}
+      {/* Form */}
       {status === 'idle' && (
-        <div className="bg-dashCard border border-dashSurface2 rounded-xl p-5 space-y-4">
-          <div>
-            <label className="block text-xs text-dashMuted mb-1">Website domain</label>
-            <input value={domain} onChange={e => setDomain(e.target.value)}
-              className="w-full bg-dashBg border border-dashSurface2 rounded-lg px-3 py-2 text-sm text-dashText focus:outline-none focus:border-accent"
-              placeholder="yourbusiness.com" />
+        <div className="bg-dashCard border border-dashSurface2 rounded-2xl p-6 space-y-5 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="md:col-span-2">
+              <label className="block text-xs font-medium text-dashMuted mb-1.5">Website domain</label>
+              <input
+                value={domain}
+                onChange={e => setDomain(e.target.value)}
+                placeholder="yourbusiness.com"
+                className="w-full bg-dashBg border border-dashSurface2 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-accent"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-dashMuted mb-1.5">Language</label>
+              <select
+                value={locale}
+                onChange={e => setLocale(e.target.value)}
+                className="w-full bg-dashBg border border-dashSurface2 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-accent"
+              >
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-medium text-dashMuted mb-1.5">Target country</label>
+              <select
+                value={country}
+                onChange={e => setCountry(e.target.value)}
+                className="w-full bg-dashBg border border-dashSurface2 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-accent"
+              >
+                {COUNTRIES.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-dashMuted mb-1.5">Competitor domains <span className="text-dashMuted/60">(max 3, comma-separated)</span></label>
+              <input
+                value={competitors}
+                onChange={e => setCompetitors(e.target.value)}
+                placeholder="competitor1.com, competitor2.com"
+                className="w-full bg-dashBg border border-dashSurface2 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-accent"
+              />
+            </div>
           </div>
 
           <div>
-            <label className="block text-xs text-dashMuted mb-1">Language</label>
-            <select value={locale} onChange={e => setLocale(e.target.value)}
-              className="w-full bg-dashBg border border-dashSurface2 rounded-lg px-3 py-2 text-sm text-dashText focus:outline-none focus:border-accent">
-              <option value="en">English</option>
-              <option value="es">Spanish</option>
-              <option value="fr">French</option>
-              <option value="de">German</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-xs text-dashMuted mb-2">Target keywords (max 10)</label>
+            <label className="block text-xs font-medium text-dashMuted mb-2">Target keywords <span className="text-dashMuted/60">(max 10)</span></label>
             <div className="flex flex-wrap gap-2 mb-2">
               {keywords.map(kw => (
-                <span key={kw} className="flex items-center gap-1.5 bg-accent/10 text-accent text-xs px-2.5 py-1 rounded-lg">
+                <span key={kw} className="flex items-center gap-1.5 bg-accent/15 text-accent text-xs font-medium px-3 py-1.5 rounded-lg">
                   {kw}
-                  <button onClick={() => setKeywords(prev => prev.filter(k => k !== kw))}>
-                    <X size={11} />
+                  <button onClick={() => setKeywords(prev => prev.filter(k => k !== kw))} className="hover:text-white">
+                    <X className="w-3 h-3" />
                   </button>
                 </span>
               ))}
             </div>
             <div className="flex gap-2">
-              <input value={newKeyword} onChange={e => setNewKeyword(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && addKeyword()}
-                className="flex-1 bg-dashBg border border-dashSurface2 rounded-lg px-3 py-2 text-sm text-dashText focus:outline-none focus:border-accent"
-                placeholder="Add keyword and press Enter" />
-              <button onClick={addKeyword}
-                className="px-3 py-2 bg-accent text-white rounded-lg hover:bg-accent/90 text-sm">
-                <Plus size={14} />
+              <input
+                value={newKeyword}
+                onChange={e => setNewKeyword(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addKeyword())}
+                placeholder="Add keyword and press Enter"
+                className="flex-1 bg-dashBg border border-dashSurface2 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-accent"
+              />
+              <button onClick={addKeyword} className="px-4 py-3 bg-accent hover:bg-accentLight text-white rounded-xl">
+                <Plus className="w-4 h-4" />
               </button>
             </div>
           </div>
 
-          <button onClick={runAudit}
-            className="w-full py-2.5 bg-accent text-white font-medium rounded-lg hover:bg-accent/90 transition-colors">
+          <div>
+            <label className="block text-xs font-medium text-dashMuted mb-2">Audit depth</label>
+            <div className="grid grid-cols-3 gap-2">
+              {(['quick', 'full', 'deep'] as const).map(d => (
+                <button
+                  key={d}
+                  onClick={() => setDepth(d)}
+                  className={`px-4 py-3 rounded-xl border text-sm font-medium transition-colors capitalize ${
+                    depth === d
+                      ? 'border-accent bg-accent/15 text-white'
+                      : 'border-dashSurface2 bg-dashBg text-dashMuted hover:text-white'
+                  }`}
+                >
+                  {d === 'quick' ? '⚡ Quick scan' : d === 'full' ? '🔍 Full audit' : '🧠 Deep analysis'}
+                </button>
+              ))}
+            </div>
+            <p className="text-[11px] text-dashMuted mt-2">
+              {depth === 'quick' && 'Fast overview — keywords, scores, top issues. Sonnet model.'}
+              {depth === 'full' && 'Complete audit with full content plan and technical checks. Sonnet model.'}
+              {depth === 'deep' && 'Premium analysis with Opus model — best for strategic decisions.'}
+            </p>
+          </div>
+
+          <button
+            onClick={runAudit}
+            disabled={!domain || keywords.length === 0}
+            className="w-full py-3.5 bg-accent hover:bg-accentLight disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-colors"
+          >
             Run SEO Audit with ELEVO Rank →
           </button>
         </div>
@@ -133,137 +240,70 @@ export default function SEOPage() {
 
       {/* Auditing */}
       {status === 'auditing' && (
-        <div className="bg-dashCard border border-dashSurface2 rounded-xl p-8 flex flex-col items-center gap-4">
-          <AgentStatusIndicator status="thinking" agentName="ELEVO Rank" message="Analysing your SEO with live web research..." />
+        <div className="bg-dashCard border border-dashSurface2 rounded-2xl p-12 flex flex-col items-center gap-4 mb-6">
+          <AgentStatusIndicator status="thinking" agentName="ELEVO Rank" message="Crawling your site, researching keywords, and benchmarking competitors..." />
         </div>
       )}
 
       {/* Error */}
       {status === 'error' && error && (
-        <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 text-red-400 text-sm">
+        <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-5 text-red-300 text-sm mb-6">
           {error}
-          <button onClick={() => setStatus('idle')} className="ml-3 underline">Try again</button>
+          <button onClick={() => setStatus('idle')} className="ml-3 underline hover:text-white">Try again</button>
         </div>
       )}
 
       {/* Results */}
       {status === 'done' && result && (
         <div className="space-y-4">
-          {/* Score + summary */}
-          <div className="grid grid-cols-3 gap-4">
-            <div className="bg-dashCard border border-dashSurface2 rounded-xl p-4 text-center">
-              <p className="text-3xl font-bold text-dashText">{result.localSEOScore}</p>
-              <p className="text-xs text-dashMuted mt-1">SEO Score</p>
-            </div>
-            <div className="bg-dashCard border border-dashSurface2 rounded-xl p-4 text-center">
-              <p className="text-3xl font-bold text-red-400">{result.technicalIssues.length}</p>
-              <p className="text-xs text-dashMuted mt-1">Technical Issues</p>
-            </div>
-            <div className="bg-dashCard border border-dashSurface2 rounded-xl p-4 text-center">
-              <p className="text-3xl font-bold text-green-400">{result.blogTopics.length}</p>
-              <p className="text-xs text-dashMuted mt-1">Blog Opportunities</p>
-            </div>
-          </div>
+          <button
+            onClick={() => { setStatus('idle'); setResult(null) }}
+            className="flex items-center gap-2 text-sm text-dashMuted hover:text-white print:hidden"
+          >
+            <ArrowLeft className="w-4 h-4" /> New audit
+          </button>
+          <SEOAuditResults result={result} />
+        </div>
+      )}
 
-          {/* Tabs */}
-          <div className="flex gap-1 bg-dashCard border border-dashSurface2 rounded-xl p-1 overflow-x-auto">
-            {(['issues', 'gaps', 'topics', 'backlinks', 'plan'] as const).map(tab => (
-              <button key={tab} onClick={() => setActiveTab(tab)}
-                className={cn('px-3 py-1.5 text-xs font-medium rounded-lg capitalize whitespace-nowrap transition-colors', activeTab === tab ? 'bg-accent text-white' : 'text-dashMuted hover:text-dashText')}>
-                {tab === 'issues' ? 'Technical Issues' : tab === 'gaps' ? 'Content Gaps' : tab === 'topics' ? 'Blog Topics' : tab === 'backlinks' ? 'Backlinks' : '30-Day Plan'}
+      {/* History */}
+      {status === 'idle' && history.length > 0 && (
+        <div className="bg-dashCard border border-dashSurface2 rounded-2xl overflow-hidden">
+          <div className="px-5 py-3 border-b border-dashSurface2 flex items-center gap-2">
+            <Clock className="w-4 h-4 text-dashMuted" />
+            <h2 className="text-sm font-semibold text-white">Your audits</h2>
+            <span className="text-xs text-dashMuted">({history.length})</span>
+          </div>
+          <div className="divide-y divide-dashSurface2">
+            {history.map(item => (
+              <button
+                key={item.id}
+                onClick={() => loadFromHistory(item)}
+                disabled={item.status !== 'complete'}
+                className="w-full px-5 py-4 flex items-center justify-between hover:bg-dashSurface2/40 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-left"
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  <div>
+                    <p className="text-sm font-semibold text-white truncate">{item.domain ?? 'Unknown'}</p>
+                    <p className="text-xs text-dashMuted">{new Date(item.created_at).toLocaleString('en-GB')} · {item.audit_depth}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 shrink-0">
+                  {item.seo_score !== null && (
+                    <span className="text-sm font-bold text-white tabular-nums">{item.seo_score}/100</span>
+                  )}
+                  <span className={`text-[10px] font-bold uppercase px-2 py-1 rounded ${
+                    item.status === 'complete' ? 'text-green-400 bg-green-500/10' :
+                    item.status === 'error' ? 'text-red-400 bg-red-500/10' :
+                    'text-yellow-400 bg-yellow-500/10'
+                  }`}>
+                    {item.status === 'pending' && <Loader2 className="w-3 h-3 inline animate-spin mr-1" />}
+                    {item.status}
+                  </span>
+                </div>
               </button>
             ))}
           </div>
-
-          <div className="bg-dashCard border border-dashSurface2 rounded-xl p-5 space-y-3">
-            {activeTab === 'issues' && (
-              result.technicalIssues.length === 0 ? (
-                <div className="flex items-center gap-2 text-green-400 text-sm"><CheckCircle2 size={16} /> No technical issues found</div>
-              ) : (
-                result.technicalIssues.map((issue, i) => (
-                  <div key={i} className="flex items-start gap-2 text-sm">
-                    <AlertTriangle size={14} className="text-orange-400 mt-0.5 shrink-0" />
-                    <span className="text-dashMuted">{issue}</span>
-                  </div>
-                ))
-              )
-            )}
-
-            {activeTab === 'gaps' && (
-              result.contentGaps.length === 0 ? (
-                <p className="text-dashMuted text-sm">No major content gaps found.</p>
-              ) : (
-                result.contentGaps.map((gap, i) => (
-                  <div key={i} className="flex items-start gap-2 text-sm">
-                    <ChevronRight size={14} className="text-accent mt-0.5 shrink-0" />
-                    <span className="text-dashMuted">{gap}</span>
-                  </div>
-                ))
-              )
-            )}
-
-            {activeTab === 'topics' && (
-              <div className="space-y-4">
-                {result.blogTopics.map((topic, i) => (
-                  <div key={i} className="bg-dashBg rounded-lg p-4 space-y-2">
-                    <div className="flex items-start justify-between gap-2">
-                      <h3 className="text-sm font-medium text-dashText">{topic.title}</h3>
-                      <CopyButton text={topic.title} />
-                    </div>
-                    <div className="flex gap-3 text-xs text-dashMuted">
-                      <span>🔍 {topic.targetKeyword}</span>
-                      <span>📊 {topic.searchVolume}</span>
-                      <span>💪 {topic.difficulty}</span>
-                    </div>
-                    <div className="space-y-1">
-                      {topic.outline.map((section, j) => (
-                        <p key={j} className="text-xs text-dashMuted">· {section}</p>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {activeTab === 'backlinks' && (
-              result.backlinkOpportunities.length === 0 ? (
-                <p className="text-dashMuted text-sm">No backlink opportunities found.</p>
-              ) : (
-                result.backlinkOpportunities.map((opp, i) => (
-                  <div key={i} className="flex items-start gap-2 text-sm">
-                    <Globe size={14} className="text-blue-400 mt-0.5 shrink-0" />
-                    <span className="text-dashMuted">{opp}</span>
-                  </div>
-                ))
-              )
-            )}
-
-            {activeTab === 'plan' && (
-              <div className="space-y-3">
-                {result.recommendations.map((rec, i) => (
-                  <div key={i} className={cn('rounded-lg p-3', PRIORITY_COLOR[rec.priority])}>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className={cn('text-xs font-semibold uppercase', PRIORITY_COLOR[rec.priority].split(' ')[0])}>
-                        {rec.priority}
-                      </span>
-                      <span className="text-xs text-dashMuted">{rec.timeToSeeResults}</span>
-                    </div>
-                    <p className="text-sm font-medium text-dashText">{rec.action}</p>
-                    <p className="text-xs text-dashMuted mt-1">Expected impact: {rec.expectedImpact}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <ActionExplanation
-            title="Your SEO audit is complete"
-            description="Start with the critical issues, then create blog posts for the top 3 keyword opportunities. Consistent publishing is the fastest path to ranking."
-          />
-
-          <button onClick={() => { setStatus('idle'); setResult(null) }} className="text-sm text-dashMuted hover:text-dashText">
-            ← Run new audit
-          </button>
         </div>
       )}
     </div>

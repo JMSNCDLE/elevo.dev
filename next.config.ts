@@ -56,6 +56,11 @@ const nextConfig: NextConfig = {
       permanent: true,
     },
     {
+      source: '/:locale/rank',
+      destination: '/:locale/seo',
+      permanent: true,
+    },
+    {
       source: '/:locale/waitlist',
       destination: '/:locale/pricing',
       permanent: false,

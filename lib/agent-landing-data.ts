@@ -38,14 +38,6 @@ export const AGENT_LANDING: Record<string, AgentLandingData> = {
     capabilities: ['GBP optimisation', 'Local SEO audit', 'Competitor gap analysis', 'Review strategy', 'Maps ranking'],
     creditsPerUse: 1, availableFrom: 'launch',
   },
-  rank: {
-    brandName: 'ELEVO Rank', characterName: 'Rank',
-    tagline: 'Rank #1 for your best keywords',
-    emoji: '🔍',
-    description: 'Audits your SEO, identifies content gaps, generates SEO-optimised blog posts, and builds your 90-day ranking plan.',
-    capabilities: ['SEO audit', 'Keyword research', 'Blog generation', 'Technical SEO', 'Backlink strategy'],
-    creditsPerUse: 1, availableFrom: 'launch',
-  },
   sales: {
     brandName: 'ELEVO Sales', characterName: 'Ava',
     tagline: 'Close more deals, faster',
