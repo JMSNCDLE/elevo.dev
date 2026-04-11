@@ -409,6 +409,12 @@ html { scroll-behavior: smooth; }
 
 .logo-3d-face {
   background: transparent;
+  /* Hide any sub-pixel anti-aliased fringe */
+  overflow: hidden;
+  border-radius: 1px;
+}
+.logo-3d-face img {
+  image-rendering: -webkit-optimize-contrast;
 }
 /* Face-specific lighting for depth illusion (faces in DOM order: front, back, right, left, top, bottom) */
 .logo-3d-face:nth-child(3),
