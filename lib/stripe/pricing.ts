@@ -25,6 +25,23 @@ export interface PlanConfig {
   }
 }
 
+// ─── LIVE Stripe price IDs (fallback when env vars are not set) ───────────────
+// EUR is the canonical price for monthly subscriptions. GBP/USD use the same
+// EUR price ID until per-currency products are configured.
+const LIVE_PRICE = {
+  LAUNCH_EUR_MONTHLY:  'price_1TEdYlQvRYrgH9qX2NUyjozl',  // €39/mo
+  ORBIT_EUR_MONTHLY:   'price_1TEdZjQvRYrgH9qX20ojKpbV',  // €79/mo
+  GALAXY_EUR_MONTHLY:  'price_1TEdaRQvRYrgH9qXhMQ9xaQA',  // €149/mo
+  UGC_EUR_MONTHLY:     'price_1TEdbSQvRYrgH9qXxK7HsN9Z',  // €19.99/mo
+} as const
+
+export const CREDIT_PACK_PRICES = {
+  'credits-50':   'price_1THqa0QvRYrgH9qXpvn5sYOW',  // €9.99
+  'credits-150':  'price_1THqdDQvRYrgH9qXdSGb882g',  // €24.99
+  'credits-500':  'price_1THqeAQvRYrgH9qXSbwBzogj',  // €69.99
+  'credits-1000': 'price_1THqfSQvRYrgH9qXBEyf6GLS',  // €119.99
+} as const
+
 export const PLANS: PlanConfig[] = [
   {
     id: 'launch',
@@ -41,12 +58,12 @@ export const PLANS: PlanConfig[] = [
       'CRM (up to 100 contacts)',
     ],
     priceIds: {
-      gbp: process.env.STRIPE_LAUNCH_GBP_ID || '',
-      usd: process.env.STRIPE_LAUNCH_USD_ID || '',
-      eur: process.env.STRIPE_LAUNCH_EUR_ID || '',
-      gbpAnnual: process.env.STRIPE_LAUNCH_GBP_ANNUAL_ID || '',
-      usdAnnual: process.env.STRIPE_LAUNCH_USD_ANNUAL_ID || '',
-      eurAnnual: process.env.STRIPE_LAUNCH_EUR_ANNUAL_ID || '',
+      gbp: process.env.STRIPE_LAUNCH_GBP_ID || LIVE_PRICE.LAUNCH_EUR_MONTHLY,
+      usd: process.env.STRIPE_LAUNCH_USD_ID || LIVE_PRICE.LAUNCH_EUR_MONTHLY,
+      eur: process.env.STRIPE_LAUNCH_EUR_ID || LIVE_PRICE.LAUNCH_EUR_MONTHLY,
+      gbpAnnual: process.env.STRIPE_LAUNCH_GBP_ANNUAL_ID || LIVE_PRICE.LAUNCH_EUR_MONTHLY,
+      usdAnnual: process.env.STRIPE_LAUNCH_USD_ANNUAL_ID || LIVE_PRICE.LAUNCH_EUR_MONTHLY,
+      eurAnnual: process.env.STRIPE_LAUNCH_EUR_ANNUAL_ID || LIVE_PRICE.LAUNCH_EUR_MONTHLY,
     },
   },
   {
@@ -68,12 +85,12 @@ export const PLANS: PlanConfig[] = [
       'Unlimited contacts',
     ],
     priceIds: {
-      gbp: process.env.STRIPE_ORBIT_GBP_ID || '',
-      usd: process.env.STRIPE_ORBIT_USD_ID || '',
-      eur: process.env.STRIPE_ORBIT_EUR_ID || '',
-      gbpAnnual: process.env.STRIPE_ORBIT_GBP_ANNUAL_ID || '',
-      usdAnnual: process.env.STRIPE_ORBIT_USD_ANNUAL_ID || '',
-      eurAnnual: process.env.STRIPE_ORBIT_EUR_ANNUAL_ID || '',
+      gbp: process.env.STRIPE_ORBIT_GBP_ID || LIVE_PRICE.ORBIT_EUR_MONTHLY,
+      usd: process.env.STRIPE_ORBIT_USD_ID || LIVE_PRICE.ORBIT_EUR_MONTHLY,
+      eur: process.env.STRIPE_ORBIT_EUR_ID || LIVE_PRICE.ORBIT_EUR_MONTHLY,
+      gbpAnnual: process.env.STRIPE_ORBIT_GBP_ANNUAL_ID || LIVE_PRICE.ORBIT_EUR_MONTHLY,
+      usdAnnual: process.env.STRIPE_ORBIT_USD_ANNUAL_ID || LIVE_PRICE.ORBIT_EUR_MONTHLY,
+      eurAnnual: process.env.STRIPE_ORBIT_EUR_ANNUAL_ID || LIVE_PRICE.ORBIT_EUR_MONTHLY,
     },
   },
   {
@@ -92,12 +109,12 @@ export const PLANS: PlanConfig[] = [
       'API access',
     ],
     priceIds: {
-      gbp: process.env.STRIPE_GALAXY_GBP_ID || '',
-      usd: process.env.STRIPE_GALAXY_USD_ID || '',
-      eur: process.env.STRIPE_GALAXY_EUR_ID || '',
-      gbpAnnual: process.env.STRIPE_GALAXY_GBP_ANNUAL_ID || '',
-      usdAnnual: process.env.STRIPE_GALAXY_USD_ANNUAL_ID || '',
-      eurAnnual: process.env.STRIPE_GALAXY_EUR_ANNUAL_ID || '',
+      gbp: process.env.STRIPE_GALAXY_GBP_ID || LIVE_PRICE.GALAXY_EUR_MONTHLY,
+      usd: process.env.STRIPE_GALAXY_USD_ID || LIVE_PRICE.GALAXY_EUR_MONTHLY,
+      eur: process.env.STRIPE_GALAXY_EUR_ID || LIVE_PRICE.GALAXY_EUR_MONTHLY,
+      gbpAnnual: process.env.STRIPE_GALAXY_GBP_ANNUAL_ID || LIVE_PRICE.GALAXY_EUR_MONTHLY,
+      usdAnnual: process.env.STRIPE_GALAXY_USD_ANNUAL_ID || LIVE_PRICE.GALAXY_EUR_MONTHLY,
+      eurAnnual: process.env.STRIPE_GALAXY_EUR_ANNUAL_ID || LIVE_PRICE.GALAXY_EUR_MONTHLY,
     },
   },
 ]

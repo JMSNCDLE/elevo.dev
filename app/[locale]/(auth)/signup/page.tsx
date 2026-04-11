@@ -2,10 +2,13 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useRouter, useParams } from 'next/navigation'
+import { useRouter, useParams, useSearchParams } from 'next/navigation'
 import { Eye, EyeOff, CheckCircle2 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase/client'
 import { useTranslations } from 'next-intl'
+
+const VALID_PLANS = ['launch', 'orbit', 'galaxy'] as const
+type PlanId = (typeof VALID_PLANS)[number]
 
 function getPasswordStrength(password: string): { label: string; color: string; pct: number } {
   if (!password) return { label: '', color: '', pct: 0 }
@@ -33,9 +36,18 @@ export default function SignupPage() {
   const [success, setSuccess] = useState(false)
   const router = useRouter()
   const params = useParams()
+  const searchParams = useSearchParams()
   const locale = (params?.locale as string) ?? 'en'
 
-  useEffect(() => { setMounted(true) }, [])
+  useEffect(() => {
+    setMounted(true)
+    // Persist plan choice from URL so it survives the email-confirmation roundtrip
+    const planParam = searchParams?.get('plan')
+    if (planParam && VALID_PLANS.includes(planParam as PlanId)) {
+      try { sessionStorage.setItem('elevo_pending_plan', planParam) } catch {}
+    }
+  }, [searchParams])
+
   if (!mounted) return null
 
   const strength = getPasswordStrength(password)
@@ -61,8 +73,29 @@ export default function SignupPage() {
       return
     }
 
-    // If session exists immediately, email confirmation is OFF — go straight to dashboard
+    // If session exists immediately, email confirmation is OFF
     if (data.session) {
+      // Honour the plan choice — go to Stripe Checkout instead of dashboard
+      const pendingPlan = (() => {
+        try { return sessionStorage.getItem('elevo_pending_plan') } catch { return null }
+      })()
+      if (pendingPlan && VALID_PLANS.includes(pendingPlan as PlanId)) {
+        try { sessionStorage.removeItem('elevo_pending_plan') } catch {}
+        try {
+          const r = await fetch('/api/stripe/checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ planId: pendingPlan, currency: 'eur', annual: false }),
+          })
+          const checkoutData = await r.json()
+          if (checkoutData.url) {
+            window.location.href = checkoutData.url
+            return
+          }
+        } catch (err) {
+          console.error('Post-signup checkout failed:', err)
+        }
+      }
       router.push(`/${locale}/dashboard`)
       return
     }

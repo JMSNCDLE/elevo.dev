@@ -1,21 +1,20 @@
 'use client'
 
-import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { CheckCircle2 } from 'lucide-react'
 import { useCurrency } from '@/hooks/useCurrency'
 import { useTranslations } from 'next-intl'
 import { CURRENCY_SYMBOLS, PLAN_PRICES } from '@/lib/currency'
+import PricingCheckoutButton from '@/components/marketing/PricingCheckoutButton'
 
 export function HomePricingCards() {
-  const params = useParams()
-  const locale = (params?.locale as string) ?? 'en'
   const currency = useCurrency()
   const symbol = CURRENCY_SYMBOLS[currency]
   const t = useTranslations('homePricing')
 
   const plans = [
     {
+      id: 'launch' as const,
       name: 'Launch',
       price: `${symbol}${PLAN_PRICES.launch[currency].monthly}`,
       period: t('perMonth'),
@@ -25,6 +24,7 @@ export function HomePricingCards() {
       highlight: false,
     },
     {
+      id: 'orbit' as const,
       name: 'Orbit',
       price: `${symbol}${PLAN_PRICES.orbit[currency].monthly}`,
       period: t('perMonth'),
@@ -35,6 +35,7 @@ export function HomePricingCards() {
       highlight: true,
     },
     {
+      id: 'galaxy' as const,
       name: 'Galaxy',
       price: `${symbol}${PLAN_PRICES.galaxy[currency].monthly}`,
       period: t('perMonth'),
@@ -71,12 +72,12 @@ export function HomePricingCards() {
               </li>
             ))}
           </ul>
-          <Link
-            href={`/${locale}/signup`}
-            className={`block text-center py-3 rounded-xl font-semibold text-sm transition-colors ${plan.highlight ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-gray-900 text-white hover:bg-gray-800'}`}
+          <PricingCheckoutButton
+            planId={plan.id}
+            className={`block w-full text-center py-3 rounded-xl font-semibold text-sm transition-colors disabled:opacity-60 disabled:cursor-not-allowed ${plan.highlight ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-gray-900 text-white hover:bg-gray-800'}`}
           >
             {plan.cta}
-          </Link>
+          </PricingCheckoutButton>
         </div>
       ))}
     </div>

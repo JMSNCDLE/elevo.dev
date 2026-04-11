@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import { Check, Minus, ChevronDown, ChevronUp, Star, Zap } from 'lucide-react';
 import { useCurrency } from '@/hooks/useCurrency';
 import { PLAN_PRICES, CURRENCY_SYMBOLS } from '@/lib/currency';
+import PricingCheckoutButton from '@/components/marketing/PricingCheckoutButton';
 
 interface Plan {
   id: string;
@@ -266,16 +267,17 @@ export default function PricingPage() {
 
               {/* CTA */}
               <div className="mt-8">
-                <Link
-                  href={signupHref}
-                  className={`block w-full rounded-xl px-5 text-center font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
+                <PricingCheckoutButton
+                  planId={plan.id as 'launch' | 'orbit' | 'galaxy'}
+                  annual={annual}
+                  className={`block w-full rounded-xl px-5 text-center font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed ${
                     plan.ctaVariant === 'filled'
                       ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-md shadow-indigo-200 text-base py-3.5'
                       : 'border border-indigo-600 text-indigo-600 hover:bg-indigo-50 text-sm py-3'
                   }`}
                 >
                   {t('startTrial')}
-                </Link>
+                </PricingCheckoutButton>
               </div>
             </div>
           ))}
