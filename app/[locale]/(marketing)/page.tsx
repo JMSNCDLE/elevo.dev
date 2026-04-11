@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { CheckCircle2 } from 'lucide-react'
-import Logo3DCube from '@/components/Logo3DCube'
 import { HomePricingCards, HomeComparisonPrice, HomeOrbitPrice } from '@/components/marketing/HomePricing'
 import TrademarkSlogan from '@/components/shared/TrademarkSlogan'
 import { getTranslations } from 'next-intl/server'
@@ -33,11 +32,16 @@ export default async function HomePage({ params }: PageProps) {
 
         <div className="relative z-10 max-w-5xl mx-auto text-center">
           <div className="flex justify-center mb-10">
-            <div className="md:hidden">
-              <Logo3DCube size={140} />
-            </div>
-            <div className="hidden md:block">
-              <Logo3DCube size={220} />
+            <div className="logo-static-glow">
+              <Image
+                src="/logo.png"
+                alt="ELEVO AI"
+                width={220}
+                height={220}
+                quality={100}
+                className="logo-static w-[140px] h-[140px] md:w-[220px] md:h-[220px]"
+                priority
+              />
             </div>
           </div>
 
