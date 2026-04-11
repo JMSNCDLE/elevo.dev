@@ -40,6 +40,36 @@ const nextConfig: NextConfig = {
       destination: '/:locale/sales-pipeline',
       permanent: true,
     },
+    {
+      source: '/:locale/review-requests',
+      destination: '/:locale/dashboard/customers/review-requests',
+      permanent: true,
+    },
+    {
+      source: '/:locale/clip-bot',
+      destination: '/:locale/clip',
+      permanent: true,
+    },
+    {
+      source: '/:locale/route',
+      destination: '/:locale/chat',
+      permanent: true,
+    },
+    {
+      source: '/:locale/waitlist',
+      destination: '/:locale/pricing',
+      permanent: false,
+    },
+    {
+      source: '/:locale/features',
+      destination: '/:locale/#features',
+      permanent: false,
+    },
+    {
+      source: '/:locale/settings',
+      destination: '/:locale/dashboard/settings',
+      permanent: false,
+    },
   ],
   headers: async () => [
     {
