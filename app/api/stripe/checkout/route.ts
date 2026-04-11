@@ -34,7 +34,11 @@ export async function POST(request: NextRequest) {
   if (!priceId) return NextResponse.json({ error: 'Invalid plan or price ID not configured' }, { status: 400 })
 
   // Get or create Stripe customer
-  const { data: profile } = await supabase.from('profiles').select('stripe_customer_id, email').eq('id', user.id).single()
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('stripe_customer_id, email, subscription_status')
+    .eq('id', user.id)
+    .single()
 
   let customerId = profile?.stripe_customer_id
 
@@ -75,13 +79,33 @@ export async function POST(request: NextRequest) {
     }
   }
 
+  // Detect existing subscriber: if they already have an active subscription,
+  // skip the trial and force immediate billing for upgrades
+  const isUpgrade = profile?.stripe_customer_id != null && (profile as { subscription_status?: string })?.subscription_status === 'active'
+
   const sessionParams: Stripe.Checkout.SessionCreateParams = {
     customer: customerId,
     mode: 'subscription',
     payment_method_types: ['card'],
+    payment_method_collection: 'always',
     line_items: [{ price: priceId, quantity: 1 }],
-    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/en/dashboard?upgraded=true`,
-    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/en/pricing`,
+    allow_promotion_codes: discounts.length === 0,
+    subscription_data: isUpgrade
+      ? {
+          metadata: {
+            supabase_user_id: user.id,
+            plan_id: planId,
+          },
+        }
+      : {
+          trial_period_days: 7,
+          metadata: {
+            supabase_user_id: user.id,
+            plan_id: planId,
+          },
+        },
+    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/en/dashboard?checkout=success&upgraded=true`,
+    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/en/pricing?checkout=cancelled`,
     metadata: {
       supabase_user_id: user.id,
       plan_id: planId,

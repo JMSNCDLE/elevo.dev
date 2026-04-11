@@ -83,6 +83,38 @@ export async function POST(request: Request) {
 
   if (!bp) return NextResponse.json({ error: 'Business profile not found' }, { status: 404 })
 
+  // Get or create the persistent conversation row for this user × ELEVO chat
+  const AGENT_TYPE = 'elevo-chat'
+  let conversationId: string | null = null
+  const { data: existingConv } = await supabase
+    .from('conversations')
+    .select('id')
+    .eq('user_id', user.id)
+    .eq('agent_type', AGENT_TYPE)
+    .order('updated_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+
+  if (existingConv?.id) {
+    conversationId = existingConv.id
+  } else {
+    const { data: newConv } = await supabase
+      .from('conversations')
+      .insert({ user_id: user.id, agent_type: AGENT_TYPE, title: parsed.data.message.slice(0, 80) })
+      .select('id')
+      .single()
+    conversationId = newConv?.id ?? null
+  }
+
+  // Persist the user message first — so even if the agent crashes, history is preserved
+  if (conversationId) {
+    await supabase.from('conversation_messages').insert({
+      conversation_id: conversationId,
+      role: 'user',
+      content: parsed.data.message,
+    })
+  }
+
   // Process the conversational task
   try {
     const result = await processConversationalTask(parsed.data.message, {
@@ -93,20 +125,39 @@ export async function POST(request: Request) {
       locale: parsed.data.locale,
     })
 
-    // Deduct 1 credit
-    await supabase
-      .from('profiles')
-      .update({ credits_used: (profile ?? { credits_used: 0 }).credits_used + 1 })
-      .eq('id', user.id)
+    // Save assistant response BEFORE deducting credits — never charge for lost output
+    if (conversationId) {
+      await supabase.from('conversation_messages').insert({
+        conversation_id: conversationId,
+        role: 'assistant',
+        content: result.reply,
+        credits_used: 1,
+      })
+      await supabase
+        .from('conversations')
+        .update({ updated_at: new Date().toISOString() })
+        .eq('id', conversationId)
+    }
 
-    // Track analytics event
+    // Atomic credit deduction with audit trail (RPC, only deducts if save succeeded)
+    if (!ADMIN_IDS.includes(user.id)) {
+      await supabase.rpc('deduct_credits', {
+        p_user_id: user.id,
+        p_amount: 1,
+        p_agent_type: AGENT_TYPE,
+        p_conversation_id: conversationId,
+        p_description: result.action?.agentUsed ?? 'ELEVO chat',
+      })
+    }
+
+    // Track analytics event (best-effort, non-blocking on failure)
     await supabase.from('analytics_events').insert({
       user_id: user.id,
       business_profile_id: bp.id,
       event_type: 'agent_chat',
       agent_name: result.action?.agentUsed ?? 'ELEVO',
       feature: 'chat',
-      metadata: { intent: result.action?.type ?? 'general' },
+      metadata: { intent: result.action?.type ?? 'general', conversation_id: conversationId },
     })
 
     return NextResponse.json({
@@ -115,10 +166,12 @@ export async function POST(request: Request) {
       contentCard: result.contentCard,
       dataCard: result.dataCard,
       followUpSuggestions: result.followUpSuggestions,
+      conversationId,
       creditsRemaining: (profile ?? { credits_limit: 9999 }).credits_limit - (profile ?? { credits_used: 0 }).credits_used - 1,
     })
   } catch (err) {
     console.error('Chat error:', err)
-    return NextResponse.json({ error: 'Failed to process your message. Please try again.' }, { status: 500 })
+    // No credit deduction on failure
+    return NextResponse.json({ error: 'Failed to process your message. No credits were used.' }, { status: 500 })
   }
 }

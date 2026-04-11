@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { useLocale } from 'next-intl'
 import Link from 'next/link'
 import { Send, Mic, MicOff, Copy, Check, ArrowUpRight, Zap, Rocket } from 'lucide-react'
+import toast from 'react-hot-toast'
 import type { TaskMessage } from '@/lib/agents/conversationalTaskAgent'
 
 const QUICK_ACTIONS = [
@@ -102,6 +103,7 @@ export default function ChatPage() {
   const [hasSpeechSupport, setHasSpeechSupport] = useState(false)
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [profileLoading, setProfileLoading] = useState(true)
+  const [elapsed, setElapsed] = useState(0)
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -114,19 +116,35 @@ export default function ChatPage() {
     const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
     setHasSpeechSupport(!!SR)
 
-    // Load profile
-    async function loadProfile() {
+    // Hydrate previous conversation from server-side persistence
+    async function loadHistory() {
       try {
-        // Use a simple endpoint to get profile data — reuse the CRM endpoint
-        const r = await fetch('/api/crm/contacts?limit=1')
-        // We need a better way — use analytics summary which confirms auth and returns bp id
-        // For now, try to get from the generate endpoint metadata — use a simple check
+        const r = await fetch('/api/chat/history?agent_type=elevo-chat')
+        if (r.ok) {
+          const data = await r.json()
+          if (Array.isArray(data.messages) && data.messages.length > 0) {
+            setMessages(data.messages.map((m: { id: string; role: string; content: string; created_at: string }) => ({
+              id: m.id,
+              role: m.role as 'user' | 'assistant',
+              content: m.content,
+              timestamp: m.created_at,
+            })))
+          }
+        }
       } catch { /* ignore */ } finally {
         setProfileLoading(false)
       }
     }
-    loadProfile()
+    loadHistory()
   }, [])
+
+  // Elapsed-time ticker while an agent is running
+  useEffect(() => {
+    if (!sending) { setElapsed(0); return }
+    const start = Date.now()
+    const interval = setInterval(() => setElapsed(Math.floor((Date.now() - start) / 1000)), 250)
+    return () => clearInterval(interval)
+  }, [sending])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -185,6 +203,21 @@ export default function ChatPage() {
         }
         if (data.creditsRemaining !== undefined) {
           setCreditsRemaining(data.creditsRemaining)
+        }
+        // Completion notification
+        const agentName = data.action?.agentUsed ?? 'ELEVO'
+        toast.success(`${agentName} finished`, { duration: 3000 })
+        if (typeof window !== 'undefined' && 'Notification' in window) {
+          if (Notification.permission === 'granted' && document.hidden) {
+            try {
+              new Notification(`ELEVO AI — ${agentName} finished`, {
+                body: 'Your agent has completed its task.',
+                icon: '/logo.svg',
+              })
+            } catch { /* ignore */ }
+          } else if (Notification.permission === 'default') {
+            Notification.requestPermission().catch(() => {})
+          }
         }
       }
     } catch {
@@ -298,13 +331,16 @@ export default function ChatPage() {
           {sending && (
             <div className="flex justify-start mb-4">
               <div className="bg-dashCard border-l-2 border-accent rounded-xl px-4 py-3">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   <div className="flex gap-1">
                     <span className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
                     <span className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
                     <span className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                   </div>
-                  <span className="text-xs text-dashMuted">ELEVO is working...</span>
+                  <span className="text-xs text-dashMuted">ELEVO is working…</span>
+                  <span className="text-xs text-accent font-mono tabular-nums">
+                    {Math.floor(elapsed / 60)}:{(elapsed % 60).toString().padStart(2, '0')}
+                  </span>
                 </div>
               </div>
             </div>
