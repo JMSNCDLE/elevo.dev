@@ -398,6 +398,26 @@ html { scroll-behavior: smooth; }
   pointer-events: none;
 }
 
+/* Persistent safety-net glow — always visible even if cube briefly flickers */
+.logo-3d-scene::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 80%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(139, 92, 246, 0.22) 0%,
+    rgba(59, 130, 246, 0.08) 50%,
+    transparent 75%
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+
 .logo-3d-cube {
   transform-style: preserve-3d;
   will-change: transform;
@@ -409,12 +429,12 @@ html { scroll-behavior: smooth; }
 
 .logo-3d-face {
   background: transparent;
-  /* Hide any sub-pixel anti-aliased fringe */
-  overflow: hidden;
-  border-radius: 1px;
+  /* IMPORTANT: do NOT use overflow:hidden — it clips 3D-transformed faces and makes the cube disappear */
 }
 .logo-3d-face img {
   image-rendering: -webkit-optimize-contrast;
+  /* Dark drop-shadow paints over any remaining white edge fringe */
+  filter: drop-shadow(0 0 1px rgba(20, 10, 50, 0.9));
 }
 /* Face-specific lighting for depth illusion (faces in DOM order: front, back, right, left, top, bottom) */
 .logo-3d-face:nth-child(3),
