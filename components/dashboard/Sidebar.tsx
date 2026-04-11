@@ -165,7 +165,7 @@ export default function Sidebar({ locale, plan, creditsUsed, creditsLimit, busin
       title: ts('customersSection'),
       items: [
         { href: `/${locale}/dashboard/customers`, label: 'All Contacts', icon: Users2 },
-        { href: `/${locale}/customers/pipeline`, label: 'Sales Pipeline', icon: TrendingUp, orbitOnly: true },
+        { href: `/${locale}/sales-pipeline`, label: 'Sales Pipeline', icon: TrendingUp, orbitOnly: true },
         { href: `/${locale}/conversations`, label: 'Conversations', icon: MessageSquare, orbitOnly: true },
         { href: `/${locale}/dashboard/customers/review-requests`, label: 'Reviews', icon: Star },
         { href: `/${locale}/analytics`, label: 'Analytics', icon: BarChart2 },
