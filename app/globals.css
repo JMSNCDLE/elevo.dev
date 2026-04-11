@@ -355,32 +355,76 @@ html { scroll-behavior: smooth; }
   .logo-spin { animation: none; }
 }
 
-/* True 3D CSS cube — 6 faces, tumbles on Y + X axes */
+/* ===== Premium 3D cube — 6 faces, smooth spin, glow + depth lighting ===== */
 @keyframes cube-spin {
-  0%   { transform: rotateY(0deg) rotateX(0deg); }
-  100% { transform: rotateY(360deg) rotateX(360deg); }
+  0%   { transform: rotateY(0deg)   rotateX(0deg); }
+  25%  { transform: rotateY(90deg)  rotateX(5deg); }
+  50%  { transform: rotateY(180deg) rotateX(0deg); }
+  75%  { transform: rotateY(270deg) rotateX(-5deg); }
+  100% { transform: rotateY(360deg) rotateX(0deg); }
 }
+@keyframes cube-glow-pulse {
+  0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+  50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.05); }
+}
+
 .logo-3d-scene {
+  perspective-origin: 50% 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   filter:
-    drop-shadow(0 0 20px rgba(120, 80, 255, 0.3))
-    drop-shadow(0 0 50px rgba(60, 140, 255, 0.15));
+    drop-shadow(0 0 30px rgba(139, 92, 246, 0.4))
+    drop-shadow(0 0 60px rgba(59, 130, 246, 0.2));
 }
+
+/* Radial glow halo behind the cube */
+.logo-3d-scene::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140%;
+  height: 140%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(139, 92, 246, 0.18) 0%,
+    rgba(59, 130, 246, 0.08) 40%,
+    transparent 70%
+  );
+  animation: cube-glow-pulse 4s ease-in-out infinite;
+  z-index: -1;
+  pointer-events: none;
+}
+
 .logo-3d-cube {
   transform-style: preserve-3d;
   will-change: transform;
-  animation: cube-spin 10s linear infinite;
-}
-.logo-3d-face {
-  background: transparent;
+  animation: cube-spin 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 .logo-3d-cube:hover {
   animation-play-state: paused;
 }
+
+.logo-3d-face {
+  background: transparent;
+}
+/* Face-specific lighting for depth illusion (faces in DOM order: front, back, right, left, top, bottom) */
+.logo-3d-face:nth-child(3),
+.logo-3d-face:nth-child(4) {
+  filter: brightness(0.85);
+}
+.logo-3d-face:nth-child(5) {
+  filter: brightness(1.1);
+}
+.logo-3d-face:nth-child(6) {
+  filter: brightness(0.7);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .logo-3d-cube { animation: none !important; }
+  .logo-3d-scene::before { animation: none !important; }
 }
 
 /* Mobile global */

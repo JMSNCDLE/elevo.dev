@@ -32,12 +32,12 @@ export default async function HomePage({ params }: PageProps) {
         <div className="glow-orb glow-orb-2" />
 
         <div className="relative z-10 max-w-5xl mx-auto text-center">
-          <div className="flex justify-center mb-8">
+          <div className="flex justify-center mb-10">
             <div className="md:hidden">
-              <Logo3DCube size={80} />
+              <Logo3DCube size={140} />
             </div>
             <div className="hidden md:block">
-              <Logo3DCube size={120} />
+              <Logo3DCube size={220} />
             </div>
           </div>
 

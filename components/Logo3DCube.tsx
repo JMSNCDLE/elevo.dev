@@ -7,7 +7,7 @@ interface Logo3DCubeProps {
   className?: string
 }
 
-export default function Logo3DCube({ size = 120, className = '' }: Logo3DCubeProps) {
+export default function Logo3DCube({ size = 220, className = '' }: Logo3DCubeProps) {
   const half = size / 2
 
   const faceStyle = (transform: string): React.CSSProperties => ({
@@ -15,6 +15,7 @@ export default function Logo3DCube({ size = 120, className = '' }: Logo3DCubePro
     width: size,
     height: size,
     backfaceVisibility: 'hidden',
+    WebkitBackfaceVisibility: 'hidden',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -24,7 +25,7 @@ export default function Logo3DCube({ size = 120, className = '' }: Logo3DCubePro
   return (
     <div
       className={`logo-3d-scene ${className}`}
-      style={{ width: size, height: size, perspective: '600px' }}
+      style={{ width: size, height: size, perspective: '800px', position: 'relative' }}
     >
       <div
         className="logo-3d-cube"
