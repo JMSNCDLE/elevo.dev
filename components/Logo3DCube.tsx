@@ -14,8 +14,9 @@ export default function Logo3DCube({ size = 220, className = '' }: Logo3DCubePro
     position: 'absolute',
     width: size,
     height: size,
-    backfaceVisibility: 'hidden',
-    WebkitBackfaceVisibility: 'hidden',
+    // NOTE: backface-visibility intentionally NOT set — it caused the cube to
+    // vanish at certain rotation angles. Showing the back of a face (same logo,
+    // mirrored) is invisible at this size and never makes the cube disappear.
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
