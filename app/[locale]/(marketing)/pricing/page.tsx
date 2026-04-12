@@ -34,13 +34,13 @@ interface FaqItem {
 
 function FeatureCell({ value }: { value: boolean | string }) {
   if (value === true) {
-    return <Check className="w-5 h-5 text-indigo-600 mx-auto" aria-label="Included" />;
+    return <Check className="w-5 h-5 text-indigo-400 mx-auto" aria-label="Included" />;
   }
   if (value === false) {
-    return <Minus className="w-5 h-5 text-gray-300 mx-auto" aria-label="Not included" />;
+    return <Minus className="w-5 h-5 text-white/20 mx-auto" aria-label="Not included" />;
   }
   return (
-    <span className="text-sm text-gray-700 text-center block">{value}</span>
+    <span className="text-sm text-gray-300 text-center block">{value}</span>
   );
 }
 
@@ -157,14 +157,14 @@ export default function PricingPage() {
   const visibleRows = tableExpanded ? FEATURE_ROWS : FEATURE_ROWS.slice(0, 10);
 
   return (
-    <div className="bg-white">
+    <div>
       {/* -- 1. Header -- */}
       <section className="pt-20 pb-10 px-4 text-center">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
             {t('heroTitle')}
           </h1>
-          <p className="mt-4 text-lg text-gray-500">
+          <p className="mt-4 text-lg text-gray-400">
             {t('heroSubtitle')}
           </p>
 
@@ -172,7 +172,7 @@ export default function PricingPage() {
           <div className="mt-8 inline-flex items-center gap-3 flex-wrap justify-center">
             <span
               className={`text-sm font-medium transition-colors ${
-                !annual ? 'text-gray-900' : 'text-gray-400'
+                !annual ? 'text-white' : 'text-gray-500'
               }`}
             >
               {t('monthly')}
@@ -180,8 +180,8 @@ export default function PricingPage() {
             <button
               type="button"
               onClick={() => setAnnual((v) => !v)}
-              className={`relative inline-flex h-7 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
-                annual ? 'bg-indigo-600' : 'bg-gray-200'
+              className={`relative inline-flex h-7 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-[#050507] ${
+                annual ? 'bg-indigo-600' : 'bg-white/10'
               }`}
               aria-label="Toggle annual billing"
               aria-checked={annual}
@@ -195,13 +195,13 @@ export default function PricingPage() {
             </button>
             <span
               className={`text-sm font-medium transition-colors ${
-                annual ? 'text-gray-900' : 'text-gray-400'
+                annual ? 'text-white' : 'text-gray-500'
               }`}
             >
               {t('annual')}
             </span>
             {annual && (
-              <span className="rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-green-700">
+              <span className="rounded-full bg-green-500/15 border border-green-500/30 px-2.5 py-0.5 text-xs font-semibold text-green-400">
                 {t('annualSaving')}
               </span>
             )}
@@ -215,16 +215,16 @@ export default function PricingPage() {
           {PLANS.map((plan) => (
             <div
               key={plan.id}
-              className={`relative rounded-2xl border p-8 flex flex-col ${
+              className={`relative rounded-2xl border p-8 flex flex-col transition-colors ${
                 plan.highlighted
-                  ? 'border-indigo-500 shadow-xl shadow-indigo-100 ring-2 ring-indigo-500'
-                  : 'border-gray-200 shadow-sm'
+                  ? 'border-indigo-500/60 bg-indigo-500/[0.07] ring-1 ring-indigo-500/40 shadow-xl shadow-indigo-500/10'
+                  : 'border-white/10 bg-white/[0.04] hover:border-white/20'
               }`}
             >
               {/* Badge */}
               {plan.badge && (
                 <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-indigo-600 px-3 py-1 text-xs font-semibold text-white shadow">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-indigo-600 px-3 py-1 text-xs font-semibold text-white shadow-lg shadow-indigo-500/30">
                     <Star className="w-3 h-3" />
                     {plan.badge}
                   </span>
@@ -232,33 +232,33 @@ export default function PricingPage() {
               )}
 
               <div className="flex-1">
-                <h2 className="text-xl font-bold text-gray-900">{plan.name}</h2>
-                <p className="mt-1 text-sm text-gray-500">{plan.description}</p>
+                <h2 className="text-xl font-bold text-white">{plan.name}</h2>
+                <p className="mt-1 text-sm text-gray-400">{plan.description}</p>
 
                 {/* Price */}
                 <div className="mt-5 flex items-end gap-1">
-                  <span className="text-4xl font-extrabold text-gray-900">
+                  <span className="text-4xl font-extrabold text-white">
                     {symbol}{getPrice(plan.id)}
                   </span>
-                  <span className="mb-1 text-sm text-gray-400">{t('perMonth')}</span>
+                  <span className="mb-1 text-sm text-gray-500">{t('perMonth')}</span>
                 </div>
                 {annual && (
-                  <p className="mt-1 text-xs text-gray-400">
+                  <p className="mt-1 text-xs text-gray-500">
                     Billed annually ({symbol}{getPrice(plan.id) * 12}/yr)
                   </p>
                 )}
 
                 {/* Credits pill */}
-                <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-indigo-50 px-3 py-1">
-                  <Zap className="w-3.5 h-3.5 text-indigo-500" />
-                  <span className="text-xs font-medium text-indigo-700">{plan.credits}</span>
+                <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-indigo-500/15 border border-indigo-500/30 px-3 py-1">
+                  <Zap className="w-3.5 h-3.5 text-indigo-400" />
+                  <span className="text-xs font-medium text-indigo-300">{plan.credits}</span>
                 </div>
 
                 {/* Feature list */}
                 <ul className="mt-6 space-y-3">
                   {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2.5 text-sm text-gray-700">
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-indigo-500" />
+                    <li key={feature} className="flex items-start gap-2.5 text-sm text-gray-300">
+                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-indigo-400" />
                       {feature}
                     </li>
                   ))}
@@ -270,10 +270,10 @@ export default function PricingPage() {
                 <PricingCheckoutButton
                   planId={plan.id as 'launch' | 'orbit' | 'galaxy'}
                   annual={annual}
-                  className={`block w-full rounded-xl px-5 text-center font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed ${
+                  className={`block w-full rounded-xl px-5 text-center font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-[#050507] disabled:opacity-60 disabled:cursor-not-allowed ${
                     plan.ctaVariant === 'filled'
-                      ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-md shadow-indigo-200 text-base py-3.5'
-                      : 'border border-indigo-600 text-indigo-600 hover:bg-indigo-50 text-sm py-3'
+                      ? 'bg-indigo-600 text-white hover:bg-indigo-500 shadow-lg shadow-indigo-500/30 text-base py-3.5'
+                      : 'border border-white/15 text-white hover:bg-white/5 hover:border-white/30 text-sm py-3'
                   }`}
                 >
                   {t('startTrial')}
@@ -287,19 +287,19 @@ export default function PricingPage() {
       {/* -- 3. Add-on box -- */}
       <section className="pb-12 px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="rounded-2xl border border-dashed border-indigo-300 bg-indigo-50 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="rounded-2xl border border-dashed border-indigo-500/40 bg-indigo-500/5 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
-              <h3 className="text-base font-semibold text-gray-900">
+              <h3 className="text-base font-semibold text-white">
                 {t('addonTitle')}{' '}
-                <span className="text-indigo-600">{t('addonPrice')}</span>
+                <span className="text-indigo-400">{t('addonPrice')}</span>
               </h3>
-              <p className="mt-1 text-sm text-gray-600">
+              <p className="mt-1 text-sm text-gray-400">
                 {t('addonDesc')}
               </p>
             </div>
             <Link
               href={signupHref}
-              className="shrink-0 rounded-xl border border-indigo-600 px-5 py-2.5 text-sm font-semibold text-indigo-600 hover:bg-indigo-100 transition-colors whitespace-nowrap"
+              className="shrink-0 rounded-xl border border-indigo-500/50 px-5 py-2.5 text-sm font-semibold text-indigo-300 hover:bg-indigo-500/10 hover:border-indigo-500 transition-colors whitespace-nowrap"
             >
               {t('addonCta')}
             </Link>
@@ -310,24 +310,24 @@ export default function PricingPage() {
       {/* -- 4. Feature comparison table -- */}
       <section className="pb-16 px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">
+          <h2 className="text-2xl font-bold text-white text-center mb-8">
             {t('featureComparison')}
           </h2>
 
-          <div className="overflow-x-auto rounded-2xl border border-gray-200 shadow-sm">
+          <div className="overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.02]">
             <table className="w-full min-w-[600px] text-sm">
               <thead>
-                <tr className="border-b border-gray-200 bg-gray-50">
-                  <th className="py-4 px-5 text-left font-semibold text-gray-600 w-1/2">
+                <tr className="border-b border-white/10 bg-white/5">
+                  <th className="py-4 px-5 text-left font-semibold text-gray-400 w-1/2">
                     {t('featureLabel')}
                   </th>
-                  <th className="py-4 px-5 text-center font-semibold text-gray-700">
+                  <th className="py-4 px-5 text-center font-semibold text-white">
                     Launch
                   </th>
-                  <th className="py-4 px-5 text-center font-bold text-indigo-700 bg-indigo-50/60">
+                  <th className="py-4 px-5 text-center font-bold text-indigo-300 bg-indigo-500/10">
                     Orbit ★
                   </th>
-                  <th className="py-4 px-5 text-center font-semibold text-gray-700">
+                  <th className="py-4 px-5 text-center font-semibold text-white">
                     Galaxy
                   </th>
                 </tr>
@@ -336,15 +336,15 @@ export default function PricingPage() {
                 {visibleRows.map((row, i) => (
                   <tr
                     key={row.feature}
-                    className={`border-b border-gray-100 ${
-                      i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'
+                    className={`border-b border-white/5 ${
+                      i % 2 === 0 ? '' : 'bg-white/[0.02]'
                     }`}
                   >
-                    <td className="py-3 px-5 text-gray-700">{row.feature}</td>
+                    <td className="py-3 px-5 text-gray-300">{row.feature}</td>
                     <td className="py-3 px-5">
                       <FeatureCell value={row.launch} />
                     </td>
-                    <td className="py-3 px-5 bg-indigo-50/30">
+                    <td className="py-3 px-5 bg-indigo-500/[0.06]">
                       <FeatureCell value={row.orbit} />
                     </td>
                     <td className="py-3 px-5">
@@ -361,7 +361,7 @@ export default function PricingPage() {
             <button
               type="button"
               onClick={() => setTableExpanded((v) => !v)}
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors"
             >
               {tableExpanded ? (
                 <>
@@ -380,35 +380,35 @@ export default function PricingPage() {
       </section>
 
       {/* -- 5. FAQ Accordion -- */}
-      <section className="pb-20 px-4 bg-gray-50">
+      <section className="pb-20 px-4 bg-white/[0.03] border-y border-white/10">
         <div className="max-w-2xl mx-auto pt-16">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">
+          <h2 className="text-2xl font-bold text-white text-center mb-8">
             {t('faqTitle')}
           </h2>
           <div className="space-y-3">
             {FAQS.map((faq, i) => (
               <div
                 key={i}
-                className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden"
+                className="rounded-xl border border-white/10 bg-white/[0.04] overflow-hidden"
               >
                 <button
                   type="button"
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center justify-between px-5 py-4 text-left focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                  className="w-full flex items-center justify-between px-5 py-4 text-left focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 hover:bg-white/[0.04]"
                   aria-expanded={openFaq === i}
                 >
-                  <span className="text-sm font-semibold text-gray-900 pr-4">
+                  <span className="text-sm font-semibold text-white pr-4">
                     {faq.question}
                   </span>
                   {openFaq === i ? (
-                    <ChevronUp className="shrink-0 w-4 h-4 text-gray-400" />
+                    <ChevronUp className="shrink-0 w-4 h-4 text-gray-500" />
                   ) : (
-                    <ChevronDown className="shrink-0 w-4 h-4 text-gray-400" />
+                    <ChevronDown className="shrink-0 w-4 h-4 text-gray-500" />
                   )}
                 </button>
                 {openFaq === i && (
                   <div className="px-5 pb-4">
-                    <p className="text-sm text-gray-600 leading-relaxed">{faq.answer}</p>
+                    <p className="text-sm text-gray-400 leading-relaxed">{faq.answer}</p>
                   </div>
                 )}
               </div>
@@ -418,32 +418,32 @@ export default function PricingPage() {
       </section>
 
       {/* -- 6. Final CTA row -- */}
-      <section className="py-20 px-4 bg-white border-t border-gray-100">
+      <section className="py-20 px-4 border-t border-white/10">
         <div className="max-w-xl mx-auto text-center">
-          <p className="text-sm text-gray-500 mb-6">
+          <p className="text-sm text-gray-400 mb-6">
             {t('ctaSubtitle')}
           </p>
           <Link
             href={signupHref}
-            className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-indigo-500/30 hover:bg-indigo-500 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-[#050507]"
           >
             {t('ctaButton')}
           </Link>
-          <p className="mt-4 text-xs text-gray-400">
+          <p className="mt-4 text-xs text-gray-500">
             {t('ctaFootnote')}
           </p>
         </div>
       </section>
 
       {/* Enterprise CTA */}
-      <section className="py-16 px-4 bg-gradient-to-b from-gray-50 to-white border-t border-gray-100">
+      <section className="py-16 px-4 bg-gradient-to-b from-white/[0.03] to-transparent border-t border-white/10">
         <div className="max-w-2xl mx-auto text-center">
-          <p className="text-xs font-semibold text-indigo-600 uppercase tracking-wider mb-2">{t('enterpriseTag')}</p>
-          <h3 className="text-xl font-bold text-gray-900 mb-3">{t('enterpriseTitle')}</h3>
-          <p className="text-sm text-gray-500 mb-6">
+          <p className="text-xs font-semibold text-indigo-400 uppercase tracking-wider mb-2">{t('enterpriseTag')}</p>
+          <h3 className="text-xl font-bold text-white mb-3">{t('enterpriseTitle')}</h3>
+          <p className="text-sm text-gray-400 mb-6">
             {t('enterpriseDesc')}
           </p>
-          <a href="mailto:team@elevo.dev" className="inline-block px-6 py-3 bg-gray-900 text-white font-semibold rounded-xl hover:bg-gray-800 transition-colors text-sm">
+          <a href="mailto:team@elevo.dev" className="inline-block px-6 py-3 bg-white text-gray-900 font-semibold rounded-xl hover:bg-gray-100 transition-colors text-sm">
             {t('enterpriseCta')}
           </a>
         </div>
