@@ -135,6 +135,9 @@ export default function Nav({ locale }: NavProps) {
               {t('navStartTrial')}
             </Link>
           </div>
+          <div className="pt-3 border-t border-white/10 flex items-center justify-center">
+            <LanguageSwitcher />
+          </div>
         </div>
       )}
       <DemoRequestModal open={demoOpen} onClose={() => setDemoOpen(false)} />
